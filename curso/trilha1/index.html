@@ -490,32 +490,310 @@
       </div>
     </div>
 
-    <!-- MODULOS 1.4, 1.5, 1.6 - COMPACTOS -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <a href="modulo-1-4.html" class="bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-5 group transition-colors">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-emerald-400 font-bold">1.4</span>
-          <span class="text-xs text-neutral-500">~35 min</span>
+    <!-- ======== MODULO 1.4 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-emerald-400 font-bold text-lg">1.4</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~35 min</span>
         </div>
-        <h3 class="text-lg font-bold mb-2 group-hover:text-emerald-400 transition-colors">⚡ Vibe Coding vs. Agentic</h3>
-        <p class="text-neutral-400 text-xs">A evolução, não a substituição. Por que Agentic Engineering é o próximo nível do Vibe Coding e o que muda na prática.</p>
-      </a>
-      <a href="modulo-1-5.html" class="bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-5 group transition-colors">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-emerald-400 font-bold">1.5</span>
-          <span class="text-xs text-neutral-500">~40 min</span>
+        <h3 class="text-2xl font-bold mb-2">⚡ Vibe Coding vs. Agentic Engineering</h3>
+        <p class="text-neutral-400 text-sm">A evolução, não a substituição. Entenda onde o Vibe Coding termina e o Agentic Engineering começa — e por que você precisa dos dois.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🌊</span>
+            <div><span class="font-medium">O que é Vibe Coding</span><span class="text-neutral-500 text-sm ml-2">- A fase que abriu o caminho</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Vibe Coding é o paradigma popularizado por Andrej Karpathy em 2025: você descreve o que quer em linguagem natural e a IA gera o código. Iteração rápida, foco em resultado, baixa fricção para não-programadores.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Vibe Coding foi o que abriu a porta para milhões de pessoas criarem software. Entendê-lo é entender o ponto de partida da jornada que leva ao Agentic Engineering.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Prompt → código gerado · Iteração por conversa · Claude/Cursor/Bolt/Lovable · Foco em velocidade · Sem loop automático</p></div>
+            </div>
+          </div>
         </div>
-        <h3 class="text-lg font-bold mb-2 group-hover:text-emerald-400 transition-colors">🌐 O Ecossistema em 2026</h3>
-        <p class="text-neutral-400 text-xs">Claude Code, Cursor, Devin, n8n, CrewAI, LangGraph. O mapa de onde cada ferramenta se encaixa e como navegar nele.</p>
-      </a>
-      <a href="modulo-1-6.html" class="bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-5 group transition-colors">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-emerald-400 font-bold">1.6</span>
-          <span class="text-xs text-neutral-500">~45 min</span>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🧱</span>
+            <div><span class="font-medium">Os limites do Vibe Coding</span><span class="text-neutral-500 text-sm ml-2">- Onde ele para de funcionar</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Vibe Coding falha quando o sistema precisa de múltiplas etapas automatizadas, manutenção de estado entre sessões, execução autônoma sem intervenção humana constante, ou quando o erro em uma etapa deve ser corrigido automaticamente sem voltar para o humano.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Reconhecer os limites do Vibe Coding é o que motiva a aprender Agentic Engineering. Não é abandono — é upgrade natural quando o projeto cresce.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Limite de contexto · Dependência de humano no loop · Sem persistência · Fragilidade em produção · "Funciona no meu computador"</p></div>
+            </div>
+          </div>
         </div>
-        <h3 class="text-lg font-bold mb-2 group-hover:text-emerald-400 transition-colors">🤖 Primeiro Agente</h3>
-        <p class="text-neutral-400 text-xs">Hands-on sem framework. Chamada LLM com tools manualmente em Python. O mínimo necessário para chamar de agente.</p>
-      </a>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">⬆️</span>
+            <div><span class="font-medium">O upgrade natural: quando virar Agentic</span><span class="text-neutral-500 text-sm ml-2">- O sinal de que chegou a hora</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Agentic Engineering entra quando você precisa que o sistema rode sozinho, execute múltiplos passos, avalie seus próprios resultados e se recupere de falhas — sem você na conversa o tempo todo.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Saber o momento certo de fazer o upgrade evita o erro oposto: usar Agentic Engineering para coisas que seriam resolvidas com um bom prompt.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Sinal 1: tarefa repetitiva com variações · Sinal 2: múltiplas etapas sequenciais · Sinal 3: você quer dormir e deixar rodar · Sinal 4: custo de erro alto</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">📊</span>
+            <div><span class="font-medium">Tabela comparativa completa</span><span class="text-neutral-500 text-sm ml-2">- 8 dimensões de diferença</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Comparação direta em 8 dimensões: autonomia, memória, loop, ferramentas, governança, custo, escalabilidade e complexidade. Cada dimensão com exemplo prático de quando uma abordagem supera a outra.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ter a tabela na cabeça permite decidir rápido qual abordagem usar para cada problema — sem defender uma como "sempre melhor".</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Geração de código vs. orquestração · Foco em rapidez vs. foco em sistema · Iteração manual vs. loop automatizado · Baixa governança vs. governança estruturada</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🤝</span>
+            <div><span class="font-medium">Como usar os dois juntos</span><span class="text-neutral-500 text-sm ml-2">- O melhor dos dois mundos</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Profissionais avançados usam Vibe Coding para prototipagem rápida e Agentic Engineering para produção. O fluxo: Vibe Coding para validar a ideia em horas → Agentic para escalar e automatizar.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Abandonar Vibe Coding ao aprender Agentic é um erro comum. Os dois coexistem no workflow de quem produz mais rápido.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Protótipo em Vibe Coding · Refatorar para Agentic · Claude Code como ponte · Quando reescrever vs. quando evoluir</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🎯</span>
+            <div><span class="font-medium">Exercício: classificar projetos reais</span><span class="text-neutral-500 text-sm ml-2">- Praticando a decisão</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">10 cenários reais para classificar: Vibe Coding, Agentic Engineering, ou ambos? Ex: "criar um site de portfólio" vs. "processar 500 PDFs de contratos por dia" vs. "gerar relatório semanal de vendas".</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">A decisão de quando usar cada abordagem é uma habilidade prática. O exercício treina o julgamento antes de entrar na parte técnica.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Critério: frequência · Critério: autonomia necessária · Critério: tolerância a erro · Critério: custo de implementação vs. custo de operação</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-1-4')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-1-4.html" class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 1.5 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-emerald-400 font-bold text-lg">1.5</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~40 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🌐 O Ecossistema em 2026</h3>
+        <p class="text-neutral-400 text-sm">Claude Code, Cursor, Devin, n8n, CrewAI, LangGraph. O mapa completo de ferramentas e onde cada uma se encaixa na arquitetura agentic.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🗺️</span>
+            <div><span class="font-medium">O mapa do ecossistema</span><span class="text-neutral-500 text-sm ml-2">- 4 camadas de ferramentas</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O ecossistema agentic se organiza em 4 camadas: Modelos (Claude, GPT-4, Gemini), Frameworks (LangGraph, CrewAI, AutoGen), IDEs Agentic (Claude Code, Cursor, Devin) e Plataformas de Automação (n8n, Make, Zapier AI).</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem o mapa, você não sabe o que está comparando. Uma pessoa que diz "estou usando LangGraph" e outra que diz "estou usando Claude Code" podem estar construindo coisas completamente diferentes — ou complementares.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Camada de modelo · Camada de framework · Camada de IDE agentic · Camada de automação · Como as camadas se conectam</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">👨‍💻</span>
+            <div><span class="font-medium">IDEs Agentic: Claude Code, Cursor e Devin</span><span class="text-neutral-500 text-sm ml-2">- Para desenvolvimento de software</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Ferramentas onde um agente opera dentro do ambiente de desenvolvimento: lê código, escreve, executa terminal, testa e corrige. Claude Code é agent-first no terminal. Cursor é agent-first no editor. Devin é o mais autônomo dos três.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">São as ferramentas mais imediatas para um desenvolvedor. Você já pode usar hoje — e são o melhor ponto de entrada para sentir o que é trabalhar com um agente de verdade.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Claude Code (CLI, skills, MCP) · Cursor (Composer, agent mode) · Devin (tarefa completa autônoma) · GitHub Copilot Workspace · Quando usar cada um</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔗</span>
+            <div><span class="font-medium">Frameworks: LangGraph, CrewAI e AutoGen</span><span class="text-neutral-500 text-sm ml-2">- Para construir seus próprios agentes</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Frameworks Python para construir agentes customizados. LangGraph: grafo de estados para controle preciso. CrewAI: times de agentes com papéis. AutoGen: conversação multi-agente. A Trilha 3 vai a fundo em todos — aqui é só o mapa.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Esses frameworks são a escolha quando você precisa de lógica customizada que os IDEs prontos não cobrem. São a camada de construção, não de uso.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">LangGraph (grafo, estado, controle fino) · CrewAI (papéis, delegação) · AutoGen/AG2 (conversação, reflexão) · OpenAI Agents SDK · Quando construir vs. quando usar pronto</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">⚙️</span>
+            <div><span class="font-medium">Plataformas de automação: n8n, Make e Zapier AI</span><span class="text-neutral-500 text-sm ml-2">- Para automação low-code com agentes</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Plataformas visuais de workflow que adicionaram capacidades agentic. n8n é a mais poderosa e self-hostable. Make (ex-Integromat) e Zapier AI focam em integrações prontas. São o elo entre agentes e sistemas corporativos existentes.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Para automações de negócio que envolvem dezenas de sistemas (CRM, ERP, email, Slack), plataformas low-code são mais eficientes que frameworks Python customizados.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">n8n (self-hosted, código + visual) · Make (visual, integrações ricas) · Zapier AI (mais simples, mais rápido) · Quando low-code supera código puro</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🔌</span>
+            <div><span class="font-medium">MCP: o protocolo que conecta tudo</span><span class="text-neutral-500 text-sm ml-2">- O padrão que o mercado adotou</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Model Context Protocol (MCP) é o padrão aberto criado pela Anthropic e adotado pela OpenAI em março de 2025. Define como agentes descobrem e usam ferramentas de forma padronizada — banco de dados, APIs, arquivos, sistemas externos.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">MCP virou o "HTTP dos agentes". Qualquer ferramenta que implemente MCP funciona com qualquer agente que o suporte. É o padrão de integração que você precisa entender agora.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Servidor MCP · Cliente MCP · Descoberta de ferramentas · Adoção pela OpenAI · Claude Code + MCP · Criando seu servidor MCP (Trilha 3)</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🧭</span>
+            <div><span class="font-medium">Escolhendo sua primeira ferramenta</span><span class="text-neutral-500 text-sm ml-2">- Critérios para não se perder</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Guia de decisão para qual ferramenta começar baseado no seu perfil: dev que quer aumentar produtividade (Claude Code), builder que quer criar produto (LangChain + LangGraph), automador de processos (n8n), executivo que quer ver em ação (Cursor).</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Paralisia de escolha é o maior inimigo no início. Ter critérios claros para escolher a primeira ferramenta acelera o aprendizado prático.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Perfil dev · Perfil builder · Perfil automador · Primeira ferramenta vs. stack completa · "Use uma ferramenta até sentir dor, depois aprenda a próxima"</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-1-5')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-1-5.html" class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 1.6 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-emerald-400 font-bold text-lg">1.6</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🤖 Primeiro Agente</h3>
+        <p class="text-neutral-400 text-sm">Hands-on sem framework. Você vai construir um agente mínimo funcional em Python puro — e entender cada linha do que escreveu.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🔩</span>
+            <div><span class="font-medium">O agente mínimo viável</span><span class="text-neutral-500 text-sm ml-2">- O que você precisa para chamar de agente</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Um agente mínimo precisa de: 1 LLM, 1+ tools definidas como funções Python, 1 loop que continua até o objetivo ser atingido, e 1 mecanismo de observação do resultado das tools. Nada mais é obrigatório para começar.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Começar pelo mínimo é o que garante que você entende cada peça antes de adicionar complexidade. Agentes construídos sem entender o mínimo acumulam dívida técnica invisível.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">LLM call · Tool definition · While loop · Tool execution · Result injection · Stop condition</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🛠️</span>
+            <div><span class="font-medium">Definindo tools em Python</span><span class="text-neutral-500 text-sm ml-2">- Como o LLM sabe o que pode usar</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Tools são funções Python com um schema JSON que descreve: nome, descrição, parâmetros e tipos. O LLM lê o schema e decide quando e como chamar cada tool. O schema é a "documentação" que o agente consulta.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Um schema mal escrito resulta em agente que não usa a tool corretamente, usa na hora errada, ou ignora por completo. A qualidade do schema é diretamente proporcional à qualidade do comportamento.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">JSON schema · Descrição de tool · Parâmetros tipados · Docstring como instrução · Pydantic para validação · Boas práticas de nomenclatura</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔁</span>
+            <div><span class="font-medium">O loop de execução em código</span><span class="text-neutral-500 text-sm ml-2">- Do while ao resultado</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O loop principal do agente: (1) chamar LLM com estado atual, (2) verificar se pediu tool call, (3) executar a tool, (4) injetar resultado de volta, (5) repetir. Encerra quando o LLM não pede mais tools (objetivo atingido) ou quando atinge max_iterations.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Escrever o loop uma vez do zero é o exercício mais importante da Trilha 1. Depois de fazer isso, qualquer framework fará sentido — porque você vai reconhecer o mesmo padrão abstraído.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">while not done · tool_calls check · dispatch_tool() · messages.append() · max_iterations · finish_reason</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🧪</span>
+            <div><span class="font-medium">Exercício: agente de pesquisa funcional</span><span class="text-neutral-500 text-sm ml-2">- Código completo linha a linha</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Construção passo a passo de um agente que: recebe um tema, decide buscar na web, lê os resultados, decide se precisa de mais informações, e entrega um resumo estruturado. ~50 linhas de Python sem nenhum framework.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Este é o projeto de portfolio do módulo. Um agente funcional em 50 linhas é o melhor cartão de visita técnico para quem está começando na área.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">anthropic.Anthropic() · tools=[] · tool_use block · tool_result block · Custo total da execução · Tempo por iteração</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">💥</span>
+            <div><span class="font-medium">Exercício: quebrar o agente de propósito</span><span class="text-neutral-500 text-sm ml-2">- Aprender pela falha controlada</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">4 experimentos de falha: (1) remover max_iterations e ver loop infinito, (2) dar schema errado de tool e ver comportamento, (3) fazer tool retornar erro e ver o que o agente faz, (4) dar objetivo ambíguo e ver como o agente interpreta.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ver o agente falhar de forma controlada é o aprendizado mais valioso. Você vai encontrar todas essas falhas em produção — melhor encontrar agora, com experimento, do que no deploy.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Loop infinito na prática · Schema mal definido · Error handling de tool · Objetivo vago vs. objetivo preciso · Custo de uma execução com bug</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🚀</span>
+            <div><span class="font-medium">O que vem na Trilha 2</span><span class="text-neutral-500 text-sm ml-2">- Do agente simples ao agente poderoso</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Preview do que a Trilha 2 adiciona ao agente simples que você acabou de construir: memória longa com banco vetorial, RAG, tools com acesso a bancos de dados reais, padrões de raciocínio avançados (ReAct, Plan-and-Execute) e LangChain como abstração.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ver para onde vai o caminho motiva a continuar. Você vai entrar na Trilha 2 sabendo exatamente o que vai aprender e por que cada componente importa.</p></div>
+              <div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Trilha 2 preview · Do agente simples ao assistente completo · Por que LangChain existe · Quando parar de reinventar a roda · Próximos passos concretos</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-1-6')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-1-6.html" class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
     </div>
 
     <!-- NAVEGACAO -->
@@ -567,6 +845,45 @@
         <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
       </div>
       <iframe src="modulo-1-3.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-1-4" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <span class="text-emerald-400 font-bold">1.4</span>
+          <span class="font-semibold">Vibe Coding vs. Agentic Engineering</span>
+        </div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-1-4.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-1-5" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <span class="text-emerald-400 font-bold">1.5</span>
+          <span class="font-semibold">O Ecossistema em 2026</span>
+        </div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-1-5.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-1-6" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <span class="text-emerald-400 font-bold">1.6</span>
+          <span class="font-semibold">Primeiro Agente</span>
+        </div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-1-6.html" class="flex-1 w-full rounded-b-xl"></iframe>
     </div>
   </div>
 
