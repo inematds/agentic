@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3.3 AutoGen / AG2 | Trilha 3 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    pre { overflow-x: auto; }
+    code { font-family: 'Courier New', monospace; font-size: 0.85em; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frameworks</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-purple-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-purple-400 transition-colors">Trilha 3 — Frameworks e Ecossistema</a>
+      <span>/</span>
+      <span class="text-purple-400">Módulo 3.3</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 3.3</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">💬 AutoGen / AG2</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Agentes que se comunicam por conversação, executam código real em sandbox e se criticam mutuamente para melhorar a qualidade. O framework ideal para pesquisa, geração de código e workflows emergentes.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">6</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">40</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Inter.</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Código</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🗣️ Filosofia conversacional: fluxo que emerge</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        AutoGen (agora AG2) parte de uma premissa diferente: ao invés de definir um grafo de estado ou uma equipe estruturada, o <strong class="text-purple-400">fluxo emerge da conversa</strong>. Agentes trocam mensagens, e o progresso acontece naturalmente — como uma equipe de pessoas resolvendo um problema juntas.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center"><span class="mr-2">🧭</span> Três paradigmas comparados</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-emerald-500/20">
+            <div class="text-sm font-semibold text-emerald-400 mb-2">LangGraph</div>
+            <p class="text-xs text-neutral-400">Grafo explícito de estados. Você projeta cada transição. Controle máximo, mais código.</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-blue-500/20">
+            <div class="text-sm font-semibold text-blue-400 mb-2">CrewAI</div>
+            <p class="text-xs text-neutral-400">Equipe com papéis e tasks definidas. Colaboração estruturada com contexto compartilhado.</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-purple-500/20">
+            <div class="text-sm font-semibold text-purple-400 mb-2">AutoGen</div>
+            <p class="text-xs text-neutral-400">Conversa entre agentes. Fluxo emergente. Execução de código real. Reflexão mútua.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4"><span class="mr-2">💡</span> Quando a conversa vence o grafo</h3>
+        <ul class="space-y-3 text-neutral-300">
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold">•</span><span><strong>Pesquisa exploratória:</strong> o agente não sabe quantas iterações precisará — a conversa determina</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold">•</span><span><strong>Code gen iterativo:</strong> gera código → executa → vê erro → corrige → repete até funcionar</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold">•</span><span><strong>Debates e revisão:</strong> múltiplas perspectivas que emergem naturalmente da troca de mensagens</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🤝 AssistantAgent e UserProxyAgent</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O par fundamental do AutoGen: <strong class="text-purple-400">AssistantAgent</strong> usa um LLM para raciocinar e gerar código, enquanto <strong class="text-purple-400">UserProxyAgent</strong> pode executar esse código localmente e simular o papel do usuário. Juntos, formam um loop de geração-execução-feedback totalmente automático.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">⚙️</span> O par básico em ação</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code>import autogen
+
+<span class="text-purple-400"># Configuração do LLM</span>
+config_list = [{"model": "gpt-4o", "api_key": "sk-..."}]
+llm_config = {"config_list": config_list, "cache_seed": 42}
+
+<span class="text-purple-400"># AssistantAgent: usa LLM, gera respostas e código</span>
+assistente = autogen.AssistantAgent(
+    name="Cientista_de_Dados",
+    llm_config=llm_config,
+    system_message="""Você é um cientista de dados experiente.
+    Quando solicitado, escreva código Python comentado e executável.
+    Sempre encerre com 'TERMINATE' quando a tarefa estiver completa."""
+)
+
+<span class="text-purple-400"># UserProxyAgent: executa código, simula usuário</span>
+executor = autogen.UserProxyAgent(
+    name="Executor",
+    human_input_mode="NEVER",  <span class="text-neutral-500"># sem intervenção humana</span>
+    max_consecutive_auto_reply=10,
+    is_termination_msg=lambda x: "TERMINATE" in x.get("content", ""),
+    code_execution_config={
+        "work_dir": "workspace",    <span class="text-neutral-500"># diretório de execução</span>
+        "use_docker": False,        <span class="text-neutral-500"># True para sandbox Docker</span>
+        "timeout": 120,             <span class="text-neutral-500"># timeout em segundos</span>
+        "last_n_messages": 3        <span class="text-neutral-500"># contexto de mensagens</span>
+    }
+)
+
+<span class="text-purple-400"># Inicia a conversa — o loop acontece automaticamente</span>
+executor.initiate_chat(
+    assistente,
+    message="Analise o arquivo sales_data.csv e gere um gráfico das vendas por mês. "
+            "Inclua média móvel de 3 meses."
+)
+
+<span class="text-neutral-500"># O que acontece automaticamente:
+# 1. Executor envia a mensagem
+# 2. Assistente gera código Python
+# 3. Executor executa o código
+# 4. Se erro: retorna stderr ao Assistente
+# 5. Assistente corrige e tenta de novo
+# 6. Quando bem-sucedido: Assistente encerra com TERMINATE</span></code></pre>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3"><span class="mr-2">💡</span> human_input_mode tem 3 opções</h3>
+        <ul class="space-y-2 text-neutral-300 text-sm">
+          <li class="flex items-start space-x-2"><span class="text-primary">•</span><span><code>"NEVER"</code> — totalmente autônomo, sem interrupção humana</span></li>
+          <li class="flex items-start space-x-2"><span class="text-primary">•</span><span><code>"TERMINATE"</code> — humano pode intervir quando o agente quiser terminar</span></li>
+          <li class="flex items-start space-x-2"><span class="text-primary">•</span><span><code>"ALWAYS"</code> — humano aprova cada mensagem antes de enviar</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">👥 GroupChat: múltiplos agentes, uma conversa</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Quando você precisa de mais de dois agentes colaborando, <strong class="text-purple-400">GroupChat</strong> é o mecanismo nativo do AutoGen. Um GroupChatManager decide quem fala a seguir com base em regras ou via outro LLM.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">🏛️</span> GroupChat com 4 agentes</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code><span class="text-purple-400"># 4 agentes especializados</span>
+pesquisador = autogen.AssistantAgent(
+    name="Pesquisador",
+    llm_config=llm_config,
+    system_message="Você pesquisa informações e coleta dados relevantes."
+)
+
+analista = autogen.AssistantAgent(
+    name="Analista",
+    llm_config=llm_config,
+    system_message="Você analisa dados e identifica padrões e insights."
+)
+
+critico = autogen.AssistantAgent(
+    name="Critico",
+    llm_config=llm_config,
+    system_message="""Você critica construtivamente as análises dos outros.
+    Aponte falhas de lógica, dados faltantes e conclusões precipitadas."""
+)
+
+executor = autogen.UserProxyAgent(
+    name="Executor",
+    human_input_mode="NEVER",
+    code_execution_config={"work_dir": "ws", "use_docker": False}
+)
+
+<span class="text-purple-400"># Cria o GroupChat</span>
+group_chat = autogen.GroupChat(
+    agents=[pesquisador, analista, critico, executor],
+    messages=[],
+    max_round=20,                          <span class="text-neutral-500"># máximo de turnos</span>
+    speaker_selection_method="auto",        <span class="text-neutral-500"># LLM decide quem fala</span>
+    allow_repeat_speaker=False             <span class="text-neutral-500"># evita monólogo</span>
+)
+
+<span class="text-purple-400"># Manager coordena a conversa</span>
+manager = autogen.GroupChatManager(
+    groupchat=group_chat,
+    llm_config=llm_config  <span class="text-neutral-500"># usa LLM para escolher speaker</span>
+)
+
+<span class="text-purple-400"># Inicia o debate</span>
+executor.initiate_chat(
+    manager,
+    message="Pesquise e analise o impacto do GPT-4o em startups B2B SaaS. "
+            "O Crítico deve questionar cada conclusão."
+)</code></pre>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3"><span class="mr-2">📊</span> Métodos de seleção de speaker</h3>
+        <ul class="space-y-2 text-neutral-300 text-sm">
+          <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span><code>"auto"</code> — LLM decide quem deve falar com base no contexto da conversa</span></li>
+          <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span><code>"round_robin"</code> — cada agente fala em ordem rotativa (determinístico)</span></li>
+          <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span><code>"random"</code> — agente aleatório a cada turno</span></li>
+          <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span><code>função customizada</code> — você define a lógica de quem fala quando</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">🪞 Reflexão entre agentes: o crítico automático</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O padrão de reflexão usa dois agentes: um <strong class="text-purple-400">gerador</strong> e um <strong class="text-purple-400">crítico</strong>. O gerador produz uma resposta, o crítico avalia com uma rubrica clara, e o ciclo continua até que o crítico aprove ou o limite seja atingido.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">🔄</span> Padrão escritor-crítico</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code><span class="text-purple-400"># Agente escritor</span>
+escritor = autogen.AssistantAgent(
+    name="Escritor",
+    llm_config=llm_config,
+    system_message="""Você escreve análises técnicas claras e precisas.
+    Quando receber crítica, melhore o texto e marque com [REVISADO vX]."""
+)
+
+<span class="text-purple-400"># Agente crítico com rubrica clara</span>
+critico = autogen.AssistantAgent(
+    name="Critico",
+    llm_config=llm_config,
+    system_message="""Avalie textos com esta rubrica (1-5 cada):
+    1. Precisão técnica: dados e fatos corretos?
+    2. Clareza: texto acessível ao público-alvo?
+    3. Completude: todos os aspectos importantes cobertos?
+    4. Estrutura: organização lógica e fluente?
+
+    Se TODOS >= 4: responda com "APROVADO: [motivo]"
+    Senão: liste melhorias específicas por critério."""
+)
+
+<span class="text-purple-400"># Loop de reflexão controlado</span>
+proxy = autogen.UserProxyAgent(
+    name="Proxy",
+    human_input_mode="NEVER",
+    max_consecutive_auto_reply=8,  <span class="text-neutral-500"># máximo 4 ciclos escritor+crítico</span>
+    is_termination_msg=lambda x: "APROVADO" in x.get("content", ""),
+    code_execution_config=False
+)
+
+<span class="text-purple-400"># Inicia com o tópico para o escritor</span>
+proxy.initiate_chat(
+    autogen.GroupChatManager(
+        groupchat=autogen.GroupChat(
+            agents=[escritor, critico, proxy],
+            messages=[],
+            speaker_selection_method="round_robin"
+        ),
+        llm_config=llm_config
+    ),
+    message="Escreva uma análise de 300 palavras sobre LangGraph para CTOs de startup."
+)</code></pre>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3"><span class="mr-2">💡</span> Rubrica clara = feedback acionável</h3>
+        <p class="text-neutral-300">O crítico precisa de uma rubrica específica para dar feedback acionável. "Está bom" ou "melhore" são inúteis. "Clareza (3/5): o parágrafo 2 usa jargão sem definição para o público-alvo indicado" é o que o escritor precisa para melhorar.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">💻 Execução de código em sandbox</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A execução de código é o superpoder do AutoGen. O AssistantAgent gera Python, o UserProxyAgent executa em ambiente controlado, o stdout/stderr vira feedback automático, e o agente corrige até funcionar — sem nenhuma intervenção humana.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <h4 class="font-semibold text-purple-400 mb-4">Execução local (desenvolvimento)</h4>
+          <div class="bg-dark-900/50 rounded-lg p-3 border border-dark-600 mb-3">
+            <pre class="text-sm text-neutral-300"><code>code_execution_config={
+    "work_dir": "workspace",
+    "use_docker": False,
+    "timeout": 60
+}</code></pre>
+          </div>
+          <ul class="space-y-1 text-sm text-neutral-400">
+            <li>• Sem overhead de Docker</li>
+            <li>• Acesso a recursos locais</li>
+            <li>• Risco: código malicioso pode executar</li>
+            <li>• Ideal para desenvolvimento e testes</li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <h4 class="font-semibold text-purple-400 mb-4">Docker sandbox (produção)</h4>
+          <div class="bg-dark-900/50 rounded-lg p-3 border border-dark-600 mb-3">
+            <pre class="text-sm text-neutral-300"><code>code_execution_config={
+    "work_dir": "workspace",
+    "use_docker": "python:3.11-slim",
+    "timeout": 120
+}</code></pre>
+          </div>
+          <ul class="space-y-1 text-sm text-neutral-400">
+            <li>• Isolamento completo do sistema</li>
+            <li>• Código não acessa recursos externos</li>
+            <li>• Overhead de inicialização do container</li>
+            <li>• Obrigatório em produção com código gerado</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Segurança na execução de código</h3>
+        <p class="text-neutral-300 mb-3">Nunca execute código gerado por LLM em produção sem sandbox. O LLM pode — intencionalmente ou não — gerar código que acessa arquivos sensíveis, faz chamadas de rede não autorizadas ou consome recursos excessivos.</p>
+        <ul class="space-y-2 text-neutral-300 text-sm">
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sem sandbox em produção</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Docker com acesso à rede sem allowlist</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sem timeout configurado</span></li>
+          <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Docker com network isolado para produção</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🎯 Quando preferir AutoGen sobre os outros</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        AutoGen não é a resposta certa para tudo. Mas há casos onde ele supera LangGraph e CrewAI: quando o fluxo precisa emergir naturalmente, quando execução de código real é central, ou quando debates entre múltiplas perspectivas são o núcleo do problema.
+      </p>
+
+      <div class="space-y-4 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+            <span class="text-purple-400 font-bold">1</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Geração e depuração de código iterativa</h4>
+            <p class="text-sm text-neutral-400">O agente precisa escrever Python, executar, ver o erro, corrigir e repetir até funcionar. AutoGen foi construído exatamente para isso.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+            <span class="text-purple-400 font-bold">2</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Pesquisa exploratória sem etapas fixas</h4>
+            <p class="text-sm text-neutral-400">Quando você não sabe quantas iterações serão necessárias, nem qual será a próxima pergunta — a conversa define o caminho.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+            <span class="text-purple-400 font-bold">3</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Análise com perspectivas múltiplas</h4>
+            <p class="text-sm text-neutral-400">Debates, revisões críticas, análises de risco onde diferentes "vozes" precisam se contradizer e chegar a um consenso emergente.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">📊</span> Tabela de decisão rápida</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-dark-600">
+                <th class="text-left py-2 px-3 text-neutral-400">Cenário</th>
+                <th class="text-center py-2 px-3 text-purple-400">AutoGen</th>
+                <th class="text-center py-2 px-3 text-emerald-400">LangGraph</th>
+                <th class="text-center py-2 px-3 text-blue-400">CrewAI</th>
+              </tr>
+            </thead>
+            <tbody class="text-neutral-300">
+              <tr class="border-b border-dark-700/50">
+                <td class="py-2 px-3">Code gen + execução iterativa</td>
+                <td class="text-center py-2 px-3 text-emerald-400">★★★</td>
+                <td class="text-center py-2 px-3 text-neutral-500">★★</td>
+                <td class="text-center py-2 px-3 text-neutral-500">★</td>
+              </tr>
+              <tr class="border-b border-dark-700/50">
+                <td class="py-2 px-3">Workflow com branches complexos</td>
+                <td class="text-center py-2 px-3 text-neutral-500">★</td>
+                <td class="text-center py-2 px-3 text-emerald-400">★★★</td>
+                <td class="text-center py-2 px-3 text-neutral-500">★★</td>
+              </tr>
+              <tr class="border-b border-dark-700/50">
+                <td class="py-2 px-3">Time de agentes especialistas</td>
+                <td class="text-center py-2 px-3 text-neutral-500">★★</td>
+                <td class="text-center py-2 px-3 text-neutral-500">★★</td>
+                <td class="text-center py-2 px-3 text-emerald-400">★★★</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3">Pesquisa / debate multi-perspectiva</td>
+                <td class="text-center py-2 px-3 text-emerald-400">★★★</td>
+                <td class="text-center py-2 px-3 text-neutral-500">★</td>
+                <td class="text-center py-2 px-3 text-neutral-500">★★</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎯</span> Resumo do Módulo</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Filosofia conversacional</strong><span class="text-neutral-400"> — fluxo emerge da troca de mensagens entre agentes</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">AssistantAgent + UserProxyAgent</strong><span class="text-neutral-400"> — par fundamental para code gen e execução automática</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">GroupChat</strong><span class="text-neutral-400"> — N agentes em conversa com manager coordenando quem fala</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Reflexão escritor-crítico</strong><span class="text-neutral-400"> — melhora iterativa com rubrica clara de aprovação</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Docker sandbox em produção</strong><span class="text-neutral-400"> — isola execução de código gerado por LLM</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-purple-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">3.4 — 🤖 OpenAI Agents SDK: handoffs, guardrails e o padrão Swarm</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-3-2.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← CrewAI na Prática</a>
+          <a href="modulo-3-4.html" class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors">Próximo: OpenAI Agents SDK →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>Agentic Engineering Masterclass — Módulo 3.3: AutoGen / AG2</p>
+      <p class="mt-1"><a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

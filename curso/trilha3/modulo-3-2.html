@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3.2 CrewAI na Prática | Trilha 3 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    pre { overflow-x: auto; }
+    code { font-family: 'Courier New', monospace; font-size: 0.85em; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10">
+            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Frameworks</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-purple-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-purple-400 transition-colors">Trilha 3 — Frameworks e Ecossistema</a>
+      <span>/</span>
+      <span class="text-purple-400">Módulo 3.2</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 3.2</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">👥 CrewAI na Prática</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Monte times de agentes especializados com papéis, goals e backstories. Tasks estruturadas e flows que permitem que agentes colaborem como uma equipe real — com resultado final estruturado em Pydantic.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">6</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">45</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Inter.</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Projeto</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🏢 O conceito de Crew: equipe com missão</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        CrewAI modela sistemas multi-agente como <strong class="text-purple-400">equipes de trabalho</strong>. Uma Crew tem uma missão coletiva, e cada membro tem um papel, objetivo e contexto específicos. Diferente do LangGraph que pensa em grafos, CrewAI pensa em <strong class="text-purple-400">estruturas organizacionais</strong>.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center"><span class="mr-2">🏗️</span> Arquitetura do CrewAI</h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="bg-dark-800/60 rounded-lg p-4 text-center border border-purple-500/20">
+            <div class="text-2xl mb-2">🎭</div>
+            <div class="font-semibold text-purple-400 text-sm">Agent</div>
+            <div class="text-xs text-neutral-400 mt-1">Membro com role, goal e backstory</div>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 text-center border border-purple-500/20">
+            <div class="text-2xl mb-2">📋</div>
+            <div class="font-semibold text-purple-400 text-sm">Task</div>
+            <div class="text-xs text-neutral-400 mt-1">Assignment com description e expected_output</div>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 text-center border border-purple-500/20">
+            <div class="text-2xl mb-2">🔧</div>
+            <div class="font-semibold text-purple-400 text-sm">Tool</div>
+            <div class="text-xs text-neutral-400 mt-1">Capacidades: web, código, API</div>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 text-center border border-purple-500/20">
+            <div class="text-2xl mb-2">🚀</div>
+            <div class="font-semibold text-purple-400 text-sm">Crew</div>
+            <div class="text-xs text-neutral-400 mt-1">Orquestra agentes + tasks + processo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🧠</span> A diferença de mentalidade</h3>
+        <p class="text-neutral-300 mb-3">Com CrewAI você <em>não pensa em fluxo de dados</em> — você pensa em <strong>quem faz o quê</strong>. Quais são os papéis? Quais são as responsabilidades? Como as informações fluem entre os membros da equipe? É gestão de equipe, não programação de grafo.</p>
+        <ul class="space-y-2 text-neutral-300 text-sm">
+          <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span><strong>LangGraph:</strong> "Qual é o próximo nó após este?"</span></li>
+          <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span><strong>CrewAI:</strong> "Quem tem as competências para fazer isto?"</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🎭 Definindo agentes com papéis</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Cada Agent é definido por três atributos que constroem sua persona: <strong class="text-purple-400">role</strong> (título e função), <strong class="text-purple-400">goal</strong> (o que quer alcançar) e <strong class="text-purple-400">backstory</strong> (contexto e especialidade). Juntos, eles formam o system prompt do agente.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">👤</span> Três agentes completos</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code>from crewai import Agent
+from crewai_tools import SerperDevTool, WebsiteSearchTool
+
+search_tool = SerperDevTool()
+
+<span class="text-purple-400"># Agente 1: Pesquisador de Mercado</span>
+pesquisador = Agent(
+    role="Senior Market Research Analyst",
+    goal="Coletar dados precisos e atualizados sobre tendências de mercado no setor solicitado",
+    backstory="""Você é um analista sênior com 10 anos de experiência em pesquisa
+    de mercado. Especialista em identificar padrões emergentes, analisar dados
+    qualitativos e quantitativos, e sintetizar informações complexas em insights
+    acionáveis. Sua metodologia é rigorosa e suas fontes são sempre verificadas.""",
+    tools=[search_tool],
+    llm="gpt-4o",
+    verbose=True,
+    allow_delegation=False  <span class="text-neutral-500"># não pode delegar sub-tarefas</span>
+)
+
+<span class="text-purple-400"># Agente 2: Analista Estratégico</span>
+analista = Agent(
+    role="Strategic Business Analyst",
+    goal="Transformar dados brutos em análises estratégicas com recomendações claras",
+    backstory="""Especialista em análise SWOT, Porter's Five Forces e frameworks
+    estratégicos. Você transforma dados e pesquisas em narrativas coerentes que
+    executivos conseguem usar para tomar decisões. Seu diferencial é conectar
+    pontos que outros não veem.""",
+    llm="gpt-4o",
+    verbose=True
+)
+
+<span class="text-purple-400"># Agente 3: Redator Executivo</span>
+redator = Agent(
+    role="Executive Content Writer",
+    goal="Criar relatórios executivos claros, concisos e persuasivos a partir de análises",
+    backstory="""Redator especializado em comunicação executiva. Você sabe como
+    apresentar dados complexos de forma que C-level entenda em 5 minutos.
+    Usa estrutura clara: executive summary, principais achados, recomendações
+    e próximos passos.""",
+    llm="gpt-4o-mini",  <span class="text-neutral-500"># redação usa modelo menor</span>
+    verbose=True
+)</code></pre>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3"><span class="mr-2">💡</span> A backstory faz toda a diferença</h3>
+        <p class="text-neutral-300">Uma backstory genérica gera respostas genéricas. Uma backstory específica com anos de experiência, metodologias favoritas e diferenciais claros faz o LLM "entrar no papel" de verdade. Invista tempo escrevendo backstories ricas — é o seu equivalente de engenharia de prompt para personas de agente.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">📋 Tasks e flows: estruturando o trabalho</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Uma Task é uma unidade de trabalho com três elementos obrigatórios: <strong class="text-purple-400">description</strong> (o que deve ser feito), <strong class="text-purple-400">expected_output</strong> (qual o formato e conteúdo esperado) e <strong class="text-purple-400">agent</strong> (quem executa). O expected_output claro é o segredo de outputs consistentes.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">📝</span> Tasks completas com contexto</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code>from crewai import Task
+from pydantic import BaseModel
+from typing import List
+
+<span class="text-purple-400"># Schema do output final</span>
+class RelatorioMercado(BaseModel):
+    setor: str
+    principais_tendencias: List[str]
+    oportunidades: List[str]
+    ameacas: List[str]
+    recomendacoes: List[str]
+    score_atratividade: float
+
+<span class="text-purple-400"># Task 1: Pesquisa</span>
+task_pesquisa = Task(
+    description="""Pesquise o mercado de {setor} focando em:
+    1. Tamanho de mercado atual e projeções 2025-2027
+    2. Top 5 players e suas estratégias
+    3. Tendências tecnológicas emergentes
+    4. Barreiras de entrada
+    5. Comportamento do consumidor""",
+    expected_output="""Relatório de pesquisa com dados quantitativos
+    de pelo menos 5 fontes verificadas. Include: tamanho de mercado (USD),
+    CAGR, principais players com market share, e 3 tendências com evidências.""",
+    agent=pesquisador,
+    output_file="pesquisa_raw.md"  <span class="text-neutral-500"># salva em arquivo</span>
+)
+
+<span class="text-purple-400"># Task 2: Análise (usa output da pesquisa como contexto)</span>
+task_analise = Task(
+    description="""Com base na pesquisa de mercado fornecida, realize:
+    1. Análise SWOT completa do setor
+    2. Mapeamento de oportunidades não óbvias
+    3. Avaliação de riscos com probabilidade e impacto
+    4. Score de atratividade do mercado (0-10)""",
+    expected_output="""Análise estratégica estruturada com SWOT,
+    mapa de oportunidades rankeadas por potencial, matriz de risco
+    e score de atratividade com justificativa.""",
+    agent=analista,
+    context=[task_pesquisa]  <span class="text-neutral-500"># recebe output da task anterior</span>
+)
+
+<span class="text-purple-400"># Task 3: Redação (output em Pydantic)</span>
+task_relatorio = Task(
+    description="""Crie um relatório executivo baseado na pesquisa e análise.
+    O relatório deve ser legível em 5 minutos por um CEO.""",
+    expected_output="Relatório executivo em formato JSON estruturado.",
+    agent=redator,
+    context=[task_pesquisa, task_analise],
+    output_pydantic=RelatorioMercado  <span class="text-neutral-500"># output tipado!</span>
+)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">🏛️ Hierarquia de agentes: o manager pattern</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        No <strong class="text-purple-400">Process.hierarchical</strong>, um Manager Agent LLM-powered coordena os demais — decide quem executa cada task, pode redirecionar trabalho e revisar outputs antes de continuar. É como ter um gerente de projeto automático.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <h4 class="font-semibold text-purple-400 mb-4">Process.sequential (padrão)</h4>
+          <p class="text-sm text-neutral-400 mb-3">Tasks executam em ordem fixa. Output de uma vira input da próxima automaticamente.</p>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Simples e previsível</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Fácil de debugar</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Menos custo de tokens</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sem adaptação dinâmica</span></li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <h4 class="font-semibold text-purple-400 mb-4">Process.hierarchical</h4>
+          <p class="text-sm text-neutral-400 mb-3">Manager LLM decide quem faz o quê. Pode redirecionar, revisar e coordenar dinamicamente.</p>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Adaptação a situações inesperadas</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Melhor qualidade de output</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Mais tokens, mais custo</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Menos determinístico</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">👔</span> Manager agent em código</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code>from crewai import Crew, Process
+
+<span class="text-purple-400"># Manager agent (usa modelo forte para coordenação)</span>
+manager = Agent(
+    role="Research Project Manager",
+    goal="Garantir que a pesquisa de mercado seja completa, precisa e entregue no prazo",
+    backstory="Gerente de projetos com experiência em coordenar times de análise.",
+    llm="gpt-4o",
+    allow_delegation=True  <span class="text-neutral-500"># DEVE ter delegation ativo</span>
+)
+
+<span class="text-purple-400"># Crew com hierarquia</span>
+crew_hierarquica = Crew(
+    agents=[pesquisador, analista, redator],
+    tasks=[task_pesquisa, task_analise, task_relatorio],
+    process=Process.hierarchical,
+    manager_agent=manager,
+    verbose=True,
+    memory=True  <span class="text-neutral-500"># memória compartilhada entre agentes</span>
+)
+
+resultado = crew_hierarquica.kickoff(
+    inputs={"setor": "IA Generativa B2B"}
+)
+
+<span class="text-neutral-500"># Acessa output tipado</span>
+relatorio: RelatorioMercado = resultado.pydantic
+print(f"Score de atratividade: {relatorio.score_atratividade}")
+print(f"Recomendações: {relatorio.recomendacoes}")</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">⚡ Processo sequencial vs. paralelo</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Tasks que não dependem umas das outras desperdiçam tempo se forem sequenciais. Com <code class="text-purple-400 bg-purple-500/10 px-1 rounded">async_execution=True</code>, elas rodam em paralelo — podendo reduzir latência de minutos para segundos.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">⚡</span> Paralelismo em tasks independentes</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code><span class="text-purple-400"># Cenário: pesquisa de 3 mercados simultaneamente</span>
+task_mercado_br = Task(
+    description="Analise o mercado de IA no Brasil",
+    expected_output="Relatório mercado Brasil",
+    agent=pesquisador,
+    async_execution=True  <span class="text-neutral-500"># roda em paralelo!</span>
+)
+
+task_mercado_us = Task(
+    description="Analise o mercado de IA nos EUA",
+    expected_output="Relatório mercado EUA",
+    agent=pesquisador,
+    async_execution=True  <span class="text-neutral-500"># também paralelo!</span>
+)
+
+task_mercado_eu = Task(
+    description="Analise o mercado de IA na Europa",
+    expected_output="Relatório mercado Europa",
+    agent=pesquisador,
+    async_execution=True  <span class="text-neutral-500"># também paralelo!</span>
+)
+
+<span class="text-purple-400"># Esta task espera todos os anteriores terminarem</span>
+task_comparativo = Task(
+    description="Compare os três mercados e identifique o mais atrativo",
+    expected_output="Comparativo global com ranking",
+    agent=analista,
+    context=[task_mercado_br, task_mercado_us, task_mercado_eu],
+    <span class="text-neutral-500"># sem async_execution — espera o contexto</span>
+)
+
+<span class="text-neutral-500"># Crew executa: 3 pesquisas em paralelo, depois o comparativo</span>
+crew = Crew(
+    agents=[pesquisador, analista],
+    tasks=[task_mercado_br, task_mercado_us, task_mercado_eu, task_comparativo],
+    process=Process.sequential
+)</code></pre>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3"><span class="mr-2">💡</span> Regra de ouro do paralelismo</h3>
+        <p class="text-neutral-300">Use <code>async_execution=True</code> em qualquer task que não precise do output de outra task. Se A, B e C são independentes, mas D precisa de todos os três — A, B, C são async; D é síncrona com context=[A, B, C]. Isso pode reduzir latência de 3x.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">📈 Projeto: time de análise de mercado</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O projeto completo: três agentes (pesquisador, analista, redator), três tasks em sequência, compartilhamento de contexto automático e output final tipado em Pydantic. Este é o padrão CrewAI para uso empresarial.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">🚀</span> Crew completa em produção</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code><span class="text-purple-400"># Crew completa de análise de mercado</span>
+from crewai import Crew, Process
+from datetime import datetime
+
+crew_analise = Crew(
+    agents=[pesquisador, analista, redator],
+    tasks=[task_pesquisa, task_analise, task_relatorio],
+    process=Process.sequential,
+    verbose=True,
+    memory=True,           <span class="text-neutral-500"># memória entre tasks</span>
+    max_rpm=10,            <span class="text-neutral-500"># rate limiting de API</span>
+    output_log_file=f"log_{datetime.now():%Y%m%d_%H%M}.txt"
+)
+
+<span class="text-purple-400"># Executa com inputs dinâmicos</span>
+resultado = crew_analise.kickoff(inputs={
+    "setor": "SaaS de Recursos Humanos",
+    "regiao": "América Latina",
+    "foco": "PMEs com 50-500 funcionários"
+})
+
+<span class="text-purple-400"># Output estruturado e tipado</span>
+relatorio = resultado.pydantic
+print(f"Setor analisado: {relatorio.setor}")
+print(f"Score de atratividade: {relatorio.score_atratividade}/10")
+print("\nPrincipais tendências:")
+for i, tendencia in enumerate(relatorio.principais_tendencias, 1):
+    print(f"  {i}. {tendencia}")
+print("\nRecomendações estratégicas:")
+for rec in relatorio.recomendacoes:
+    print(f"  → {rec}")
+
+<span class="text-purple-400"># Custos e métricas da execução</span>
+print(f"\nTokens usados: {resultado.token_usage}")
+print(f"Tempo total: {resultado.tasks_output[-1].raw[:100]}...")</code></pre>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">CrewAI brilha quando...</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Equipes de agentes com papéis claros</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Prototipagem rápida de workflows</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Output final estruturado (Pydantic)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Lógica de delegação automática</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">Limitações do CrewAI</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Controle de fluxo menos preciso que LangGraph</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Loops complexos são mais difíceis de implementar</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Observabilidade requer configuração adicional</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Menos controle sobre o estado interno</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎯</span> Resumo do Módulo</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div><strong class="text-white">Crew como equipe</strong><span class="text-neutral-400"> — agents com role/goal/backstory, tasks com description/expected_output</span></div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div><strong class="text-white">context= compartilha resultados</strong><span class="text-neutral-400"> — output de uma task vira input da próxima automaticamente</span></div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div><strong class="text-white">Process.hierarchical</strong><span class="text-neutral-400"> — manager LLM coordena agentes dinamicamente</span></div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div><strong class="text-white">async_execution=True</strong><span class="text-neutral-400"> — tasks independentes rodam em paralelo, reduzindo latência</span></div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div><strong class="text-white">output_pydantic=</strong><span class="text-neutral-400"> — output final tipado e validado automaticamente</span></div>
+          </div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-purple-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">3.3 — 💬 AutoGen / AG2: filosofia conversacional, code execution e quando preferir sobre CrewAI</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-3-1.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← LangGraph Profundo</a>
+          <a href="modulo-3-3.html" class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors">Próximo: AutoGen / AG2 →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>Agentic Engineering Masterclass — Módulo 3.2: CrewAI na Prática</p>
+      <p class="mt-1"><a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

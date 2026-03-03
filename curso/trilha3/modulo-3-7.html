@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3.7 LangGraph + CrewAI juntos | Trilha 3 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    pre { overflow-x: auto; }
+    code { font-family: 'Courier New', monospace; font-size: 0.85em; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frameworks</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-purple-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-purple-400 transition-colors">Trilha 3 — Frameworks e Ecossistema</a>
+      <span>/</span>
+      <span class="text-purple-400">Módulo 3.7</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 3.7</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔗 LangGraph + CrewAI juntos</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">O melhor dos dois mundos: LangGraph orquestra o fluxo macro com precisão, CrewAI executa análise em equipe dentro de um nó. Aprenda os padrões de integração e construa um sistema de due diligence automatizado.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Projeto</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🤔 Por que combinar LangGraph e CrewAI</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        LangGraph e CrewAI não competem — eles se complementam. LangGraph é excelente em <strong class="text-purple-400">controle de fluxo macro</strong> (quando fazer o quê, com quais condições, com checkpoints). CrewAI é excelente em <strong class="text-purple-400">execução colaborativa</strong> (equipes de agentes fazendo análise profunda). Juntos, cobrem o espectro completo.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">🎯</span> Separação de responsabilidades</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-dark-800/60 rounded-lg p-5 border border-purple-500/20">
+            <h4 class="font-semibold text-purple-400 mb-3">🕸️ LangGraph cuida de:</h4>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-purple-400">•</span><span>Ordem e condições de execução das etapas</span></li>
+              <li class="flex items-start space-x-2"><span class="text-purple-400">•</span><span>Checkpoints antes e depois de cada fase</span></li>
+              <li class="flex items-start space-x-2"><span class="text-purple-400">•</span><span>Lógica de retry em caso de falha</span></li>
+              <li class="flex items-start space-x-2"><span class="text-purple-400">•</span><span>Human-in-the-loop quando necessário</span></li>
+              <li class="flex items-start space-x-2"><span class="text-purple-400">•</span><span>Streaming de progresso para o usuário</span></li>
+            </ul>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-5 border border-blue-500/20">
+            <h4 class="font-semibold text-blue-400 mb-3">👥 CrewAI cuida de:</h4>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Análise profunda em equipe de especialistas</span></li>
+              <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Colaboração entre agentes com papéis claros</span></li>
+              <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Output estruturado em Pydantic</span></li>
+              <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Delegação automática de sub-tarefas</span></li>
+              <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Geração de relatórios ricos e estruturados</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3"><span class="mr-2">💡</span> O princípio da combinação inteligente</h3>
+        <p class="text-neutral-300">Pense em LangGraph como o <em>diretor de orquestra</em> e CrewAI como um <em>grupo de músicos especialistas</em>. O diretor decide quando cada grupo toca e mantém o ritmo global. Os músicos executam a partitura com maestria dentro do seu domínio. Nenhum substitui o outro.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🕸️ LangGraph como orquestrador externo</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        No padrão de integração, LangGraph define a <strong class="text-purple-400">estrutura macro</strong> — quais etapas existem, em que ordem, com quais condições de saída. CrewAI executa dentro de nós específicos, sendo completamente opaco para o grafo externo.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">🗺️</span> Visão do sistema integrado</h3>
+        <div class="space-y-2 mb-4">
+          <div class="flex items-center space-x-2">
+            <div class="bg-dark-800 rounded p-2 text-center text-xs border border-purple-500/40 w-28 flex-shrink-0"><span class="text-purple-400 font-semibold">START</span></div>
+            <span class="text-neutral-500">→</span>
+            <div class="bg-dark-800 rounded p-2 text-center text-xs border border-dark-600 flex-1"><span class="text-neutral-300">Coleta de Dados</span><div class="text-neutral-500 mt-1">[Nó LangGraph]</div></div>
+            <span class="text-neutral-500">→</span>
+            <div class="bg-blue-900/30 rounded p-2 text-center text-xs border border-blue-500/40 flex-1"><span class="text-blue-400">Análise em Equipe</span><div class="text-neutral-500 mt-1">[Crew aqui!]</div></div>
+            <span class="text-neutral-500">→</span>
+            <div class="bg-dark-800 rounded p-2 text-center text-xs border border-dark-600 flex-1"><span class="text-neutral-300">Validação</span><div class="text-neutral-500 mt-1">[Nó LangGraph]</div></div>
+            <span class="text-neutral-500">→</span>
+            <div class="bg-dark-800 rounded p-2 text-center text-xs border border-dark-600 flex-1"><span class="text-neutral-300">Relatório Final</span><div class="text-neutral-500 mt-1">[Nó LangGraph]</div></div>
+            <span class="text-neutral-500">→</span>
+            <div class="bg-dark-800 rounded p-2 text-center text-xs border border-purple-500/40 w-20 flex-shrink-0"><span class="text-purple-400 font-semibold">END</span></div>
+          </div>
+        </div>
+        <p class="text-sm text-neutral-400">LangGraph gerencia o fluxo completo. A Crew executa apenas na etapa de Análise — recebe dados do state, analisa em equipe, retorna resultado estruturado.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">👥 CrewAI como nó do LangGraph</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O padrão de implementação: uma função de nó do LangGraph que instancia uma Crew, chama <code class="text-purple-400 bg-purple-500/10 px-1 rounded">crew.kickoff()</code> com inputs do state, e retorna o resultado de volta para o state.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">🔨</span> Implementação do nó de Crew</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code>from langgraph.graph import StateGraph, START, END
+from crewai import Agent, Task, Crew, Process
+from typing import TypedDict
+
+<span class="text-purple-400"># Estado do LangGraph</span>
+class DueDiligenceState(TypedDict):
+    empresa: str
+    setor: str
+    dados_coletados: dict
+    analise_crew: dict  <span class="text-neutral-500"># output da Crew vai aqui</span>
+    validacao: dict
+    relatorio_final: str
+    aprovado: bool
+
+<span class="text-purple-400"># ===== FACTORY DE CREW =====</span>
+def criar_crew_analise(empresa: str, dados: dict) -> Crew:
+    """Cria e retorna uma Crew configurada para a análise."""
+    analista_financeiro = Agent(
+        role="Financial Analyst",
+        goal=f"Analise a saúde financeira de {empresa}",
+        backstory="Especialista em valuation e análise fundamentalista com 15 anos.",
+        llm="gpt-4o"
+    )
+    analista_risco = Agent(
+        role="Risk Analyst",
+        goal=f"Identifique riscos críticos para {empresa}",
+        backstory="Ex-consultor de risco com foco em M&A e due diligence.",
+        llm="gpt-4o"
+    )
+    analista_mercado = Agent(
+        role="Market Analyst",
+        goal=f"Avalie o posicionamento de mercado de {empresa}",
+        backstory="Especialista em análise competitiva e estratégia de mercado.",
+        llm="gpt-4o-mini"
+    )
+    task_financeira = Task(
+        description=f"""Analise os dados financeiros de {empresa}:
+        Dados: {dados}
+        Foco: rentabilidade, liquidez, endividamento""",
+        expected_output="Análise financeira com score 1-10 e principais alertas",
+        agent=analista_financeiro
+    )
+    task_risco = Task(
+        description=f"Identifique top 5 riscos para investimento em {empresa}",
+        expected_output="Lista de riscos com probabilidade e impacto",
+        agent=analista_risco,
+        context=[task_financeira]
+    )
+    task_mercado = Task(
+        description=f"Avalie posição competitiva de {empresa} no mercado",
+        expected_output="Análise de posicionamento com oportunidades e ameaças",
+        agent=analista_mercado
+    )
+    return Crew(
+        agents=[analista_financeiro, analista_risco, analista_mercado],
+        tasks=[task_financeira, task_risco, task_mercado],
+        process=Process.sequential,
+        verbose=False
+    )
+
+<span class="text-purple-400"># ===== NÓ DO LANGGRAPH QUE EXECUTA A CREW =====</span>
+def executar_analise_crew(state: DueDiligenceState) -> dict:
+    """Nó do LangGraph que instancia e executa a Crew."""
+    empresa = state["empresa"]
+    dados = state["dados_coletados"]
+
+    <span class="text-neutral-500"># Cria a Crew com o contexto do state</span>
+    crew = criar_crew_analise(empresa, dados)
+
+    <span class="text-neutral-500"># Executa com timeout (importante!)</span>
+    try:
+        resultado = crew.kickoff(inputs={
+            "empresa": empresa,
+            "setor": state["setor"]
+        })
+        return {
+            "analise_crew": {
+                "resultado": resultado.raw,
+                "aprovado": True,
+                "custo_tokens": str(resultado.token_usage)
+            }
+        }
+    except Exception as e:
+        return {
+            "analise_crew": {
+                "resultado": f"Erro na análise: {str(e)}",
+                "aprovado": False
+            }
+        }</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">📦 Passagem de estado entre frameworks</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A <strong class="text-purple-400">fronteira entre LangGraph e CrewAI</strong> é onde bugs acontecem. O nó de integração precisa converter o estado do LangGraph para o formato de input da Crew, e serializar o output da Crew de volta para o estado — com validação em ambos os lados.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">🔀</span> Contrato de interface claro</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code>from pydantic import BaseModel
+
+<span class="text-purple-400"># Contrato de INPUT para a Crew</span>
+class CrewInput(BaseModel):
+    empresa: str
+    setor: str
+    dados_financeiros: dict
+    periodo_analise: str = "últimos 3 anos"
+
+<span class="text-purple-400"># Contrato de OUTPUT da Crew</span>
+class CrewOutput(BaseModel):
+    score_financeiro: float        <span class="text-neutral-500"># 0.0 a 10.0</span>
+    principais_riscos: list[str]
+    oportunidades: list[str]
+    recomendacao: str              <span class="text-neutral-500"># "INVESTIR" | "AGUARDAR" | "RECUSAR"</span>
+    confianca: float               <span class="text-neutral-500"># 0.0 a 1.0</span>
+
+<span class="text-purple-400"># Nó com conversão e validação explícitas</span>
+def executar_analise_crew(state: DueDiligenceState) -> dict:
+    <span class="text-neutral-500"># 1. Converte state → CrewInput com validação</span>
+    try:
+        crew_input = CrewInput(
+            empresa=state["empresa"],
+            setor=state["setor"],
+            dados_financeiros=state["dados_coletados"].get("financeiros", {}),
+        )
+    except Exception as e:
+        return {"analise_crew": {"erro": f"Input inválido: {e}", "aprovado": False}}
+
+    <span class="text-neutral-500"># 2. Executa a Crew</span>
+    crew = criar_crew_analise(crew_input.empresa, crew_input.model_dump())
+    resultado = crew.kickoff()
+
+    <span class="text-neutral-500"># 3. Valida e converte output → state</span>
+    try:
+        <span class="text-neutral-500"># Task final com output_pydantic=CrewOutput</span>
+        analise = resultado.pydantic  <span class="text-neutral-500"># CrewOutput tipado</span>
+        return {
+            "analise_crew": {
+                "score": analise.score_financeiro,
+                "riscos": analise.principais_riscos,
+                "recomendacao": analise.recomendacao,
+                "aprovado": analise.recomendacao != "RECUSAR"
+            }
+        }
+    except Exception as e:
+        return {"analise_crew": {"raw": resultado.raw, "erro": str(e)}}</code></pre>
+        </div>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3"><span class="mr-2">⚠️</span> Armadilhas comuns de integração</h3>
+        <ul class="space-y-2 text-neutral-300 text-sm">
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Passar objetos não serializáveis entre frameworks (use tipos primitivos)</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Não validar o output da Crew antes de colocar no state</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Criar a Crew dentro do grafo sem tratamento de erro</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sem timeout: a Crew pode demorar indefinidamente</span></li>
+          <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Use try/except em todo o nó de integração</span></li>
+          <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Pydantic nos dois lados: input e output da Crew</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🔷 Padrões de integração reutilizáveis</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Três padrões comprovados para combinar LangGraph e CrewAI — cada um resolve uma categoria diferente de problema.
+      </p>
+
+      <div class="space-y-6 mb-6">
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold">1</div>
+            <h4 class="font-semibold text-white">Padrão Crew-no-Nó (Sequential)</h4>
+          </div>
+          <p class="text-sm text-neutral-400 mb-3">Uma Crew em um único nó sequencial. O mais simples e mais comum.</p>
+          <div class="bg-dark-900/50 rounded-lg p-3 border border-dark-600">
+            <pre class="text-sm text-neutral-300"><code>grafo.add_node("coleta", coletar_dados)
+grafo.add_node("analise", executar_crew)  <span class="text-neutral-500"># Crew aqui</span>
+grafo.add_node("relatorio", gerar_relatorio)
+grafo.add_edge(START, "coleta")
+grafo.add_edge("coleta", "analise")
+grafo.add_edge("analise", "relatorio")
+grafo.add_edge("relatorio", END)</code></pre>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold">2</div>
+            <h4 class="font-semibold text-white">Padrão Crews Paralelas (Map-Reduce)</h4>
+          </div>
+          <p class="text-sm text-neutral-400 mb-3">Múltiplas Crews executando em paralelo, resultados agregados por um nó final.</p>
+          <div class="bg-dark-900/50 rounded-lg p-3 border border-dark-600">
+            <pre class="text-sm text-neutral-300"><code>from langgraph.constants import Send
+
+<span class="text-purple-400"># Distribui para múltiplas Crews em paralelo</span>
+def distribuir_analises(state) -> list:
+    return [
+        Send("analise_crew", {"empresa": e, **state})
+        for e in state["empresas_para_analisar"]
+    ]
+
+grafo.add_conditional_edges("preparar", distribuir_analises)
+grafo.add_node("analise_crew", executar_crew)  <span class="text-neutral-500"># cada empresa</span>
+grafo.add_node("agregar", combinar_resultados) <span class="text-neutral-500"># une tudo</span></code></pre>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold">3</div>
+            <h4 class="font-semibold text-white">Padrão Loop com Crew (Retry Inteligente)</h4>
+          </div>
+          <p class="text-sm text-neutral-400 mb-3">O loop verifica qualidade e chama a Crew novamente se necessário.</p>
+          <div class="bg-dark-900/50 rounded-lg p-3 border border-dark-600">
+            <pre class="text-sm text-neutral-300"><code>def checar_qualidade(state) -> str:
+    score = state["analise_crew"].get("score", 0)
+    tentativas = state.get("tentativas", 0)
+    if score >= 7.0 or tentativas >= 3:
+        return "relatorio"
+    return "analise_crew"  <span class="text-neutral-500"># volta para a Crew</span>
+
+grafo.add_conditional_edges("avaliar", checar_qualidade)</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🔍 Projeto: sistema de due diligence automatizado</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O projeto completo: sistema de due diligence onde LangGraph orquestra as etapas (coleta → análise → validação → relatório) e uma CrewAI de 3 analistas executa a etapa de análise em profundidade.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">🚀</span> Grafo completo de due diligence</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code>from langgraph.checkpoint.memory import MemorySaver
+
+<span class="text-purple-400"># Nós do LangGraph (sem a Crew)</span>
+def coletar_dados(state: DueDiligenceState) -> dict:
+    """Coleta dados públicos da empresa via APIs."""
+    empresa = state["empresa"]
+    return {
+        "dados_coletados": {
+            "financeiros": buscar_dados_financeiros(empresa),
+            "mercado": buscar_dados_mercado(empresa, state["setor"]),
+            "noticias": buscar_noticias_recentes(empresa),
+            "juridico": buscar_processos_juridicos(empresa)
+        }
+    }
+
+def validar_analise(state: DueDiligenceState) -> dict:
+    """Valida se a análise da Crew atende critérios mínimos."""
+    analise = state["analise_crew"]
+    issues = []
+    if analise.get("score", 0) == 0:
+        issues.append("Score não calculado")
+    if not analise.get("riscos"):
+        issues.append("Riscos não identificados")
+    return {
+        "validacao": {
+            "aprovada": len(issues) == 0,
+            "issues": issues
+        }
+    }
+
+def gerar_relatorio_final(state: DueDiligenceState) -> dict:
+    """Gera relatório executivo consolidado."""
+    analise = state["analise_crew"]
+    return {
+        "relatorio_final": f"""
+# Due Diligence: {state['empresa']}
+
+## Executive Summary
+**Recomendação:** {analise.get('recomendacao', 'N/A')}
+**Score Financeiro:** {analise.get('score', 'N/A')}/10
+
+## Principais Riscos
+{chr(10).join(f'- {r}' for r in analise.get('riscos', []))}
+
+## Próximos Passos
+{analise.get('proximos_passos', 'Consultar equipe jurídica')}
+        """,
+        "aprovado": analise.get("recomendacao") == "INVESTIR"
+    }
+
+<span class="text-purple-400"># Lógica de roteamento</span>
+def rotear_apos_validacao(state: DueDiligenceState) -> str:
+    if state["validacao"]["aprovada"]:
+        return "relatorio"
+    tentativas = state.get("tentativas", 0)
+    if tentativas >= 2:
+        return "relatorio"  <span class="text-neutral-500"># força saída</span>
+    return "analise"        <span class="text-neutral-500"># repete a Crew</span>
+
+<span class="text-purple-400"># Monta o grafo completo</span>
+grafo = StateGraph(DueDiligenceState)
+grafo.add_node("coleta", coletar_dados)
+grafo.add_node("analise", executar_analise_crew)  <span class="text-neutral-500"># Crew aqui</span>
+grafo.add_node("validacao", validar_analise)
+grafo.add_node("relatorio", gerar_relatorio_final)
+
+grafo.add_edge(START, "coleta")
+grafo.add_edge("coleta", "analise")
+grafo.add_edge("analise", "validacao")
+grafo.add_conditional_edges("validacao", rotear_apos_validacao, {
+    "relatorio": "relatorio",
+    "analise": "analise"
+})
+grafo.add_edge("relatorio", END)
+
+<span class="text-purple-400"># Compila com checkpoint</span>
+checkpointer = MemorySaver()
+app = grafo.compile(checkpointer=checkpointer)
+
+<span class="text-purple-400"># Executa</span>
+config = {"configurable": {"thread_id": "dd_empresa_xyz_001"}}
+resultado = app.invoke({
+    "empresa": "TechStartup XYZ",
+    "setor": "SaaS B2B",
+    "dados_coletados": {},
+    "analise_crew": {},
+    "validacao": {},
+    "relatorio_final": "",
+    "aprovado": False
+}, config=config)
+
+print(resultado["relatorio_final"])</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎯</span> Resumo do Módulo</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">LangGraph = orquestrador, CrewAI = executor</strong><span class="text-neutral-400"> — separação clara de responsabilidades entre os dois</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Nó de integração</strong><span class="text-neutral-400"> — função Python que instancia a Crew, executa kickoff e retorna ao state</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Pydantic na fronteira</strong><span class="text-neutral-400"> — valida input e output da Crew para prevenir erros de interface</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">3 padrões</strong><span class="text-neutral-400"> — Sequential, Map-Reduce (paralelo) e Loop com Crew para diferentes necessidades</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Try/except obrigatório</strong><span class="text-neutral-400"> — todo nó de integração precisa tratar erros graciosamente</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-purple-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">3.8 — 📊 Observabilidade: LangSmith, Arize Phoenix, métricas de negócio e avaliação contínua em produção</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-3-6.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Comparativo de Frameworks</a>
+          <a href="modulo-3-8.html" class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors">Próximo: Observabilidade →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>Agentic Engineering Masterclass — Módulo 3.7: LangGraph + CrewAI juntos</p>
+      <p class="mt-1"><a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

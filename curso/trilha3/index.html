@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trilha 3 — Frameworks e Ecossistema | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    .modal { display: none; }
+    .modal.active { display: flex; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10">
+            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Frameworks</span>
+          </a>
+          <a href="../trilha4/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors hidden lg:block">
+            <span>Multi-Agentes</span>
+          </a>
+          <a href="../trilha5/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors hidden lg:block">
+            <span>Orquestrador</span>
+          </a>
+          <a href="../trilha6/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors hidden lg:block">
+            <span>Enterprise</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER DA TRILHA -->
+  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4 tracking-wide">
+        TRILHA 3
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">⚡ Frameworks e Ecossistema</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Domine os frameworks que profissionais usam em produção: LangGraph, CrewAI, AutoGen e OpenAI Agents SDK. Aprenda quando usar cada um, como combiná-los e como observar seus sistemas em produção.
+      </p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">8</div>
+          <div class="text-xs text-neutral-400">Módulos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">48</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">~6h</div>
+          <div class="text-xs text-neutral-400">Duração</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Inter.</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVEGACAO RAPIDA -->
+  <div class="border-b border-dark-600 bg-dark-800/30">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2">
+        <a href="modulo-3-1.html" class="text-center px-3 py-2 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-400 text-xs font-semibold hover:bg-purple-500/20 transition-colors">
+          <div class="text-lg mb-1">🕸️</div>
+          <div>3.1 LangGraph</div>
+        </a>
+        <a href="modulo-3-2.html" class="text-center px-3 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-purple-500/30 hover:text-purple-400 transition-colors">
+          <div class="text-lg mb-1">👥</div>
+          <div>3.2 CrewAI</div>
+        </a>
+        <a href="modulo-3-3.html" class="text-center px-3 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-purple-500/30 hover:text-purple-400 transition-colors">
+          <div class="text-lg mb-1">💬</div>
+          <div>3.3 AutoGen</div>
+        </a>
+        <a href="modulo-3-4.html" class="text-center px-3 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-purple-500/30 hover:text-purple-400 transition-colors">
+          <div class="text-lg mb-1">🤖</div>
+          <div>3.4 OAI SDK</div>
+        </a>
+        <a href="modulo-3-5.html" class="text-center px-3 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-purple-500/30 hover:text-purple-400 transition-colors">
+          <div class="text-lg mb-1">🔌</div>
+          <div>3.5 MCP Avançado</div>
+        </a>
+        <a href="modulo-3-6.html" class="text-center px-3 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-purple-500/30 hover:text-purple-400 transition-colors">
+          <div class="text-lg mb-1">⚖️</div>
+          <div>3.6 Comparativo</div>
+        </a>
+        <a href="modulo-3-7.html" class="text-center px-3 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-purple-500/30 hover:text-purple-400 transition-colors">
+          <div class="text-lg mb-1">🔗</div>
+          <div>3.7 Integração</div>
+        </a>
+        <a href="modulo-3-8.html" class="text-center px-3 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-purple-500/30 hover:text-purple-400 transition-colors">
+          <div class="text-lg mb-1">📊</div>
+          <div>3.8 Observ.</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <div class="mb-6 flex items-center justify-between">
+      <h2 class="text-xl font-bold text-neutral-300">Conteúdo Detalhado</h2>
+      <span class="text-sm text-neutral-500">8 módulos · Clique para expandir tópicos</span>
+    </div>
+
+    <!-- ======== MODULO 3.1 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold text-lg">3.1</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🕸️ LangGraph Profundo</h3>
+        <p class="text-neutral-400 text-sm">Domine o StateGraph, nós, edges, ciclos controlados e checkpoints. O framework que dá controle total sobre o fluxo do seu agente.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🗺️</span>
+            <div>
+              <span class="font-medium">O que é um grafo de estado</span>
+              <span class="text-neutral-500 text-sm ml-2">- A base conceptual do LangGraph</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Um grafo de estado é uma representação onde cada nó é uma função Python que recebe um estado compartilhado e retorna uma versão atualizada desse estado. O fluxo de execução segue as arestas (edges) que conectam os nós.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem entender o modelo mental do grafo, você não consegue projetar fluxos complexos com branches e loops. É o alicerce de tudo no LangGraph.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Estado como TypedDict · Nós como funções puras · Edges como transições · START e END como pontos de entrada/saída · Imutabilidade do estado</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🔗</span>
+            <div>
+              <span class="font-medium">Nós e edges</span>
+              <span class="text-neutral-500 text-sm ml-2">- Blocos de construção do grafo</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Nós (nodes) são funções Python que processam o estado. Edges são conexões entre nós: fixas (sempre seguem o mesmo caminho) ou condicionais (escolhem o próximo nó baseado no estado atual).</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">A combinação de edges fixas e condicionais é o que permite criar fluxos com decisões, branches e retornos — impossível de fazer com chains lineares simples.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">add_node() · add_edge() fixo · add_conditional_edges() com função roteadora · Retorno de string para escolher próximo nó · Múltiplos destinos possíveis</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">⚙️</span>
+            <div>
+              <span class="font-medium">StateGraph na prática</span>
+              <span class="text-neutral-500 text-sm ml-2">- Código Python do zero</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Construção prática de um StateGraph: definindo o TypedDict do estado, criando nós como funções, conectando com edges e compilando o grafo para execução com graph.compile().</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Teoria sem prática não funciona. Você precisa saber a sintaxe exata, a ordem de construção e como debugar erros comuns de compilação do grafo.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">TypedDict como schema do estado · StateGraph(State) · graph.set_entry_point() · graph.compile() · graph.invoke() vs graph.stream()</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔁</span>
+            <div>
+              <span class="font-medium">Ciclos e loops controlados</span>
+              <span class="text-neutral-500 text-sm ml-2">- O que torna LangGraph único</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Diferente de chains lineares, LangGraph permite que o grafo retorne para um nó anterior com base em uma condição — criando loops de retry, reflexão ou iteração até que um critério seja atendido.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Loops controlados são essenciais para agentes que precisam tentar novamente após erro, revisar sua própria saída ou aguardar aprovação humana antes de continuar.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Edge condicional apontando para nó anterior · Contador de iterações no estado · Critério de saída do loop · Prevenção de loops infinitos · Human-in-the-loop com interrupt()</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">💾</span>
+            <div>
+              <span class="font-medium">Checkpoints e persistência</span>
+              <span class="text-neutral-500 text-sm ml-2">- Estado sobrevive entre execuções</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O sistema de checkpoints salva o estado do grafo após cada nó. Com MemorySaver (em memória) ou PostgresSaver (persistente), o grafo pode ser retomado do ponto exato onde parou.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem checkpoints, uma falha no meio de um fluxo longo reinicia tudo do zero. Com checkpoints, você tem resiliência, auditoria e capacidade de pausar/retomar workflows.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">MemorySaver para desenvolvimento · PostgresSaver para produção · thread_id como identificador de sessão · graph.get_state() para inspecionar · Histórico completo de execução</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📡</span>
+            <div>
+              <span class="font-medium">Streaming de resultados</span>
+              <span class="text-neutral-500 text-sm ml-2">- Feedback em tempo real</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">graph.stream() emite eventos a cada nó executado, permitindo que a UI mostre progresso em tempo real — qual nó está rodando, qual é o estado atual, quais tokens o LLM gerou.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Agentes lentos sem feedback causam abandono do usuário. Streaming transforma a experiência: o usuário vê o sistema "pensando" ao invés de esperar uma tela em branco.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">graph.stream() com for loop · stream_mode="values" vs "updates" vs "debug" · Streaming de tokens do LLM · Integração com FastAPI SSE · Filtrando eventos por nó</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-1')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-3-1.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 3.2 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold text-lg">3.2</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">👥 CrewAI na Prática</h3>
+        <p class="text-neutral-400 text-sm">Monte times de agentes com papéis definidos, tasks e flows. O framework que pensa em equipe, não em grafos.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🏢</span>
+            <div><span class="font-medium">Conceito de crews</span><span class="text-neutral-500 text-sm ml-2">- Equipes de agentes com missão</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Uma Crew é um time de agentes de IA com uma missão coletiva. Cada agente tem papel definido, e eles colaboram para completar tasks que sozinhos não conseguiriam executar.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Pensar em times de agentes ao invés de agentes isolados resolve problemas complexos com mais naturalidade — igual como times humanos se organizam.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Crew como abstração de equipe · Agents como membros · Tasks como assignments · Process como modo de trabalho · Missão coletiva compartilhada</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🎭</span>
+            <div><span class="font-medium">Definindo agentes com papéis</span><span class="text-neutral-500 text-sm ml-2">- role, goal e backstory</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Cada Agent no CrewAI é definido por três atributos: role (seu título/função), goal (o que quer alcançar) e backstory (seu contexto de vida e especialidade). Esses prompts de persona guiam o comportamento do LLM.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Personas bem definidas geram outputs mais consistentes e especializados. Um "Senior Data Analyst" pensa diferente de um "Content Writer" — mesmo usando o mesmo LLM por baixo.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Agent(role=..., goal=..., backstory=...) · tools=[...] para equipar com ferramentas · llm= para definir modelo · verbose=True para debug · allow_delegation= para permitir delegar</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">📋</span>
+            <div><span class="font-medium">Tasks e flows</span><span class="text-neutral-500 text-sm ml-2">- Assignments e sequência de trabalho</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Task é uma unidade de trabalho com description (o que fazer), expected_output (qual o resultado esperado) e agent (quem executa). Flows definem como tasks se encadeiam e compartilham contexto.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Tasks bem definidas com expected_output claro são o segredo de outputs consistentes. Sem isso, o agente "improvisa" o formato da resposta em cada execução.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Task(description=..., expected_output=..., agent=...) · context=[task_anterior] para passar resultado · output_pydantic= para estruturar saída · async_execution= para paralelismo</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🏛️</span>
+            <div><span class="font-medium">Hierarquia de agentes</span><span class="text-neutral-500 text-sm ml-2">- Manager e subordinados</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">No Process.hierarchical, um Manager Agent coordena os demais — decide quem executa cada task, revisa outputs e pode redirecionar trabalho. É um agente que gerencia outros agentes.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Para workflows complexos com decisões dinâmicas sobre quem faz o quê, a hierarquia elimina a rigidez da sequência fixa e permite adaptação em tempo de execução.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">manager_agent= na Crew · Process.hierarchical · Delegação automática de tasks · Manager como coordenador LLM-powered · Aprovação de outputs antes de continuar</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">⚡</span>
+            <div><span class="font-medium">Processo sequencial vs. paralelo</span><span class="text-neutral-500 text-sm ml-2">- Velocidade vs. controle</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Process.sequential executa tasks uma após a outra (o output de uma vira input da próxima). Com async_execution=True em tasks independentes, elas rodam em paralelo — reduzindo latência total.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Tarefas que não dependem umas das outras desperdiçam tempo se forem sequenciais. Paralelismo pode reduzir latência de minutos para segundos em workflows de análise.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Process.sequential (padrão) · async_execution=True por task · Dependências implícitas via context= · Tasks paralelas sem dependência · Agregação de resultados no final</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📈</span>
+            <div><span class="font-medium">Projeto: time de análise de mercado</span><span class="text-neutral-500 text-sm ml-2">- Pesquisador, analista e redator</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Projeto completo com 3 agentes: Pesquisador (coleta dados de mercado com ferramentas web), Analista (interpreta tendências e métricas) e Redator (transforma análise em relatório executivo).</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ver o padrão completo funcionando é a melhor forma de entender como os componentes se encaixam — do Agent até o output final estruturado em Pydantic.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Três agents com ferramentas distintas · Três tasks em sequência · Contexto passado automaticamente · Output final em Pydantic · crew.kickoff() como ponto de entrada</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-2')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-3-2.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 3.3 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold text-lg">3.3</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~40 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">💬 AutoGen / AG2</h3>
+        <p class="text-neutral-400 text-sm">Agentes que conversam entre si, criticam uns aos outros e executam código. O framework para pesquisa, code generation e debates estruturados.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🗣️</span>
+            <div><span class="font-medium">Filosofia conversacional</span><span class="text-neutral-500 text-sm ml-2">- Agentes que se comunicam</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">AutoGen modela interação entre agentes como uma conversa multi-turno. Ao invés de um grafo de estado, o fluxo emerge da troca de mensagens — cada agente responde ao que o outro disse.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Problemas que se beneficiam de perspectivas múltiplas (revisão de código, pesquisa, debate) se encaixam naturalmente no modelo conversacional do AutoGen.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Conversa como fluxo de controle · Mensagens como estado · Agentes como participantes · Critério de terminação · Historia de conversa como contexto acumulado</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🤝</span>
+            <div><span class="font-medium">AssistantAgent e UserProxyAgent</span><span class="text-neutral-500 text-sm ml-2">- Os dois personagens principais</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">AssistantAgent usa um LLM para responder e gerar código. UserProxyAgent pode executar código localmente e simular o usuário humano. Juntos, formam o par fundamental do AutoGen.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Esse par permite o loop de geração e execução de código automatizado — o agente escreve Python, o proxy executa, o erro vira feedback, o agente corrige. Tudo sem intervenção humana.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">AssistantAgent(name=..., llm_config=...) · UserProxyAgent(code_execution_config=...) · human_input_mode="NEVER" para full autonomy · is_termination_msg para critério de parada</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">👥</span>
+            <div><span class="font-medium">GroupChat</span><span class="text-neutral-500 text-sm ml-2">- Múltiplos agentes na mesma sala</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">GroupChat é uma abstração onde N agentes participam de uma conversa mediada por um GroupChatManager, que decide quem fala a seguir com base em regras ou outro LLM.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Quando você precisa de mais de dois agentes colaborando (ex: pesquisador + analista + crítico), o GroupChat é o mecanismo nativo do AutoGen para coordenar esse tipo de interação.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">GroupChat(agents=[...], messages=[], max_round=...) · GroupChatManager como moderador · speaker_selection_method="auto" vs "round_robin" · Histórico compartilhado entre agentes</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🪞</span>
+            <div><span class="font-medium">Reflexão entre agentes</span><span class="text-neutral-500 text-sm ml-2">- Um agente critica o outro</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Padrão onde um agente gera uma resposta e um segundo agente (o crítico) avalia, aponta problemas e sugere melhorias. O primeiro revisa e o ciclo continua até qualidade suficiente.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Reflexão melhora dramaticamente a qualidade do output sem precisar de humano na alça de feedback. É o equivalente de ter um revisor automático para cada resposta.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Agente Escritor + Agente Crítico · Critério de aprovação claro · Máximo de iterações definido · Prompt de critica estruturado · Output final aprovado pelo crítico</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">💻</span>
+            <div><span class="font-medium">Execução de código</span><span class="text-neutral-500 text-sm ml-2">- Sandbox seguro para Python</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">AutoGen permite que o UserProxyAgent execute código Python gerado pelo AssistantAgent em um ambiente controlado — seja localmente, em Docker, ou em sandbox remoto.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Execução de código automatizada é o superpoder do AutoGen. Permite análise de dados, geração de gráficos, scraping, cálculos e qualquer tarefa que código Python resolve — sem humano.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">code_execution_config={"work_dir": "..."} · Docker para isolamento · last_n_messages para limitar contexto · Timeout de execução · Captura de stdout e stderr como feedback</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🎯</span>
+            <div><span class="font-medium">Quando preferir AutoGen</span><span class="text-neutral-500 text-sm ml-2">- Casos de uso ideais</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">AutoGen brilha em: pesquisa exploratória, geração e depuração de código, debates entre perspectivas, e workflows onde o fluxo emergir da conversa é mais natural que grafos pré-definidos.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Escolher o framework errado para o problema certo é um dos erros mais custosos. Entender onde AutoGen supera LangGraph economiza semanas de refatoração.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">AutoGen ideal para: code gen + execução iterativa · pesquisa com múltiplas perspectivas · workflows emergentes · LangGraph ideal para: controle de fluxo preciso · estado complexo · produção crítica</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-3')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-3-3.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 3.4 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold text-lg">3.4</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~35 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🤖 OpenAI Agents SDK</h3>
+        <p class="text-neutral-400 text-sm">Handoffs, guardrails e tracing nativos. O SDK oficial da OpenAI para sistemas multi-agente simples e confiáveis.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🏗️</span>
+            <div><span class="font-medium">Arquitetura do SDK</span><span class="text-neutral-500 text-sm ml-2">- Agent, Runner e contexto</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O SDK da OpenAI define Agent como uma unidade com instructions (sistema de prompt), tools (ferramentas disponíveis) e handoffs (agentes para quem pode passar controle). Runner é o executor.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Entender a arquitetura do SDK permite usá-lo sem combatê-lo. O design opinionado dele favorece certos padrões — conhecê-los acelera o desenvolvimento.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Agent(name=..., instructions=..., tools=..., handoffs=...) · Runner.run() como executor principal · Context object como estado compartilhado · Resultado como RunResult com histórico</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🤝</span>
+            <div><span class="font-medium">Handoffs entre agentes</span><span class="text-neutral-500 text-sm ml-2">- Passagem de controle</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Handoff é quando um agente decide que outro agente é mais adequado para continuar — ele "passa o bastão" com todo o contexto. É como uma transferência telefônica inteligente entre especialistas.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Handoffs permitem especialização: um agente de triagem encaminha para o especialista certo sem que o usuário precise re-explicar o problema — contexto é preservado automaticamente.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">handoffs=[agente_especialista] na definição · Transferência automática de contexto · Triage agent como entrada principal · Padrão: triage → billing / technical / general · Handoff como tool call especial</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🛡️</span>
+            <div><span class="font-medium">Guardrails nativos</span><span class="text-neutral-500 text-sm ml-2">- Validação de input e output</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Guardrails são validações que rodam em paralelo com o agente — verificando se o input do usuário é seguro e se o output do agente atende critérios de qualidade antes de ser retornado.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Guardrails nativos eliminam a necessidade de wrappers customizados de validação. São executados de forma paralela, sem adicionar latência ao fluxo principal.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">InputGuardrail e OutputGuardrail · @input_guardrail decorator · GuardrailFunctionOutput com tripwire · Execução paralela sem overhead · Integração com content policy da OpenAI</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔍</span>
+            <div><span class="font-medium">Tracing integrado</span><span class="text-neutral-500 text-sm ml-2">- Observabilidade sem configuração</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O SDK registra automaticamente cada execução — quais tools foram chamadas, quais handoffs ocorreram, quais guardrails dispararam. Sem configuração adicional, você tem um trace completo.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Debug de sistemas multi-agente sem tracing é adivinhar. Com tracing nativo, você sabe exatamente onde um workflow falhou e quais decisões o agente tomou.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Trace automático por default · Exportação para OpenTelemetry · Integração com LangSmith e Arize · span por tool call · RunResult.trace para acesso programático</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🐝</span>
+            <div><span class="font-medium">Swarm pattern</span><span class="text-neutral-500 text-sm ml-2">- Enxame de especialistas</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Swarm é um padrão onde múltiplos agentes especialistas coexistem e se ativam por handoff — um agente de triagem distribui o trabalho para o especialista mais adequado em cada momento.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Para sistemas de customer service, suporte técnico ou assistentes corporativos, o padrão Swarm é mais escalável que um agente monolítico tentando fazer tudo.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Triage agent como porta de entrada · N agentes especialistas · Handoffs bidirecionais · Contexto compartilhado via Context · Escalabilidade horizontal adicionando agentes</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🎯</span>
+            <div><span class="font-medium">Quando usar SDK vs. frameworks</span><span class="text-neutral-500 text-sm ml-2">- Decisão de arquitetura</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">SDK da OpenAI é ideal para projetos simples com OpenAI e handoffs diretos. LangGraph para controle fino de estado e ciclos complexos. A escolha depende de: complexidade, vendor lock-in e requisitos de controle.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Começar com o SDK e migrar para LangGraph quando necessário é um caminho válido. Entender os trade-offs evita super-engenharia prematura.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">SDK: simplicidade, OpenAI-first, handoffs nativos · LangGraph: multi-provider, ciclos complexos, estado detalhado · CrewAI: abstração de equipe, menos código · AutoGen: conversação, code gen</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-4')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-3-4.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 3.5 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold text-lg">3.5</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔌 MCP Avançado</h3>
+        <p class="text-neutral-400 text-sm">Crie servidores MCP completos, adicione autenticação, faça deploy em produção e explore o ecossistema de servidores prontos.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🏛️</span>
+            <div><span class="font-medium">Revisão da arquitetura MCP</span><span class="text-neutral-500 text-sm ml-2">- Client-server para agentes</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">MCP (Model Context Protocol) é um protocolo client-server onde o agente (cliente) descobre e chama ferramentas expostas por servidores externos via JSON-RPC sobre stdio ou HTTP.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">MCP desacopla ferramentas de frameworks — um servidor MCP funciona com LangGraph, CrewAI e qualquer cliente compatível. É o padrão de interoperabilidade do ecossistema.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">JSON-RPC como protocolo base · tools/list para descoberta · tools/call para execução · resources/ para dados · prompts/ para templates · Transports: stdio vs SSE</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🛠️</span>
+            <div><span class="font-medium">Criando servidor MCP completo</span><span class="text-neutral-500 text-sm ml-2">- FastMCP em Python</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">FastMCP é uma biblioteca Python que simplifica a criação de servidores MCP — você decora funções com @mcp.tool() e o servidor expõe automaticamente o tool/list e tool/call.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Criar seu próprio servidor MCP permite expor qualquer API interna da empresa para agentes — sem precisar alterar o código dos frameworks que os utilizam.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">FastMCP() como instância · @mcp.tool() decorator · Type hints geram schema JSON automaticamente · @mcp.resource() para dados · mcp.run() para iniciar · Pydantic para validação</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔒</span>
+            <div><span class="font-medium">Autenticação e segurança</span><span class="text-neutral-500 text-sm ml-2">- Bearer tokens e validação</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Servidores MCP em HTTP precisam autenticar clientes. Bearer token no header Authorization é o padrão mais simples. OAuth 2.0 para cenários enterprise com múltiplos usuários.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Um servidor MCP sem autenticação expõe suas ferramentas internas para qualquer cliente. Em produção, qualquer servidor acessível externamente precisa de autenticação.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Bearer token via Authorization header · Middleware de validação · Rate limiting por cliente · IP allowlist para servidores internos · Auditoria de chamadas · HTTPS obrigatório em produção</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔭</span>
+            <div><span class="font-medium">Descoberta dinâmica de tools</span><span class="text-neutral-500 text-sm ml-2">- Como o cliente acha as ferramentas</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O cliente MCP chama tools/list na inicialização para descobrir todas as ferramentas disponíveis — nome, descrição e schema de parâmetros. Depois chama tools/call para executar.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">A descoberta dinâmica permite que o agente se adapte a novos servidores sem reconfiguração. Você pode adicionar ferramentas no servidor e o agente as usa automaticamente.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">tools/list retorna lista de ToolDefinition · JSON Schema para parâmetros · Descrições claras guiam o LLM · Versionamento de tools · Cache de lista para performance</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🚀</span>
+            <div><span class="font-medium">MCP em produção</span><span class="text-neutral-500 text-sm ml-2">- Railway, Fly.io e Docker</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Deploy de um servidor MCP como serviço HTTP em plataformas cloud: Railway (zero config), Fly.io (mais controle) ou container Docker em qualquer cloud. O servidor fica acessível por URL.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Um servidor MCP local só funciona em desenvolvimento. Para agentes em produção atenderem usuários reais, o servidor precisa estar disponível 24/7 com alta disponibilidade.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Dockerfile para MCP server · Railway deploy em 5 min · Variáveis de ambiente para secrets · Health check endpoint · Logging estruturado · Restart automático em falhas</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🌐</span>
+            <div><span class="font-medium">Ecossistema de servidores prontos</span><span class="text-neutral-500 text-sm ml-2">- Plug and play</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Existe um ecossistema crescente de servidores MCP prontos: filesystem, GitHub, PostgreSQL, Brave Search, Slack, Notion e dezenas mais — instale e conecte em minutos.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Antes de construir, verifique se já existe. O ecossistema MCP cresce rapidamente — muitas integrações comuns já estão disponíveis como servidores prontos para uso.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">mcp.so como marketplace · Servidores oficiais Anthropic · Servidores da comunidade · Instalação via npx ou pip · Configuração no claude_desktop_config.json · Composição de múltiplos servidores</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-5')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-3-5.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 3.6 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold text-lg">3.6</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~40 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">⚖️ Comparativo de Frameworks</h3>
+        <p class="text-neutral-400 text-sm">Tabela de decisão completa: LangGraph vs. CrewAI vs. AutoGen vs. OpenAI SDK. Guia definitivo para escolher o framework certo.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">📐</span>
+            <div><span class="font-medium">Critérios de comparação</span><span class="text-neutral-500 text-sm ml-2">- O que realmente importa</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Os 6 critérios que definem a escolha: controle de fluxo (precisão vs. abstração), curva de aprendizado, suporte a ciclos/loops, observabilidade nativa, tamanho da comunidade e suporte enterprise.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem critérios claros, você escolhe framework por hype ou familiaridade. Critérios objetivos garantem que a escolha serve ao problema, não ao gosto pessoal.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Controle de fluxo · Curva de aprendizado · Suporte a loops · Observabilidade · Comunidade e maturidade · Suporte enterprise · Vendor lock-in</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🕸️</span>
+            <div><span class="font-medium">LangGraph vs. CrewAI</span><span class="text-neutral-500 text-sm ml-2">- Grafo vs. equipe</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">LangGraph oferece controle preciso do fluxo via grafo dirigido — ideal para workflows complexos com branches e estados. CrewAI oferece abstração de equipe — ideal para colaboração entre agentes especializados.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">São o par mais comparado. Entender a distinção fundamental (fluxo vs. equipe) evita usar a ferramenta certa no contexto errado.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">LangGraph: curva alta, controle total, loops nativos · CrewAI: curva baixa, abstração rica, menos controle de fluxo · LangGraph brilha em: produção crítica · CrewAI brilha em: prototipagem rápida</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">👥</span>
+            <div><span class="font-medium">CrewAI vs. AutoGen</span><span class="text-neutral-500 text-sm ml-2">- Equipe vs. conversa</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">CrewAI organiza agentes em equipes com papéis fixos e tasks definidas. AutoGen organiza agentes em conversas dinâmicas. A diferença é estrutura vs. emergência.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ambos usam múltiplos agentes, mas de formas radicalmente diferentes. Confundir os dois leva a código estranho que luta contra o design do framework.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">CrewAI: tasks definidas, output esperado claro, processo estruturado · AutoGen: conversa emergente, mais flexível, melhor para code gen · Escolha por: previsibilidade vs. flexibilidade</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🤖</span>
+            <div><span class="font-medium">AutoGen vs. OpenAI SDK</span><span class="text-neutral-500 text-sm ml-2">- Conversa vs. handoffs</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">AutoGen usa conversação como mecanismo de controle — agentes se comunicam por mensagens. OpenAI SDK usa handoffs — um agente transfere explicitamente controle para outro. São filosofias opostas de coordenação.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Para customer service e suporte, handoffs do SDK são mais previsíveis. Para pesquisa e code gen, a conversa do AutoGen é mais poderosa. Contexto define a escolha.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">AutoGen: multi-provider, código exec, pesquisa · SDK: OpenAI-first, handoffs diretos, guardrails nativos · AutoGen: mais setup · SDK: opinionado mas mais simples para casos simples</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">📊</span>
+            <div><span class="font-medium">Tabela de decisão completa</span><span class="text-neutral-500 text-sm ml-2">- Guia por cenário</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Tabela com cenários práticos e o framework recomendado: fluxo complexo com branches (LangGraph), time de agentes com papéis (CrewAI), pesquisa e code gen (AutoGen), projeto simples OpenAI (SDK).</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ter uma tabela de referência rápida elimina a paralisia de escolha. Em vez de comparar infinitamente, você consulta o guia e decide em minutos.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Por cenário de uso · Por requisito técnico · Por nível de experiência da equipe · Por budget de infra · Por necessidade de observabilidade · Por tempo de desenvolvimento disponível</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔄</span>
+            <div><span class="font-medium">Migração entre frameworks</span><span class="text-neutral-500 text-sm ml-2">- Quando e como mudar</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Estratégias para migrar de um framework para outro sem reescrever tudo: identificar o núcleo lógico do agente, isolar ferramentas como MCP servers, migrar incrementalmente por módulo.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">É comum começar com CrewAI e migrar para LangGraph quando o sistema cresce. Saber migrar sem big bang reescreve economiza semanas de risco de projeto.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Isolar ferramentas via MCP · Extrair lógica de negócio · Migrar nó a nó · Feature flags para rollout gradual · Testes A/B entre versões · Manter backwards compatibility durante transição</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-6')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-3-6.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 3.7 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold text-lg">3.7</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔗 LangGraph + CrewAI juntos</h3>
+        <p class="text-neutral-400 text-sm">O melhor dos dois mundos: LangGraph como orquestrador de fluxo e CrewAI como nó especializado de execução em equipe.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🤔</span>
+            <div><span class="font-medium">Por que combinar frameworks</span><span class="text-neutral-500 text-sm ml-2">- Forças complementares</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">LangGraph é excelente em controle de fluxo preciso (quando fazer o quê) mas verboso para colaboração multi-agente. CrewAI é excelente em abstração de equipe mas fraco em controle de fluxo. Combinados, cobrem ambos.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sistemas reais em produção frequentemente precisam de fluxo preciso em algumas etapas e trabalho em equipe em outras. Saber combinar é a habilidade de engenharia agentic madura.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">LangGraph como orquestrador macro · CrewAI como nó especializado · Separação de responsabilidades clara · Estado fluindo entre os dois · Checkpoint antes e depois da Crew</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🕸️</span>
+            <div><span class="font-medium">LangGraph como orquestrador externo</span><span class="text-neutral-500 text-sm ml-2">- O maestro do sistema</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">LangGraph define a estrutura macro do sistema — quais etapas existem, em que ordem, com quais condições de saída. CrewAI executa dentro de nós específicos sem LangGraph saber os detalhes internos da Crew.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Separar orquestração macro (LangGraph) de execução especializada (CrewAI) cria sistemas mais manuteníveis — você pode substituir a Crew sem alterar o grafo e vice-versa.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Nó do LangGraph instancia e executa uma Crew · Crew recebe input do state · Crew retorna resultado que volta ao state · LangGraph decide próximo passo baseado no resultado · Interface clara entre os dois</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">👥</span>
+            <div><span class="font-medium">CrewAI como nó do LangGraph</span><span class="text-neutral-500 text-sm ml-2">- Crew dentro do grafo</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Um nó do LangGraph que, ao ser executado, instancia uma Crew completa, chama crew.kickoff() com os inputs do state, e retorna o resultado de volta para o state do grafo.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">É o padrão de implementação concreto. Saber exatamente como encapsular a Crew em uma função de nó é a habilidade técnica central desta integração.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">def crew_node(state: State): crew = create_crew(state) · result = crew.kickoff() · return {"crew_result": result} · Crew criada fresh a cada execução ou reutilizada · Timeout no nó para limitar execução</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">📦</span>
+            <div><span class="font-medium">Passagem de estado entre frameworks</span><span class="text-neutral-500 text-sm ml-2">- Contexto fluindo sem perda</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O estado do LangGraph (TypedDict) é convertido para o formato de input da Crew, e o output da Crew é serializado de volta para o estado. A fronteira é o nó que faz essa tradução.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">A interface entre frameworks é onde bugs acontecem. Definir claramente o contrato de entrada/saída entre LangGraph e CrewAI previne problemas de tipo e dados perdidos.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Pydantic para validar o contrato de interface · Serialização explícita de tipos complexos · Logs na fronteira para debug · Teste unitário do nó de integração · Estado parcial vs. estado completo na Crew</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🔷</span>
+            <div><span class="font-medium">Padrões de integração</span><span class="text-neutral-500 text-sm ml-2">- Templates reutilizáveis</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Três padrões comprovados: (1) Nó único de Crew, (2) Múltiplas Crews em nós paralelos, (3) Crew que usa LangGraph sub-grafo internamente. Cada padrão resolve um tipo de problema diferente.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Padrões nomeados facilitam comunicação na equipe e evitam reinventar soluções. Um "Padrão Crew-no-Nó" é auto-explicativo para qualquer engenheiro que conhece o material.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Padrão 1: Nó único sequencial · Padrão 2: Crews paralelas em Send() API · Padrão 3: Crew com grafo interno · Escolha por complexidade e paralelismo · Documentação do padrão no código</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔍</span>
+            <div><span class="font-medium">Projeto: sistema de análise com ambos</span><span class="text-neutral-500 text-sm ml-2">- Due diligence automatizado</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Sistema de due diligence onde LangGraph orquestra as etapas (coleta de dados → análise → validação → relatório) e uma CrewAI executa a etapa de análise com time especializado (financeiro, jurídico, mercado).</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ver um projeto completo end-to-end com ambos os frameworks consolida todos os conceitos anteriores em um sistema coerente — do TypedDict inicial até o relatório final.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">4 nós no LangGraph (coleta, análise via Crew, validação, relatório) · Crew de 3 analistas · Checkpoint antes e depois · Streaming de progresso · Output final estruturado em Pydantic</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-7')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-3-7.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 3.8 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold text-lg">3.8</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~40 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">📊 Observabilidade</h3>
+        <p class="text-neutral-400 text-sm">LangSmith, Arize Phoenix e métricas que importam. Monitorar agentes em produção com alertas, dashboards e avaliação contínua.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">👁️</span>
+            <div><span class="font-medium">Por que observabilidade importa</span><span class="text-neutral-500 text-sm ml-2">- Além do print()</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Observabilidade para agentes vai além de logging — envolve traces (fluxo completo de execução), spans (duração de cada etapa), métricas (taxas de sucesso, custo, latência) e avaliação de qualidade das respostas.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem observabilidade, você está cego em produção. Não sabe qual nó está falhando, quanto custa por execução, nem se a qualidade do output degradou após uma mudança de prompt.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Traces vs. Logs vs. Métricas · Span como unidade de execução · LLM como-judge para qualidade · Cost tracking por run · Latência P50/P95/P99 · Alertas automáticos</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🔬</span>
+            <div><span class="font-medium">LangSmith avançado</span><span class="text-neutral-500 text-sm ml-2">- Rastreamento profissional</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">LangSmith é a plataforma de observabilidade da LangChain — captura automaticamente traces de execuções LangGraph, mostra inputs/outputs de cada nó, custo de tokens e permite filtrar runs com erro.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">LangSmith se integra com LangGraph em 3 linhas de configuração. É a ferramenta mais usada para debug e monitoramento de sistemas baseados em LangChain/LangGraph.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">LANGCHAIN_TRACING_V2=true · LANGCHAIN_API_KEY= · Trace automático sem código adicional · Filtros por status, model, data · Comparação de runs A/B · Datasets para regression testing</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔆</span>
+            <div><span class="font-medium">Arize Phoenix</span><span class="text-neutral-500 text-sm ml-2">- Observabilidade open-source</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Arize Phoenix é uma plataforma open-source de observabilidade para LLMs — roda localmente, captura traces via OpenTelemetry, visualiza embeddings e permite avaliar qualidade de respostas.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Para quem não pode usar SaaS por compliance ou custo, Phoenix oferece capacidades similares ao LangSmith self-hosted. É o padrão open-source do ecossistema de observabilidade para LLMs.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">pip install arize-phoenix · px.launch_app() para UI local · OpenInference como formato de trace · Instrumentação automática via openinference-instrumentation · Exportação para Arize cloud opcional</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">💰</span>
+            <div><span class="font-medium">Métricas de negócio vs. técnicas</span><span class="text-neutral-500 text-sm ml-2">- O que medir de verdade</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Métricas técnicas: latência, tokens, erros. Métricas de negócio: taxa de sucesso por objetivo de usuário, custo médio por execução bem-sucedida, NPS do sistema agentic, ROI vs. processo manual.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Stakeholders de negócio não se importam com latência P95. Eles querem saber se o sistema resolve o problema e quanto custa. Métricas de negócio traduzem desempenho técnico em valor.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Taxa de conclusão de objetivo · Custo por tarefa completada · Tempo médio de execução · Taxa de erro por tipo · Satisfação do usuário final · ROI vs. automação alternativa</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🚨</span>
+            <div><span class="font-medium">Alertas e dashboards</span><span class="text-neutral-500 text-sm ml-2">- Proatividade em produção</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Configurar alertas automáticos quando métricas ultrapassam thresholds: taxa de erro acima de 5%, custo por hora acima do budget, latência P95 acima de 30s. Dashboards para visão em tempo real.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Descobrir problemas pelo cliente é o pior cenário. Alertas proativos permitem que você detecte e corrija degradações antes que afetem usuários — diferença entre SLA cumprido e incidente.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Threshold por métrica com hysteresis · Notificação via Slack/PagerDuty · Dashboard por trilha de agentes · Anotações de deploy para correlação · Runbooks de resposta a alertas</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">⚖️</span>
+            <div><span class="font-medium">Avaliação contínua em produção</span><span class="text-neutral-500 text-sm ml-2">- LLM-as-judge automático</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-purple-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">LLM-as-judge: usar outro LLM para avaliar automaticamente a qualidade das respostas do agente em produção — pontuando relevância, completude, tom e corretude em cada execução.</p></div>
+              <div><span class="text-purple-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Avaliação manual de qualidade não escala. Com LLM-as-judge, você tem feedback automático sobre qualidade de cada resposta — detectando degradação antes que cause problemas reais.</p></div>
+              <div><span class="text-purple-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Evaluator LLM separado do agente principal · Rubrica de avaliação estruturada · Score 1-5 por dimensão · Amostragem aleatória em produção · Trending de qualidade ao longo do tempo · Gatilho de re-treino quando score cai</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-8')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-3-8.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- NAVEGACAO ENTRE TRILHAS -->
+    <div class="flex flex-col sm:flex-row gap-4 mt-12">
+      <a href="../trilha2/index.html" class="flex-1 text-center px-6 py-4 bg-dark-800 border border-dark-600 text-neutral-300 rounded-xl font-semibold hover:bg-dark-700 hover:border-blue-500/30 transition-all">
+        ← Trilha 2: Construção de Agentes
+      </a>
+      <a href="../trilha4/index.html" class="flex-1 text-center px-6 py-4 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-500 transition-all">
+        Trilha 4: Multi-Agentes →
+      </a>
+    </div>
+
+  </main>
+
+  <!-- MODAIS -->
+  <div id="modal-3-1" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <span class="text-purple-400 font-bold">3.1</span>
+          <span class="font-semibold">🕸️ LangGraph Profundo</span>
+        </div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-3-1.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-3-2" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <span class="text-purple-400 font-bold">3.2</span>
+          <span class="font-semibold">👥 CrewAI na Prática</span>
+        </div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-3-2.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-3-3" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <span class="text-purple-400 font-bold">3.3</span>
+          <span class="font-semibold">💬 AutoGen / AG2</span>
+        </div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-3-3.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-3-4" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <span class="text-purple-400 font-bold">3.4</span>
+          <span class="font-semibold">🤖 OpenAI Agents SDK</span>
+        </div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-3-4.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-3-5" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <span class="text-purple-400 font-bold">3.5</span>
+          <span class="font-semibold">🔌 MCP Avançado</span>
+        </div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-3-5.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-3-6" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <span class="text-purple-400 font-bold">3.6</span>
+          <span class="font-semibold">⚖️ Comparativo de Frameworks</span>
+        </div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-3-6.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-3-7" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <span class="text-purple-400 font-bold">3.7</span>
+          <span class="font-semibold">🔗 LangGraph + CrewAI juntos</span>
+        </div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-3-7.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-3-8" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <span class="text-purple-400 font-bold">3.8</span>
+          <span class="font-semibold">📊 Observabilidade</span>
+        </div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-3-8.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>Agentic Engineering Masterclass — Trilha 3: Frameworks e Ecossistema</p>
+      <p class="mt-1"><a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const moduleCard = button.closest('.bg-dark-800');
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) exp.classList.remove('active');
+      });
+      explanation.classList.toggle('active');
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(modal => {
+        modal.classList.add('hidden');
+        modal.classList.remove('active');
+      });
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

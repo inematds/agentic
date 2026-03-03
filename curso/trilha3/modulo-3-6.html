@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3.6 Comparativo de Frameworks | Trilha 3 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frameworks</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-purple-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-purple-400 transition-colors">Trilha 3 — Frameworks e Ecossistema</a>
+      <span>/</span>
+      <span class="text-purple-400">Módulo 3.6</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 3.6</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">⚖️ Comparativo de Frameworks</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Tabela de decisão completa: 6 critérios objetivos, comparativo head-to-head e guia por cenário. Depois deste módulo você saberá exatamente qual framework usar em cada situação — sem dúvidas.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">40</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Inter.</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Decisão</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">📐 Os 6 critérios que definem a escolha</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Escolher framework por hype ou popularidade é um erro caro. Aqui estão os <strong class="text-purple-400">6 critérios objetivos</strong> que determinam qual framework serve ao seu problema — independente de preferência pessoal ou tendência do momento.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">🕹️</span>
+            <h4 class="font-semibold text-purple-400">1. Controle de fluxo</h4>
+          </div>
+          <p class="text-sm text-neutral-400">Você precisa definir exatamente qual passo vem depois? Ou pode deixar emergir? LangGraph = máximo controle. AutoGen = fluxo emergente.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">📈</span>
+            <h4 class="font-semibold text-purple-400">2. Curva de aprendizado</h4>
+          </div>
+          <p class="text-sm text-neutral-400">Qual é o tempo da equipe para aprender? CrewAI = mais rápido. LangGraph = mais lento, mas mais poder no longo prazo.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">🔁</span>
+            <h4 class="font-semibold text-purple-400">3. Suporte a loops/ciclos</h4>
+          </div>
+          <p class="text-sm text-neutral-400">O sistema precisa de retry automático, reflexão iterativa ou espera por aprovação? LangGraph e AutoGen têm isso nativamente. CrewAI e SDK, menos.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">🔍</span>
+            <h4 class="font-semibold text-purple-400">4. Observabilidade</h4>
+          </div>
+          <p class="text-sm text-neutral-400">LangGraph integra com LangSmith nativo. SDK tem tracing próprio. CrewAI e AutoGen precisam de setup adicional. Em produção crítica, isso importa.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">👥</span>
+            <h4 class="font-semibold text-purple-400">5. Comunidade e maturidade</h4>
+          </div>
+          <p class="text-sm text-neutral-400">LangGraph e AutoGen têm as maiores comunidades. SDK da OpenAI tem suporte enterprise direto. CrewAI cresce rápido mas é mais novo.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">🏢</span>
+            <h4 class="font-semibold text-purple-400">6. Vendor lock-in</h4>
+          </div>
+          <p class="text-sm text-neutral-400">SDK da OpenAI = máximo lock-in. LangGraph = agnóstico de provider. CrewAI e AutoGen = suportam múltiplos LLMs. Compliance pode exigir multi-provider.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🕸️ LangGraph vs. CrewAI: grafo vs. equipe</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O par mais comparado no ecossistema. A diferença fundamental: LangGraph é <strong class="text-purple-400">sobre fluxo</strong> (quando e como cada passo executa), CrewAI é <strong class="text-purple-400">sobre colaboração</strong> (quem faz o quê dentro de uma equipe).
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+          <h4 class="font-bold text-purple-400 mb-4 text-lg">🕸️ LangGraph</h4>
+          <ul class="space-y-3 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Controle total do fluxo via grafo explícito</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Loops e ciclos nativos sem workarounds</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Checkpoints robustos para produção</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Human-in-the-loop com interrupt()</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Streaming granular por nó</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Curva de aprendizado mais íngreme</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Mais verboso para casos simples</span></li>
+          </ul>
+        </div>
+        <div class="bg-gradient-to-br from-blue-900/20 to-dark-800 rounded-xl border border-blue-500/30 p-6">
+          <h4 class="font-bold text-blue-400 mb-4 text-lg">👥 CrewAI</h4>
+          <ul class="space-y-3 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Abstração de equipe natural e intuitiva</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Prototipagem rápida em menos código</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Personas ricas com role/goal/backstory</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Output Pydantic nativo</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Delegação automática entre agentes</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Menos controle de fluxo preciso</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Loops complexos são difíceis de implementar</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3"><span class="mr-2">💡</span> Regra prática: complexidade define a escolha</h3>
+        <p class="text-neutral-300">Se você pode desenhar o fluxo como um diagrama de estados com branches claros → LangGraph. Se você pensa em "quem faz o quê" e os steps são mais lineares → CrewAI. Dúvida? Comece com CrewAI e migre para LangGraph quando sentir a fricção.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">👥 CrewAI vs. AutoGen: equipe vs. conversa</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Ambos trabalham com múltiplos agentes, mas de formas radicalmente diferentes. CrewAI é <strong class="text-purple-400">estruturado</strong> (tasks definidas, output esperado claro), AutoGen é <strong class="text-purple-400">emergente</strong> (a conversa define o que acontece).
+      </p>
+
+      <div class="space-y-4 mb-6">
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <h4 class="font-semibold text-white mb-3">Quando CrewAI vence</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Output final com formato conhecido (relatório, JSON)</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Tasks independentes que podem ser paralelas</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Processo previsível com etapas bem definidas</span></li>
+            </ul>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Equipe com especialistas claramente definidos</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Delegação automática de sub-tarefas</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>MVP e prototipagem rápida</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <h4 class="font-semibold text-white mb-3">Quando AutoGen vence</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Execução de código Python com feedback de erro</span></li>
+              <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Debate e síntese de perspectivas múltiplas</span></li>
+              <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Número de iterações desconhecido a priori</span></li>
+            </ul>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Pesquisa exploratória aberta</span></li>
+              <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Reflexão e autocrítica iterativa</span></li>
+              <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Análise de dados com código + interpretação</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">🤖 AutoGen vs. OpenAI SDK: conversa vs. handoffs</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        AutoGen usa <strong class="text-purple-400">conversação</strong> como mecanismo de controle — agentes se comunicam por mensagens e a coordenação emerge. OpenAI SDK usa <strong class="text-purple-400">handoffs explícitos</strong> — uma transferência intencional de controle de um agente para outro.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">🔀</span> Diferença fundamental de coordenação</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h5 class="text-sm font-semibold text-neutral-400 mb-3">AutoGen: conversa define o fluxo</h5>
+            <div class="space-y-2 text-sm">
+              <div class="bg-dark-800/60 rounded p-2 border-l-2 border-purple-500">
+                <span class="text-purple-400">Agente A:</span> <span class="text-neutral-300">"Pesquise sobre X"</span>
+              </div>
+              <div class="bg-dark-800/60 rounded p-2 border-l-2 border-blue-500">
+                <span class="text-blue-400">Agente B:</span> <span class="text-neutral-300">"Encontrei dados sobre X. Agente C, analise."</span>
+              </div>
+              <div class="bg-dark-800/60 rounded p-2 border-l-2 border-emerald-500">
+                <span class="text-emerald-400">Agente C:</span> <span class="text-neutral-300">"Análise completa: ..."</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h5 class="text-sm font-semibold text-neutral-400 mb-3">OpenAI SDK: handoff explícito</h5>
+            <div class="space-y-2 text-sm">
+              <div class="bg-dark-800/60 rounded p-2 border-l-2 border-purple-500">
+                <span class="text-purple-400">Triage:</span> <span class="text-neutral-300">"Este é um problema técnico."</span>
+              </div>
+              <div class="bg-dark-800/60 rounded p-2 border-l-2 border-yellow-500">
+                <span class="text-yellow-400">SDK:</span> <span class="text-neutral-300">→ Transfere para TechAgent com contexto</span>
+              </div>
+              <div class="bg-dark-800/60 rounded p-2 border-l-2 border-emerald-500">
+                <span class="text-emerald-400">TechAgent:</span> <span class="text-neutral-300">"Vou resolver este problema técnico..."</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <h4 class="font-semibold text-purple-400 mb-3">Use AutoGen para...</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li>• Multi-provider (Claude + GPT + Gemini juntos)</li>
+            <li>• Code generation com execução iterativa</li>
+            <li>• Pesquisa onde o número de passos é desconhecido</li>
+            <li>• Reflexão e debate entre perspectivas</li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl p-6 border border-dark-600">
+          <h4 class="font-semibold text-purple-400 mb-3">Use OpenAI SDK para...</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li>• Customer service com especialistas claros</li>
+            <li>• Stack 100% OpenAI sem vendor concern</li>
+            <li>• Guardrails de segurança sem setup adicional</li>
+            <li>• Tempo para MVP mínimo</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">📊 Tabela de decisão completa</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Referência definitiva: 8 critérios, 4 frameworks, pontuação objetiva. Use esta tabela como referência rápida quando precisar decidir.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6 overflow-x-auto">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">📊</span> Comparativo completo (★★★ = melhor)</h3>
+        <table class="w-full text-sm min-w-[600px]">
+          <thead>
+            <tr class="border-b border-dark-600">
+              <th class="text-left py-3 px-4 text-neutral-400 font-semibold">Critério</th>
+              <th class="text-center py-3 px-4 text-purple-400 font-semibold">🕸️ LangGraph</th>
+              <th class="text-center py-3 px-4 text-blue-400 font-semibold">👥 CrewAI</th>
+              <th class="text-center py-3 px-4 text-emerald-400 font-semibold">💬 AutoGen</th>
+              <th class="text-center py-3 px-4 text-yellow-400 font-semibold">🤖 OAI SDK</th>
+            </tr>
+          </thead>
+          <tbody class="text-neutral-300">
+            <tr class="border-b border-dark-700/50 hover:bg-dark-700/20">
+              <td class="py-3 px-4 font-medium">Controle de fluxo</td>
+              <td class="text-center py-3 px-4 text-purple-400">★★★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★★</td>
+            </tr>
+            <tr class="border-b border-dark-700/50 hover:bg-dark-700/20">
+              <td class="py-3 px-4 font-medium">Facilidade de início</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★</td>
+              <td class="text-center py-3 px-4 text-blue-400">★★★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★★</td>
+              <td class="text-center py-3 px-4 text-yellow-400">★★★</td>
+            </tr>
+            <tr class="border-b border-dark-700/50 hover:bg-dark-700/20">
+              <td class="py-3 px-4 font-medium">Loops e ciclos</td>
+              <td class="text-center py-3 px-4 text-purple-400">★★★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★</td>
+            </tr>
+            <tr class="border-b border-dark-700/50 hover:bg-dark-700/20">
+              <td class="py-3 px-4 font-medium">Code execution</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★</td>
+              <td class="text-center py-3 px-4 text-emerald-400">★★★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★</td>
+            </tr>
+            <tr class="border-b border-dark-700/50 hover:bg-dark-700/20">
+              <td class="py-3 px-4 font-medium">Observabilidade nativa</td>
+              <td class="text-center py-3 px-4 text-purple-400">★★★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★</td>
+              <td class="text-center py-3 px-4 text-yellow-400">★★★</td>
+            </tr>
+            <tr class="border-b border-dark-700/50 hover:bg-dark-700/20">
+              <td class="py-3 px-4 font-medium">Multi-provider LLM</td>
+              <td class="text-center py-3 px-4 text-purple-400">★★★</td>
+              <td class="text-center py-3 px-4 text-blue-400">★★★</td>
+              <td class="text-center py-3 px-4 text-emerald-400">★★★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★</td>
+            </tr>
+            <tr class="border-b border-dark-700/50 hover:bg-dark-700/20">
+              <td class="py-3 px-4 font-medium">Segurança (guardrails)</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★</td>
+              <td class="text-center py-3 px-4 text-yellow-400">★★★</td>
+            </tr>
+            <tr class="hover:bg-dark-700/20">
+              <td class="py-3 px-4 font-medium">Suporte enterprise</td>
+              <td class="text-center py-3 px-4 text-purple-400">★★★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★★</td>
+              <td class="text-center py-3 px-4 text-neutral-500">★★</td>
+              <td class="text-center py-3 px-4 text-yellow-400">★★★</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Guia por cenário -->
+      <div class="space-y-4 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400">Guia rápido por cenário</h3>
+        <div class="flex items-start space-x-4 bg-dark-800 rounded-xl p-4 border border-dark-600">
+          <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0"><span class="text-purple-400 text-sm font-bold">→</span></div>
+          <div><span class="text-neutral-300">Fluxo complexo com branches e loops </span><strong class="text-purple-400">→ LangGraph</strong></div>
+        </div>
+        <div class="flex items-start space-x-4 bg-dark-800 rounded-xl p-4 border border-dark-600">
+          <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0"><span class="text-blue-400 text-sm font-bold">→</span></div>
+          <div><span class="text-neutral-300">Time de agentes com papéis claros </span><strong class="text-blue-400">→ CrewAI</strong></div>
+        </div>
+        <div class="flex items-start space-x-4 bg-dark-800 rounded-xl p-4 border border-dark-600">
+          <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0"><span class="text-emerald-400 text-sm font-bold">→</span></div>
+          <div><span class="text-neutral-300">Pesquisa exploratória e code generation iterativo </span><strong class="text-emerald-400">→ AutoGen</strong></div>
+        </div>
+        <div class="flex items-start space-x-4 bg-dark-800 rounded-xl p-4 border border-dark-600">
+          <div class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center flex-shrink-0"><span class="text-yellow-400 text-sm font-bold">→</span></div>
+          <div><span class="text-neutral-300">Projeto novo simples com stack OpenAI </span><strong class="text-yellow-400">→ OpenAI SDK</strong></div>
+        </div>
+        <div class="flex items-start space-x-4 bg-dark-800 rounded-xl p-4 border border-dark-600">
+          <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0"><span class="text-purple-400 text-sm font-bold">→</span></div>
+          <div><span class="text-neutral-300">Sistema crítico em produção com auditoria </span><strong class="text-purple-400">→ LangGraph + LangSmith</strong></div>
+        </div>
+        <div class="flex items-start space-x-4 bg-dark-800 rounded-xl p-4 border border-dark-600">
+          <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0"><span class="text-blue-400 text-sm font-bold">→</span></div>
+          <div><span class="text-neutral-300">Customer service com especialistas por domínio </span><strong class="text-blue-400">→ OpenAI SDK (Swarm)</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🔄 Migração entre frameworks</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        É comum começar com CrewAI para prototipar e migrar para LangGraph quando o sistema cresce. A chave é <strong class="text-purple-400">isolamento das ferramentas via MCP</strong> — elas ficam iguais, só muda o orquestrador.
+      </p>
+
+      <div class="space-y-4 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center"><span class="text-purple-400 font-bold">1</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Isole ferramentas em servidores MCP</h4>
+            <p class="text-sm text-neutral-400">Antes de migrar, converta todas as tools em servidores MCP. Elas funcionarão com qualquer framework sem alteração.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center"><span class="text-purple-400 font-bold">2</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Migre incrementalmente por módulo</h4>
+            <p class="text-sm text-neutral-400">Não reescreva tudo de uma vez. Migre um agente/nó por vez, mantendo o resto funcionando. Use feature flags para controlar qual versão está ativa.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center"><span class="text-purple-400 font-bold">3</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Teste A/B entre versões</h4>
+            <p class="text-sm text-neutral-400">Compare métricas de qualidade, custo e latência entre a versão antiga e nova antes de migrar 100%. Observe pelo menos 2 semanas em produção.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3"><span class="mr-2">💡</span> Exercício prático</h3>
+        <p class="text-neutral-300 mb-3">Dado os seguintes 5 requisitos, qual framework você usaria?</p>
+        <ol class="space-y-2 text-sm text-neutral-300 list-decimal list-inside">
+          <li>Sistema de análise de contratos jurídicos com loop de revisão</li>
+          <li>Time de 4 agentes (extração, análise, verificação, relatório)</li>
+          <li>Cada agente pode precisar executar código Python para cálculos</li>
+          <li>Compliance exige auditoria completa de cada decisão</li>
+          <li>Precisa suportar Claude (Anthropic) e GPT-4 (OpenAI)</li>
+        </ol>
+        <p class="text-neutral-300 mt-3"><strong class="text-purple-400">Resposta:</strong> LangGraph (controle de fluxo + auditoria + multi-provider) com nós que usam AutoGen internamente para a etapa de code execution, e MCP servers para as ferramentas jurídicas.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎯</span> Resumo do Módulo</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">6 critérios objetivos</strong><span class="text-neutral-400"> — controle de fluxo, curva de aprendizado, loops, observabilidade, comunidade, vendor lock-in</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">LangGraph = fluxo, CrewAI = equipe</strong><span class="text-neutral-400"> — diferença fundamental que guia a escolha</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">AutoGen = code gen, SDK = handoffs simples</strong><span class="text-neutral-400"> — cada um com seu caso de uso ideal</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">MCP isola ferramentas</strong><span class="text-neutral-400"> — permite migração entre frameworks sem reescrever tools</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Migração incremental</strong><span class="text-neutral-400"> — módulo por módulo com feature flags e A/B testing</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-purple-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">3.7 — 🔗 LangGraph + CrewAI juntos: o melhor dos dois mundos em um sistema integrado</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-3-5.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← MCP Avançado</a>
+          <a href="modulo-3-7.html" class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors">Próximo: LangGraph + CrewAI →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>Agentic Engineering Masterclass — Módulo 3.6: Comparativo de Frameworks</p>
+      <p class="mt-1"><a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3.5 MCP Avançado | Trilha 3 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    pre { overflow-x: auto; }
+    code { font-family: 'Courier New', monospace; font-size: 0.85em; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Frameworks</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-purple-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-purple-400 transition-colors">Trilha 3 — Frameworks e Ecossistema</a>
+      <span>/</span>
+      <span class="text-purple-400">Módulo 3.5</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 3.5</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔌 MCP Avançado</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Crie servidores MCP completos com FastMCP, adicione autenticação Bearer, faça deploy em Railway e explore o ecossistema de 200+ servidores prontos. MCP é a camada de interoperabilidade do ecossistema agentic.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Inter.</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Projeto</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🏛️ Revisão da arquitetura MCP</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        MCP (Model Context Protocol) é um protocolo <strong class="text-purple-400">client-server</strong> padronizado para comunicação entre agentes de IA e fontes de ferramentas/dados. Um agente (cliente MCP) descobre ferramentas disponíveis em um servidor MCP e as chama via JSON-RPC.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">🌐</span> Fluxo completo MCP</h3>
+        <div class="space-y-3">
+          <div class="flex items-center space-x-4 bg-dark-800/50 rounded-lg p-4 border border-dark-600">
+            <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold flex-shrink-0">1</div>
+            <div><strong class="text-white">Conexão:</strong><span class="text-neutral-400 text-sm ml-2">Agente conecta ao servidor via stdio (local) ou HTTP+SSE (remoto)</span></div>
+          </div>
+          <div class="flex items-center space-x-4 bg-dark-800/50 rounded-lg p-4 border border-dark-600">
+            <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold flex-shrink-0">2</div>
+            <div><strong class="text-white">Descoberta:</strong><span class="text-neutral-400 text-sm ml-2">Agente chama tools/list — recebe lista de tools com nome, descrição e schema</span></div>
+          </div>
+          <div class="flex items-center space-x-4 bg-dark-800/50 rounded-lg p-4 border border-dark-600">
+            <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold flex-shrink-0">3</div>
+            <div><strong class="text-white">Seleção:</strong><span class="text-neutral-400 text-sm ml-2">LLM escolhe qual tool chamar com base nas descrições e no contexto</span></div>
+          </div>
+          <div class="flex items-center space-x-4 bg-dark-800/50 rounded-lg p-4 border border-dark-600">
+            <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold flex-shrink-0">4</div>
+            <div><strong class="text-white">Execução:</strong><span class="text-neutral-400 text-sm ml-2">Agente chama tools/call — servidor executa e retorna resultado</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3"><span class="mr-2">💡</span> Por que MCP é importante</h3>
+        <p class="text-neutral-300 mb-3">Sem MCP, cada framework tem sua própria forma de definir tools — LangChain, CrewAI, Llama Index são todos incompatíveis. Com MCP, um servidor de ferramentas funciona com qualquer cliente compatível: LangGraph, CrewAI, Claude Desktop, Cursor.</p>
+        <p class="text-neutral-300">MCP é o <strong class="text-blue-400">USB-C das ferramentas de IA</strong> — um padrão que conecta tudo.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🛠️ Criando servidor MCP completo com FastMCP</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        FastMCP é a biblioteca Python que torna criação de servidores MCP trivial. Você decora funções com <code class="text-purple-400 bg-purple-500/10 px-1 rounded">@mcp.tool()</code> e o servidor expõe automaticamente o tools/list e tools/call com schema gerado a partir dos type hints.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">🔨</span> Servidor MCP completo</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code><span class="text-neutral-500"># servidor.py</span>
+from fastmcp import FastMCP
+from pydantic import BaseModel
+from typing import Optional
+import httpx
+
+<span class="text-purple-400"># Inicializa o servidor</span>
+mcp = FastMCP(
+    name="empresa-tools",
+    description="Ferramentas internas da Empresa XYZ para agentes de IA"
+)
+
+<span class="text-purple-400"># Tool 1: busca de clientes</span>
+@mcp.tool()
+async def buscar_cliente(
+    customer_id: str,
+    include_history: bool = False
+) -> dict:
+    """
+    Busca informações de um cliente pelo ID.
+
+    Args:
+        customer_id: ID único do cliente (formato: CUS_xxxxx)
+        include_history: Se True, inclui histórico de compras
+
+    Returns:
+        Dict com nome, email, plano e histórico (opcional)
+    """
+    <span class="text-neutral-500"># Lógica real: consulta banco de dados</span>
+    cliente = await db.get_customer(customer_id)
+    result = {
+        "id": cliente.id,
+        "nome": cliente.nome,
+        "email": cliente.email,
+        "plano": cliente.plano,
+        "created_at": cliente.created_at.isoformat()
+    }
+    if include_history:
+        result["compras"] = await db.get_purchases(customer_id)
+    return result
+
+<span class="text-purple-400"># Tool 2: envio de email</span>
+@mcp.tool()
+async def enviar_email(
+    destinatario: str,
+    assunto: str,
+    corpo: str,
+    template: Optional[str] = None
+) -> dict:
+    """
+    Envia email para um destinatário usando templates corporativos.
+
+    Returns:
+        Dict com message_id e status de entrega
+    """
+    msg_id = await email_service.send(
+        to=destinatario,
+        subject=assunto,
+        body=corpo,
+        template=template
+    )
+    return {"message_id": msg_id, "status": "enviado"}
+
+<span class="text-purple-400"># Resource: acesso a dados estáticos</span>
+@mcp.resource("config://empresa/politicas")
+async def get_politicas() -> str:
+    """Retorna as políticas de atendimento da empresa em Markdown."""
+    return open("politicas.md").read()
+
+<span class="text-purple-400"># Inicia o servidor</span>
+if __name__ == "__main__":
+    mcp.run(transport="stdio")       <span class="text-neutral-500"># local</span>
+    <span class="text-neutral-500"># mcp.run(transport="sse", port=8080)  # HTTP</span></code></pre>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3"><span class="mr-2">💡</span> Docstrings geram as descrições do LLM</h3>
+        <p class="text-neutral-300">As docstrings das suas funções se tornam as descrições das tools que o LLM vê. Uma docstring clara e específica faz o LLM escolher a tool certa no momento certo. Trate as docstrings como prompt engineering para seu servidor MCP.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🔒 Autenticação e segurança em servidores MCP</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Servidores MCP acessíveis via HTTP precisam autenticar clientes. Bearer token no header Authorization é o padrão mais simples para uso interno. OAuth 2.0 para cenários com múltiplos usuários e escopos granulares.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">🔐</span> Autenticação Bearer com FastAPI</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code><span class="text-neutral-500"># servidor_seguro.py</span>
+from fastmcp import FastMCP
+from fastapi import FastAPI, HTTPException, Security
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+import os, hashlib, hmac
+
+app = FastAPI()
+security = HTTPBearer()
+mcp = FastMCP(name="empresa-tools-seguro")
+
+<span class="text-purple-400"># Tokens válidos (em produção: banco de dados)</span>
+VALID_TOKENS = {
+    os.environ["AGENTE_TOKEN_1"]: "agente-producao",
+    os.environ["AGENTE_TOKEN_2"]: "agente-staging",
+}
+
+def validar_token(credentials: HTTPAuthorizationCredentials) -> str:
+    """Valida o Bearer token e retorna o nome do cliente."""
+    token = credentials.credentials
+    cliente = VALID_TOKENS.get(token)
+    if not cliente:
+        raise HTTPException(status_code=401, detail="Token inválido")
+    return cliente
+
+<span class="text-purple-400"># Middleware de autenticação</span>
+@app.middleware("http")
+async def auth_middleware(request, call_next):
+    if request.url.path.startswith("/mcp"):
+        auth = request.headers.get("Authorization", "")
+        if not auth.startswith("Bearer "):
+            return JSONResponse({"error": "Unauthorized"}, status_code=401)
+        token = auth.removeprefix("Bearer ")
+        if token not in VALID_TOKENS:
+            return JSONResponse({"error": "Invalid token"}, status_code=401)
+        <span class="text-neutral-500"># Log de auditoria</span>
+        logger.info(f"Tool call from {VALID_TOKENS[token]}")
+    return await call_next(request)
+
+<span class="text-purple-400"># Rate limiting simples</span>
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+limiter = Limiter(key_func=get_remote_address)
+
+@app.get("/mcp/tools/list")
+@limiter.limit("60/minute")  <span class="text-neutral-500"># 60 chamadas por minuto</span>
+async def list_tools(request: Request):
+    return await mcp.handle_list_tools()
+
+<span class="text-neutral-500"># Cliente configurando autenticação</span>
+<span class="text-neutral-500"># No LangGraph/CrewAI, passe o header na configuração do servidor MCP:
+# MCPClient(url="https://...", headers={"Authorization": "Bearer TOKEN"})</span></code></pre>
+        </div>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3"><span class="mr-2">⚠️</span> Checklist de segurança para MCP em produção</h3>
+        <ul class="space-y-2 text-neutral-300 text-sm">
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Nunca use tokens hardcoded no código — use variáveis de ambiente</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Nunca exponha o servidor sem HTTPS em produção</span></li>
+          <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Audite todas as chamadas com timestamp, cliente e parâmetros</span></li>
+          <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Rate limit por cliente para prevenir abuso</span></li>
+          <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Valide e sanitize todos os inputs antes de executar</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">🔭 Descoberta dinâmica de ferramentas</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O protocolo MCP permite que agentes descubram ferramentas <strong class="text-purple-400">dinamicamente em runtime</strong> — sem precisar hardcodar as tools no código do agente. Adicione uma tool no servidor e todos os agentes a verão automaticamente na próxima conexão.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">🔍</span> Exemplo completo de descoberta</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code><span class="text-purple-400"># O que o servidor retorna em tools/list</span>
+{
+  "tools": [
+    {
+      "name": "buscar_cliente",
+      "description": "Busca informações de um cliente pelo ID...",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "customer_id": {"type": "string", "description": "ID único (CUS_xxxxx)"},
+          "include_history": {"type": "boolean", "default": false}
+        },
+        "required": ["customer_id"]
+      }
+    },
+    {
+      "name": "enviar_email",
+      "description": "Envia email para destinatário usando templates...",
+      "inputSchema": { ... }
+    }
+  ]
+}
+
+<span class="text-purple-400"># Como o LangGraph consome o servidor MCP</span>
+from langchain_mcp_adapters.client import MultiServerMCPClient
+
+async def criar_agente_com_mcp():
+    async with MultiServerMCPClient({
+        "empresa": {
+            "url": "https://mcp.empresa.com/sse",
+            "transport": "sse",
+            "headers": {"Authorization": f"Bearer {TOKEN}"}
+        },
+        "github": {
+            "command": "npx",
+            "args": ["-y", "@modelcontextprotocol/server-github"],
+            "transport": "stdio"
+        }
+    }) as client:
+        <span class="text-neutral-500"># Tools descobertas automaticamente dos dois servidores</span>
+        tools = client.get_tools()  <span class="text-neutral-500"># lista completa combinada</span>
+
+        llm = ChatOpenAI(model="gpt-4o")
+        agente = llm.bind_tools(tools)
+
+        <span class="text-neutral-500"># Agente pode usar tools dos dois servidores</span>
+        resposta = await agente.ainvoke("Liste os PRs abertos do repo X")</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🚀 MCP em produção: deploy e operação</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Um servidor MCP local só funciona em desenvolvimento. Para agentes em produção, o servidor precisa ser um serviço HTTP com alta disponibilidade. Railway, Fly.io e Docker são as opções mais usadas.
+      </p>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">🐳</span> Dockerfile + Railway deploy</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code><span class="text-neutral-500"># Dockerfile</span>
+FROM python:3.11-slim
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+<span class="text-neutral-500"># Health check endpoint</span>
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s \
+  CMD curl -f http://localhost:8080/health || exit 1
+
+EXPOSE 8080
+CMD ["python", "servidor.py", "--transport", "sse", "--port", "8080"]
+
+<span class="text-neutral-500">---</span>
+<span class="text-neutral-500"># requirements.txt</span>
+fastmcp>=0.9.0
+fastapi>=0.109.0
+uvicorn>=0.27.0
+pydantic>=2.0.0
+httpx>=0.26.0
+
+<span class="text-neutral-500">---</span>
+<span class="text-neutral-500"># servidor.py (versão HTTP para produção)</span>
+from fastmcp import FastMCP
+import uvicorn, os
+
+mcp = FastMCP(name="empresa-tools")
+
+<span class="text-purple-400"># Health check endpoint</span>
+@mcp.app.get("/health")
+async def health():
+    return {"status": "ok", "version": "1.0.0"}
+
+<span class="text-purple-400"># Suas tools aqui...</span>
+@mcp.tool()
+async def buscar_cliente(customer_id: str) -> dict:
+    """Busca cliente pelo ID."""
+    return await db.get_customer(customer_id)
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    uvicorn.run(mcp.app, host="0.0.0.0", port=port)
+
+<span class="text-neutral-500">---</span>
+<span class="text-neutral-500"># Deploy no Railway (após instalar Railway CLI)</span>
+<span class="text-neutral-500"># railway init</span>
+<span class="text-neutral-500"># railway up</span>
+<span class="text-neutral-500"># railway variables set AGENTE_TOKEN_1=... DATABASE_URL=...</span>
+<span class="text-neutral-500"># URL gerada: https://empresa-tools.railway.app</span></code></pre>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-dark-800 rounded-xl p-5 border border-dark-600">
+          <div class="text-2xl mb-2">🚄</div>
+          <h4 class="font-semibold text-purple-400 mb-2">Railway</h4>
+          <ul class="space-y-1 text-xs text-neutral-400">
+            <li>• Deploy em 5 minutos</li>
+            <li>• Auto-deploy via GitHub</li>
+            <li>• Free tier para teste</li>
+            <li>• HTTPS automático</li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl p-5 border border-dark-600">
+          <div class="text-2xl mb-2">✈️</div>
+          <h4 class="font-semibold text-purple-400 mb-2">Fly.io</h4>
+          <ul class="space-y-1 text-xs text-neutral-400">
+            <li>• Escala para zero</li>
+            <li>• Deploy global multi-região</li>
+            <li>• Volumes persistentes</li>
+            <li>• Mais controle de infra</li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl p-5 border border-dark-600">
+          <div class="text-2xl mb-2">🐳</div>
+          <h4 class="font-semibold text-purple-400 mb-2">Docker / K8s</h4>
+          <ul class="space-y-1 text-xs text-neutral-400">
+            <li>• Controle total</li>
+            <li>• Infra própria</li>
+            <li>• Compliance total</li>
+            <li>• Mais setup inicial</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🌐 Ecossistema de servidores prontos</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Existe um ecossistema crescente de mais de 200 servidores MCP prontos para uso. Antes de construir do zero, verifique se já existe. A maioria das integrações comuns já está disponível como servidor plug-and-play.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+          <h4 class="font-semibold text-purple-400 mb-4">Servidores Oficiais Anthropic</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-center space-x-2"><span class="text-purple-400">•</span><span><strong>filesystem</strong> — acesso ao sistema de arquivos local</span></li>
+            <li class="flex items-center space-x-2"><span class="text-purple-400">•</span><span><strong>github</strong> — repositórios, PRs, issues</span></li>
+            <li class="flex items-center space-x-2"><span class="text-purple-400">•</span><span><strong>postgres</strong> — consultas SQL seguras</span></li>
+            <li class="flex items-center space-x-2"><span class="text-purple-400">•</span><span><strong>brave-search</strong> — busca web com Brave API</span></li>
+            <li class="flex items-center space-x-2"><span class="text-purple-400">•</span><span><strong>slack</strong> — mensagens e canais</span></li>
+            <li class="flex items-center space-x-2"><span class="text-purple-400">•</span><span><strong>puppeteer</strong> — automação de browser</span></li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h4 class="font-semibold text-purple-400 mb-4">Servidores da Comunidade</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-center space-x-2"><span class="text-purple-400">•</span><span><strong>notion</strong> — workspace e databases</span></li>
+            <li class="flex items-center space-x-2"><span class="text-purple-400">•</span><span><strong>linear</strong> — project management</span></li>
+            <li class="flex items-center space-x-2"><span class="text-purple-400">•</span><span><strong>stripe</strong> — pagamentos e assinaturas</span></li>
+            <li class="flex items-center space-x-2"><span class="text-purple-400">•</span><span><strong>jira</strong> — tickets e sprints</span></li>
+            <li class="flex items-center space-x-2"><span class="text-purple-400">•</span><span><strong>aws-kb</strong> — AWS Knowledge Base</span></li>
+            <li class="flex items-center space-x-2"><span class="text-purple-400">•</span><span><strong>playwright</strong> — testes E2E automatizados</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4"><span class="mr-2">⚡</span> Usando servidores prontos em 2 minutos</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 border border-dark-600">
+          <pre class="text-sm text-neutral-300"><code><span class="text-neutral-500"># Instalação (npx não requer instalação permanente)</span>
+<span class="text-neutral-500"># npx -y @modelcontextprotocol/server-github</span>
+
+<span class="text-purple-400"># Configuração no claude_desktop_config.json</span>
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "ghp_..."
+      }
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres",
+               "postgresql://localhost/mydb"]
+    },
+    "empresa": {
+      "url": "https://mcp.empresa.com/sse",
+      "headers": {"Authorization": "Bearer ..."}
+    }
+  }
+}
+
+<span class="text-purple-400"># Descoberta em mcp.so (marketplace)</span>
+<span class="text-neutral-500"># → Visite mcp.so para explorar 200+ servidores</span>
+<span class="text-neutral-500"># → Filtre por categoria: databases, productivity, devtools</span>
+<span class="text-neutral-500"># → Cada servidor tem README com instalação e config</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎯</span> Resumo do Módulo</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">MCP = USB-C das ferramentas</strong><span class="text-neutral-400"> — um servidor funciona com qualquer cliente compatível</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">FastMCP</strong><span class="text-neutral-400"> — @mcp.tool() transforma funções Python em tools MCP automaticamente</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Bearer token</strong><span class="text-neutral-400"> — autenticação simples para servidores HTTP internos</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Deploy em Railway</strong><span class="text-neutral-400"> — Dockerfile + railway up = servidor MCP público em produção</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">200+ servidores prontos</strong><span class="text-neutral-400"> — GitHub, Postgres, Slack, Notion e muitos mais no mcp.so</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-purple-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">3.6 — ⚖️ Comparativo de Frameworks: tabela de decisão completa e guia definitivo de quando usar cada um</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-3-4.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← OpenAI Agents SDK</a>
+          <a href="modulo-3-6.html" class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors">Próximo: Comparativo →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>Agentic Engineering Masterclass — Módulo 3.5: MCP Avançado</p>
+      <p class="mt-1"><a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>
