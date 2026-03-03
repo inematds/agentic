@@ -1,0 +1,94 @@
+{
+  "_comment": "Configuração de MCP Servers para o Claude Code. Copie este arquivo para .claude/mcp-config.json e ajuste os caminhos e tokens. Inicie o Claude Code com: claude --mcp-config .claude/mcp-config.json",
+
+  "mcpServers": {
+
+    "filesystem": {
+      "_comment": "Permite ao Claude ler, criar, editar e listar arquivos no sistema local. Substitua '/caminho/do/seu/projeto' pelo caminho absoluto do diretório raiz do seu projeto. Você pode adicionar múltiplos caminhos para liberar acesso a mais diretórios.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/caminho/do/seu/projeto"
+      ]
+    },
+
+    "github": {
+      "_comment": "Integração com a API do GitHub. Permite ao Claude listar issues, criar PRs, ler arquivos de repositórios, e muito mais — sem precisar do gh CLI. Requer um Personal Access Token com permissões: repo, read:user, read:org. Gere em: https://github.com/settings/tokens",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+
+    "firebase": {
+      "_comment": "Integração com Firebase (Firestore, Authentication, Storage). Permite ao Claude consultar e escrever dados no Firestore, gerenciar usuários e acessar arquivos no Storage. Requer as credenciais de service account do Firebase. Gere em: Firebase Console > Configurações do Projeto > Contas de Serviço.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@gannonh/firebase-mcp"
+      ],
+      "env": {
+        "FIREBASE_SERVICE_ACCOUNT": "${FIREBASE_SERVICE_ACCOUNT_JSON}",
+        "FIREBASE_PROJECT_ID": "${FIREBASE_PROJECT_ID}",
+        "FIREBASE_STORAGE_BUCKET": "${FIREBASE_STORAGE_BUCKET}"
+      }
+    },
+
+    "postgres": {
+      "_comment": "Conexão direta com banco de dados PostgreSQL. Permite ao Claude executar queries SELECT, listar tabelas, descrever schemas e analisar dados — apenas leitura por segurança. Ideal para análise de dados, geração de relatórios e debugging. IMPORTANTE: Use uma role com permissões somente de leitura (READ ONLY) para evitar modificações acidentais.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "${DATABASE_URL}"
+      ]
+    },
+
+    "sqlite": {
+      "_comment": "Conexão com banco de dados SQLite local. Útil para projetos que usam SQLite como banco de dados (Django com SQLite, apps mobile, scripts de análise). Substitua o caminho pelo arquivo .db do seu projeto.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sqlite",
+        "--db-path",
+        "/caminho/do/seu/projeto/db.sqlite3"
+      ]
+    },
+
+    "brave-search": {
+      "_comment": "Busca na web via Brave Search API. Permite ao Claude pesquisar informações atualizadas na internet durante o desenvolvimento — útil para verificar documentação, encontrar soluções para erros e pesquisar bibliotecas. Requer uma API key gratuita do Brave Search: https://brave.com/search/api/",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      }
+    },
+
+    "puppeteer": {
+      "_comment": "Automação de browser via Puppeteer. Permite ao Claude abrir páginas web, preencher formulários, fazer screenshots e interagir com aplicações web. Útil para testes de UI automatizados, scraping e verificação de deploys. Requer que o Chrome/Chromium esteja instalado no sistema.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-puppeteer"
+      ]
+    },
+
+    "memory": {
+      "_comment": "Memória persistente entre sessões. Permite ao Claude salvar e recuperar informações importantes entre diferentes sessões de trabalho — como decisões de arquitetura, convenções acordadas com o time, ou contexto de tarefas em andamento. Os dados são armazenados localmente em um arquivo de grafo de conhecimento.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ]
+    }
+
+  }
+}

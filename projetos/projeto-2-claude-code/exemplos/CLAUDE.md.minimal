@@ -1,0 +1,56 @@
+# CLAUDE.md — [Nome do Projeto]
+
+Este arquivo configura o comportamento do Claude Code neste projeto.
+
+---
+
+## Contexto do Projeto
+
+[Descreva em 2-4 frases o que este projeto faz, para quem é, e qual problema resolve.]
+
+**Stack principal:**
+- [Linguagem e versão — ex: Python 3.11]
+- [Framework principal — ex: FastAPI 0.111]
+- [Banco de dados — ex: PostgreSQL 15]
+
+**Repositório:** `github.com/seu-usuario/seu-repositorio`
+
+---
+
+## Comandos de Desenvolvimento
+
+### Instalar dependências
+
+```bash
+[comando de instalação — ex: pip install -r requirements.txt]
+```
+
+### Rodar o projeto
+
+```bash
+[comando para iniciar — ex: uvicorn app.main:app --reload]
+```
+
+### Rodar os testes
+
+```bash
+[comando de teste — ex: pytest]
+[comando com cobertura — ex: pytest --cov=app]
+```
+
+### Build e lint
+
+```bash
+[comando de lint — ex: ruff check app/]
+[comando de build se aplicável]
+```
+
+---
+
+## Regras de Comportamento
+
+1. **Nunca commitar diretamente em `main`** — sempre criar uma branch antes de qualquer mudança.
+
+2. **Rodar os testes antes de commitar** — se os testes falharem, não commitar.
+
+3. **Nunca expor credenciais** — não incluir senhas, chaves de API ou tokens em nenhum arquivo commitado. Usar variáveis de ambiente.

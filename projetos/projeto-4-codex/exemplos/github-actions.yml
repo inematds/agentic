@@ -1,0 +1,200 @@
+name: AI Code Review com Codex CLI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    # Opcional: rodar apenas para PRs que alteram codigo-fonte
+    # paths:
+    #   - 'src/**'
+    #   - 'tests/**'
+
+# Evita execucoes paralelas no mesmo PR
+concurrency:
+  group: ai-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  ai-review:
+    name: Revisao de codigo com IA
+    runs-on: ubuntu-latest
+
+    # Permissoes necessarias para comentar no PR
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      # -----------------------------------------------------------------
+      # 1. Checkout do repositorio
+      # -----------------------------------------------------------------
+      - name: Checkout do codigo
+        uses: actions/checkout@v4
+        with:
+          # Buscar historico completo para que o Codex possa comparar branches
+          fetch-depth: 0
+
+      # -----------------------------------------------------------------
+      # 2. Configurar Node.js
+      # -----------------------------------------------------------------
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # -----------------------------------------------------------------
+      # 3. Instalar dependencias do projeto (se necessario para o review)
+      # -----------------------------------------------------------------
+      - name: Instalar dependencias do projeto
+        run: npm ci --prefer-offline
+        # Remova este step se o seu projeto nao precisar das dependencias
+        # para que o Codex consiga analisar o codigo
+
+      # -----------------------------------------------------------------
+      # 4. Instalar o Codex CLI
+      # -----------------------------------------------------------------
+      - name: Instalar Codex CLI
+        run: npm install -g @openai/codex
+
+      - name: Verificar instalacao do Codex
+        run: codex --version
+
+      # -----------------------------------------------------------------
+      # 5. Obter informacoes do PR para contextualizar o review
+      # -----------------------------------------------------------------
+      - name: Obter diff do PR
+        id: pr-diff
+        run: |
+          # Obter a lista de arquivos modificados
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | head -50)
+          echo "changed_files<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          # Contar linhas modificadas
+          LINES_CHANGED=$(git diff --stat origin/${{ github.base_ref }}...HEAD | tail -1)
+          echo "lines_changed=$LINES_CHANGED" >> $GITHUB_OUTPUT
+
+      # -----------------------------------------------------------------
+      # 6. Executar o review com Codex CLI
+      # -----------------------------------------------------------------
+      - name: Executar AI Review
+        id: codex-review
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          # Capturar o output do Codex para usar no comentario do PR
+          REVIEW_OUTPUT=$(codex \
+            --approval-mode suggest \
+            --quiet \
+            "Revise este pull request e forneça feedback construtivo em portugues.
+
+          Contexto:
+          - Branch base: ${{ github.base_ref }}
+          - Branch do PR: ${{ github.head_ref }}
+          - Arquivos modificados: ${{ steps.pr-diff.outputs.changed_files }}
+          - Titulo do PR: ${{ github.event.pull_request.title }}
+
+          Analise focando em:
+          1. Bugs e erros logicos que podem causar problemas em producao
+          2. Vulnerabilidades de seguranca (injecao, autenticacao, autorizacao)
+          3. Problemas de performance (queries N+1, loops desnecessarios, memory leaks)
+          4. Violacoes de boas praticas (DRY, SOLID, principios de clean code)
+          5. Cobertura de testes — o que deveria ter teste mas nao tem?
+          6. Oportunidades de melhoria que valem a pena mencionar
+
+          Formato da resposta:
+          - Use headers markdown para organizar
+          - Cite arquivos e numeros de linha especificos quando possivel
+          - Separe critico / aviso / sugestao
+          - Seja objetivo e construtivo
+          - Se o codigo estiver bom, diga isso tambem" 2>&1 || true)
+
+          # Salvar output em arquivo para o proximo step
+          echo "$REVIEW_OUTPUT" > /tmp/codex-review.md
+
+          # Exibir no log do workflow
+          echo "=== Resultado do Review ==="
+          echo "$REVIEW_OUTPUT"
+
+      # -----------------------------------------------------------------
+      # 7. Publicar o review como comentario no PR
+      # -----------------------------------------------------------------
+      - name: Publicar review no PR
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+
+            let reviewBody;
+            try {
+              reviewBody = fs.readFileSync('/tmp/codex-review.md', 'utf8');
+            } catch (err) {
+              reviewBody = 'Nao foi possivel carregar o resultado do review.';
+            }
+
+            const prNumber = context.issue.number;
+            const repo = context.repo;
+
+            // Montar o comentario com cabecalho informativo
+            const comment = `## Revisao de Codigo com IA (Codex CLI)
+
+            > Revisao automatica gerada pelo OpenAI Codex — [Workflow run #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+            ${reviewBody}
+
+            ---
+            *Esta revisao foi gerada automaticamente e pode conter imprecisoes. Sempre valide com revisao humana antes de fazer merge.*`;
+
+            // Verificar se ja existe um comentario do bot neste PR
+            const comments = await github.rest.issues.listComments({
+              ...repo,
+              issue_number: prNumber,
+            });
+
+            const existingComment = comments.data.find(
+              c => c.user.login === 'github-actions[bot]' &&
+                   c.body.includes('Revisao de Codigo com IA')
+            );
+
+            if (existingComment) {
+              // Atualizar comentario existente (nao criar duplicatas)
+              await github.rest.issues.updateComment({
+                ...repo,
+                comment_id: existingComment.id,
+                body: comment,
+              });
+              console.log(`Comentario de review atualizado: #${existingComment.id}`);
+            } else {
+              // Criar novo comentario
+              const result = await github.rest.issues.createComment({
+                ...repo,
+                issue_number: prNumber,
+                body: comment,
+              });
+              console.log(`Comentario de review criado: #${result.data.id}`);
+            }
+
+      # -----------------------------------------------------------------
+      # 8. (Opcional) Review adicional focado em seguranca
+      # -----------------------------------------------------------------
+      - name: Revisao de seguranca
+        if: contains(steps.pr-diff.outputs.changed_files, 'auth') || contains(steps.pr-diff.outputs.changed_files, 'middleware')
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          echo "Mudancas em arquivos sensiveis detectadas — executando review de seguranca adicional..."
+
+          codex \
+            --approval-mode suggest \
+            --quiet \
+            "Este PR contem mudancas em arquivos de autenticacao ou middleware.
+            Faca uma auditoria de seguranca focada em:
+            1. Validacao e sanitizacao de inputs
+            2. Controle de acesso e autorizacao
+            3. Exposicao de dados sensiveis em logs ou respostas
+            4. Vulnerabilidades conhecidas (OWASP Top 10)
+            5. Configuracoes inseguras
+
+            Seja direto: se encontrar algo critico, diga claramente." || true

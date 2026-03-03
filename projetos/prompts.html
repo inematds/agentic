@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerador de Prompts — INEMA.CLUB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: {
+              900: '#111827',
+              800: '#1f2937',
+              700: '#374151',
+              600: '#4b5563'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+
+    /* ── LIGHT MODE ─────────────────────────────────────────────── */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-200 { color: #1f2937; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    html:not(.dark) .from-dark-800 { --tw-gradient-from: #f9fafb; }
+    html:not(.dark) textarea { background-color: #f3f4f6; color: #1f2937; border-color: #d1d5db; }
+
+    /* ── DARK MODE BODY ─────────────────────────────────────────── */
+    .dark body {
+      background: linear-gradient(135deg, #0f172a 0%, #111827 50%, #0f172a 100%);
+    }
+
+    /* ── TEXTAREA ───────────────────────────────────────────────── */
+    textarea {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      resize: vertical;
+      background-color: #0d1117;
+      color: #e5e7eb;
+      border: 1px solid #374151;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    textarea:focus {
+      border-color: #6b7280;
+    }
+    html:not(.dark) textarea:focus {
+      border-color: #9ca3af;
+    }
+
+    /* ── SCROLLBAR ──────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #1f2937; }
+    ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+
+    /* ── COPY BUTTON FEEDBACK ───────────────────────────────────── */
+    .copy-btn {
+      transition: all 0.2s ease;
+    }
+    .copy-btn.copied {
+      background-color: #16a34a !important;
+      border-color: #16a34a !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-dark-900 text-neutral-300">
+
+  <!-- ══════════════════════════════════════════════════════════════
+       NAV
+  ══════════════════════════════════════════════════════════════════ -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur border-b border-dark-700">
+    <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+      <!-- Breadcrumb -->
+      <div class="flex items-center gap-2 text-sm">
+        <a href="index.html" class="text-neutral-400 hover:text-neutral-200 transition-colors">Projetos Práticos</a>
+        <span class="text-dark-600">›</span>
+        <span class="text-yellow-400 font-semibold">Gerador de Prompts</span>
+      </div>
+
+      <!-- Right side -->
+      <div class="flex items-center gap-3">
+        <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 font-bold text-sm transition-colors">
+          INEMA.CLUB
+        </a>
+        <!-- Theme toggle -->
+        <button
+          id="themeToggle"
+          onclick="toggleTheme()"
+          class="w-8 h-8 rounded-lg bg-dark-700 border border-dark-600 flex items-center justify-center text-neutral-400 hover:text-neutral-200 hover:bg-dark-600 transition-all"
+          title="Alternar tema"
+        >
+          <span id="themeIcon" class="text-sm">☀️</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════════════════════════ -->
+  <header class="max-w-5xl mx-auto px-4 pt-10 pb-8">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="px-2.5 py-1 bg-yellow-400/10 border border-yellow-400/30 text-yellow-400 text-xs font-bold rounded-full uppercase tracking-wide">
+        Ferramenta Gratuita
+      </span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-neutral-100 mb-3 leading-tight">
+      Gere o conteúdo do<br class="hidden sm:block" />
+      <span class="text-yellow-400">seu projeto com IA</span>
+    </h1>
+    <p class="text-base text-neutral-400 max-w-2xl leading-relaxed mb-5">
+      Prompts prontos para usar com <strong class="text-neutral-300">ChatGPT</strong>, <strong class="text-neutral-300">Claude</strong>, <strong class="text-neutral-300">Gemini</strong> ou qualquer IA.
+      Copie o prompt, preencha as informações do seu projeto e gere o arquivo configurado — sem precisar escrever do zero.
+    </p>
+    <!-- Compat chips -->
+    <div class="flex flex-wrap gap-2">
+      <span class="px-3 py-1.5 bg-dark-800 border border-dark-700 rounded-full text-xs text-neutral-400">✓ ChatGPT</span>
+      <span class="px-3 py-1.5 bg-dark-800 border border-dark-700 rounded-full text-xs text-neutral-400">✓ Claude</span>
+      <span class="px-3 py-1.5 bg-dark-800 border border-dark-700 rounded-full text-xs text-neutral-400">✓ Gemini</span>
+      <span class="px-3 py-1.5 bg-dark-800 border border-dark-700 rounded-full text-xs text-neutral-400">✓ Copilot</span>
+      <span class="px-3 py-1.5 bg-dark-800 border border-dark-700 rounded-full text-xs text-neutral-400">✓ Qualquer LLM</span>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       COMO USAR
+  ══════════════════════════════════════════════════════════════════ -->
+  <section class="max-w-5xl mx-auto px-4 mb-10">
+    <div class="bg-dark-800 border border-dark-700 rounded-xl p-5">
+      <h2 class="text-sm font-bold text-neutral-100 mb-3">Como usar estes prompts</h2>
+      <ol class="grid sm:grid-cols-3 gap-4">
+        <li class="flex items-start gap-3">
+          <span class="w-6 h-6 rounded-full bg-yellow-400/20 text-yellow-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+          <div>
+            <p class="text-xs font-semibold text-neutral-200">Escolha o tipo de arquivo</p>
+            <p class="text-xs text-neutral-500 mt-0.5">Selecione qual arquivo você quer gerar: CLAUDE.md, AGENTS.md, etc.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="w-6 h-6 rounded-full bg-yellow-400/20 text-yellow-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+          <div>
+            <p class="text-xs font-semibold text-neutral-200">Copie e preencha o prompt</p>
+            <p class="text-xs text-neutral-500 mt-0.5">Clique em "Copiar Prompt", cole em qualquer IA e preencha os campos entre colchetes.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="w-6 h-6 rounded-full bg-yellow-400/20 text-yellow-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+          <div>
+            <p class="text-xs font-semibold text-neutral-200">Use o arquivo gerado</p>
+            <p class="text-xs text-neutral-500 mt-0.5">Salve o resultado no seu projeto e comece a usar a IA com contexto completo.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       SEÇÃO 1: CLAUDE.md
+  ══════════════════════════════════════════════════════════════════ -->
+  <section class="max-w-5xl mx-auto px-4 mb-8">
+    <div class="bg-gradient-to-br from-sky-900/20 to-dark-800 border border-sky-500/30 rounded-2xl overflow-hidden">
+      <!-- Header do card -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-6 border-b border-dark-700">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center flex-shrink-0">
+            <span class="text-lg">📝</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-0.5">
+              <h2 class="text-base font-bold text-neutral-100">Gerar CLAUDE.md</h2>
+              <span class="px-2 py-0.5 bg-sky-500/20 text-sky-400 text-xs font-semibold rounded-full">Claude Code</span>
+            </div>
+            <p class="text-xs text-neutral-400">O arquivo de contexto principal para o Claude Code entender seu projeto</p>
+          </div>
+        </div>
+        <button
+          onclick="copyPrompt('prompt-claude-md', this)"
+          class="copy-btn flex items-center gap-2 px-4 py-2 bg-sky-600 hover:bg-sky-500 border border-sky-500 text-white text-xs font-bold rounded-xl transition-colors whitespace-nowrap"
+        >
+          <span class="copy-icon">📋</span>
+          <span class="copy-text">Copiar Prompt</span>
+        </button>
+      </div>
+      <!-- Prompt -->
+      <div class="p-6">
+        <p class="text-xs text-neutral-500 mb-3">Cole este prompt em qualquer IA e preencha os campos entre colchetes:</p>
+        <textarea id="prompt-claude-md" rows="28" readonly>Você é um especialista em Agentic Engineering e configuração de ferramentas de IA para desenvolvimento de software. Vou te dar informações sobre meu projeto e você deve gerar um CLAUDE.md profissional e completo para uso com o Claude Code.
+
+INFORMAÇÕES DO MEU PROJETO:
+- Nome do projeto: [PREENCHA — ex: task-api, ecommerce-frontend, data-pipeline]
+- Linguagem principal: [Python / JavaScript / TypeScript / Go / Rust / outro]
+- Frameworks: [liste os frameworks usados — ex: FastAPI, React, Django, Next.js]
+- Banco de dados: [PostgreSQL / MongoDB / SQLite / MySQL / Redis / nenhum]
+- O que o projeto faz: [descreva em 2-3 frases claras e objetivas]
+- Fase atual: [desenvolvimento inicial / MVP / produção / refatoração]
+- Repositório: [URL do repositório ou "privado"]
+- Branch principal: [main / master / outro]
+
+GERE UM CLAUDE.md COMPLETO COM ESTAS SEÇÕES:
+
+1. **Contexto do Projeto**
+   - O que é o projeto, qual problema resolve
+   - Stack completa com versões
+   - Fase atual e próximos objetivos
+
+2. **Comandos de Desenvolvimento**
+   - Instalação completa (clone, venv/nvm, dependências)
+   - Rodar o projeto localmente
+   - Rodar testes
+   - Build de produção
+   - Outros comandos úteis do dia a dia
+
+3. **Convenções de Código**
+   - Nomenclatura (variáveis, funções, classes, arquivos)
+   - Padrão de imports
+   - Tratamento de erros
+   - Estilo de comentários e docstrings
+
+4. **Regras de Comportamento do Claude Code** (5 regras essenciais)
+   - Git workflow (nunca commitar direto na main, mensagens de commit, etc.)
+   - O que NUNCA fazer no projeto
+   - Como criar branches
+   - Como tratar variáveis de ambiente e segredos
+   - O que fazer antes de modificar arquivos
+
+5. **Arquitetura do Projeto**
+   - Estrutura de pastas comentada (use árvore de diretórios)
+   - Descrição dos arquivos e módulos principais
+
+6. **Variáveis de Ambiente**
+   - Todas as variáveis necessárias com descrições
+   - Indicar quais são obrigatórias vs opcionais
+
+7. **Endpoints ou Funções Principais** (se aplicável)
+   - Lista de endpoints da API, funções principais, ou comandos CLI
+
+Use o formato markdown com headers ##, blocos de código ```bash, e seja específico e direto. O arquivo deve ter entre 150 e 300 linhas. Gere apenas o conteúdo do CLAUDE.md, sem explicações adicionais.</textarea>
+        <p class="mt-3 text-xs text-neutral-500">
+          Compatível com: ChatGPT, Claude, Gemini, Copilot e qualquer LLM. •
+          <a href="projeto-2-claude-code/index.html" class="text-sky-400 hover:text-sky-300">Ver Projeto 2 — Claude Code</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       SEÇÃO 2: AGENTS.md
+  ══════════════════════════════════════════════════════════════════ -->
+  <section class="max-w-5xl mx-auto px-4 mb-8">
+    <div class="bg-gradient-to-br from-indigo-900/20 to-dark-800 border border-indigo-500/30 rounded-2xl overflow-hidden">
+      <!-- Header do card -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-6 border-b border-dark-700">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center flex-shrink-0">
+            <span class="text-lg">🤖</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-0.5">
+              <h2 class="text-base font-bold text-neutral-100">Gerar AGENTS.md</h2>
+              <span class="px-2 py-0.5 bg-indigo-500/20 text-indigo-400 text-xs font-semibold rounded-full">Codex CLI</span>
+            </div>
+            <p class="text-xs text-neutral-400">Arquivo de contexto para o OpenAI Codex CLI navegar seu projeto com autonomia</p>
+          </div>
+        </div>
+        <button
+          onclick="copyPrompt('prompt-agents-md', this)"
+          class="copy-btn flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 border border-indigo-500 text-white text-xs font-bold rounded-xl transition-colors whitespace-nowrap"
+        >
+          <span class="copy-icon">📋</span>
+          <span class="copy-text">Copiar Prompt</span>
+        </button>
+      </div>
+      <!-- Prompt -->
+      <div class="p-6">
+        <p class="text-xs text-neutral-500 mb-3">Cole este prompt em qualquer IA e preencha os campos entre colchetes:</p>
+        <textarea id="prompt-agents-md" rows="26" readonly>Você é um especialista em Agentic Engineering com foco em OpenAI Codex CLI. Vou te dar informações sobre meu projeto e você deve gerar um AGENTS.md profissional para uso com o Codex CLI.
+
+INFORMAÇÕES DO MEU PROJETO:
+- Nome do projeto: [PREENCHA]
+- Linguagem principal: [Python / JavaScript / TypeScript / Go / outro]
+- Frameworks: [liste os frameworks — ex: Express, FastAPI, Rails, Spring]
+- Banco de dados: [PostgreSQL / MongoDB / SQLite / nenhum]
+- O que o projeto faz: [descreva em 2-3 frases]
+- Fase atual: [desenvolvimento / MVP / produção]
+- Modelo OpenAI preferido: [gpt-4o / gpt-4o-mini / o1 / o1-mini]
+
+GERE UM AGENTS.md COM:
+
+1. **Visão Geral do Projeto**
+   - Descrição clara e objetiva do projeto
+   - Stack técnica completa
+   - Objetivo principal do agente neste repositório
+
+2. **Comandos Essenciais**
+   - Instalar dependências
+   - Rodar o projeto
+   - Rodar testes (com um único comando)
+   - Lint e formatação
+   - Build
+
+3. **Estrutura do Repositório**
+   - Árvore de diretórios comentada
+   - Onde ficam os arquivos mais importantes
+   - O que cada pasta contém
+
+4. **Convenções do Projeto**
+   - Padrão de nomenclatura de variáveis, funções e arquivos
+   - Padrão de commits (formato das mensagens)
+   - Como organizar imports
+   - Padrão de tratamento de erros
+
+5. **Instruções de Comportamento para o Codex**
+   - SEMPRE: o que o agente deve fazer em toda tarefa
+   - NUNCA: o que o agente jamais deve fazer
+   - Antes de editar: verificações obrigatórias
+   - Ao criar arquivos: convenções a seguir
+   - Ao commitar: regras de git workflow
+
+6. **Variáveis de Ambiente**
+   - Lista completa com descrições
+   - Como configurar localmente
+
+Use formato markdown limpo. Seja direto e específico. O arquivo deve ter entre 100 e 200 linhas. Gere apenas o conteúdo do AGENTS.md, sem explicações adicionais.</textarea>
+        <p class="mt-3 text-xs text-neutral-500">
+          Compatível com: ChatGPT, Claude, Gemini, Copilot e qualquer LLM. •
+          <a href="projeto-4-codex/index.html" class="text-indigo-400 hover:text-indigo-300">Ver Projeto 4 — Codex CLI</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       SEÇÃO 3: CONTEXT.md
+  ══════════════════════════════════════════════════════════════════ -->
+  <section class="max-w-5xl mx-auto px-4 mb-8">
+    <div class="bg-gradient-to-br from-violet-900/20 to-dark-800 border border-violet-500/30 rounded-2xl overflow-hidden">
+      <!-- Header do card -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-6 border-b border-dark-700">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center flex-shrink-0">
+            <span class="text-lg">🌌</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-0.5">
+              <h2 class="text-base font-bold text-neutral-100">Gerar CONTEXT.md</h2>
+              <span class="px-2 py-0.5 bg-violet-500/20 text-violet-400 text-xs font-semibold rounded-full">Antigravity</span>
+            </div>
+            <p class="text-xs text-neutral-400">Arquivo de contexto para o Antigravity (Gemini + MCP) entender seu projeto</p>
+          </div>
+        </div>
+        <button
+          onclick="copyPrompt('prompt-context-md', this)"
+          class="copy-btn flex items-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-500 border border-violet-500 text-white text-xs font-bold rounded-xl transition-colors whitespace-nowrap"
+        >
+          <span class="copy-icon">📋</span>
+          <span class="copy-text">Copiar Prompt</span>
+        </button>
+      </div>
+      <!-- Prompt -->
+      <div class="p-6">
+        <p class="text-xs text-neutral-500 mb-3">Cole este prompt em qualquer IA e preencha os campos entre colchetes:</p>
+        <textarea id="prompt-context-md" rows="28" readonly>Você é um especialista em Agentic Engineering com foco em Antigravity e Google Gemini. Vou te dar informações sobre meu projeto e você deve gerar um CONTEXT.md para uso com o Antigravity — um ambiente de desenvolvimento agentico baseado em Gemini e servidores MCP.
+
+INFORMAÇÕES DO MEU PROJETO:
+- Nome do projeto: [PREENCHA]
+- Linguagem principal: [Python / JavaScript / TypeScript / outro]
+- Frameworks: [liste os frameworks usados]
+- Banco de dados: [PostgreSQL / MongoDB / Firestore / BigQuery / nenhum]
+- Serviços Google Cloud usados: [Cloud Run / GCS / Pub/Sub / BigQuery / nenhum / não sei]
+- O que o projeto faz: [descreva em 2-3 frases]
+- Workflows mais comuns: [ex: "gerar relatórios", "processar uploads", "sincronizar dados"]
+- Integrações externas: [ex: GitHub, Slack, Stripe, nenhuma]
+
+GERE UM CONTEXT.md COM:
+
+1. **Visão Geral do Projeto**
+   - O que é, qual problema resolve, para quem é
+   - Stack completa
+   - Fase e status atual
+
+2. **Comandos do Dia a Dia**
+   - Setup inicial
+   - Rodar localmente
+   - Testes
+   - Deploy (se aplicável)
+
+3. **Arquitetura e Estrutura**
+   - Diagrama textual da arquitetura (use ASCII ou markdown)
+   - Árvore de pastas comentada
+   - Fluxo principal de dados
+
+4. **Workflows Frequentes**
+   - Descreva os 3-5 workflows mais comuns em passos numerados
+   - Inclua os arquivos relevantes para cada workflow
+
+5. **Integrações e APIs Externas**
+   - Cada integração com: propósito, credenciais necessárias, como testar
+
+6. **Regras de Comportamento no Antigravity**
+   - O que o agente deve priorizar
+   - Padrões de código a seguir
+   - O que nunca alterar sem confirmação
+   - Como gerenciar arquivos sensíveis
+
+7. **Variáveis de Ambiente e Segredos**
+   - Lista completa com descrições e valores de exemplo
+
+8. **Próximas Tarefas e Backlog**
+   - 3-5 itens do backlog prioritário para o agente ter contexto do que está por vir
+
+Use formato markdown com headers ##. Seja específico e orientado a contexto. O arquivo deve ter entre 120 e 250 linhas. Gere apenas o conteúdo do CONTEXT.md.</textarea>
+        <p class="mt-3 text-xs text-neutral-500">
+          Compatível com: ChatGPT, Claude, Gemini, Copilot e qualquer LLM. •
+          <a href="projeto-3-antigravity/index.html" class="text-violet-400 hover:text-violet-300">Ver Projeto 3 — Antigravity</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       SEÇÃO 4: agent.py personalizado
+  ══════════════════════════════════════════════════════════════════ -->
+  <section class="max-w-5xl mx-auto px-4 mb-8">
+    <div class="bg-gradient-to-br from-orange-900/20 to-dark-800 border border-orange-500/30 rounded-2xl overflow-hidden">
+      <!-- Header do card -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-6 border-b border-dark-700">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center flex-shrink-0">
+            <span class="text-lg">🐍</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-0.5">
+              <h2 class="text-base font-bold text-neutral-100">Gerar agent.py personalizado</h2>
+              <span class="px-2 py-0.5 bg-orange-500/20 text-orange-400 text-xs font-semibold rounded-full">Python + Anthropic</span>
+            </div>
+            <p class="text-xs text-neutral-400">Crie um agente Python customizado com ferramentas específicas para seu caso de uso</p>
+          </div>
+        </div>
+        <button
+          onclick="copyPrompt('prompt-agent-py', this)"
+          class="copy-btn flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-500 border border-orange-500 text-white text-xs font-bold rounded-xl transition-colors whitespace-nowrap"
+        >
+          <span class="copy-icon">📋</span>
+          <span class="copy-text">Copiar Prompt</span>
+        </button>
+      </div>
+      <!-- Prompt -->
+      <div class="p-6">
+        <p class="text-xs text-neutral-500 mb-3">Cole este prompt em qualquer IA e preencha os campos entre colchetes:</p>
+        <textarea id="prompt-agent-py" rows="32" readonly>Você é um especialista em Agentic Engineering com Python. Vou te dar especificações e você deve gerar um agent.py funcional e completo usando o SDK da Anthropic.
+
+ESPECIFICAÇÕES DO MEU AGENTE:
+- Objetivo principal: [descreva em 1-2 frases o que o agente deve fazer]
+- Nome do agente: [ex: file-organizer, code-reviewer, data-processor]
+- Modelo de IA: [claude-opus-4-5 / claude-sonnet-4-5 / claude-haiku-3-5]
+- Ferramentas necessárias:
+  [ ] Leitura e escrita de arquivos
+  [ ] Execução de comandos shell
+  [ ] Busca na internet / web scraping
+  [ ] Acesso a banco de dados
+  [ ] Chamadas a APIs externas: [liste quais]
+  [ ] Processamento de imagens
+  [ ] Geração de relatórios/PDFs
+  [ ] Outra: [descreva]
+- Comportamentos específicos: [ex: "sempre perguntar confirmação antes de deletar", "salvar log de cada ação"]
+- Formato de entrada: [linha de comando / arquivo de configuração / interativo]
+- Formato de saída: [terminal / arquivo / JSON / outro]
+
+GERE UM agent.py COM:
+
+1. **Imports e configuração**
+   - Todas as dependências necessárias
+   - Carregamento de variáveis de ambiente com python-dotenv
+   - Configuração do cliente Anthropic
+
+2. **Definição de ferramentas (tools)**
+   - Cada ferramenta como função Python com docstring clara
+   - Schema JSON correto para cada tool (name, description, input_schema)
+   - Tratamento de erros em cada ferramenta
+
+3. **Loop do agente (agentic loop)**
+   - Função principal `run_agent(user_message: str) -> str`
+   - Loop completo: enviar mensagem → processar tool_use → retornar resultado
+   - Limite de iterações para evitar loop infinito (max_iterations=10)
+   - Log de cada ação executada
+
+4. **Interface com o usuário**
+   - `if __name__ == "__main__"`: interface de linha de comando
+   - Aceitar input do usuário em loop contínuo
+   - Comando "sair" para encerrar
+   - Exibir resultado formatado
+
+5. **requirements.txt correspondente**
+   - Liste todas as dependências com versões
+
+6. **.env.example correspondente**
+   - Todas as variáveis necessárias com descrições
+
+O código deve ser funcional, bem comentado em português, com tratamento de erros robusto. Use apenas a biblioteca `anthropic` oficial. Gere o agent.py completo e depois o requirements.txt e .env.example.</textarea>
+        <p class="mt-3 text-xs text-neutral-500">
+          Compatível com: ChatGPT, Claude, Gemini, Copilot e qualquer LLM. •
+          <a href="projeto-1-agente-zero/index.html" class="text-orange-400 hover:text-orange-300">Ver Projeto 1 — Agente do Zero</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       SEÇÃO 5: ROTEIRO.md personalizado
+  ══════════════════════════════════════════════════════════════════ -->
+  <section class="max-w-5xl mx-auto px-4 mb-8">
+    <div class="bg-gradient-to-br from-yellow-900/20 to-dark-800 border border-yellow-500/30 rounded-2xl overflow-hidden">
+      <!-- Header do card -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-6 border-b border-dark-700">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center flex-shrink-0">
+            <span class="text-lg">🗺️</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-0.5">
+              <h2 class="text-base font-bold text-neutral-100">Gerar ROTEIRO.md personalizado</h2>
+              <span class="px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-xs font-semibold rounded-full">Estudos</span>
+            </div>
+            <p class="text-xs text-neutral-400">Roteiro de estudos em Agentic Engineering adaptado ao seu perfil e objetivos</p>
+          </div>
+        </div>
+        <button
+          onclick="copyPrompt('prompt-roteiro-md', this)"
+          class="copy-btn flex items-center gap-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-500 border border-yellow-500 text-white text-xs font-bold rounded-xl transition-colors whitespace-nowrap"
+        >
+          <span class="copy-icon">📋</span>
+          <span class="copy-text">Copiar Prompt</span>
+        </button>
+      </div>
+      <!-- Prompt -->
+      <div class="p-6">
+        <p class="text-xs text-neutral-500 mb-3">Cole este prompt em qualquer IA e preencha os campos entre colchetes:</p>
+        <textarea id="prompt-roteiro-md" rows="30" readonly>Você é um especialista em Agentic Engineering e educação em tecnologia. Vou te dar informações sobre meu perfil e objetivos e você deve gerar um ROTEIRO.md personalizado de estudos em Agentic Engineering.
+
+MEU PERFIL:
+- Nível atual de programação: [iniciante / intermediário / avançado]
+- Linguagens que já conheço: [ex: Python básico, JavaScript, nenhuma]
+- Já usei alguma IA para codificar? [sim, uso regularmente / já testei mas não uso / nunca usei]
+- Tempo disponível por semana: [2h / 5h / 10h / mais de 10h]
+- Objetivo principal: [ex: "automatizar tarefas do meu trabalho", "aprender para mudar de carreira", "construir um produto com IA", "me manter atualizado"]
+- Ferramentas de IA preferidas: [Claude Code / Codex CLI / Cursor / Copilot / ChatGPT / sem preferência]
+- Projeto que quero construir ao final: [descreva brevemente ou coloque "não definido"]
+
+GERE UM ROTEIRO.md COM:
+
+1. **Diagnóstico**
+   - Análise do meu perfil atual
+   - Lacunas de conhecimento a preencher
+   - Pontos fortes que posso aproveitar
+
+2. **Objetivo Final**
+   - O que eu serei capaz de fazer ao concluir o roteiro
+   - Projeto concreto que poderei entregar
+
+3. **Roteiro em Fases** (adapte o número de fases ao meu nível e tempo disponível)
+   Para cada fase:
+   - Título e duração estimada
+   - O que aprender (conceitos, ferramentas, práticas)
+   - Recursos recomendados (documentações, vídeos, artigos — reais e gratuitos quando possível)
+   - Exercício prático para consolidar o aprendizado
+   - Critério de conclusão ("você concluiu esta fase quando conseguir...")
+
+4. **Ferramentas Essenciais**
+   - Lista das ferramentas com links de instalação
+   - Ordem de instalação e configuração
+
+5. **Projetos Práticos Sugeridos**
+   - 3 projetos progressivos (do mais simples ao mais complexo)
+   - Para cada um: descrição, dificuldade, o que aprendo, tempo estimado
+
+6. **Dicas para Aprender Agentic Engineering**
+   - Como praticar no dia a dia
+   - Erros comuns a evitar
+   - Como acompanhar as novidades da área
+
+7. **Checklist de Progresso**
+   - Lista de checkboxes markdown para marcar o progresso
+
+Use formato markdown com headers ##. Seja específico, realista e motivador. O roteiro deve ser adaptado ao meu nível e tempo disponível. Gere apenas o conteúdo do ROTEIRO.md.</textarea>
+        <p class="mt-3 text-xs text-neutral-500">
+          Compatível com: ChatGPT, Claude, Gemini, Copilot e qualquer LLM. •
+          <a href="index.html" class="text-yellow-400 hover:text-yellow-300">Ver todos os projetos práticos</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       DICAS FINAIS
+  ══════════════════════════════════════════════════════════════════ -->
+  <section class="max-w-5xl mx-auto px-4 mb-12">
+    <div class="bg-dark-800 border border-dark-700 rounded-xl p-6">
+      <h2 class="text-sm font-bold text-neutral-100 mb-4">Dicas para obter melhores resultados</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="flex items-start gap-3">
+          <span class="text-yellow-400 text-sm flex-shrink-0">→</span>
+          <div>
+            <p class="text-xs font-semibold text-neutral-200">Seja específico nos campos</p>
+            <p class="text-xs text-neutral-500 mt-0.5">Quanto mais detalhes você fornecer (frameworks, versões, objetivos), mais preciso será o resultado gerado pela IA.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="text-yellow-400 text-sm flex-shrink-0">→</span>
+          <div>
+            <p class="text-xs font-semibold text-neutral-200">Itere e refine</p>
+            <p class="text-xs text-neutral-500 mt-0.5">Use o primeiro resultado como base e peça à IA para ajustar partes específicas. "Adicione mais detalhes na seção de comandos" funciona bem.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="text-yellow-400 text-sm flex-shrink-0">→</span>
+          <div>
+            <p class="text-xs font-semibold text-neutral-200">Revise antes de usar</p>
+            <p class="text-xs text-neutral-500 mt-0.5">Sempre revise o arquivo gerado. Ajuste caminhos, comandos e URLs para corresponder exatamente ao seu projeto.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="text-yellow-400 text-sm flex-shrink-0">→</span>
+          <div>
+            <p class="text-xs font-semibold text-neutral-200">Mantenha atualizado</p>
+            <p class="text-xs text-neutral-500 mt-0.5">Regenere o arquivo quando seu projeto evoluir significativamente. Um CLAUDE.md desatualizado pode confundir o agente.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════════════════════════ -->
+  <footer class="border-t border-dark-700 bg-dark-900/80">
+    <div class="max-w-5xl mx-auto px-4 py-8">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 font-bold text-base transition-colors">INEMA.CLUB</a>
+          <p class="text-xs text-neutral-500 mt-1">Projetos práticos de Agentic Engineering</p>
+        </div>
+        <div class="flex items-center gap-4 text-xs text-neutral-500">
+          <a href="index.html" class="hover:text-neutral-300 transition-colors">Todos os Projetos</a>
+          <a href="projeto-1-agente-zero/index.html" class="hover:text-neutral-300 transition-colors">Projeto 1</a>
+          <a href="projeto-2-claude-code/index.html" class="hover:text-neutral-300 transition-colors">Projeto 2</a>
+          <a href="projeto-3-antigravity/index.html" class="hover:text-neutral-300 transition-colors">Projeto 3</a>
+          <a href="projeto-4-codex/index.html" class="hover:text-neutral-300 transition-colors">Projeto 4</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════════════════════════════════════════ -->
+  <script>
+    // ── THEME TOGGLE ─────────────────────────────────────────────
+    function toggleTheme() {
+      const html = document.documentElement;
+      const icon = document.getElementById('themeIcon');
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        icon.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        icon.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Restore theme on load
+    (function () {
+      const saved = localStorage.getItem('theme');
+      const icon = document.getElementById('themeIcon');
+      if (saved === 'light') {
+        document.documentElement.classList.remove('dark');
+        if (icon) icon.textContent = '🌙';
+      } else {
+        document.documentElement.classList.add('dark');
+        if (icon) icon.textContent = '☀️';
+      }
+    })();
+
+    // ── COPY PROMPT ──────────────────────────────────────────────
+    function copyPrompt(textareaId, btn) {
+      const textarea = document.getElementById(textareaId);
+      if (!textarea) return;
+
+      const text = textarea.value;
+
+      // Use Clipboard API if available
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showCopied(btn);
+        }).catch(() => {
+          fallbackCopy(textarea, btn);
+        });
+      } else {
+        fallbackCopy(textarea, btn);
+      }
+    }
+
+    function fallbackCopy(textarea, btn) {
+      textarea.select();
+      textarea.setSelectionRange(0, 99999);
+      try {
+        document.execCommand('copy');
+        showCopied(btn);
+      } catch (e) {
+        console.error('Falha ao copiar:', e);
+      }
+      // Deselect
+      window.getSelection && window.getSelection().removeAllRanges();
+    }
+
+    function showCopied(btn) {
+      const textSpan = btn.querySelector('.copy-text');
+      const iconSpan = btn.querySelector('.copy-icon');
+      const originalText = textSpan.textContent;
+      const originalIcon = iconSpan.textContent;
+      const originalClass = btn.className;
+
+      btn.classList.add('copied');
+      textSpan.textContent = 'Copiado!';
+      iconSpan.textContent = '✓';
+
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        textSpan.textContent = originalText;
+        iconSpan.textContent = originalIcon;
+      }, 2000);
+    }
+  </script>
+
+</body>
+</html>

@@ -230,6 +230,54 @@
     </div>
   </section>
 
+  <!-- DOWNLOAD -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 mb-8">
+    <div class="bg-gradient-to-br from-indigo-900/20 to-dark-800 border border-indigo-500/30 rounded-2xl p-6">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-5">
+        <div>
+          <h2 class="text-base font-bold text-neutral-100 mb-1">Baixar Configuração do Codex CLI</h2>
+          <p class="text-xs text-neutral-400">AGENTS.md, config.toml e scripts prontos para uso imediato</p>
+        </div>
+        <a href="../projeto-4-codex.zip" download="projeto-4-codex.zip" class="flex items-center gap-2 px-5 py-2.5 bg-indigo-500 hover:bg-indigo-400 text-white text-sm font-bold rounded-xl transition-colors whitespace-nowrap">
+          ↓ Download ZIP
+        </a>
+      </div>
+      <div class="flex flex-wrap gap-2 mb-5">
+        <a href="AGENTS.md" download="AGENTS.md" class="px-3 py-1.5 bg-dark-700 hover:bg-dark-600 border border-dark-600 rounded-lg text-xs text-neutral-300 transition-colors">📝 AGENTS.md</a>
+        <a href=".codex/config.toml" download="config.toml" class="px-3 py-1.5 bg-dark-700 hover:bg-dark-600 border border-dark-600 rounded-lg text-xs text-neutral-300 transition-colors">⚙️ config.toml</a>
+        <a href="README.md" download="README.md" class="px-3 py-1.5 bg-dark-700 hover:bg-dark-600 border border-dark-600 rounded-lg text-xs text-neutral-300 transition-colors">📄 README.md</a>
+        <a href="ROTEIRO.md" download="ROTEIRO.md" class="px-3 py-1.5 bg-dark-700 hover:bg-dark-600 border border-dark-600 rounded-lg text-xs text-neutral-300 transition-colors">🗺️ ROTEIRO.md</a>
+      </div>
+      <div class="border-t border-dark-600 pt-4">
+        <h3 class="text-sm font-bold text-neutral-200 mb-3">⚡ Execute em 3 passos</h3>
+        <ol class="space-y-3">
+          <li class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <div>
+              <p class="text-xs font-semibold text-neutral-200">Instale o Codex CLI</p>
+              <code class="block mt-1 text-xs bg-dark-700 px-3 py-1.5 rounded text-indigo-300 font-mono">npm install -g @openai/codex</code>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <div>
+              <p class="text-xs font-semibold text-neutral-200">Configure sua chave OpenAI</p>
+              <code class="block mt-1 text-xs bg-dark-700 px-3 py-1.5 rounded text-indigo-300 font-mono">export OPENAI_API_KEY=sk-...  # ou coloque no .env</code>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <div>
+              <p class="text-xs font-semibold text-neutral-200">Execute o Codex</p>
+              <code class="block mt-1 text-xs bg-dark-700 px-3 py-1.5 rounded text-indigo-300 font-mono">codex "o que você quer que o agente faça?"</code>
+            </div>
+          </li>
+        </ol>
+        <p class="mt-3 text-xs text-neutral-500">Precisa de Node.js? Baixe em <a href="https://nodejs.org" target="_blank" class="text-indigo-400 hover:text-indigo-300">nodejs.org</a>. Chave OpenAI em <a href="https://platform.openai.com/api-keys" target="_blank" class="text-indigo-400 hover:text-indigo-300">platform.openai.com</a>.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- MAIN CONTENT -->
   <main class="max-w-5xl mx-auto px-4 sm:px-6 pb-20">
 

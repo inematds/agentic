@@ -147,6 +147,55 @@
     </div>
   </section>
 
+  <!-- DOWNLOAD -->
+  <section class="max-w-5xl mx-auto px-4 mb-8">
+    <div class="bg-gradient-to-br from-sky-900/20 to-dark-800 border border-sky-500/30 rounded-2xl p-6">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-5">
+        <div>
+          <h2 class="text-base font-bold text-neutral-100 mb-1">Baixar Configuração Completa</h2>
+          <p class="text-xs text-neutral-400">CLAUDE.md, settings.json, skills prontos para usar no seu projeto</p>
+        </div>
+        <a href="../projeto-2-claude-code.zip" download="projeto-2-claude-code.zip" class="flex items-center gap-2 px-5 py-2.5 bg-sky-500 hover:bg-sky-400 text-white text-sm font-bold rounded-xl transition-colors whitespace-nowrap">
+          ↓ Download ZIP
+        </a>
+      </div>
+      <div class="flex flex-wrap gap-2 mb-5">
+        <a href="CLAUDE.md" download="CLAUDE.md" class="px-3 py-1.5 bg-dark-700 hover:bg-dark-600 border border-dark-600 rounded-lg text-xs text-neutral-300 transition-colors">📝 CLAUDE.md</a>
+        <a href=".claude/settings.json" download="settings.json" class="px-3 py-1.5 bg-dark-700 hover:bg-dark-600 border border-dark-600 rounded-lg text-xs text-neutral-300 transition-colors">⚙️ settings.json</a>
+        <a href=".claude/skills/fix-issue/SKILL.md" download="SKILL.md" class="px-3 py-1.5 bg-dark-700 hover:bg-dark-600 border border-dark-600 rounded-lg text-xs text-neutral-300 transition-colors">⚡ fix-issue/SKILL.md</a>
+        <a href="README.md" download="README.md" class="px-3 py-1.5 bg-dark-700 hover:bg-dark-600 border border-dark-600 rounded-lg text-xs text-neutral-300 transition-colors">📄 README.md</a>
+        <a href="ROTEIRO.md" download="ROTEIRO.md" class="px-3 py-1.5 bg-dark-700 hover:bg-dark-600 border border-dark-600 rounded-lg text-xs text-neutral-300 transition-colors">🗺️ ROTEIRO.md</a>
+      </div>
+      <div class="border-t border-dark-600 pt-4">
+        <h3 class="text-sm font-bold text-neutral-200 mb-3">⚡ Configure em 3 passos</h3>
+        <ol class="space-y-3">
+          <li class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <div>
+              <p class="text-xs font-semibold text-neutral-200">Instale o Claude Code</p>
+              <code class="block mt-1 text-xs bg-dark-700 px-3 py-1.5 rounded text-sky-300 font-mono">npm install -g @anthropic-ai/claude-code</code>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <div>
+              <p class="text-xs font-semibold text-neutral-200">Copie os arquivos para seu projeto</p>
+              <code class="block mt-1 text-xs bg-dark-700 px-3 py-1.5 rounded text-sky-300 font-mono">cp -r .claude/ CLAUDE.md /seu-projeto/</code>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <div>
+              <p class="text-xs font-semibold text-neutral-200">Execute o Claude Code</p>
+              <code class="block mt-1 text-xs bg-dark-700 px-3 py-1.5 rounded text-sky-300 font-mono">claude  # na pasta do seu projeto</code>
+            </div>
+          </li>
+        </ol>
+        <p class="mt-3 text-xs text-neutral-500">Precisa de Node.js? Baixe em <a href="https://nodejs.org" target="_blank" class="text-sky-400 hover:text-sky-300">nodejs.org</a>. Chave Anthropic em <a href="https://console.anthropic.com" target="_blank" class="text-sky-400 hover:text-sky-300">console.anthropic.com</a>.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- MAIN CONTENT -->
   <main class="max-w-5xl mx-auto px-4 pb-16">
 
