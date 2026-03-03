@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Módulo 4.9 — Replanejamento Automático | Trilha 4</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#0a0a0f', 800: '#111118', 700: '#1a1a24', 600: '#22222f' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html:not(.dark) body { background: #f8f7f0; color: #1a1a1a; }
+    html:not(.dark) .bg-dark-900 { background: #f8f7f0; }
+    html:not(.dark) .bg-dark-800 { background: #f0efe8; }
+    html:not(.dark) .bg-dark-700 { background: #e8e7e0; }
+    html:not(.dark) .bg-dark-600 { background: #e0dfd8; }
+    html:not(.dark) .text-gray-300 { color: #374151; }
+    html:not(.dark) .text-gray-400 { color: #4b5563; }
+    html:not(.dark) .text-gray-500 { color: #6b7280; }
+    html:not(.dark) .border-gray-700 { border-color: #d1d5db; }
+    html:not(.dark) .border-gray-800 { border-color: #e5e7eb; }
+    html:not(.dark) nav { background: #f0efe8 !important; border-color: #d1d5db !important; }
+    html:not(.dark) .module-card { background: #f0efe8; }
+    html:not(.dark) pre { background: #1a1a24 !important; }
+    .topic-content { display: none; }
+    .topic-content.active { display: block; }
+    .topic-btn.active { background: rgba(245,158,11,0.15); border-color: rgba(245,158,11,0.5); }
+  </style>
+</head>
+<body class="bg-dark-900 text-gray-300 min-h-screen">
+
+  <!-- NAV -->
+  <nav class="bg-dark-800 border-b border-gray-700 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-6">
+        <span class="text-xl font-bold text-amber-400">AEM</span>
+        <div class="hidden md:flex gap-4 text-sm">
+          <a href="../../index.html" class="text-gray-400 hover:text-white transition-colors">Início</a>
+          <a href="../trilha1/index.html" class="text-gray-400 hover:text-emerald-400 transition-colors">T1</a>
+          <a href="../trilha2/index.html" class="text-gray-400 hover:text-blue-400 transition-colors">T2</a>
+          <a href="../trilha3/index.html" class="text-gray-400 hover:text-purple-400 transition-colors">T3</a>
+          <a href="../trilha4/index.html" class="text-amber-400 font-semibold">T4</a>
+          <a href="../trilha5/index.html" class="text-gray-400 hover:text-teal-400 transition-colors">T5</a>
+          <a href="../trilha6/index.html" class="text-gray-400 hover:text-rose-400 transition-colors">T6</a>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="toggleTheme()" class="text-gray-400 hover:text-amber-400 transition-colors text-sm px-3 py-1 border border-gray-700 rounded-lg">
+          Tema
+        </button>
+        <a href="index.html" class="text-sm text-amber-400 hover:text-amber-300 transition-colors">
+          Trilha 4
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="max-w-7xl mx-auto px-4 py-3">
+    <div class="flex items-center gap-2 text-sm text-gray-500">
+      <a href="../../index.html" class="hover:text-amber-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-amber-400 transition-colors">Trilha 4 — Multi-Agentes</a>
+      <span>/</span>
+      <span class="text-amber-400">Módulo 4.9 — Replanejamento Automático</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="max-w-7xl mx-auto px-4 py-10">
+    <div class="bg-dark-700 border border-amber-500/30 rounded-2xl p-8 bg-gradient-to-br from-amber-900/30 to-dark-700">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-2xl font-bold text-amber-400">
+          9
+        </div>
+        <div>
+          <p class="text-amber-400 text-sm font-medium uppercase tracking-widest">Trilha 4 · Módulo 9</p>
+          <h1 class="text-3xl font-bold text-white">Replanejamento Automático</h1>
+        </div>
+      </div>
+      <p class="text-gray-300 text-lg max-w-3xl">
+        O mundo muda enquanto o agente executa. Replanejamento automático é a capacidade de detectar desvios
+        do plano original e adaptar a estratégia em tempo real — sem intervenção humana e sem perder o objetivo.
+      </p>
+      <div class="flex flex-wrap gap-3 mt-6">
+        <span class="bg-amber-500/20 border border-amber-500/30 text-amber-400 px-3 py-1 rounded-full text-xs">6 tópicos</span>
+        <span class="bg-amber-500/20 border border-amber-500/30 text-amber-400 px-3 py-1 rounded-full text-xs">~45 min</span>
+        <span class="bg-amber-500/20 border border-amber-500/30 text-amber-400 px-3 py-1 rounded-full text-xs">Avançado</span>
+        <span class="bg-amber-500/20 border border-amber-500/30 text-amber-400 px-3 py-1 rounded-full text-xs">Autonomia</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="max-w-7xl mx-auto px-4 pb-16 grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+    <!-- SIDEBAR -->
+    <aside class="lg:col-span-1">
+      <div class="bg-dark-700 border border-gray-700 rounded-xl p-4 sticky top-20">
+        <h3 class="text-amber-400 font-semibold text-sm uppercase tracking-widest mb-4">Tópicos</h3>
+        <div class="flex flex-col gap-2">
+          <button onclick="showTopic(1)" id="btn-1" class="topic-btn active text-left w-full px-3 py-2 rounded-lg border border-transparent text-sm text-gray-300 hover:text-white hover:bg-amber-500/10 transition-all justify-start flex">
+            <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 text-xs flex items-center justify-center mr-2 shrink-0">1</span>
+            O que é replanejamento
+          </button>
+          <button onclick="showTopic(2)" id="btn-2" class="topic-btn text-left w-full px-3 py-2 rounded-lg border border-transparent text-sm text-gray-300 hover:text-white hover:bg-amber-500/10 transition-all justify-start flex">
+            <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 text-xs flex items-center justify-center mr-2 shrink-0">2</span>
+            Detecção de desvio
+          </button>
+          <button onclick="showTopic(3)" id="btn-3" class="topic-btn text-left w-full px-3 py-2 rounded-lg border border-transparent text-sm text-gray-300 hover:text-white hover:bg-amber-500/10 transition-all justify-start flex">
+            <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 text-xs flex items-center justify-center mr-2 shrink-0">3</span>
+            Triggers de replanning
+          </button>
+          <button onclick="showTopic(4)" id="btn-4" class="topic-btn text-left w-full px-3 py-2 rounded-lg border border-transparent text-sm text-gray-300 hover:text-white hover:bg-amber-500/10 transition-all justify-start flex">
+            <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 text-xs flex items-center justify-center mr-2 shrink-0">4</span>
+            Estratégias
+          </button>
+          <button onclick="showTopic(5)" id="btn-5" class="topic-btn text-left w-full px-3 py-2 rounded-lg border border-transparent text-sm text-gray-300 hover:text-white hover:bg-amber-500/10 transition-all justify-start flex">
+            <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 text-xs flex items-center justify-center mr-2 shrink-0">5</span>
+            Limite de replanning
+          </button>
+          <button onclick="showTopic(6)" id="btn-6" class="topic-btn text-left w-full px-3 py-2 rounded-lg border border-transparent text-sm text-gray-300 hover:text-white hover:bg-amber-500/10 transition-all justify-start flex">
+            <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 text-xs flex items-center justify-center mr-2 shrink-0">6</span>
+            Exemplos reais
+          </button>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-gray-700">
+          <p class="text-xs text-gray-500 mb-2">Módulo</p>
+          <div class="w-full bg-dark-600 rounded-full h-2">
+            <div id="progress-bar" class="bg-amber-500 h-2 rounded-full transition-all duration-300" style="width:16.7%"></div>
+          </div>
+          <p id="progress-text" class="text-xs text-gray-500 mt-1">1 / 6 tópicos</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <div class="lg:col-span-3 flex flex-col gap-6">
+
+      <!-- TOPIC 1 -->
+      <div id="topic-1" class="topic-content active bg-dark-700 border border-gray-700 rounded-xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">1</div>
+          <h2 class="text-xl font-bold text-white">O que é Replanejamento</h2>
+        </div>
+
+        <p class="text-gray-300 mb-4">
+          Planejar é fácil. O plano raramente sobrevive ao contato com a realidade.
+          Replanejamento automático é a capacidade do sistema de detectar que o plano original
+          não está mais válido e gerar um novo plano — mantendo o objetivo final em vista.
+        </p>
+
+        <div class="bg-dark-600 rounded-lg p-4 mb-6">
+          <h4 class="text-amber-400 font-semibold mb-3">Retry vs Replanning — Qual a Diferença?</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div class="border border-gray-600 rounded-lg p-3">
+              <p class="text-white font-medium mb-2">Retry</p>
+              <ul class="text-gray-300 space-y-1">
+                <li>Mesma abordagem, tenta de novo</li>
+                <li>Assume que a falha foi transitória</li>
+                <li>Mantém o plano intacto</li>
+                <li>Serve para: timeout, rate limit, erro 5xx</li>
+              </ul>
+            </div>
+            <div class="border border-amber-500/30 rounded-lg p-3">
+              <p class="text-amber-400 font-medium mb-2">Replanning</p>
+              <ul class="text-gray-300 space-y-1">
+                <li>Abordagem diferente, objetivo igual</li>
+                <li>Reconhece que o plano falhou estruturalmente</li>
+                <li>Gera novo plano com nova estratégia</li>
+                <li>Serve para: premissa inválida, recurso indisponível, resultado divergente</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-amber-400 font-semibold">Quando o Plano Fica Inválido</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="bg-dark-600 border border-gray-600 rounded-lg p-3 text-sm">
+              <p class="text-white mb-1">Premissa não mais verdadeira</p>
+              <p class="text-gray-400">Agente assumiu que documento X estava disponível, mas foi deletado durante a execução.</p>
+            </div>
+            <div class="bg-dark-600 border border-gray-600 rounded-lg p-3 text-sm">
+              <p class="text-white mb-1">Recurso indisponível</p>
+              <p class="text-gray-400">API externa que era central ao plano está offline. Precisa de caminho alternativo.</p>
+            </div>
+            <div class="bg-dark-600 border border-gray-600 rounded-lg p-3 text-sm">
+              <p class="text-white mb-1">Resultado intermediário divergiu</p>
+              <p class="text-gray-400">Step 3 retornou dados que invalidam steps 4 e 5. Precisa de replanejamento a partir do step 4.</p>
+            </div>
+            <div class="bg-dark-600 border border-gray-600 rounded-lg p-3 text-sm">
+              <p class="text-white mb-1">Objetivo mudou</p>
+              <p class="text-gray-400">Novo input do usuário redirecionou o objetivo enquanto o agente estava executando o plano antigo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOPIC 2 -->
+      <div id="topic-2" class="topic-content bg-dark-700 border border-gray-700 rounded-xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">2</div>
+          <h2 class="text-xl font-bold text-white">Detecção de Desvio</h2>
+        </div>
+
+        <p class="text-gray-300 mb-4">
+          Antes de replanejar, é preciso detectar que o plano está desviando. Isso exige monitoramento
+          contínuo durante a execução — comparar o estado atual com o estado esperado a cada step.
+        </p>
+
+        <div class="bg-dark-600 rounded-lg p-4 mb-6 overflow-x-auto">
+          <p class="text-xs text-amber-400 mb-2 uppercase tracking-widest">Python — Monitor de Desvio</p>
+          <pre class="text-sm text-green-300"><code>from dataclasses import dataclass
+from typing import Optional
+from enum import Enum
+
+class DeviationLevel(Enum):
+    NONE = "none"
+    MINOR = "minor"       # Continua, ajuste leve
+    MODERATE = "moderate" # Replanning parcial
+    CRITICAL = "critical" # Replanning total ou escalação
+
+@dataclass
+class DeviationReport:
+    level: DeviationLevel
+    step_id: str
+    expected: dict
+    actual: dict
+    deviation_score: float  # 0.0 a 1.0
+    description: str
+
+class DeviationDetector:
+    def __init__(self, threshold_minor: float = 0.2,
+                       threshold_moderate: float = 0.5,
+                       threshold_critical: float = 0.8):
+        self.threshold_minor = threshold_minor
+        self.threshold_moderate = threshold_moderate
+        self.threshold_critical = threshold_critical
+
+    async def check(
+        self,
+        step_id: str,
+        expected_state: dict,
+        actual_state: dict
+    ) -> DeviationReport:
+        """Compara estado esperado vs atual e classifica desvio."""
+
+        score = await self._compute_deviation_score(
+            expected_state,
+            actual_state
+        )
+
+        if score < self.threshold_minor:
+            level = DeviationLevel.NONE
+        elif score < self.threshold_moderate:
+            level = DeviationLevel.MINOR
+        elif score < self.threshold_critical:
+            level = DeviationLevel.MODERATE
+        else:
+            level = DeviationLevel.CRITICAL
+
+        return DeviationReport(
+            level=level,
+            step_id=step_id,
+            expected=expected_state,
+            actual=actual_state,
+            deviation_score=score,
+            description=self._describe_deviation(expected_state, actual_state)
+        )
+
+    async def _compute_deviation_score(
+        self,
+        expected: dict,
+        actual: dict
+    ) -> float:
+        """
+        Usa LLM para comparar semântica dos estados.
+        Score 0.0 = idênticos, 1.0 = completamente divergentes.
+        """
+        prompt = f"""Compare os estados e retorne um score de desvio de 0.0 a 1.0.
+        0.0 = resultados equivalentes, 1.0 = completamente divergentes.
+
+        Estado esperado: {expected}
+        Estado atual: {actual}
+
+        Responda APENAS com um número decimal entre 0.0 e 1.0."""
+
+        response = await llm.complete(prompt)
+        return float(response.strip())
+
+    def _describe_deviation(self, expected: dict, actual: dict) -> str:
+        missing = set(expected.keys()) - set(actual.keys())
+        extra = set(actual.keys()) - set(expected.keys())
+        parts = []
+        if missing:
+            parts.append(f"Campos ausentes: {missing}")
+        if extra:
+            parts.append(f"Campos inesperados: {extra}")
+        return "; ".join(parts) or "Desvio semântico"
+  </code></pre>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div class="bg-dark-600 border border-green-500/20 rounded-lg p-3 text-center text-sm">
+            <p class="text-green-400 font-semibold">Score 0.0–0.2</p>
+            <p class="text-gray-400 mt-1">Nenhum desvio — continua</p>
+          </div>
+          <div class="bg-dark-600 border border-yellow-500/20 rounded-lg p-3 text-center text-sm">
+            <p class="text-yellow-400 font-semibold">Score 0.2–0.5</p>
+            <p class="text-gray-400 mt-1">Desvio leve — ajuste fino</p>
+          </div>
+          <div class="bg-dark-600 border border-red-500/20 rounded-lg p-3 text-center text-sm">
+            <p class="text-red-400 font-semibold">Score 0.5–1.0</p>
+            <p class="text-gray-400 mt-1">Desvio crítico — replanning</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOPIC 3 -->
+      <div id="topic-3" class="topic-content bg-dark-700 border border-gray-700 rounded-xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">3</div>
+          <h2 class="text-xl font-bold text-white">Triggers de Replanning</h2>
+        </div>
+
+        <p class="text-gray-300 mb-4">
+          Um trigger é uma condição objetiva que, quando satisfeita, dispara o processo de replanejamento.
+          Triggers bem definidos evitam replanejamentos desnecessários (muito frequentes) ou tardios
+          (que deixam o sistema em desvio por muito tempo).
+        </p>
+
+        <div class="space-y-4 mb-6">
+          <div class="bg-dark-600 border border-amber-500/20 rounded-lg p-4">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-xs font-bold">T1</span>
+              <h4 class="text-white font-semibold">Desvio de Score Acima do Threshold</h4>
+            </div>
+            <p class="text-sm text-gray-300">
+              O monitor de desvio retornou score &gt; 0.5. O estado atual divergiu o suficiente do esperado
+              para justificar replanejamento.
+            </p>
+          </div>
+
+          <div class="bg-dark-600 border border-amber-500/20 rounded-lg p-4">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-xs font-bold">T2</span>
+              <h4 class="text-white font-semibold">Step Bloqueado N Vezes</h4>
+            </div>
+            <p class="text-sm text-gray-300">
+              Um step específico falhou 3+ vezes com retry. Não é falha transitória — a abordagem está errada
+              e precisa de nova estratégia para aquele step.
+            </p>
+          </div>
+
+          <div class="bg-dark-600 border border-amber-500/20 rounded-lg p-4">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-xs font-bold">T3</span>
+              <h4 class="text-white font-semibold">Dependência Indisponível</h4>
+            </div>
+            <p class="text-sm text-gray-300">
+              Um recurso ou API essencial ao plano original está offline ou inacessível. O plano depende
+              desse recurso e precisa ser reescrito sem ele.
+            </p>
+          </div>
+
+          <div class="bg-dark-600 border border-amber-500/20 rounded-lg p-4">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-xs font-bold">T4</span>
+              <h4 class="text-white font-semibold">Novo Input do Usuário</h4>
+            </div>
+            <p class="text-sm text-gray-300">
+              O usuário adicionou contexto ou mudou a prioridade enquanto o agente executava.
+              O plano precisa incorporar a nova informação.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-dark-600 rounded-lg p-4 overflow-x-auto">
+          <p class="text-xs text-amber-400 mb-2 uppercase tracking-widest">Python — Sistema de Triggers</p>
+          <pre class="text-sm text-green-300"><code>class ReplanningTriggerSystem:
+    def __init__(self):
+        self.triggers = []
+
+    def register(self, trigger_fn, name: str = "unnamed"):
+        self.triggers.append((name, trigger_fn))
+
+    async def evaluate(self, context: dict) -> Optional[str]:
+        """Avalia todos os triggers. Retorna nome do primeiro ativado."""
+        for name, trigger_fn in self.triggers:
+            if await trigger_fn(context):
+                return name
+        return None
+
+# Configuração
+trigger_system = ReplanningTriggerSystem()
+
+trigger_system.register(
+    lambda ctx: ctx["deviation_score"] > 0.5,
+    "high_deviation"
+)
+trigger_system.register(
+    lambda ctx: ctx["step_failures"].get(ctx["current_step"], 0) >= 3,
+    "step_blocked"
+)
+trigger_system.register(
+    lambda ctx: not ctx["dependencies_available"],
+    "dependency_down"
+)
+trigger_system.register(
+    lambda ctx: ctx.get("new_user_input") is not None,
+    "user_redirect"
+)
+
+# No loop de execução
+triggered = await trigger_system.evaluate(execution_context)
+if triggered:
+    print(f"Replanning disparado por: {triggered}")
+    new_plan = await replanner.generate(execution_context)
+  </code></pre>
+        </div>
+      </div>
+
+      <!-- TOPIC 4 -->
+      <div id="topic-4" class="topic-content bg-dark-700 border border-gray-700 rounded-xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">4</div>
+          <h2 class="text-xl font-bold text-white">Estratégias de Replanning</h2>
+        </div>
+
+        <p class="text-gray-300 mb-4">
+          Nem todo replanejamento precisa jogar fora tudo. A estratégia certa depende da amplitude do desvio:
+          replanning total, parcial ou escalada para humano.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="bg-dark-600 border border-green-500/20 rounded-lg p-4">
+            <h4 class="text-green-400 font-semibold mb-2">Replanning Parcial</h4>
+            <p class="text-sm text-gray-300 mb-3">Apenas os steps afetados pelo desvio são replanejados. Steps concluídos com sucesso são mantidos.</p>
+            <p class="text-xs text-amber-400">Quando usar: desvio localizado em 1-2 steps</p>
+          </div>
+          <div class="bg-dark-600 border border-yellow-500/20 rounded-lg p-4">
+            <h4 class="text-yellow-400 font-semibold mb-2">Replanning Total</h4>
+            <p class="text-sm text-gray-300 mb-3">Descarta o plano atual e gera um novo do zero, com base no objetivo original e no estado atual do mundo.</p>
+            <p class="text-xs text-amber-400">Quando usar: premissa central inválida</p>
+          </div>
+          <div class="bg-dark-600 border border-red-500/20 rounded-lg p-4">
+            <h4 class="text-red-400 font-semibold mb-2">Escalação</h4>
+            <p class="text-sm text-gray-300 mb-3">O replanejamento automático não consegue resolver. Suspende e passa para humano com contexto completo.</p>
+            <p class="text-xs text-amber-400">Quando usar: desvio crítico ou irreversível</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-600 rounded-lg p-4 mb-4 overflow-x-auto">
+          <p class="text-xs text-amber-400 mb-2 uppercase tracking-widest">Python — Replanner Adaptativo</p>
+          <pre class="text-sm text-green-300"><code>class AdaptiveReplanner:
+    def __init__(self, llm, escalation_manager):
+        self.llm = llm
+        self.escalation = escalation_manager
+
+    async def replan(
+        self,
+        original_goal: str,
+        original_plan: list,
+        completed_steps: list,
+        failed_step: str,
+        current_state: dict,
+        trigger_reason: str
+    ) -> list:
+        """
+        Decide estratégia e gera novo plano.
+        Returns: lista de steps do novo plano.
+        """
+
+        # Quantos steps foram concluídos com sucesso?
+        completion_ratio = len(completed_steps) / len(original_plan)
+
+        # Determina estratégia
+        if completion_ratio > 0.7:
+            # Mais de 70% concluído — replanning parcial
+            strategy = "partial"
+            context_prefix = f"Steps já concluídos (manter): {completed_steps}"
+        elif completion_ratio < 0.3 or trigger_reason == "dependency_down":
+            # Pouco progresso ou dependência core fora — replanning total
+            strategy = "total"
+            context_prefix = "Replanejar completamente desde o início"
+        else:
+            strategy = "partial"
+            context_prefix = f"Steps já concluídos (manter): {completed_steps}"
+
+        # Gera novo plano via LLM
+        prompt = f"""
+        Objetivo: {original_goal}
+
+        {context_prefix}
+        Estado atual: {current_state}
+        Motivo do replanejamento: {trigger_reason}
+        Step que falhou: {failed_step}
+
+        Gere um novo plano de execução (lista de steps JSON) para alcançar o objetivo
+        dado o estado atual. Seja conciso e prático.
+        Formato: [{{"step_id": "...", "action": "...", "agent": "..."}}]
+        """
+
+        response = await self.llm.complete(prompt)
+
+        try:
+            new_steps = json.loads(response)
+            return new_steps
+        except json.JSONDecodeError:
+            # LLM não retornou JSON válido — escalar
+            await self.escalation.request_approval(
+                EscalationCheckpoint(
+                    task_id="replanning_failed",
+                    reason="Replanner não conseguiu gerar plano válido",
+                    context={"state": current_state, "trigger": trigger_reason},
+                    action_proposed="Revisão manual do plano de execução",
+                    risk_level="high"
+                )
+            )
+            raise ReplanningError("Escalação para humano após falha de replanning")
+  </code></pre>
+        </div>
+      </div>
+
+      <!-- TOPIC 5 -->
+      <div id="topic-5" class="topic-content bg-dark-700 border border-gray-700 rounded-xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">5</div>
+          <h2 class="text-xl font-bold text-white">Limite de Replanning</h2>
+        </div>
+
+        <p class="text-gray-300 mb-4">
+          Replanejamento ilimitado é um anti-pattern perigoso. Um agente que continua replanejando
+          indefinidamente pode consumir recursos ilimitados sem nunca convergir. É necessário definir
+          limites explícitos e o que acontece quando eles são atingidos.
+        </p>
+
+        <div class="bg-dark-600 rounded-lg p-4 mb-6 overflow-x-auto">
+          <p class="text-xs text-amber-400 mb-2 uppercase tracking-widest">Python — Replanning com Limite</p>
+          <pre class="text-sm text-green-300"><code>@dataclass
+class ReplanningBudget:
+    max_replannings: int = 3           # Máximo de replanejamentos totais
+    max_consecutive: int = 2           # Máximo consecutivos sem progresso
+    max_cost_increase: float = 2.0     # Custo máximo = 2x do original
+    max_time_increase: float = 3.0     # Tempo máximo = 3x do original
+
+class ResilientOrchestrator:
+    def __init__(self, budget: ReplanningBudget):
+        self.budget = budget
+        self.replanning_count = 0
+        self.consecutive_replannings = 0
+        self.original_estimated_cost = 0
+        self.original_estimated_time = 0
+
+    async def execute(self, goal: str, initial_plan: list) -> dict:
+        plan = initial_plan
+        self.original_estimated_cost = estimate_cost(plan)
+        self.original_estimated_time = estimate_time(plan)
+
+        last_completed_count = 0
+        completed_steps = []
+
+        while plan:
+            step = plan[0]
+
+            try:
+                result = await execute_step(step)
+                completed_steps.append(step)
+                plan = plan[1:]  # Remove step concluído
+                self.consecutive_replannings = 0  # Reset após sucesso
+
+            except Exception as e:
+                # Verifica se pode replanejar
+                if not self._can_replan(completed_steps, last_completed_count):
+                    raise BudgetExceededError(
+                        f"Budget de replanning esgotado após "
+                        f"{self.replanning_count} replanejamentos. "
+                        f"Escalando para humano."
+                    )
+
+                # Replanejar
+                trigger = classify_failure(e)
+                plan = await replanner.replan(
+                    goal, plan, completed_steps, step["step_id"],
+                    get_current_state(), trigger
+                )
+
+                self.replanning_count += 1
+                self.consecutive_replannings += 1
+                last_completed_count = len(completed_steps)
+
+        return {"completed_steps": completed_steps, "replannings": self.replanning_count}
+
+    def _can_replan(self, completed_steps: list, last_count: int) -> bool:
+        # Limite total
+        if self.replanning_count >= self.budget.max_replannings:
+            print(f"Limite total de replanejamentos atingido: {self.budget.max_replannings}")
+            return False
+
+        # Limite consecutivo (sem progresso)
+        if self.consecutive_replannings >= self.budget.max_consecutive:
+            print(f"Replanejamentos consecutivos sem progresso: {self.budget.max_consecutive}")
+            return False
+
+        # Limite de custo
+        current_cost = get_current_cost()
+        if current_cost > self.original_estimated_cost * self.budget.max_cost_increase:
+            print(f"Custo {current_cost:.2f} excede limite de {self.budget.max_cost_increase}x")
+            return False
+
+        return True
+  </code></pre>
+        </div>
+
+        <div class="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4">
+          <p class="text-amber-400 font-semibold mb-2">Valores Recomendados para Produção</p>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-center">
+            <div>
+              <p class="text-white font-bold text-lg">3</p>
+              <p class="text-gray-400">Max replanejamentos</p>
+            </div>
+            <div>
+              <p class="text-white font-bold text-lg">2</p>
+              <p class="text-gray-400">Max consecutivos</p>
+            </div>
+            <div>
+              <p class="text-white font-bold text-lg">2x</p>
+              <p class="text-gray-400">Limite de custo</p>
+            </div>
+            <div>
+              <p class="text-white font-bold text-lg">3x</p>
+              <p class="text-gray-400">Limite de tempo</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOPIC 6 -->
+      <div id="topic-6" class="topic-content bg-dark-700 border border-gray-700 rounded-xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">6</div>
+          <h2 class="text-xl font-bold text-white">Exemplos Reais</h2>
+        </div>
+
+        <p class="text-gray-300 mb-4">
+          Como o replanejamento automático aparece em sistemas de produção — com contexto real,
+          triggers específicos e estratégias aplicadas.
+        </p>
+
+        <div class="space-y-5">
+          <div class="bg-dark-600 border border-gray-700 rounded-xl p-5">
+            <div class="flex items-start gap-3 mb-3">
+              <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-sm font-bold shrink-0">A</div>
+              <div>
+                <h4 class="text-white font-semibold">Agente de Pesquisa de Mercado</h4>
+                <p class="text-gray-400 text-sm">Plano: buscar dados de 5 fontes → consolidar → gerar relatório</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+              <div class="bg-dark-700 rounded-lg p-3">
+                <p class="text-amber-400 font-medium mb-1">Trigger</p>
+                <p class="text-gray-300">API do Bloomberg está offline (503 após 3 retries)</p>
+              </div>
+              <div class="bg-dark-700 rounded-lg p-3">
+                <p class="text-amber-400 font-medium mb-1">Estratégia</p>
+                <p class="text-gray-300">Replanning parcial: substitui Bloomberg por Reuters + Yahoo Finance</p>
+              </div>
+              <div class="bg-dark-700 rounded-lg p-3">
+                <p class="text-amber-400 font-medium mb-1">Resultado</p>
+                <p class="text-gray-300">Relatório entregue com nota de fonte alternativa. Sem intervenção humana.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-dark-600 border border-gray-700 rounded-xl p-5">
+            <div class="flex items-start gap-3 mb-3">
+              <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-sm font-bold shrink-0">B</div>
+              <div>
+                <h4 class="text-white font-semibold">Agente de Geração de Código</h4>
+                <p class="text-gray-400 text-sm">Plano: escrever módulo → testar → fazer PR</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+              <div class="bg-dark-700 rounded-lg p-3">
+                <p class="text-amber-400 font-medium mb-1">Trigger</p>
+                <p class="text-gray-300">Testes falharam 2x consecutivas. Código gerado tem bug lógico.</p>
+              </div>
+              <div class="bg-dark-700 rounded-lg p-3">
+                <p class="text-amber-400 font-medium mb-1">Estratégia</p>
+                <p class="text-gray-300">Replanning total do módulo: abordagem diferente + análise de erro dos testes como contexto</p>
+              </div>
+              <div class="bg-dark-700 rounded-lg p-3">
+                <p class="text-amber-400 font-medium mb-1">Resultado</p>
+                <p class="text-gray-300">Nova abordagem com TDD reverso: escreve tests first, depois implementa para passar.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-dark-600 border border-gray-700 rounded-xl p-5">
+            <div class="flex items-start gap-3 mb-3">
+              <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-sm font-bold shrink-0">C</div>
+              <div>
+                <h4 class="text-white font-semibold">Pipeline de Onboarding de Cliente</h4>
+                <p class="text-gray-400 text-sm">Plano: verificar documentos → validar KYC → ativar conta</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+              <div class="bg-dark-700 rounded-lg p-3">
+                <p class="text-amber-400 font-medium mb-1">Trigger</p>
+                <p class="text-gray-300">KYC retornou "identidade não verificável" — premissa de que cliente tem documentos válidos falhou</p>
+              </div>
+              <div class="bg-dark-700 rounded-lg p-3">
+                <p class="text-amber-400 font-medium mb-1">Estratégia</p>
+                <p class="text-gray-300">Escalação imediata: ação irreversível (ativação de conta) não pode prosseguir sem certeza</p>
+              </div>
+              <div class="bg-dark-700 rounded-lg p-3">
+                <p class="text-amber-400 font-medium mb-1">Resultado</p>
+                <p class="text-gray-300">Ticket criado para compliance humano. Conta mantida em pending. Log completo preservado.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESUMO FINAL -->
+      <div class="bg-dark-700 border border-amber-500/30 rounded-xl p-6 bg-gradient-to-br from-amber-900/20 to-dark-700">
+        <h3 class="text-amber-400 font-bold text-lg mb-4">Resumo do Módulo</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <h4 class="text-white font-semibold mb-2 text-sm">Conceitos centrais</h4>
+            <ul class="text-sm text-gray-300 space-y-1">
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Retry tenta de novo; replanning muda a abordagem</li>
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Detecção de desvio via score semântico LLM</li>
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Triggers objetivos evitam replanejamento excessivo</li>
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Estratégias: parcial, total, escalação</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-white font-semibold mb-2 text-sm">Na prática</h4>
+            <ul class="text-sm text-gray-300 space-y-1">
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Budget explícito: 3 replanejamentos, 2x custo máximo</li>
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Replanning consecutivo sem progresso → escalação</li>
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Manter steps bem-sucedidos no replanning parcial</li>
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Ações irreversíveis sempre escalam para humano</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- NAV PREV/NEXT -->
+      <div class="flex justify-between items-center pt-4">
+        <a href="modulo-4-8.html" class="flex items-center gap-2 text-gray-400 hover:text-amber-400 transition-colors text-sm">
+          <span class="w-7 h-7 rounded-full bg-dark-600 border border-gray-600 flex items-center justify-center text-xs">8</span>
+          Módulo anterior
+        </a>
+        <a href="modulo-4-10.html" class="flex items-center gap-2 text-amber-400 hover:text-amber-300 transition-colors text-sm font-medium">
+          Próximo módulo
+          <span class="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-xs">10</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-gray-700 mt-8 py-6 text-center text-sm text-gray-500">
+    <p>Agentic Engineering Masterclass · Trilha 4 · Módulo 9</p>
+    <p class="mt-1">
+      Conteúdo por <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 transition-colors">INEMA.CLUB</a>
+    </p>
+  </footer>
+
+  <script>
+    let currentTopic = 1;
+    const totalTopics = 6;
+
+    function showTopic(n) {
+      document.querySelectorAll('.topic-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.topic-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('topic-' + n).classList.add('active');
+      document.getElementById('btn-' + n).classList.add('active');
+      currentTopic = n;
+      const pct = (n / totalTopics * 100).toFixed(1);
+      document.getElementById('progress-bar').style.width = pct + '%';
+      document.getElementById('progress-text').textContent = n + ' / ' + totalTopics + ' tópicos';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+    }
+  </script>
+</body>
+</html>

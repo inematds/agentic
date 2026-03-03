@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trilha 4 — Multi-Agentes e Orquestração | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block">
+            <span>Frameworks</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10">
+            <span class="sm:hidden">T4</span><span class="hidden sm:inline">Multi-Agentes</span>
+          </a>
+          <a href="../trilha5/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors hidden lg:block">
+            <span>Orquestrador</span>
+          </a>
+          <a href="../trilha6/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors hidden lg:block">
+            <span>Enterprise</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER DA TRILHA -->
+  <header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4 tracking-wide">
+        TRILHA 4
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔀 Multi-Agentes e Orquestração</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Um agente resolve problemas. Múltiplos agentes orquestrados resolvem problemas impossíveis para um só. Aqui você aprende a arquitetar, coordenar e operar sistemas onde agentes colaboram — com estado compartilhado, handoffs formais e replanejamento automático.
+      </p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-amber-400">10</div>
+          <div class="text-xs text-neutral-400">Módulos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-amber-400">60</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-amber-400">~8h</div>
+          <div class="text-xs text-neutral-400">Duração</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-amber-400">Interm.</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVEGAÇÃO RÁPIDA -->
+  <div class="border-b border-dark-600 bg-dark-800/30">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="grid grid-cols-2 sm:grid-cols-5 md:grid-cols-10 gap-2">
+        <a href="modulo-4-1.html" class="text-center px-2 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold hover:bg-amber-500/20 transition-colors">
+          <div class="text-lg mb-1">🏗️</div><div>4.1 Arquiteturas</div>
+        </a>
+        <a href="modulo-4-2.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-amber-500/30 hover:text-amber-400 transition-colors">
+          <div class="text-lg mb-1">🎯</div><div>4.2 Orquestrador</div>
+        </a>
+        <a href="modulo-4-3.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-amber-500/30 hover:text-amber-400 transition-colors">
+          <div class="text-lg mb-1">📋</div><div>4.3 BMad</div>
+        </a>
+        <a href="modulo-4-4.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-amber-500/30 hover:text-amber-400 transition-colors">
+          <div class="text-lg mb-1">👥</div><div>4.4 Especializados</div>
+        </a>
+        <a href="modulo-4-5.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-amber-500/30 hover:text-amber-400 transition-colors">
+          <div class="text-lg mb-1">🗃️</div><div>4.5 Estado</div>
+        </a>
+        <a href="modulo-4-6.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-amber-500/30 hover:text-amber-400 transition-colors">
+          <div class="text-lg mb-1">🔀</div><div>4.6 Handoffs</div>
+        </a>
+        <a href="modulo-4-7.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-amber-500/30 hover:text-amber-400 transition-colors">
+          <div class="text-lg mb-1">⚡</div><div>4.7 Paralela</div>
+        </a>
+        <a href="modulo-4-8.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-amber-500/30 hover:text-amber-400 transition-colors">
+          <div class="text-lg mb-1">🔧</div><div>4.8 Erros</div>
+        </a>
+        <a href="modulo-4-9.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-amber-500/30 hover:text-amber-400 transition-colors">
+          <div class="text-lg mb-1">🔄</div><div>4.9 Replanning</div>
+        </a>
+        <a href="modulo-4-10.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-amber-500/30 hover:text-amber-400 transition-colors">
+          <div class="text-lg mb-1">📡</div><div>4.10 A2A</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <div class="mb-6 flex items-center justify-between">
+      <h2 class="text-xl font-bold text-neutral-300">Conteúdo Detalhado</h2>
+      <span class="text-sm text-neutral-500">10 módulos · Clique para expandir tópicos</span>
+    </div>
+
+    <!-- ======== MODULO 4.1 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-amber-400 font-bold text-lg">4.1</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🏗️ Arquiteturas Multi-Agente</h3>
+        <p class="text-neutral-400 text-sm">Hierárquica, peer-to-peer, pipeline, paralela — cada padrão tem seu caso de uso. Aprenda a escolher a arquitetura certa para cada problema.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🧩</span>
+            <div><span class="font-medium">Por que múltiplos agentes</span><span class="text-neutral-500 text-sm ml-2">- Especialização, paralelismo, resiliência</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">A justificativa técnica para dividir um problema complexo entre múltiplos agentes especializados em vez de um agente generalista.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Entender quando multi-agente compensa (versus quando complica desnecessariamente) é a decisão mais importante de arquitetura que você vai tomar.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Especialização de domínio · Execução paralela de tarefas independentes · Resiliência por redundância · Separação de responsabilidades</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">👑</span>
+            <div><span class="font-medium">Arquitetura Hierárquica</span><span class="text-neutral-500 text-sm ml-2">- Orquestrador central + sub-agentes</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Um orquestrador central recebe o objetivo, planeja, e delega subtarefas para sub-agentes especializados. Toda comunicação passa pelo orquestrador.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">É o padrão mais comum e mais fácil de auditar — governança clara, logs centralizados, controle de custo em um ponto.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Orquestrador como single source of truth · Bottleneck no orquestrador · Single point of failure · Fan-out controlado</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🕸️</span>
+            <div><span class="font-medium">Arquitetura Peer-to-Peer</span><span class="text-neutral-500 text-sm ml-2">- Agentes comunicam diretamente</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Agentes se comunicam diretamente entre si via protocolo padronizado, sem um orquestrador central obrigatório. Cada agente pode iniciar comunicação com outro.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Elimina o bottleneck hierárquico e aumenta resiliência — se um agente cai, os outros continuam operando. Base do protocolo A2A.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Discovery de agentes · Protocolo de comunicação padronizado · Complexidade de coordenação distribuída · Difícil de auditar</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">➡️</span>
+            <div><span class="font-medium">Arquitetura Pipeline</span><span class="text-neutral-500 text-sm ml-2">- Saída de um é entrada do próximo</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Agente A processa → entrega para Agente B → que processa → entrega para Agente C. Fluxo linear onde cada etapa transforma o dado anterior.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ideal para transformações sequenciais previsíveis. Fácil de debugar (você sabe exatamente onde a falha ocorreu). Adotado por ETL agentic e processamento de documentos.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Transformação sequencial · Dado imutável entre etapas · Falha em cascata · Checkpoint entre etapas · Ideal para processamento de documentos</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">⚡</span>
+            <div><span class="font-medium">Arquitetura Paralela</span><span class="text-neutral-500 text-sm ml-2">- Fan-out e fan-in simultâneos</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Múltiplos agentes executam simultaneamente sobre partes diferentes do problema. Os resultados são combinados (fan-in) pelo coordenador ao final.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Reduz latência dramaticamente. Analisar 10 documentos em 1 min (paralelo) vs. 10 min (sequencial). Crítico para sistemas de alta performance.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Fan-out pattern · Fan-in e combinação de resultados · asyncio.gather() · Custo 10x maior · Timeout de resultado parcial</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📊</span>
+            <div><span class="font-medium">Como escolher a arquitetura</span><span class="text-neutral-500 text-sm ml-2">- Tabela de decisão por critérios</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Framework de decisão para escolher entre hierárquica, P2P, pipeline e paralela com base em critérios mensuráveis do seu problema.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Escolher errado custa caro. Hierárquica onde deveria ser paralela = latência desnecessária. Paralela onde deveria ser pipeline = custo desnecessário.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Critérios: latência · custo · governança · tolerância a falhas · complexidade de coordenação · tamanho da equipe que vai manter</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-4-1')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-4-1.html" class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 4.2 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-amber-400 font-bold text-lg">4.2</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🎯 O Orquestrador</h3>
+        <p class="text-neutral-400 text-sm">O orquestrador não é só "o agente que chama outros". É infraestrutura. Entenda por que ele é o componente mais crítico do sistema.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🔬</span>
+            <div><span class="font-medium">Definição técnica do orquestrador</span><span class="text-neutral-500 text-sm ml-2">- O que realmente é</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Sistema responsável por coordenar agentes — não apenas chamar funções, mas gerenciar estado, tratar falhas, manter o objetivo em foco ao longo de toda a execução.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Confundir orquestrador com "agente que chama outros agentes" leva a sistemas frágeis. O orquestrador é um componente de infraestrutura, não de lógica de negócio.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Estado persistente · Tratamento de falhas · Manutenção de objetivo · Controle de custo · Logs centralizados · Diferença de agente para orquestrador</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🏗️</span>
+            <div><span class="font-medium">Orquestrador como infraestrutura</span><span class="text-neutral-500 text-sm ml-2">- Invisível quando funciona, crítico quando falha</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Como banco de dados é infraestrutura (você não pensa nele enquanto funciona, entra em pânico quando falha), o orquestrador é infraestrutura para sistemas multi-agente.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Infraestrutura exige investimento em confiabilidade, monitoramento e recovery que código de aplicação não exige. Essa mentalidade muda como você o projeta.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Alta disponibilidade · Recovery automático · Monitoramento proativo · SLA de latência · Capacidade de escala · Custo de operação</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">📋</span>
+            <div><span class="font-medium">Responsabilidades do orquestrador</span><span class="text-neutral-500 text-sm ml-2">- O que ele precisa fazer</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Lista completa das responsabilidades: planeja decomposição de tarefas, roteia para agentes corretos, monitora estado, detecta falhas, replanneja, controla custo, mantém logs.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Cada responsabilidade que você não implementa é um ponto de falha silencioso que vai aparecer em produção no pior momento possível.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Planejamento · Roteamento dinâmico · Monitoramento de estado · Detecção de desvio · Replanejamento · Budget control · Audit trail</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">⚖️</span>
+            <div><span class="font-medium">Decisões de design</span><span class="text-neutral-500 text-sm ml-2">- Monolítico vs. distribuído, stateful vs. stateless</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">As decisões arquiteturais fundamentais ao projetar um orquestrador: monolítico vs. distribuído, síncrono vs. assíncrono, stateful vs. stateless.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Cada decisão tem trade-offs diretos em custo de operação, complexidade de debug e capacidade de escala. Escolher sem critério é apostar.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Monolítico: simples de operar, não escala horizontalmente · Distribuído: escala, mas complexo · Stateful: recovery fácil · Stateless: escala fácil</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">📦</span>
+            <div><span class="font-medium">Orquestrador como produto</span><span class="text-neutral-500 text-sm ml-2">- Quando vira produto enterprise</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O ponto em que um orquestrador ganha features suficientes (logs + permissões + custo + coordenação + UI) para se tornar um produto enterprise standalone.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Entender esse threshold ajuda a decidir: construir internamente ou comprar um produto de orquestração (LangGraph Cloud, CrewAI Enterprise, etc.).</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Features que cruzam o threshold: RBAC · audit trail · cost dashboard · multi-tenant · SLA garantido · suporte empresarial</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🌍</span>
+            <div><span class="font-medium">O mercado em 2026</span><span class="text-neutral-500 text-sm ml-2">- LangGraph, CrewAI, Azure AI Studio</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Panorama dos produtos de orquestração em 2026: LangGraph, CrewAI Enterprise, Azure AI Studio, OpenAI Enterprise Controls — todos têm camada de orquestração.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Saber o que existe evita reinventar a roda. Mas poucos produtos expõem o orquestrador como produto transparente — saber a diferença economiza meses de trabalho.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">LangGraph: stateful workflows · CrewAI Enterprise: RBAC + audit · Azure AI Studio: integração Microsoft · OpenAI Controls: budget + permissions</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-4-2')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-4-2.html" class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 4.3 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-amber-400 font-bold text-lg">4.3</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">📋 BMad na Prática</h3>
+        <p class="text-neutral-400 text-sm">Breakdown-Manage-Delegate: o método arquitetural para decompor objetivos complexos em tarefas executáveis por agentes especializados.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🎯</span>
+            <div><span class="font-medium">O que é BMad</span><span class="text-neutral-500 text-sm ml-2">- Método de raciocínio arquitetural</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">BMad (Breakdown-Manage-Delegate) é um método de raciocínio para decompor objetivos complexos em tarefas executáveis por agentes, com dependências e prioridades explícitas.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem um método de decomposição, agentes recebem tarefas vagas e falham ou produzem resultados inconsistentes. BMad torna a decomposição repetível e auditável.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Decomposição sistemática · Dependências entre tarefas · Critérios de sucesso por tarefa · Rastreabilidade do objetivo ao resultado</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🔨</span>
+            <div><span class="font-medium">Fase Breakdown</span><span class="text-neutral-500 text-sm ml-2">- Decompor em subproblemas e tarefas</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Recebe o objetivo → identifica subproblemas → cria lista de tarefas com dependências → prioriza por criticidade. Saída: TaskList com grafo de dependências.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Uma decomposição ruim propaga erro por todas as fases seguintes. Tarefas mal definidas garantem resultados mal definidos.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Granularidade de tarefa · Grafo de dependências (DAG) · Critério MECE (Mutually Exclusive, Collectively Exhaustive) · Prioridade por impacto</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🗂️</span>
+            <div><span class="font-medium">Fase Manage</span><span class="text-neutral-500 text-sm ml-2">- Árvore de execução e sequenciamento</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Organiza as tarefas em árvore de execução, define quais são paralelas (independentes) vs. sequenciais (dependentes), estima custo de tokens de cada uma.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">A organização define latência e custo total. Executar paralelamente o que poderia ser paralelo reduz tempo de 10x para 1x. Sequenciar o que precisa ser sequencial evita dados inconsistentes.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Árvore vs. grafo de execução · Identificação de caminhos críticos · Estimativa de custo por tarefa · Budget total da execução</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">📤</span>
+            <div><span class="font-medium">Fase Delegate</span><span class="text-neutral-500 text-sm ml-2">- Atribuição ao agente certo com contexto</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Atribui cada tarefa ao agente mais adequado (por habilidade, custo, disponibilidade), passa o contexto necessário e define o critério de sucesso por tarefa.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Delegar a tarefa errada para o agente errado é o desperdício mais caro: você paga pelo processamento E pelo resultado inútil.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Matching agente-tarefa · Context injection mínimo · Critério de aceitação por tarefa · Timeout por agente · Callback de resultado</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🐍</span>
+            <div><span class="font-medium">BMad em Python</span><span class="text-neutral-500 text-sm ml-2">- TaskTree, Task com dependencies, executor</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Implementação prática: classe TaskTree, Task com campo dependencies, executor que respeita a ordem do grafo, monitor de progresso com callbacks.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ver o código transforma o método de teoria para implementação real. Você vai reconhecer o padrão em LangGraph, CrewAI e outras ferramentas.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">TaskTree como DAG · Topological sort para execução · Status tracking: pending → running → done/failed · Progress callbacks</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📖</span>
+            <div><span class="font-medium">Exemplo real completo</span><span class="text-neutral-500 text-sm ml-2">- Análise de concorrência com BMad</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">"Analisar concorrência e gerar relatório" → Breakdown em 8 tarefas → Manage com 3 paralelas + 5 sequenciais → Delegate para pesquisador, analista e redator.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Exemplos concretos fixam o método. Você vai ver exatamente como as 3 fases se conectam em um caso que qualquer empresa poderia usar amanhã.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Decomposição real de problema de negócio · Identificação de paralelismo · Seleção de agentes por especialidade · Custo estimado vs. custo de humano</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-4-3')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-4-3.html" class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 4.4 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-amber-400 font-bold text-lg">4.4</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">👥 Agentes Especializados</h3>
+        <p class="text-neutral-400 text-sm">Planejador, Executor, Revisor, Auditor — cada papel tem responsabilidades e interfaces definidas. Aprenda a definir contratos entre agentes para sistemas robustos.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🎯</span>
+            <div><span class="font-medium">Por que especializar agentes</span><span class="text-neutral-500 text-sm ml-2">- Menos contexto, menor custo, melhor qualidade</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">A lógica por trás de usar agentes com escopo restrito: menor contexto necessário, menor custo de tokens, menor chance de hallucination, mais fácil de avaliar qualidade.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Um agente generalista que faz tudo é caro e impreciso. Especialização é a diferença entre custo de $50 e $5 para o mesmo resultado.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Context window mínimo · Prompt especializado por domínio · Avaliação de qualidade por critérios específicos · Modelo menor = custo menor</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🧭</span>
+            <div><span class="font-medium">Agente Planejador</span><span class="text-neutral-500 text-sm ml-2">- Recebe objetivo, produz plano estruturado</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Agente que recebe objetivo complexo e produz plano estruturado (lista de tarefas com dependências, agentes necessários, critérios de sucesso). Usa modelo maior e mais caro.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Um plano ruim contamina toda a execução. Investir num modelo melhor no planejamento economiza 10x nos tokens de execução desperdiçados.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Output estruturado (JSON) · Identificação de agentes necessários · Estimativa de custo · Critérios de sucesso verificáveis</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">⚙️</span>
+            <div><span class="font-medium">Agente Executor</span><span class="text-neutral-500 text-sm ml-2">- Executa tarefa específica com tools</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Recebe tarefa específica e bem definida, executa usando suas ferramentas (APIs, banco de dados, código), retorna resultado estruturado. Pode usar modelo menor e mais barato.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">É o agente que mais executa e mais consome tokens. Otimizar o executor (modelo, prompt, ferramentas) é onde você controla o maior custo do sistema.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Input schema estrito · Tool selection · Output schema com flag de confiança · Max_iterations para evitar loop infinito · Custo por execução</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔍</span>
+            <div><span class="font-medium">Agente Revisor</span><span class="text-neutral-500 text-sm ml-2">- Avalia qualidade e aprova ou rejeita</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Recebe resultado do executor, avalia qualidade contra critérios definidos pelo planejador, aprova (passa adiante) ou rejeita com feedback estruturado para o executor tentar novamente.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem revisor, você entrega resultados de qualidade variável ao usuário final. O revisor é o controle de qualidade automático do sistema.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Rubrica de avaliação · Feedback estruturado · Aprovação com score · Max_revision_cycles · Escalada para humano quando necessário</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">📊</span>
+            <div><span class="font-medium">Agente Auditor</span><span class="text-neutral-500 text-sm ml-2">- Compliance, audit trail e alertas</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Registra todas as ações de todos os agentes, verifica compliance com políticas, gera audit trail imutável, alerta quando detecta anomalias ou violações.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Em ambiente enterprise, sem audit trail você não consegue explicar o que aconteceu, não passa auditoria e não cumpre regulamentações como SOC2, LGPD, HIPAA.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Append-only log · Hash de integridade · Alertas em tempo real · Relatório de compliance · Retenção de dados por regulamentação</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📜</span>
+            <div><span class="font-medium">Contratos entre agentes</span><span class="text-neutral-500 text-sm ml-2">- Input/output schema, SLA, custo máximo</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Definição formal de interfaces entre agentes: input schema (o que aceita), output schema (o que retorna), SLA de tempo, custo máximo permitido, comportamento em falha.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Contratos explícitos permitem trocar um agente por outro sem quebrar o sistema. Sem contratos, você tem acoplamento rígido disfarçado de flexibilidade.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Interface-first design · Pydantic schemas · SLA como contrato de tempo · Budget por agente · Compatibilidade de versão de schema</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-4-4')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-4-4.html" class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 4.5 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-amber-400 font-bold text-lg">4.5</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🗃️ Gerenciamento de Estado</h3>
+        <p class="text-neutral-400 text-sm">Quando 3 agentes leem e escrevem o mesmo dado simultaneamente, o que acontece? Aprenda a gerenciar estado em sistemas multi-agente sem conflitos.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">⚠️</span>
+            <div><span class="font-medium">O problema do estado distribuído</span><span class="text-neutral-500 text-sm ml-2">- Leitura e escrita simultânea</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O desafio central de sistemas multi-agente: quando múltiplos agentes precisam ler e escrever no mesmo estado compartilhado, surgem race conditions, inconsistências e dados corrompidos.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Estado corrompido em produção é o bug mais difícil de debugar e o mais perigoso. Entender o problema antes de escolher a solução evita dias de dor.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Race condition · Dirty read · Lost update · Stale data · CAP theorem aplicado a agentes</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🔴</span>
+            <div><span class="font-medium">Estado compartilhado com Redis</span><span class="text-neutral-500 text-sm ml-2">- Blackboard pattern com locks</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Usar Redis como blackboard (quadro negro) compartilhado onde todos os agentes leem e escrevem. Locks distribuídos (Redlock) evitam conflitos de escrita simultânea.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Redis é a solução padrão de mercado para estado distribuído de alta performance. Redlock resolve conflitos sem complexidade de bancos distribuídos.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Redis como shared memory · Redlock para mutual exclusion · TTL para dados temporários · Pub/Sub para notificações · Pipeline para operações atômicas</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔒</span>
+            <div><span class="font-medium">Estado isolado por agente</span><span class="text-neutral-500 text-sm ml-2">- Cada um tem o seu, coordenador combina</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Cada agente mantém seu próprio estado isolado. Ao finalizar, entrega resultado para o coordenador que combina todos os estados parciais no estado final.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Mais simples, menos conflitos, mais fácil de debugar. Para tarefas onde agentes não precisam compartilhar estado durante execução, é a escolha óbvia.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Immutable local state · Resultado como output imutável · Merge function no coordenador · Sem lock necessário · Mais simples de testar</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">⚡</span>
+            <div><span class="font-medium">Conflitos de estado</span><span class="text-neutral-500 text-sm ml-2">- Estratégias de resolução</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Quando dois agentes atualizam o mesmo campo simultaneamente, você precisa de uma estratégia: last-write-wins (simples, perde dados), merge (combina, complexo), ou manual (humano decide).</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">A estratégia de resolução de conflito define a integridade dos dados do seu sistema. Escolher last-write-wins pode fazer você perder resultados de horas de processamento.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Last-write-wins (LWW) · Three-way merge · Operational transform · Conflict-free Replicated Data Types (CRDTs) · Human-in-the-loop para conflitos críticos</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">📚</span>
+            <div><span class="font-medium">Versionamento de estado</span><span class="text-neutral-500 text-sm ml-2">- Append-only log para debug e rollback</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Em vez de sobrescrever estado, adicionar cada mudança a um log imutável. Você pode ver toda a história do estado, fazer rollback para qualquer ponto e auditar mudanças.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Quando o sistema produz resultado inesperado às 3h da manhã, um log de estado versionado é a diferença entre debug em 10 minutos e debug em 10 horas.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Event sourcing · Append-only log · State reconstruction · Temporal queries · Snapshot + log para performance</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🏭</span>
+            <div><span class="font-medium">Estado em produção</span><span class="text-neutral-500 text-sm ml-2">- Tamanho, expiração, backup e recovery</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Problemas reais de produção: estado cresce indefinidamente sem TTL, backups falham silenciosamente, recovery após falha perde horas de trabalho de agentes.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Estado mal gerenciado em produção é lento (cresceu demais), caro (armazenamento) ou inconsistente (falha de recovery). Esses problemas aparecem meses depois do lançamento.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">TTL strategy · Compaction de log antigo · Backup incremental · Recovery point objective (RPO) · Recovery time objective (RTO)</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-4-5')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-4-5.html" class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 4.6 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-amber-400 font-bold text-lg">4.6</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔀 Handoffs e Roteamento</h3>
+        <p class="text-neutral-400 text-sm">A transferência formal de controle entre agentes. Aprenda critérios de roteamento, rollback de handoff e como passar contexto sem explodir a context window.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🤝</span>
+            <div><span class="font-medium">O que é um handoff</span><span class="text-neutral-500 text-sm ml-2">- Transferência formal de controle</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Transferência formal de controle E contexto de um agente para outro, com garantia de que o estado está consistente antes da transferência e confirmação de recebimento.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Handoff informal (agente A termina, agente B começa) é a principal fonte de perda de contexto e dados em sistemas multi-agente. Formalizar garante continuidade.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Handoff packet (dados transferidos) · Confirmação de recebimento · Estado consistente antes da transferência · Log de handoff · Rollback se destino não confirma</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🎛️</span>
+            <div><span class="font-medium">Critérios de roteamento</span><span class="text-neutral-500 text-sm ml-2">- Conteúdo, carga, habilidade, custo</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Quatro estratégias de roteamento: por conteúdo (tipo de tarefa), por carga (agente menos ocupado), por habilidade (agente mais adequado para o domínio), por custo (agente mais barato).</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Roteamento incorreto é eficiência desperdiçada. Enviar análise jurídica para agente de código, ou tarefa simples para o modelo mais caro, são erros evitáveis com bom roteamento.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Content-based routing · Load balancing · Skill-based routing · Cost-aware routing · Combinação de critérios com pesos</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🧠</span>
+            <div><span class="font-medium">Roteamento dinâmico com LLM</span><span class="text-neutral-500 text-sm ml-2">- Classifier que decide o destino</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Um LLM leve (classificador) analisa o input e decide qual agente deve receber a tarefa. Alternativa: regras determinísticas baseadas em palavras-chave ou tipo de dado.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Roteamento com LLM é flexível mas adiciona latência e custo. Regras determinísticas são rápidas mas rígidas. Saber quando usar cada abordagem é uma habilidade de arquitetura.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Classifier prompt · Few-shot examples para classificação · Confidence threshold · Fallback para humano quando confiança baixa · Latência de roteamento</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">↩️</span>
+            <div><span class="font-medium">Rollback de handoff</span><span class="text-neutral-500 text-sm ml-2">- Quando o destino falha</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O que acontece quando o agente destino falha após receber o handoff? Protocolo de rollback: o controle retorna ao agente origem ou é transferido para um terceiro agente de fallback.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem rollback definido, uma falha de handoff deixa a tarefa em estado indefinido — nem no agente origem, nem no destino. Isso trava o sistema silenciosamente.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Two-phase commit para handoff · Timeout de confirmação · Rollback automático · Log de handoff pendente · Cleanup de estado parcial</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">📦</span>
+            <div><span class="font-medium">Context passing eficiente</span><span class="text-neutral-500 text-sm ml-2">- Passar o relevante sem explodir a window</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Técnicas para passar contexto relevante de um agente para outro sem incluir tudo (o que explodiria a context window e o custo): sumarização, extração de entidades, compressão semântica.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Passar contexto demais é caro. Passar de menos leva a erros. Dominar essa técnica é o que separa sistemas multi-agente eficientes dos caros.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Context summarization · Entity extraction · Relevance filtering · Hierarchical context (full + summary) · Context versioning</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🗺️</span>
+            <div><span class="font-medium">Padrões de handoff</span><span class="text-neutral-500 text-sm ml-2">- Sequential, conditional, parallel, dynamic</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Quatro padrões: sequential (A→B→C), conditional (se X→B, se Y→C), parallel (A→B e C simultaneamente), dynamic (A decide em runtime para qual agente ir).</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Cada padrão resolve uma classe de problema diferente. Conhecer todos permite escolher o mais simples que resolve seu caso — simplicidade é confiabilidade.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Sequential: previsível e auditável · Conditional: flexível com risco de lógica complexa · Parallel: rápido mas custoso · Dynamic: máxima flexibilidade com complexidade máxima</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-4-6')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-4-6.html" class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 4.7 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-amber-400 font-bold text-lg">4.7</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">⚡ Execução Paralela</h3>
+        <p class="text-neutral-400 text-sm">Fan-out, fan-in, asyncio e timeouts. Aprenda a executar múltiplos agentes simultaneamente, combinar resultados e gerenciar o custo do paralelismo.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🚀</span>
+            <div><span class="font-medium">Por que paralelismo em agentes</span><span class="text-neutral-500 text-sm ml-2">- Reduzir latência em tarefas independentes</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Executar múltiplos agentes simultaneamente quando as tarefas são independentes entre si. 10 documentos em paralelo = 1 min. 10 documentos em série = 10 min.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Latência define experiência de usuário e competitividade. Sistemas que executam tarefas independentes em série são 10x mais lentos do que precisam ser.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Independência de tarefas (pré-condição) · Speedup de Amdahl's Law · Identificação do caminho crítico · Quando paralelismo compensa o overhead</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">📤</span>
+            <div><span class="font-medium">Fan-out pattern</span><span class="text-neutral-500 text-sm ml-2">- Uma entrada, múltiplos agentes simultâneos</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Um input é distribuído para múltiplos agentes que executam simultaneamente, cada um com sua subtarefa. O orquestrador aguarda todos completarem.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Fan-out é o padrão que transforma análise sequencial em análise simultânea. É a base de qualquer sistema que precisa escalar para grandes volumes.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Particionamento de input · Distribuição uniforme de carga · Controle de concorrência máxima · Rate limiting da API · Semáforo para limitar paralelismo</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">📥</span>
+            <div><span class="font-medium">Fan-in pattern</span><span class="text-neutral-500 text-sm ml-2">- Combinar múltiplos resultados em um</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Múltiplos resultados de agentes paralelos são combinados em um resultado único. Estratégias: merge (concatena), vote (maioria), summarize (sumariza), aggregate (calcula).</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">A qualidade do fan-in determina a qualidade do resultado final. Combinar resultados de forma ingênua produz resultados inconsistentes apesar de análise paralela de qualidade.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Merge strategy: concatenação, votação, sumarização · Conflito de resultados · Peso por confiança do agente · Resultado parcial quando um agente falha</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🐍</span>
+            <div><span class="font-medium">asyncio na prática</span><span class="text-neutral-500 text-sm ml-2">- gather(), TaskGroup, exceptions</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Implementação Python: asyncio.gather() para executar múltiplos agentes coroutines em paralelo, TaskGroup para melhor controle, tratamento de exceções em contexto assíncrono.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">asyncio é o padrão Python para paralelismo de I/O (que é exatamente o que chamadas LLM são). Sem asyncio, você está deixando performance na mesa.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">asyncio.gather() com return_exceptions · asyncio.TaskGroup (Python 3.11+) · Semáforo para limitar concorrência · Exception handling assíncrono</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">⏱️</span>
+            <div><span class="font-medium">Timeout e cancellation</span><span class="text-neutral-500 text-sm ml-2">- O que fazer quando um agente atrasa</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O que acontece quando um de 10 agentes paralelos demora 5x mais? asyncio.wait_for() para timeout, cancelamento de tarefas lentas, retorno de resultado parcial sem o agente que atrasou.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem timeout, um agente lento bloqueia todo o sistema. Com timeout agressivo demais, você perde resultados válidos. Calibrar timeout é uma habilidade de engenharia de sistemas.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">asyncio.wait_for() · asyncio.wait(return_when=FIRST_EXCEPTION) · Partial result strategy · P95 latency como base para timeout · Retry após timeout</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">💰</span>
+            <div><span class="font-medium">Custo do paralelismo</span><span class="text-neutral-500 text-sm ml-2">- 10 agentes custam 10x mais?</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">A matemática do paralelismo: 10 agentes em paralelo custam aproximadamente 10x mais em tokens, mas entregam em 1/10 do tempo. Como otimizar: batching, modelo menor para subtarefas simples.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Paralelismo sem controle de custo é como contratar 10 consultores sênior quando 8 juniors e 2 sêniors fazem o mesmo trabalho por menos. A arquitetura define o custo operacional.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Cost per parallel task · Batching para reduzir overhead · Modelo tier (cheap para análise simples, caro para síntese) · Budget máximo por execução paralela</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-4-7')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-4-7.html" class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 4.8 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-amber-400 font-bold text-lg">4.8</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔧 Tratamento de Erros</h3>
+        <p class="text-neutral-400 text-sm">Tipos de falha específicos de agentes, retry com backoff, circuit breaker e quando escalar para humano. Resiliência não é opcional.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">💥</span>
+            <div><span class="font-medium">Tipos de falha em agentes</span><span class="text-neutral-500 text-sm ml-2">- Formato errado, loop infinito, custo estoura</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Classificação das falhas específicas de agentes: LLM retorna formato inválido, tool call falha, loop infinito de reasoning, context window overflow, custo estoura o budget, agente "trava".</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Cada tipo de falha exige uma resposta diferente. Tratar loop infinito igual a formato inválido produz sistemas que "mascaram" erros em vez de resolvê-los.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Formato inválido → retry com instrução · Loop → max_iterations · Context overflow → summarize · Budget → checkpoint + escalada · Tool failure → fallback tool</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🔁</span>
+            <div><span class="font-medium">Retry com backoff exponencial</span><span class="text-neutral-500 text-sm ml-2">- Para falhas transitórias</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Para falhas transitórias (timeout de API, rate limit, erro 500), espera exponencialmente antes de tentar de novo: 1s, 2s, 4s, 8s... com jitter para evitar thundering herd.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Rate limits são a causa mais comum de falha em sistemas com muitos agentes paralelos. Retry sem backoff agrava o rate limit. Com backoff, você resolve automaticamente.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Exponential backoff: 2^n segundos · Jitter aleatório · max_retries (3-5) · Erro retryable vs. não-retryable · tenacity library Python</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🛟</span>
+            <div><span class="font-medium">Fallback strategy</span><span class="text-neutral-500 text-sm ml-2">- Agente B quando Agente A falha definitivamente</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Quando o agente A falha além de max_retries: tentar agente B com abordagem diferente (outro modelo, outro prompt, outra ferramenta), ou retornar resultado parcial com flag de incerteza.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sistemas sem fallback viram sistemas que falham completamente. Com fallback, você degrada graciosamente — entrega resultado inferior mas entrega. Isso é a diferença entre 99.9% e 95% de uptime.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Fallback chain: A → B → C → resultado parcial · Modelo de fallback (mais caro, mais capaz) · Partial result com confidence score · Graceful degradation</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔌</span>
+            <div><span class="font-medium">Circuit breaker</span><span class="text-neutral-500 text-sm ml-2">- Parar de chamar serviço que falha repetidamente</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Padrão que "abre o circuito" quando um serviço falha N vezes em sequência, parando temporariamente de chamá-lo. Testa periodicamente se recuperou, fecha o circuito quando OK.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem circuit breaker, você continua tentando chamar um serviço morto, desperdiçando tokens e aumentando latência. Com ele, você detecta falha sistêmica e para de desperdiçar recursos.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Estados: Closed → Open → Half-Open · Threshold de falhas para abrir · Timeout para tentar fechar · pybreaker library · Monitoramento de estado do circuito</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🙋</span>
+            <div><span class="font-medium">Human escalation</span><span class="text-neutral-500 text-sm ml-2">- Quando e como escalar para humano</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Definir critérios para escalar ao humano: custo acima do limite, ação irreversível (deletar dados, fazer pagamento), confiança baixa no resultado, falha após todos os fallbacks.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sistemas que nunca escalam para humano eventualmente cometem erros irreversíveis. Sistemas que escalam muito nunca ganham autonomia real. Calibrar o threshold é arte e ciência.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Escalation triggers: custo · irreversibilidade · confiança · deadline · Aprovação humana como checkpoint · Timeout de aprovação · Notificação por canal (Slack, email)</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔃</span>
+            <div><span class="font-medium">Recovery patterns</span><span class="text-neutral-500 text-sm ml-2">- Retomar sem repetir do zero</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Como retomar execução após falha sem repetir tudo: checkpointing de estado após cada etapa significativa, replay a partir do último checkpoint estável, skip de etapas já concluídas.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Se um sistema de 50 etapas falha na etapa 48 e recomeça do zero, você perde $40 em tokens toda vez que falha. Checkpointing transforma falha de catástrofe em inconveniência.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Checkpoint após cada etapa · Idempotência das etapas · Replay from checkpoint · Skip de etapas completed · Garbage collection de checkpoints antigos</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-4-8')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-4-8.html" class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 4.9 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-amber-400 font-bold text-lg">4.9</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔄 Replanejamento Automático</h3>
+        <p class="text-neutral-400 text-sm">Quando o plano falha, o sistema precisa detectar e criar um novo plano. Diferente de retry — replanning muda a estratégia, não repete a mesma coisa esperando resultado diferente.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🗺️</span>
+            <div><span class="font-medium">O que é replanejamento</span><span class="text-neutral-500 text-sm ml-2">- Diferença de retry e replanning</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Replanejamento é quando o sistema detecta que o plano atual não está funcionando e cria um novo plano. Diferente de retry (tenta o mesmo de novo com a esperança de resultado diferente).</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem replanejamento, agentes ficam presos em loops tentando o mesmo plano falho indefinidamente. Replanning é o que transforma um agente frágil em um sistema adaptativo.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Retry: mesmo plano, tenta de novo · Replanning: novo plano, nova estratégia · Trigger: N falhas do mesmo plano · Custo: novo LLM call para planejar</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">📡</span>
+            <div><span class="font-medium">Detecção de desvio</span><span class="text-neutral-500 text-sm ml-2">- Métricas que indicam que o plano não progride</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Métricas que indicam que o plano não está progredindo: N iterações sem mudança de estado, custo acima do threshold, critério de sucesso não aproximando, mesmo erro repetindo.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Detecção precoce de desvio economiza tokens. Um agente que demora 100 iterações para detectar que está perdido desperdiçou 90 iterações de tokens.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Progress metric: distância do objetivo · Stagnation: N iterações sem progresso · Cost threshold: budget consumido · Error pattern: mesmo erro N vezes</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">⚡</span>
+            <div><span class="font-medium">Trigger de replanning</span><span class="text-neutral-500 text-sm ml-2">- Automático vs. manual, custo e risco</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Quando acionar replanning: automático por métricas (mais comum), ou manual por humano (para casos críticos). Custo: replanning exige um novo LLM call para criar o plano. Risco: replanning em loop.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Replanning automático sem limite vira loop infinito de planejamento. Com limite bem calibrado, você tem sistema adaptativo sem risco de loop.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Trigger automático por métricas · Trigger manual por flag humano · Custo: modelo caro para replanning · max_replanning_cycles · Log de todos os planos tentados</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔀</span>
+            <div><span class="font-medium">Estratégias de replanning</span><span class="text-neutral-500 text-sm ml-2">- Total, parcial, escalada de modelo</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Três estratégias: replanning total (novo plano do zero, descarta o atual), replanning parcial (ajusta só a parte problemática, mantém o que funcionou), escalada de modelo (usa modelo mais capaz).</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Replanning total descarta trabalho que funcionou. Parcial é mais eficiente mas mais complexo de implementar. Escolher a estratégia errada desperdiça tokens ou não resolve o problema.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Full replanning: mais simples, perde contexto · Partial: preserva progresso, mais complexo · Model escalation: claude-opus-4 no lugar de haiku quando haiku falhou</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🛑</span>
+            <div><span class="font-medium">Limite de replanejamento</span><span class="text-neutral-500 text-sm ml-2">- Por que o limite é essencial</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Máximo de N replanejamentos (tipicamente 3) antes de escalar para humano. Sem esse limite, o sistema pode entrar em loop de replanejamento consumindo tokens indefinidamente.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sistemas sem limite de replanning já causaram contas de $10.000+ em APIs de LLM em incidentes reais. O limite é o último mecanismo de proteção contra custo descontrolado.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">max_replanning: 2-3 ciclos · Escalada automática ao humano após limite · Log de todos os planos tentados para debug · Alert quando se aproxima do limite</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📖</span>
+            <div><span class="font-medium">Exemplos reais de replanning</span><span class="text-neutral-500 text-sm ml-2">- Pesquisa e código que mudam de abordagem</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Dois casos: agente de pesquisa que não encontra informação após 3 buscas → replanning muda a query strategy. Agente de código que falha no teste 5x → replanning muda abordagem de implementação.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Exemplos concretos mostram quando replanning funciona e quando a falha é fundamental (o objetivo é impossível). Essa distinção evita replanning infinito de objetivos inatingíveis.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Diagnóstico da falha antes de replanning · Mudança real de estratégia (não variação mínima) · Aprendizado: o novo plano usa contexto das falhas anteriores</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-4-9')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-4-9.html" class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 4.10 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-amber-400 font-bold text-lg">4.10</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">📡 Protocolo A2A</h3>
+        <p class="text-neutral-400 text-sm">Agent-to-Agent: o protocolo que permite a agentes de diferentes sistemas se comunicarem de forma padronizada. O futuro da interoperabilidade entre agentes.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🌱</span>
+            <div><span class="font-medium">Por que A2A surgiu</span><span class="text-neutral-500 text-sm ml-2">- O que MCP não resolve</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">MCP conecta agente a ferramentas (banco, API, arquivo). A2A resolve o problema diferente: como dois agentes em sistemas distintos se comunicam de forma padronizada e descobrível.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem A2A, cada integração agente-agente é custom. Com A2A, você implementa uma vez e qualquer agente compatível pode se comunicar com o seu.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">MCP: agente ↔ ferramenta · A2A: agente ↔ agente · Problema: integração N×M sem padrão · Solução: protocolo de descoberta e comunicação padronizado</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🏛️</span>
+            <div><span class="font-medium">Arquitetura A2A</span><span class="text-neutral-500 text-sm ml-2">- Agent card, skill list, task protocol</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Cada agente expõe uma interface padronizada: Agent Card (quem sou), Skill List (o que faço), Task Protocol (como recebo e processo tarefas). Qualquer agente pode descobrir e chamar outro.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">É a arquitetura que permite "marketplace de agentes" — você pode comprar um agente especializado de um fornecedor e ele funciona no seu sistema sem integração custom.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Agent Card: JSON com identidade e capacidades · Skill registry: lista de skills com input/output schema · Task protocol: como enviar, receber e cancelar tarefas</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🪪</span>
+            <div><span class="font-medium">Agent Card</span><span class="text-neutral-500 text-sm ml-2">- O README de um agente em JSON</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Arquivo JSON que descreve o agente: nome, versão, capacidades, skills disponíveis com schemas, protocolo de comunicação suportado, autenticação necessária, limites (rate limit, custo).</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">O Agent Card é o que permite descoberta automática. Um orquestrador pode ler o Card e saber exatamente como usar o agente sem documentação adicional.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">JSON schema · Skills com input/output type · Autenticação (API key, OAuth) · Rate limits declarados · Versioning do protocolo · URL de endpoint</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">📨</span>
+            <div><span class="font-medium">Task Protocol A2A</span><span class="text-neutral-500 text-sm ml-2">- send, subscribe, cancel</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Como enviar uma tarefa (task.send com payload), como receber atualizações de progresso (task.subscribe via streaming), como cancelar uma tarefa em andamento (task.cancel com cleanup).</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">O task protocol define como sistemas interagem. Implementar corretamente garante que seu agente é um cidadão de primeira classe no ecossistema A2A.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">task.send: idempotent com task_id · task.subscribe: SSE ou WebSocket para streaming · task.cancel: cleanup garantido · task.status: polling alternativo</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🐍</span>
+            <div><span class="font-medium">Implementando A2A em Python</span><span class="text-neutral-500 text-sm ml-2">- Do discovery ao resultado</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Exemplo completo: Agente A lê Agent Card de Agente B, verifica compatibilidade, envia task, monitora progresso via streaming, recebe resultado e trata erros.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ver o código completo do fluxo A2A desmistifica o protocolo e mostra que a implementação é mais simples do que parece para casos básicos.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">httpx para requests async · SSE client para streaming · Pydantic para validação de Agent Card · Error handling: task failed vs. network error</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">⚖️</span>
+            <div><span class="font-medium">A2A vs. MCP vs. chamada direta</span><span class="text-neutral-500 text-sm ml-2">- Quando usar cada abordagem</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-amber-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Tabela comparativa: chamada direta (simples, acoplado), MCP (agente ↔ ferramenta, padrão Anthropic), A2A (agente ↔ agente, interoperabilidade). Quando usar cada um e por quê.</p></div>
+              <div><span class="text-amber-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Usar A2A onde deveria usar chamada direta é over-engineering. Usar chamada direta onde deveria usar A2A é acoplamento que vai custar caro quando o outro agente mudar.</p></div>
+              <div><span class="text-amber-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Chamada direta: mesmo sistema, custo zero · MCP: ferramentas externas, padrão estabelecido · A2A: agentes externos, interoperabilidade máxima · Futuro: A2A como HTTP dos agentes</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-4-10')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-4-10.html" class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- NAVEGAÇÃO FINAL -->
+    <div class="flex flex-col sm:flex-row gap-4 mt-8">
+      <a href="../trilha3/index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+        ← Trilha 3: Frameworks
+      </a>
+      <a href="../trilha5/index.html" class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors">
+        Trilha 5: Orquestrador →
+      </a>
+    </div>
+  </main>
+
+  <!-- MODAIS -->
+  <div id="modal-4-1" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-amber-400 font-bold">4.1</span><span class="font-semibold">🏗️ Arquiteturas Multi-Agente</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-4-1.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-4-2" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-amber-400 font-bold">4.2</span><span class="font-semibold">🎯 O Orquestrador</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-4-2.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-4-3" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-amber-400 font-bold">4.3</span><span class="font-semibold">📋 BMad na Prática</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-4-3.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-4-4" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-amber-400 font-bold">4.4</span><span class="font-semibold">👥 Agentes Especializados</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-4-4.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-4-5" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-amber-400 font-bold">4.5</span><span class="font-semibold">🗃️ Gerenciamento de Estado</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-4-5.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-4-6" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-amber-400 font-bold">4.6</span><span class="font-semibold">🔀 Handoffs e Roteamento</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-4-6.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-4-7" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-amber-400 font-bold">4.7</span><span class="font-semibold">⚡ Execução Paralela</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-4-7.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-4-8" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-amber-400 font-bold">4.8</span><span class="font-semibold">🔧 Tratamento de Erros</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-4-8.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-4-9" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-amber-400 font-bold">4.9</span><span class="font-semibold">🔄 Replanejamento Automático</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-4-9.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-4-10" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-amber-400 font-bold">4.10</span><span class="font-semibold">📡 Protocolo A2A</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-4-10.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const moduleCard = button.closest('.bg-dark-800');
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) exp.classList.remove('active');
+      });
+      explanation.classList.toggle('active');
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+    }
+
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(modal => modal.classList.add('hidden'));
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

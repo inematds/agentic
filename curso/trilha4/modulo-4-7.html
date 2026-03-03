@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4.7 Execução Paralela | Trilha 4 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Multi-Agentes</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-amber-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-amber-400 transition-colors">Trilha 4 — Multi-Agentes e Orquestração</a>
+      <span>/</span>
+      <span class="text-amber-400">Módulo 4.7</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 4.7</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">⚡ Execução Paralela</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Fan-out distribui para múltiplos agentes simultâneos. Fan-in combina os resultados. asyncio.gather() implementa tudo em Python. Aprenda timeout, cancellation e como controlar o custo de paralelismo sem sacrificar performance.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Interm.</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Código</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🚀 Por que paralelismo em agentes</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A lei de Amdahl aplicada a agentes: o speedup de um sistema é limitado pelo componente sequencial. Se 90% das tarefas são paralelizáveis, você pode obter até 10x de speedup com paralelismo. Isso transforma um processo de 10 minutos em 1 minuto — sem aumentar qualidade, mas eliminando espera.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">🚀 Quando o paralelismo compensa</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-emerald-900/20 rounded-lg p-4 border border-emerald-500/20 text-center">
+            <div class="text-2xl mb-2">✓</div>
+            <p class="text-sm font-semibold text-emerald-400 mb-1">Tarefas independentes</p>
+            <p class="text-xs text-neutral-400">A execução de cada tarefa não depende do resultado das outras. Podem rodar simultaneamente sem conflito.</p>
+          </div>
+          <div class="bg-emerald-900/20 rounded-lg p-4 border border-emerald-500/20 text-center">
+            <div class="text-2xl mb-2">✓</div>
+            <p class="text-sm font-semibold text-emerald-400 mb-1">Latência > Custo</p>
+            <p class="text-xs text-neutral-400">O usuário espera o resultado e tempo importa mais que o custo adicional de múltiplos agentes.</p>
+          </div>
+          <div class="bg-emerald-900/20 rounded-lg p-4 border border-emerald-500/20 text-center">
+            <div class="text-2xl mb-2">✓</div>
+            <p class="text-sm font-semibold text-emerald-400 mb-1">Volume alto</p>
+            <p class="text-xs text-neutral-400">Muitos itens para processar (documentos, leads, análises) onde sequencial levaria tempo inaceitável.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3">⚠️ Quando NÃO usar paralelismo</h3>
+        <ul class="space-y-2 text-neutral-300 text-sm">
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span><strong>Tarefas dependentes entre si:</strong> B precisa do resultado de A antes de começar — paralelismo não ajuda aqui</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span><strong>Custo não justificado:</strong> 10 agentes custam 10x mais — se o usuário pode esperar, economize</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span><strong>Rate limits apertados:</strong> 10 agentes simultâneos podem bater no rate limit da API e todos ficarem lentos</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">📤 Fan-out pattern</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Fan-out é o momento em que um input único se divide em múltiplas execuções paralelas. O coordenador divide o trabalho em partes, distribui para N agentes e aguarda a conclusão de todos (ou um subconjunto, dependendo da estratégia).
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">📤 Estratégias de particionamento</h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="w-8 h-8 rounded-full bg-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm flex-shrink-0">1</span>
+            <div>
+              <p class="font-semibold text-white text-sm">Particionamento por item</p>
+              <p class="text-xs text-neutral-400 mt-1">Cada agente processa um item diferente. 10 documentos → 10 agentes, cada um com 1 documento. Mais simples e mais comum.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="w-8 h-8 rounded-full bg-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm flex-shrink-0">2</span>
+            <div>
+              <p class="font-semibold text-white text-sm">Particionamento por aspecto</p>
+              <p class="text-xs text-neutral-400 mt-1">Cada agente analisa um aspecto diferente do mesmo item. Agente A analisa performance, Agente B analisa segurança, Agente C analisa UX — todos do mesmo produto.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="w-8 h-8 rounded-full bg-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm flex-shrink-0">3</span>
+            <div>
+              <p class="font-semibold text-white text-sm">Particionamento por batch</p>
+              <p class="text-xs text-neutral-400 mt-1">100 documentos divididos em 10 batches de 10. Cada agente processa um batch. Útil quando o número de itens é muito maior que o número de agentes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">📊 Controlando concorrência com semáforo</h3>
+        <div class="bg-dark-900/50 rounded-lg p-3 font-mono text-xs text-neutral-300 mt-3">
+          <p class="text-neutral-500"># Sem semáforo: 100 agentes simultâneos → rate limit</p>
+          <p class="text-neutral-500"># Com semáforo: máximo 10 simultâneos → estável</p>
+          <p></p>
+          <p>semaphore = asyncio.Semaphore(10)  <span class="text-neutral-500"># max 10 paralelos</span></p>
+          <p></p>
+          <p><span class="text-amber-400">async def</span> run_with_limit(agent, task):</p>
+          <p>    <span class="text-amber-400">async with</span> semaphore:</p>
+          <p>        <span class="text-amber-400">return await</span> agent.run(task)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">📥 Fan-in pattern</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O fan-in é onde a qualidade do resultado final é definida. Você pode ter 10 análises paralelas excelentes e desperdiçar tudo com uma estratégia de combinação ruim. A lógica de merge é subestimada e é onde a maioria dos bugs de sistemas paralelos se esconde.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h4 class="font-semibold text-amber-400 mb-4">Estratégias de fan-in</h4>
+          <div class="space-y-3 text-sm">
+            <div class="bg-dark-700/50 rounded-lg p-3">
+              <p class="font-semibold text-neutral-300 mb-1">Concatenação (merge)</p>
+              <p class="text-xs text-neutral-400">Une todos os resultados em uma lista ou documento. Simples, mas pode gerar duplicatas ou inconsistências.</p>
+            </div>
+            <div class="bg-dark-700/50 rounded-lg p-3">
+              <p class="font-semibold text-neutral-300 mb-1">Votação (vote)</p>
+              <p class="text-xs text-neutral-400">Cada agente "vota" numa resposta. A maioria vence. Bom para classificações onde agentes podem discordar.</p>
+            </div>
+            <div class="bg-dark-700/50 rounded-lg p-3">
+              <p class="font-semibold text-neutral-300 mb-1">Sumarização (summarize)</p>
+              <p class="text-xs text-neutral-400">Um LLM lê todos os resultados e gera uma síntese coerente. Mais caro, melhor qualidade de combinação.</p>
+            </div>
+            <div class="bg-dark-700/50 rounded-lg p-3">
+              <p class="font-semibold text-neutral-300 mb-1">Agregação (aggregate)</p>
+              <p class="text-xs text-neutral-400">Operação matemática sobre resultados numéricos (média, soma, max). Perfeito para métricas.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h4 class="font-semibold text-amber-400 mb-4">Tratando resultado parcial</h4>
+          <p class="text-sm text-neutral-300 mb-3">O que acontece quando 2 de 10 agentes falham?</p>
+          <div class="space-y-2 text-sm">
+            <div class="flex items-start space-x-3 bg-dark-700/50 rounded-lg p-3">
+              <span class="text-emerald-400">→</span>
+              <span class="text-neutral-300"><strong>Parcial aceitável:</strong> retorna o resultado dos 8 que funcionaram com flag "partial"</span>
+            </div>
+            <div class="flex items-start space-x-3 bg-dark-700/50 rounded-lg p-3">
+              <span class="text-amber-400">→</span>
+              <span class="text-neutral-300"><strong>Threshold mínimo:</strong> precisa de pelo menos 7 de 10 para ser válido, senão falha total</span>
+            </div>
+            <div class="flex items-start space-x-3 bg-dark-700/50 rounded-lg p-3">
+              <span class="text-blue-400">→</span>
+              <span class="text-neutral-300"><strong>Retry dos falhos:</strong> reexecuta só os 2 que falharam antes de fazer o fan-in</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">🐍 asyncio na prática com agentes</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Chamadas LLM são I/O-bound — o Python fica esperando a resposta da API. asyncio foi criado exatamente para isso: executar múltiplas operações de I/O simultaneamente sem bloqueio. É o mecanismo nativo Python para paralelismo de agentes.
+      </p>
+      <div class="bg-dark-900/80 rounded-xl border border-dark-600 p-6 mb-6 overflow-x-auto">
+        <p class="text-xs text-neutral-500 mb-3 font-semibold">Python — Fan-out e fan-in com asyncio</p>
+        <pre class="text-sm text-neutral-300"><code><span class="text-amber-400">import</span> asyncio
+<span class="text-amber-400">from</span> typing <span class="text-amber-400">import</span> List, Any
+
+<span class="text-amber-400">async def</span> analyze_document(agent, document: str) -> dict:
+    <span class="text-neutral-500">"""Agente analisa um documento"""</span>
+    result = <span class="text-amber-400">await</span> agent.run(
+        f<span class="text-blue-400">"Analise este documento: {document}"</span>
+    )
+    <span class="text-amber-400">return</span> {<span class="text-blue-400">"doc"</span>: document[:50], <span class="text-blue-400">"analysis"</span>: result}
+
+<span class="text-amber-400">async def</span> parallel_analyze(agents, documents: List[str]) -> List[dict]:
+    <span class="text-neutral-500">"""Fan-out: distribui, aguarda, retorna todos"""</span>
+    semaphore = asyncio.Semaphore(5)  <span class="text-neutral-500"># max 5 simultâneos</span>
+
+    <span class="text-amber-400">async def</span> bounded_analyze(agent, doc):
+        <span class="text-amber-400">async with</span> semaphore:
+            <span class="text-amber-400">return await</span> analyze_document(agent, doc)
+
+    <span class="text-neutral-500"># Fan-out: todos os documentos em paralelo</span>
+    tasks = [
+        bounded_analyze(agents[i % len(agents)], doc)
+        <span class="text-amber-400">for</span> i, doc <span class="text-amber-400">in</span> enumerate(documents)
+    ]
+
+    <span class="text-neutral-500"># return_exceptions=True: não cancela os outros se um falha</span>
+    results = <span class="text-amber-400">await</span> asyncio.gather(*tasks, return_exceptions=True)
+
+    <span class="text-neutral-500"># Fan-in: filtra erros, retorna resultados válidos</span>
+    valid = [r <span class="text-amber-400">for</span> r <span class="text-amber-400">in</span> results <span class="text-amber-400">if not isinstance</span>(r, Exception)]
+    failed = len(results) - len(valid)
+
+    <span class="text-amber-400">if</span> failed > 0:
+        print(f<span class="text-blue-400">"⚠️ {failed} agentes falharam de {len(results)}"</span>)
+
+    <span class="text-amber-400">return</span> valid</code></pre>
+      </div>
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">📊 asyncio.TaskGroup (Python 3.11+)</h3>
+        <div class="bg-dark-900/50 rounded-lg p-3 font-mono text-xs text-neutral-300 mt-3">
+          <p class="text-neutral-500"># TaskGroup: cancela todos se qualquer um falha</p>
+          <p><span class="text-amber-400">async with</span> asyncio.TaskGroup() <span class="text-amber-400">as</span> tg:</p>
+          <p>    tasks = [tg.create_task(agent.run(doc))</p>
+          <p>             <span class="text-amber-400">for</span> doc <span class="text-amber-400">in</span> documents]</p>
+          <p></p>
+          <p><span class="text-neutral-500"># Após o bloco: todos concluídos ou exceção levantada</span></p>
+          <p>results = [t.result() <span class="text-amber-400">for</span> t <span class="text-amber-400">in</span> tasks]</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">⏱️ Timeout e cancellation</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Em um sistema de 10 agentes paralelos, é praticamente garantido que algum vai demorar mais que os outros — por rate limit, contexto mais complexo ou simplesmente variação natural da API. Timeout é o mecanismo que impede que um agente lento bloqueie o resultado de todos os outros.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">⏱️ Implementando timeout por agente</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 font-mono text-xs text-neutral-300 overflow-x-auto">
+          <p><span class="text-amber-400">async def</span> run_with_timeout(agent, task, timeout_s=60):</p>
+          <p>    <span class="text-amber-400">try</span>:</p>
+          <p>        result = <span class="text-amber-400">await</span> asyncio.wait_for(</p>
+          <p>            agent.run(task),</p>
+          <p>            timeout=timeout_s</p>
+          <p>        )</p>
+          <p>        <span class="text-amber-400">return</span> {<span class="text-blue-400">"status"</span>: <span class="text-blue-400">"done"</span>, <span class="text-blue-400">"result"</span>: result}</p>
+          <p>    <span class="text-amber-400">except</span> asyncio.TimeoutError:</p>
+          <p>        <span class="text-neutral-500"># Cancela e retorna resultado parcial com flag</span></p>
+          <p>        <span class="text-amber-400">return</span> {<span class="text-blue-400">"status"</span>: <span class="text-blue-400">"timeout"</span>, <span class="text-blue-400">"result"</span>: <span class="text-amber-400">None</span>}</p>
+          <p></p>
+          <p><span class="text-neutral-500"># asyncio.wait para "primeiro que terminar" ou "N completos"</span></p>
+          <p>done, pending = <span class="text-amber-400">await</span> asyncio.wait(</p>
+          <p>    tasks,</p>
+          <p>    timeout=90,  <span class="text-neutral-500"># timeout global</span></p>
+          <p>    return_when=asyncio.ALL_COMPLETED</p>
+          <p>)</p>
+          <p><span class="text-neutral-500"># Cancela os pendentes</span></p>
+          <p><span class="text-amber-400">for</span> task <span class="text-amber-400">in</span> pending:</p>
+          <p>    task.cancel()</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+          <h4 class="font-semibold text-primary mb-3">💡 Como calibrar o timeout</h4>
+          <p class="text-sm text-neutral-300">Use o P95 de latência histórica como base: se 95% das chamadas terminam em 30s, use timeout de 45s (1.5x). Isso elimina outliers sem cancelar casos legítimos que demoram um pouco mais.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h4 class="font-semibold text-neutral-300 mb-3">O que fazer com o resultado parcial</h4>
+          <div class="space-y-2 text-sm text-neutral-300">
+            <p>→ Retornar resultado dos que terminaram com flag "partial"</p>
+            <p>→ Retry assíncrono dos que fizeram timeout</p>
+            <p>→ Escalar para humano se resultado parcial for insuficiente</p>
+            <p>→ Logar o timeout para análise de P95 histórico</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">💰 Custo do paralelismo</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A equação financeira do paralelismo é simples: N agentes paralelos custam aproximadamente N× o custo de 1 agente. Você paga por tempo de cada agente independentemente. A questão não é se paralelo é mais caro (é), mas se o benefício de tempo justifica o custo adicional.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">💰 Calculando ROI do paralelismo</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-sm font-semibold text-neutral-400 mb-3">Exemplo: 100 análises</p>
+            <div class="space-y-2 text-xs text-neutral-300">
+              <p><strong>Sequencial:</strong> 100 análises × 60s = 100min | $5.00</p>
+              <p><strong>Paralelo (10 agentes):</strong> ~10min | $5.00</p>
+              <p class="text-amber-400 mt-2">Mesmo custo, 10x mais rápido</p>
+            </div>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-sm font-semibold text-neutral-400 mb-3">Otimização por tier de modelo</p>
+            <div class="space-y-2 text-xs text-neutral-300">
+              <p>Haiku (análise simples): $0.25 cada</p>
+              <p>Sonnet (análise média): $0.50 cada</p>
+              <p>Opus (análise complexa): $2.50 cada</p>
+              <p class="text-emerald-400 mt-2">Use o modelo certo para cada subtarefa</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-3">Estratégias de otimização de custo</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><strong>Batching:</strong> agrupe chamadas pequenas em uma chamada maior</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><strong>Tier de modelo:</strong> use haiku para tarefas simples e opus só para complexas</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><strong>Caching:</strong> resultados idênticos não precisam ser reprocessados</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><strong>Semáforo:</strong> limite de concorrência previne explosão de custo</span></li>
+          </ul>
+        </div>
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+          <h4 class="font-bold text-blue-400 mb-3">Budget por execução paralela</h4>
+          <p class="text-sm text-neutral-300 mb-3">Defina um budget máximo antes de iniciar o fan-out:</p>
+          <div class="bg-dark-900/50 rounded-lg p-2 font-mono text-xs text-neutral-300">
+            <p>MAX_BUDGET = 10.00  <span class="text-neutral-500"># USD</span></p>
+            <p>estimated = n_agents * cost_per_agent</p>
+            <p><span class="text-amber-400">if</span> estimated > MAX_BUDGET:</p>
+            <p>    n_agents = int(MAX_BUDGET / cost_per_agent)</p>
+            <p>    <span class="text-neutral-500"># Ajusta paralelismo ao budget</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumo do Módulo 4.7</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Paralelismo se justifica</strong><span class="text-neutral-400"> quando tarefas são independentes e latência importa mais que custo</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Fan-out com semáforo</strong><span class="text-neutral-400"> distribui para N agentes sem bater em rate limit da API</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Fan-in</strong><span class="text-neutral-400"> tem 4 estratégias — escolha baseada no tipo de dado a combinar</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">asyncio.gather() com return_exceptions</strong><span class="text-neutral-400"> é o padrão Python para fan-out não-bloqueante</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Custo = N × custo unitário</strong><span class="text-neutral-400"> — tier de modelo por subtarefa e batching são as principais alavancas</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-amber-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">4.8 — Tratamento de Erros: os tipos específicos de falha em agentes e como implementar retry, fallback, circuit breaker e escalada para humano.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-4-6.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 4.6 Handoffs</a>
+          <a href="modulo-4-8.html" class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors">Próximo: 4.8 Erros →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden'); themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

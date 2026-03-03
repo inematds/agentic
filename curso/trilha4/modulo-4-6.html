@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4.6 Handoffs e Roteamento | Trilha 4 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Multi-Agentes</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-amber-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-amber-400 transition-colors">Trilha 4 — Multi-Agentes e Orquestração</a>
+      <span>/</span>
+      <span class="text-amber-400">Módulo 4.6</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 4.6</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔀 Handoffs e Roteamento</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">A transferência formal de controle entre agentes com garantia de consistência. Aprenda critérios de roteamento (conteúdo, carga, habilidade, custo), rollback quando o destino falha, e os 4 padrões de handoff que cobrem todos os casos reais.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Interm.</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Padrões</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🤝 O que é um handoff</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Um handoff não é apenas "agente A termina e agente B começa". É uma transferência formal de controle e contexto, com verificação de consistência antes da transferência e confirmação de recebimento pelo agente destino. A formalidade é o que garante que nada se perde na transição.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">🤝 O protocolo de handoff formal</h3>
+        <div class="space-y-3">
+          <div class="flex items-center space-x-4 text-sm">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold flex-shrink-0">1</span>
+            <span class="text-neutral-300">Agente A finaliza trabalho e verifica que estado está consistente</span>
+          </div>
+          <div class="flex items-center space-x-4 text-sm">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold flex-shrink-0">2</span>
+            <span class="text-neutral-300">Agente A prepara o handoff packet (resultado + contexto relevante + metadados)</span>
+          </div>
+          <div class="flex items-center space-x-4 text-sm">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold flex-shrink-0">3</span>
+            <span class="text-neutral-300">Orquestrador registra o handoff no log de auditoria</span>
+          </div>
+          <div class="flex items-center space-x-4 text-sm">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold flex-shrink-0">4</span>
+            <span class="text-neutral-300">Agente B recebe e confirma recebimento (acknowledge)</span>
+          </div>
+          <div class="flex items-center space-x-4 text-sm">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold flex-shrink-0">5</span>
+            <span class="text-neutral-300">Agente A libera os recursos e encerra sua execução</span>
+          </div>
+          <div class="flex items-center space-x-4 text-sm">
+            <span class="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 font-bold flex-shrink-0">!</span>
+            <span class="text-neutral-300">Se Agente B não confirma em X segundos → rollback automático</span>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-3">O handoff packet</h4>
+          <div class="space-y-1 text-sm font-mono text-neutral-300">
+            <p>task_id: "T3"</p>
+            <p>from_agent: "executor_A"</p>
+            <p>to_agent: "reviewer_B"</p>
+            <p>result: {dados_do_resultado}</p>
+            <p>context_summary: "resumo do que foi feito"</p>
+            <p>handoff_reason: "task_complete"</p>
+            <p>timestamp: 1748345678</p>
+          </div>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-3">Handoff informal (o problema)</h4>
+          <p class="text-sm text-neutral-300 mb-3">Sem protocolo formal, handoffs informais causam:</p>
+          <ul class="space-y-1 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Contexto perdido na transição</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Agente destino começa sem confirmação</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Nenhum log de auditoria da transferência</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sem rollback quando destino falha</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🎛️ Critérios de roteamento</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O roteamento define qual agente recebe qual tarefa. A decisão errada desperdiça tokens (agente errado para o domínio) ou tempo (agente sobrecarregado). Quatro critérios cobrem a maioria dos casos reais — use o mais simples que resolve o seu problema.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-sm">1</span>
+            <h4 class="font-semibold text-amber-400">Roteamento por Conteúdo</h4>
+          </div>
+          <p class="text-sm text-neutral-300 mb-3">O tipo da tarefa determina o agente destino. Análise jurídica → agente jurídico. Código → agente de engenharia. Redação → agente de conteúdo.</p>
+          <div class="bg-dark-900/50 rounded-lg p-2 font-mono text-xs text-neutral-300">
+            <p>if "contrato" in task: → legal_agent</p>
+            <p>elif "def " in task: → code_agent</p>
+            <p>else: → general_agent</p>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-sm">2</span>
+            <h4 class="font-semibold text-amber-400">Roteamento por Carga</h4>
+          </div>
+          <p class="text-sm text-neutral-300 mb-3">O agente com menos tarefas em fila recebe a próxima. Load balancing clássico aplicado a agentes. Ideal quando agentes são equivalentes entre si.</p>
+          <div class="bg-dark-900/50 rounded-lg p-2 font-mono text-xs text-neutral-300">
+            <p>agent = min(agents,</p>
+            <p>  key=lambda a: a.queue_size)</p>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-sm">3</span>
+            <h4 class="font-semibold text-amber-400">Roteamento por Habilidade</h4>
+          </div>
+          <p class="text-sm text-neutral-300 mb-3">O agente com maior success_rate histórico para esse tipo de tarefa é selecionado. Self-learning routing — melhora com o uso.</p>
+          <div class="bg-dark-900/50 rounded-lg p-2 font-mono text-xs text-neutral-300">
+            <p>agent = max(capable_agents,</p>
+            <p>  key=lambda a: a.success_rate(</p>
+            <p>    task_type=task.type))</p>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-sm">4</span>
+            <h4 class="font-semibold text-amber-400">Roteamento por Custo</h4>
+          </div>
+          <p class="text-sm text-neutral-300 mb-3">Para orçamento restrito, o agente mais barato compatível com os requisitos da tarefa é selecionado. Balanceia custo e qualidade.</p>
+          <div class="bg-dark-900/50 rounded-lg p-2 font-mono text-xs text-neutral-300">
+            <p>agent = min(capable_agents,</p>
+            <p>  key=lambda a: a.cost_per_token)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🧠 Roteamento dinâmico com LLM classifier</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Quando regras determinísticas não são suficientes para classificar a tarefa corretamente, um LLM leve atua como classificador: analisa o input e decide qual agente tem a melhor combinação de habilidades para lidar com ele.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">🧠 Implementação do classifier</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 font-mono text-xs text-neutral-300 overflow-x-auto">
+          <p class="text-amber-400">CLASSIFIER_PROMPT</p> = <span class="text-blue-400">"""</span>
+          <p>Você é um roteador de tarefas. Analise a tarefa e escolha o agente mais adequado.</p>
+          <p></p>
+          <p>Agentes disponíveis:</p>
+          <p>- researcher: pesquisa web, coleta de dados, fact-checking</p>
+          <p>- analyst: análise quantitativa, modelagem, métricas</p>
+          <p>- writer: redação, síntese, geração de relatórios</p>
+          <p>- coder: código Python/JS, scripts, automação</p>
+          <p></p>
+          <p>Tarefa: {task_description}</p>
+          <p></p>
+          <p>Responda APENAS com o nome do agente (sem explicação):</p>
+          <p><span class="text-blue-400">"""</span></p>
+          <p></p>
+          <p class="text-amber-400">async def</p> route_task(task: str) -> str:</p>
+          <p>    response = <span class="text-amber-400">await</span> llm.complete(</p>
+          <p>        CLASSIFIER_PROMPT.format(task_description=task),</p>
+          <p>        model=<span class="text-blue-400">"claude-haiku-3"</span>,  <span class="text-neutral-500"># barato</span></p>
+          <p>        max_tokens=10</p>
+          <p>    )</p>
+          <p>    agent_name = response.strip().lower()</p>
+          <p>    <span class="text-amber-400">if</span> agent_name <span class="text-amber-400">not in</span> AVAILABLE_AGENTS:</p>
+          <p>        <span class="text-amber-400">return</span> <span class="text-blue-400">"general"</span>  <span class="text-neutral-500"># fallback seguro</span></p>
+          <p>    <span class="text-amber-400">return</span> agent_name</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-3">✓ Quando usar LLM classifier</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Tarefas em linguagem natural ambígua</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Múltiplos domínios que se sobrepõem</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Quando regras determinísticas ficam complicadas</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-3">✗ Quando usar regras determinísticas</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Quando você quer zero latência de classificação</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Quando o tipo de tarefa é sempre explícito no input</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Quando o custo do classifier não é aceitável</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">↩️ Rollback de handoff</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O que acontece quando o agente destino falha após receber o handoff? Sem rollback definido, a tarefa fica em limbo — nem no agente origem, nem no destino — e o sistema trava silenciosamente. O rollback formal é o que garante que nenhuma tarefa se perde.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">↩️ Two-phase commit para handoffs</h3>
+        <div class="space-y-3">
+          <div class="bg-dark-800/50 rounded-lg p-4">
+            <p class="font-semibold text-white text-sm mb-2">Fase 1: Prepare</p>
+            <ul class="space-y-1 text-xs text-neutral-400">
+              <li>→ Agente A prepara handoff packet e registra no log como "pending"</li>
+              <li>→ Agente B é notificado e reserva recursos para receber</li>
+              <li>→ Agente B confirma "ready" ou responde "not ready"</li>
+            </ul>
+          </div>
+          <div class="bg-dark-800/50 rounded-lg p-4">
+            <p class="font-semibold text-white text-sm mb-2">Fase 2: Commit (ou Abort)</p>
+            <ul class="space-y-1 text-xs text-neutral-400">
+              <li>→ Se B confirmou: handoff executado, log atualizado para "committed"</li>
+              <li>→ Se B não confirmou em timeout: handoff abortado, log como "rolled_back"</li>
+              <li>→ Rollback: tarefa retorna ao agente A (ou vai para agente de fallback)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3">⚠️ O handoff fantasma</h3>
+        <p class="text-neutral-300 text-sm">Sem two-phase commit, existe o risco do "handoff fantasma": Agente A entregou (do ponto de vista dele), mas Agente B nunca recebeu (crash antes de confirmar). Nenhum dos dois sabe que a tarefa está perdida. O sistema continua funcionando, mas sem completar aquela tarefa específica — descoberto pelo usuário final horas depois.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">📦 Context passing eficiente</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Passar contexto demais é o erro mais comum em handoffs. Se o Agente A processou 50 documentos e passa todo o histórico para o Agente B, você paga pelo contexto duas vezes e pode exceder a context window. Contexto mínimo necessário é uma habilidade de engenharia.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">📦 Estratégias de context compression</h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="w-8 h-8 rounded-full bg-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm flex-shrink-0">1</span>
+            <div>
+              <p class="font-semibold text-white text-sm">Sumarização semântica</p>
+              <p class="text-xs text-neutral-400 mt-1">Use um LLM para sumarizar o trabalho do Agente A em 3-5 bullet points antes de passar para o B. De 10.000 tokens para 200 tokens com 90% da informação relevante preservada.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="w-8 h-8 rounded-full bg-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm flex-shrink-0">2</span>
+            <div>
+              <p class="font-semibold text-white text-sm">Extração de entidades relevantes</p>
+              <p class="text-xs text-neutral-400 mt-1">Identifique e passe apenas as entidades que o Agente B vai usar: nomes, números, URLs, decisões. O resto é irrelevante para a próxima tarefa.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="w-8 h-8 rounded-full bg-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm flex-shrink-0">3</span>
+            <div>
+              <p class="font-semibold text-white text-sm">Contexto hierárquico</p>
+              <p class="text-xs text-neutral-400 mt-1">Passe dois níveis: summary (sempre) + full_context (disponível via referência se o agente precisar). O agente começa com o summary e solicita detalhes sob demanda.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🗺️ Os 4 padrões de handoff</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Quatro padrões cobrem praticamente todos os casos de handoff em sistemas reais. Escolha sempre o mais simples que resolve o seu caso — simplicidade é confiabilidade.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">➡️</span>
+            <h4 class="font-semibold text-amber-400">Sequential (A→B→C)</h4>
+          </div>
+          <p class="text-sm text-neutral-300 mb-3">Cada agente completa e passa para o próximo em sequência linear. O mais simples e previsível.</p>
+          <div class="flex items-center space-x-2 text-xs">
+            <span class="text-emerald-400">+ Fácil de auditar e debugar</span>
+          </div>
+          <div class="flex items-center space-x-2 text-xs mt-1">
+            <span class="text-red-400">- Mais lento (sem paralelismo)</span>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">🔀</span>
+            <h4 class="font-semibold text-amber-400">Conditional (se X→B, se Y→C)</h4>
+          </div>
+          <p class="text-sm text-neutral-300 mb-3">O agente destino é escolhido com base em uma condição avaliada pelo orquestrador ou pelo próprio agente A.</p>
+          <div class="flex items-center space-x-2 text-xs">
+            <span class="text-emerald-400">+ Flexível para diferentes tipos de tarefa</span>
+          </div>
+          <div class="flex items-center space-x-2 text-xs mt-1">
+            <span class="text-red-400">- Lógica de condição pode crescer indefinidamente</span>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">⚡</span>
+            <h4 class="font-semibold text-amber-400">Parallel (A→B e C simultaneamente)</h4>
+          </div>
+          <p class="text-sm text-neutral-300 mb-3">Agente A passa o resultado para múltiplos agentes simultaneamente. Todos processam em paralelo e os resultados são combinados no fan-in.</p>
+          <div class="flex items-center space-x-2 text-xs">
+            <span class="text-emerald-400">+ Muito rápido para tarefas independentes</span>
+          </div>
+          <div class="flex items-center space-x-2 text-xs mt-1">
+            <span class="text-red-400">- Custo multiplicado, lógica de merge necessária</span>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">🧠</span>
+            <h4 class="font-semibold text-amber-400">Dynamic (A decide em runtime)</h4>
+          </div>
+          <p class="text-sm text-neutral-300 mb-3">O Agente A decide em runtime para qual agente fazer handoff, baseado no resultado do seu próprio processamento. Máxima flexibilidade.</p>
+          <div class="flex items-center space-x-2 text-xs">
+            <span class="text-emerald-400">+ Adapta a resultado de execução</span>
+          </div>
+          <div class="flex items-center space-x-2 text-xs mt-1">
+            <span class="text-red-400">- Mais difícil de prever e testar</span>
+          </div>
+        </div>
+      </div>
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3">💡 Regra de escolha de padrão</h3>
+        <p class="text-neutral-300 text-sm">Comece sempre com Sequential. Mude para Conditional quando o destino depende de critério claro. Use Parallel quando latência importa mais que custo. Reserve Dynamic apenas para sistemas que genuinamente não podem ser determinísticos — são os mais difíceis de operar em produção.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumo do Módulo 4.6</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Handoff formal</strong><span class="text-neutral-400"> tem 5 passos com confirmação — handoff informal garante contexto perdido em produção</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">4 critérios de roteamento</strong><span class="text-neutral-400"> — conteúdo, carga, habilidade e custo, podendo ser combinados</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Two-phase commit</strong><span class="text-neutral-400"> elimina o "handoff fantasma" — a tarefa nunca fica em limbo</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Context compression</strong><span class="text-neutral-400"> — sumarização, entidades e contexto hierárquico reduzem custo de handoff</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">4 padrões de handoff</strong><span class="text-neutral-400"> — sequential, conditional, parallel, dynamic. Use o mais simples que resolve.</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-amber-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">4.7 — Execução Paralela: fan-out, fan-in, asyncio.gather() e como gerenciar timeout e custo de agentes paralelos.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-4-5.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 4.5 Estado</a>
+          <a href="modulo-4-7.html" class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors">Próximo: 4.7 Execução Paralela →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden'); themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

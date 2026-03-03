@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4.3 BMad na Prática | Trilha 4 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span></a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block"><span>Frameworks</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Multi-Agentes</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-amber-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-amber-400 transition-colors">Trilha 4 — Multi-Agentes e Orquestração</a>
+      <span>/</span>
+      <span class="text-amber-400">Módulo 4.3</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 4.3</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">📋 BMad na Prática</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Breakdown-Manage-Delegate: o método arquitetural para transformar objetivos complexos em tarefas executáveis por agentes. Da teoria ao código Python, incluindo um exemplo real completo com 8 tarefas, 3 paralelas e 3 agentes especializados.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Interm.</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Método</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🎯 O que é BMad</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        BMad não é um framework — é um método de raciocínio. Ele responde a pergunta mais difícil de orquestração: dado um objetivo complexo e vago, como você chega a um conjunto de tarefas concretas, priorizadas e atribuíveis a agentes específicos?
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">📊 BMad: as 3 fases</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-amber-500/20 text-center">
+            <div class="text-3xl mb-3">🔨</div>
+            <h4 class="font-bold text-amber-400 mb-2">B — Breakdown</h4>
+            <p class="text-xs text-neutral-400">Decompor o objetivo em subproblemas e tarefas com dependências e critérios de sucesso</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-amber-500/20 text-center">
+            <div class="text-3xl mb-3">🗂️</div>
+            <h4 class="font-bold text-amber-400 mb-2">M — Manage</h4>
+            <p class="text-xs text-neutral-400">Organizar as tarefas em árvore de execução, definir sequencial vs. paralelo, estimar custo</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-amber-500/20 text-center">
+            <div class="text-3xl mb-3">📤</div>
+            <h4 class="font-bold text-amber-400 mb-2">D — Delegate</h4>
+            <p class="text-xs text-neutral-400">Atribuir cada tarefa ao agente mais adequado com contexto mínimo e critério de aceitação</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3">💡 Por que BMad em vez de improvisar?</h3>
+        <p class="text-neutral-300 text-sm">Sem um método, cada problema novo gera uma solução ad-hoc inconsistente. Com BMad, você tem um processo repetível que qualquer membro da equipe pode aplicar. O resultado: planejamento auditável, tarefas rastreáveis e sistemas que você consegue debugar quando algo dá errado.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🔨 Fase Breakdown: decompor o objetivo</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A fase mais crítica — e a mais subestimada. Uma decomposição ruim propaga erro por todo o sistema. Tarefas mal definidas garantem resultados mal definidos. O Breakdown transforma um objetivo vago em um grafo de tarefas concreto e verificável.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">🔨 Processo de Breakdown passo a passo</h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/30 text-amber-400 font-bold text-sm flex-shrink-0">1</span>
+            <div>
+              <p class="font-semibold text-white text-sm">Formule o objetivo em termos verificáveis</p>
+              <p class="text-xs text-neutral-400 mt-1">Ruim: "analise o mercado". Bom: "produza relatório com: 5 concorrentes identificados, feature comparison em tabela, análise de pricing e recomendação de posicionamento".</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/30 text-amber-400 font-bold text-sm flex-shrink-0">2</span>
+            <div>
+              <p class="font-semibold text-white text-sm">Identifique os subproblemas independentes</p>
+              <p class="text-xs text-neutral-400 mt-1">Pergunte: "o que precisa acontecer para isso estar completo?" Cada resposta é um subproblema potencial. Use princípio MECE: mutuamente exclusivos, coletivamente exaustivos.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/30 text-amber-400 font-bold text-sm flex-shrink-0">3</span>
+            <div>
+              <p class="font-semibold text-white text-sm">Mapeie as dependências entre tarefas</p>
+              <p class="text-xs text-neutral-400 mt-1">Pergunta: "essa tarefa precisa do resultado de qual outra antes de começar?" Isso forma o DAG (Directed Acyclic Graph) de execução.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/30 text-amber-400 font-bold text-sm flex-shrink-0">4</span>
+            <div>
+              <p class="font-semibold text-white text-sm">Defina critério de sucesso por tarefa</p>
+              <p class="text-xs text-neutral-400 mt-1">Cada tarefa precisa de um critério verificável: "lista de 5 concorrentes com URL, categoria e pricing". Sem critério, o agente não sabe quando parou.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3">⚠️ Erros comuns no Breakdown</h3>
+        <ul class="space-y-2 text-neutral-300 text-sm">
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span><strong>Granularidade errada:</strong> tarefas muito grandes (agente não sabe por onde começar) ou muito pequenas (overhead desnecessário)</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span><strong>Dependências circulares:</strong> A depende de B que depende de A — o sistema trava antes de começar</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span><strong>Critério de sucesso vago:</strong> "analise bem" não é verificável. "Produza relatório com N campos específicos" é.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🗂️ Fase Manage: organizar a execução</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Com as tarefas e dependências definidas, o Manage organiza a execução para ser eficiente. A decisão central: o que pode ser paralelo (economiza tempo) e o que precisa ser sequencial (respeita dependências). A organização correta é a diferença entre 10 minutos e 1 hora de execução.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">🗂️ O que o Manage produz</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <h5 class="font-semibold text-neutral-300 mb-2 text-sm">1. Árvore de execução</h5>
+            <p class="text-xs text-neutral-400">Transforma o DAG de dependências em uma ordem de execução: quais tarefas começam primeiro, quais esperam outras, quais são o caminho crítico.</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <h5 class="font-semibold text-neutral-300 mb-2 text-sm">2. Classificação paralelo/sequencial</h5>
+            <p class="text-xs text-neutral-400">Tarefas sem dependência entre si são marcadas como paralelas. Tarefas com dependência são sequenciais. Isso define a estrutura de execução.</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <h5 class="font-semibold text-neutral-300 mb-2 text-sm">3. Estimativa de custo total</h5>
+            <p class="text-xs text-neutral-400">Soma o custo estimado de tokens de cada tarefa (baseado em complexidade e agente que vai executar). Budget total antes de iniciar a execução.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">📊 Identificando o caminho crítico</h3>
+        <p class="text-neutral-300 text-sm mb-3">O caminho crítico é a sequência de tarefas dependentes mais longa. A duração total da execução nunca será menor que o caminho crítico. Para acelerar o sistema, optimize as tarefas no caminho crítico — otimizar as outras não ajuda.</p>
+        <div class="bg-dark-900/50 rounded-lg p-3 font-mono text-xs text-neutral-300">
+          <p>Pesquisa A (2min) ─┐</p>
+          <p>Pesquisa B (2min) ─┤→ Análise (5min) → Relatório (3min)</p>
+          <p>Pesquisa C (2min) ─┘</p>
+          <p class="text-amber-400 mt-2"># Caminho crítico: Análise (5min) + Relatório (3min) = 8min</p>
+          <p class="text-neutral-500"># As pesquisas paralelas tomam 2min (não 6min)</p>
+          <p class="text-neutral-500"># Total: 10min (não 12min se fossem todas em série)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">📤 Fase Delegate: atribuir ao agente certo</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Com a árvore de execução definida, o Delegate atribui cada tarefa ao agente mais adequado, passa exatamente o contexto necessário (nem mais, nem menos) e define o critério de aceitação que o agente usará para saber quando terminou.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h4 class="font-semibold text-amber-400 mb-4">Critérios de matching tarefa → agente</h4>
+          <div class="space-y-3 text-sm">
+            <div class="flex items-start space-x-3 bg-dark-700/50 rounded-lg p-3">
+              <span class="text-amber-400 font-bold">1</span>
+              <span class="text-neutral-300"><strong>Domínio:</strong> agente treinado/promtado para o tipo de tarefa (pesquisa, código, redação)</span>
+            </div>
+            <div class="flex items-start space-x-3 bg-dark-700/50 rounded-lg p-3">
+              <span class="text-amber-400 font-bold">2</span>
+              <span class="text-neutral-300"><strong>Custo:</strong> tarefa simples → modelo barato; tarefa complexa → modelo caro</span>
+            </div>
+            <div class="flex items-start space-x-3 bg-dark-700/50 rounded-lg p-3">
+              <span class="text-amber-400 font-bold">3</span>
+              <span class="text-neutral-300"><strong>Disponibilidade:</strong> agente com menor carga atual recebe a tarefa</span>
+            </div>
+            <div class="flex items-start space-x-3 bg-dark-700/50 rounded-lg p-3">
+              <span class="text-amber-400 font-bold">4</span>
+              <span class="text-neutral-300"><strong>Confiabilidade:</strong> histórico de sucesso do agente para esse tipo de tarefa</span>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h4 class="font-semibold text-amber-400 mb-4">O pacote de delegação</h4>
+          <div class="space-y-3 text-sm">
+            <div class="bg-dark-700/50 rounded-lg p-3">
+              <p class="text-amber-400 font-semibold mb-1">task_description</p>
+              <p class="text-neutral-400">O que fazer em linguagem natural clara e específica</p>
+            </div>
+            <div class="bg-dark-700/50 rounded-lg p-3">
+              <p class="text-amber-400 font-semibold mb-1">context (mínimo necessário)</p>
+              <p class="text-neutral-400">Resultado das tarefas predecessoras que este agente precisa</p>
+            </div>
+            <div class="bg-dark-700/50 rounded-lg p-3">
+              <p class="text-amber-400 font-semibold mb-1">acceptance_criteria</p>
+              <p class="text-neutral-400">Como o agente sabe que terminou (schema do output esperado)</p>
+            </div>
+            <div class="bg-dark-700/50 rounded-lg p-3">
+              <p class="text-amber-400 font-semibold mb-1">timeout + max_cost</p>
+              <p class="text-neutral-400">Limites de tempo e budget para esta tarefa específica</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🐍 BMad em Python</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A implementação do BMad em Python usa conceitos de grafos direcionados (DAGs) para representar dependências entre tarefas e execução topológica para respeitar a ordem correta. Você vai reconhecer esse padrão exato no LangGraph e outras ferramentas de orquestração.
+      </p>
+      <div class="bg-dark-900/80 rounded-xl border border-dark-600 p-6 mb-6 overflow-x-auto">
+        <p class="text-xs text-neutral-500 mb-3 font-semibold">Python — Estruturas de dados BMad</p>
+        <pre class="text-sm text-neutral-300"><code><span class="text-amber-400">from</span> dataclasses <span class="text-amber-400">import</span> dataclass, field
+<span class="text-amber-400">from</span> enum <span class="text-amber-400">import</span> Enum
+<span class="text-amber-400">from</span> typing <span class="text-amber-400">import</span> List, Optional, Dict, Any
+<span class="text-amber-400">import</span> asyncio
+
+<span class="text-amber-400">class</span> <span class="text-emerald-400">TaskStatus</span>(Enum):
+    PENDING  = <span class="text-blue-400">"pending"</span>
+    RUNNING  = <span class="text-blue-400">"running"</span>
+    DONE     = <span class="text-blue-400">"done"</span>
+    FAILED   = <span class="text-blue-400">"failed"</span>
+
+<span class="text-amber-400">@dataclass</span>
+<span class="text-amber-400">class</span> <span class="text-emerald-400">Task</span>:
+    id: str
+    description: str
+    agent_id: str
+    dependencies: List[str] = field(default_factory=list)
+    acceptance_criteria: str = <span class="text-blue-400">""</span>
+    max_cost_usd: float = 1.0
+    timeout_seconds: int = 120
+    status: TaskStatus = TaskStatus.PENDING
+    result: Optional[Any] = None
+    cost_usd: float = 0.0
+
+<span class="text-amber-400">class</span> <span class="text-emerald-400">TaskTree</span>:
+    <span class="text-amber-400">def</span> __init__(self):
+        self.tasks: Dict[str, Task] = {}
+
+    <span class="text-amber-400">def</span> add_task(self, task: Task):
+        self.tasks[task.id] = task
+
+    <span class="text-amber-400">def</span> get_ready_tasks(self) -> List[Task]:
+        <span class="text-neutral-500">"""Tarefas cujas dependências foram concluídas"""</span>
+        ready = []
+        <span class="text-amber-400">for</span> task <span class="text-amber-400">in</span> self.tasks.values():
+            <span class="text-amber-400">if</span> task.status == TaskStatus.PENDING:
+                deps_done = <span class="text-amber-400">all</span>(
+                    self.tasks[dep].status == TaskStatus.DONE
+                    <span class="text-amber-400">for</span> dep <span class="text-amber-400">in</span> task.dependencies
+                )
+                <span class="text-amber-400">if</span> deps_done:
+                    ready.append(task)
+        <span class="text-amber-400">return</span> ready</code></pre>
+      </div>
+      <div class="bg-dark-900/80 rounded-xl border border-dark-600 p-6 mb-6 overflow-x-auto">
+        <p class="text-xs text-neutral-500 mb-3 font-semibold">Python — Executor BMad com progresso em tempo real</p>
+        <pre class="text-sm text-neutral-300"><code><span class="text-amber-400">class</span> <span class="text-emerald-400">BMadExecutor</span>:
+    <span class="text-amber-400">def</span> __init__(self, task_tree: TaskTree, agent_registry: dict):
+        self.tree = task_tree
+        self.agents = agent_registry
+        self.total_cost = 0.0
+
+    <span class="text-amber-400">async def</span> execute(self, budget_usd: float = 10.0):
+        <span class="text-amber-400">while</span> <span class="text-amber-400">not</span> self._is_complete():
+            ready = self.tree.get_ready_tasks()
+            <span class="text-amber-400">if not</span> ready:
+                <span class="text-amber-400">break</span>  <span class="text-neutral-500"># deadlock ou completo</span>
+
+            <span class="text-neutral-500"># Executa tarefas prontas em paralelo</span>
+            tasks = [self._run_task(t, budget_usd) <span class="text-amber-400">for</span> t <span class="text-amber-400">in</span> ready]
+            <span class="text-amber-400">await</span> asyncio.gather(*tasks, return_exceptions=True)
+
+    <span class="text-amber-400">async def</span> _run_task(self, task: Task, budget: float):
+        <span class="text-amber-400">if</span> self.total_cost >= budget:
+            task.status = TaskStatus.FAILED
+            <span class="text-amber-400">return</span>
+
+        task.status = TaskStatus.RUNNING
+        agent = self.agents[task.agent_id]
+        context = self._build_context(task)
+
+        <span class="text-amber-400">try</span>:
+            result = <span class="text-amber-400">await</span> asyncio.wait_for(
+                agent.run(task.description, context),
+                timeout=task.timeout_seconds
+            )
+            task.result = result
+            task.status = TaskStatus.DONE
+            self.total_cost += task.cost_usd
+            print(f<span class="text-blue-400">"✓ {task.id} concluído — custo: ${task.cost_usd:.3f}"</span>)
+        <span class="text-amber-400">except</span> Exception <span class="text-amber-400">as</span> e:
+            task.status = TaskStatus.FAILED
+            print(f<span class="text-blue-400">"✗ {task.id} falhou: {e}"</span>)</code></pre>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">📖 Exemplo real: análise de concorrência</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Objetivo: "Analisar os 5 principais concorrentes e gerar um relatório executivo com análise comparativa e recomendação de posicionamento." Vamos aplicar as 3 fases do BMad a esse problema real.
+      </p>
+      <div class="space-y-6 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">B</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-amber-400 mb-3">Breakdown — 8 tarefas identificadas</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-neutral-300">
+              <div class="bg-dark-700/50 rounded p-2">T1: Identificar concorrentes (sem dependência)</div>
+              <div class="bg-dark-700/50 rounded p-2">T2: Coletar features Concorrente A (depende T1)</div>
+              <div class="bg-dark-700/50 rounded p-2">T3: Coletar features Concorrente B (depende T1)</div>
+              <div class="bg-dark-700/50 rounded p-2">T4: Coletar features Concorrente C (depende T1)</div>
+              <div class="bg-dark-700/50 rounded p-2">T5: Analisar pricing de todos (depende T2, T3, T4)</div>
+              <div class="bg-dark-700/50 rounded p-2">T6: Criar feature comparison table (depende T2, T3, T4)</div>
+              <div class="bg-dark-700/50 rounded p-2">T7: Análise estratégica (depende T5, T6)</div>
+              <div class="bg-dark-700/50 rounded p-2">T8: Gerar relatório final (depende T7)</div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">M</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-amber-400 mb-3">Manage — Árvore de execução</h4>
+            <div class="bg-dark-900/50 rounded-lg p-3 font-mono text-xs text-neutral-300">
+              <p>Onda 1: T1 (sequencial — identifica concorrentes)</p>
+              <p>Onda 2: T2, T3, T4 (paralelo — coleta simultânea)</p>
+              <p>Onda 3: T5, T6 (paralelo — análise simultânea)</p>
+              <p>Onda 4: T7 (sequencial — síntese estratégica)</p>
+              <p>Onda 5: T8 (sequencial — relatório final)</p>
+              <p class="text-amber-400 mt-2">Custo estimado: $0.45 | Tempo: ~12 min</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">D</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-amber-400 mb-3">Delegate — Atribuição por especialidade</h4>
+            <div class="space-y-2 text-xs text-neutral-300">
+              <div class="flex items-center space-x-3 bg-dark-700/50 rounded p-2"><span class="text-blue-400 font-semibold w-20 flex-shrink-0">Pesquisador</span><span>T1 (identificação), T2, T3, T4 (coleta) — modelo barato, muita busca web</span></div>
+              <div class="flex items-center space-x-3 bg-dark-700/50 rounded p-2"><span class="text-purple-400 font-semibold w-20 flex-shrink-0">Analista</span><span>T5 (pricing), T6 (tabela), T7 (estratégia) — modelo médio, análise estruturada</span></div>
+              <div class="flex items-center space-x-3 bg-dark-700/50 rounded p-2"><span class="text-emerald-400 font-semibold w-20 flex-shrink-0">Redator</span><span>T8 (relatório) — modelo médio, geração de documento profissional</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-3">✓ O resultado do BMad aplicado</h3>
+        <p class="text-neutral-300 text-sm">Em vez de um agente generalista tentando fazer tudo em 30 minutos (e provavelmente falhando na análise estratégica), você tem 3 agentes especializados entregando em 12 minutos, com custo controlado e resultado rastreável por tarefa. Quando o T6 produz uma tabela errada, você sabe exatamente qual agente foi responsável e pode corrigir só aquela tarefa.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumo do Módulo 4.3</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">BMad é um método de raciocínio</strong><span class="text-neutral-400"> — não um framework, mas um processo repetível e auditável</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Breakdown produz o DAG de tarefas</strong><span class="text-neutral-400"> — com dependências, critérios de sucesso e rastreabilidade</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Manage identifica paralelismo</strong><span class="text-neutral-400"> — e o caminho crítico que define a duração mínima</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Delegate usa matching criterioso</strong><span class="text-neutral-400"> — domínio, custo, disponibilidade e confiabilidade do agente</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Python usa TaskTree + topological sort</strong><span class="text-neutral-400"> — exatamente o padrão interno do LangGraph e CrewAI</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-amber-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">4.4 — Agentes Especializados: Planejador, Executor, Revisor, Auditor — os papéis, responsabilidades e contratos de interface entre eles.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-4-2.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 4.2 O Orquestrador</a>
+          <a href="modulo-4-4.html" class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors">Próximo: 4.4 Agentes Especializados →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden'); themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

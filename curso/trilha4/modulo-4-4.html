@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4.4 Agentes Especializados | Trilha 4 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span></a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block"><span>Frameworks</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Multi-Agentes</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-amber-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-amber-400 transition-colors">Trilha 4 — Multi-Agentes e Orquestração</a>
+      <span>/</span>
+      <span class="text-amber-400">Módulo 4.4</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 4.4</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">👥 Agentes Especializados</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Planejador, Executor, Revisor, Auditor — cada papel tem responsabilidades distintas, prompts especializados e modelos adequados. Aprenda a definir contratos formais entre agentes que tornam o sistema substituível e testável.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Design</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🎯 Por que especializar agentes</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A especialização não é sobre divisão de trabalho por conveniência — é sobre eficiência econômica e qualidade técnica. Um agente com escopo restrito precisa de menos contexto, usa um modelo mais barato, produz resultados mais consistentes e é muito mais fácil de avaliar.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">Agente Generalista (o problema)</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Prompt enorme com instruções para todos os domínios</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Modelo mais caro necessário para manter qualidade</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Hallucination mais frequente (contexto extenso confunde)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Difícil de avaliar — por qual critério você julga?</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Impossível de substituir parcialmente sem refazer tudo</span></li>
+          </ul>
+        </div>
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">Agentes Especializados (a solução)</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Prompt conciso e focado no domínio específico</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Modelo mais barato — tarefas simples não precisam de opus</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Menos hallucination — contexto mínimo, instrução clara</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Avaliação por critério específico do domínio</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Substituível individualmente sem afetar outros</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">📊 O impacto no custo</h3>
+        <p class="text-neutral-300 text-sm">Um agente generalista usando Claude Opus 4 para cada tarefa pode custar $0.50 por execução. O mesmo sistema com agentes especializados — Opus para planejamento, Haiku para pesquisa, Sonnet para análise — pode custar $0.08. <strong>6x mais barato com qualidade igual ou superior</strong> em cada especialidade.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🧭 Agente Planejador</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O Planejador é o arquiteto do sistema — recebe o objetivo complexo e produz um plano estruturado executável pelos outros agentes. É o único agente que justifica um modelo de alto custo, porque um plano ruim contamina toda a execução seguinte.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">🧭 Características do Agente Planejador</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+          <div class="space-y-2">
+            <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3">
+              <span class="text-amber-400 font-bold">Modelo:</span>
+              <span class="text-neutral-300">Claude Opus 4 ou GPT-4o — raciocínio de alta qualidade</span>
+            </div>
+            <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3">
+              <span class="text-amber-400 font-bold">Input:</span>
+              <span class="text-neutral-300">Objetivo em linguagem natural + contexto de negócio</span>
+            </div>
+            <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3">
+              <span class="text-amber-400 font-bold">Output:</span>
+              <span class="text-neutral-300">JSON com TaskList, dependências, agentes, critérios</span>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3">
+              <span class="text-amber-400 font-bold">Freq.:</span>
+              <span class="text-neutral-300">Uma vez por objetivo (não por tarefa)</span>
+            </div>
+            <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3">
+              <span class="text-amber-400 font-bold">Custo:</span>
+              <span class="text-neutral-300">Alto por execução, mas apenas 1 call por objetivo</span>
+            </div>
+            <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3">
+              <span class="text-amber-400 font-bold">Falha:</span>
+              <span class="text-neutral-300">Sistema não inicia — deve ser validado antes de prosseguir</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-dark-900/80 rounded-xl border border-dark-600 p-5 mb-6 overflow-x-auto">
+        <p class="text-xs text-neutral-500 mb-3 font-semibold">Exemplo de output do Planejador (JSON)</p>
+        <pre class="text-xs text-neutral-300"><code>{
+  <span class="text-amber-400">"objective_summary"</span>: <span class="text-blue-400">"Análise de 5 concorrentes com relatório executivo"</span>,
+  <span class="text-amber-400">"tasks"</span>: [
+    {
+      <span class="text-amber-400">"id"</span>: <span class="text-blue-400">"T1"</span>, <span class="text-amber-400">"description"</span>: <span class="text-blue-400">"Identificar top 5 concorrentes"</span>,
+      <span class="text-amber-400">"agent"</span>: <span class="text-blue-400">"researcher"</span>, <span class="text-amber-400">"dependencies"</span>: [],
+      <span class="text-amber-400">"success_criteria"</span>: <span class="text-blue-400">"Lista JSON com nome, URL e categoria de 5 empresas"</span>
+    }
+  ],
+  <span class="text-amber-400">"estimated_cost_usd"</span>: 0.45,
+  <span class="text-amber-400">"estimated_duration_min"</span>: 12
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">⚙️ Agente Executor</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O Executor é o agente que mais executa e mais consome tokens. Recebe uma tarefa específica, usa suas ferramentas para completá-la e retorna resultado estruturado. É aqui que o custo do sistema é gerado — e onde a otimização de modelo tem maior impacto.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">⚙️ O loop do Executor</h3>
+        <div class="space-y-3">
+          <div class="flex items-center space-x-4 text-sm">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold flex-shrink-0">1</span>
+            <span class="text-neutral-300">Recebe task_description + context + acceptance_criteria</span>
+          </div>
+          <div class="flex items-center space-x-4 text-sm">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold flex-shrink-0">2</span>
+            <span class="text-neutral-300">Decide quais ferramentas usar (busca web, código, banco, API)</span>
+          </div>
+          <div class="flex items-center space-x-4 text-sm">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold flex-shrink-0">3</span>
+            <span class="text-neutral-300">Executa as ferramentas e observa os resultados</span>
+          </div>
+          <div class="flex items-center space-x-4 text-sm">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold flex-shrink-0">4</span>
+            <span class="text-neutral-300">Avalia se o resultado satisfaz o acceptance_criteria</span>
+          </div>
+          <div class="flex items-center space-x-4 text-sm">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold flex-shrink-0">5</span>
+            <span class="text-neutral-300">Se sim → retorna resultado. Se não → tenta de novo (max_iterations)</span>
+          </div>
+          <div class="flex items-center space-x-4 text-sm">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold flex-shrink-0">6</span>
+            <span class="text-neutral-300">Retorna: { result, confidence_score, cost_usd, iterations }</span>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+          <h4 class="font-semibold text-primary mb-3">💡 Seleção de modelo por tarefa</h4>
+          <div class="space-y-2 text-sm text-neutral-300">
+            <p><strong class="text-primary">Pesquisa web:</strong> claude-haiku-3 — rápido e barato</p>
+            <p><strong class="text-primary">Análise estruturada:</strong> claude-sonnet-4 — bom equilíbrio</p>
+            <p><strong class="text-primary">Raciocínio complexo:</strong> claude-opus-4 — quando precisa</p>
+            <p><strong class="text-primary">Geração de código:</strong> claude-sonnet-4 — excelente para código</p>
+          </div>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-semibold text-red-400 mb-3">⚠️ max_iterations é obrigatório</h4>
+          <p class="text-sm text-neutral-300">Um Executor sem limite de iterações pode entrar em loop tentando satisfazer um critério impossível de atingir. Defina sempre <strong>max_iterations=5</strong> (ou similar) — após o limite, retorna resultado parcial com flag de falha.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">🔍 Agente Revisor</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O Revisor é o controle de qualidade automático do sistema. Sem ele, você entrega ao usuário final resultados de qualidade variável sem filtro. Com ele, cada resultado passa por avaliação criteriosa antes de prosseguir no pipeline.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5 text-center">
+          <div class="text-2xl mb-3">📥</div>
+          <h5 class="font-semibold text-neutral-300 mb-2 text-sm">Input</h5>
+          <p class="text-xs text-neutral-400">Resultado do Executor + acceptance_criteria definido pelo Planejador</p>
+        </div>
+        <div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-5 text-center">
+          <div class="text-2xl mb-3">⚖️</div>
+          <h5 class="font-semibold text-amber-400 mb-2 text-sm">Processo</h5>
+          <p class="text-xs text-neutral-400">Avalia qualidade por critério específico, atribui score e gera feedback estruturado</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5 text-center">
+          <div class="text-2xl mb-3">📤</div>
+          <h5 class="font-semibold text-neutral-300 mb-2 text-sm">Output</h5>
+          <p class="text-xs text-neutral-400">approved: true/false, score: 0-10, feedback: "o que está faltando"</p>
+        </div>
+      </div>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">🔄 O ciclo Executor → Revisor</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 font-mono text-xs text-neutral-300">
+          <p><span class="text-amber-400">for</span> attempt in range(max_revision_cycles):</p>
+          <p>    result = executor.run(task, context)</p>
+          <p>    review = revisor.evaluate(result, criteria)</p>
+          <p>    </p>
+          <p>    <span class="text-amber-400">if</span> review.approved:</p>
+          <p>        <span class="text-amber-400">return</span> result  <span class="text-neutral-500"># aprovado</span></p>
+          <p>    </p>
+          <p>    <span class="text-neutral-500"># Executor recebe feedback e tenta de novo</span></p>
+          <p>    context.add_feedback(review.feedback)</p>
+          <p></p>
+          <p><span class="text-amber-400">return</span> escalate_to_human(result)  <span class="text-neutral-500"># esgotou revisões</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">📊 Agente Auditor</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O Auditor não participa da execução — ele observa e registra. Em ambientes enterprise, o audit trail não é opcional: é um requisito de compliance, segurança e governança. O Auditor é o agente que torna o sistema explicável.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">📊 O que o Auditor registra</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3 text-sm">
+              <span class="text-amber-400">•</span>
+              <span class="text-neutral-300"><strong>Cada ação de cada agente</strong> com timestamp e custo</span>
+            </div>
+            <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3 text-sm">
+              <span class="text-amber-400">•</span>
+              <span class="text-neutral-300"><strong>Cada handoff</strong> entre agentes com contexto transferido</span>
+            </div>
+            <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3 text-sm">
+              <span class="text-amber-400">•</span>
+              <span class="text-neutral-300"><strong>Cada decisão de roteamento</strong> com justificativa</span>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3 text-sm">
+              <span class="text-amber-400">•</span>
+              <span class="text-neutral-300"><strong>Custo acumulado</strong> em tempo real por agente e total</span>
+            </div>
+            <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3 text-sm">
+              <span class="text-amber-400">•</span>
+              <span class="text-neutral-300"><strong>Violações de política</strong> (acesso não autorizado, custo acima do limite)</span>
+            </div>
+            <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3 text-sm">
+              <span class="text-amber-400">•</span>
+              <span class="text-neutral-300"><strong>Anomalias de comportamento</strong> (muitas iterações, saída atípica)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+          <h4 class="font-semibold text-blue-400 mb-3">📋 Requisitos de compliance</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>SOC2: audit trail de todas as operações</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>LGPD/GDPR: log de acesso a dados pessoais</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>HIPAA: audit completo de acesso a dados de saúde</span></li>
+          </ul>
+        </div>
+        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+          <h4 class="font-semibold text-primary mb-3">💡 Implementação: append-only log</h4>
+          <p class="text-sm text-neutral-300">O audit trail é um log append-only com hash de integridade (cada entrada referencia o hash da anterior). Impossível alterar retroativamente. Pode exportar para SIEM corporativo.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">📜 Contratos entre agentes</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Contratos formais entre agentes são o que transforma um conjunto de scripts acoplados em um sistema substituível e testável. Com contratos explícitos, você pode trocar o Executor A pelo Executor B sem tocar no Revisor ou no Planejador — desde que ambos respeitem o mesmo contrato.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">📜 Anatomia de um contrato de agente</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 font-mono text-xs text-neutral-300 overflow-x-auto">
+          <p class="text-amber-400">class ExecutorContract(BaseModel):</p>
+          <p>    <span class="text-neutral-500"># Input schema (o que o Executor aceita)</span></p>
+          <p>    task_description: str</p>
+          <p>    context: Dict[str, Any]</p>
+          <p>    acceptance_criteria: str</p>
+          <p>    max_cost_usd: float = Field(gt=0, le=5.0)</p>
+          <p>    timeout_seconds: int = Field(ge=10, le=300)</p>
+          <p></p>
+          <p>    <span class="text-neutral-500"># Output schema (o que o Executor sempre retorna)</span></p>
+          <p>    <span class="text-amber-400">class</span> ExecutorResult(BaseModel):</p>
+          <p>        result: Any</p>
+          <p>        confidence_score: float  <span class="text-neutral-500"># 0.0 - 1.0</span></p>
+          <p>        cost_usd: float</p>
+          <p>        iterations: int</p>
+          <p>        status: Literal["done", "partial", "failed"]</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">✓ Com contratos formais</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Substituição de agente sem modificar outros</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Testes unitários por agente isolado</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Validação automática de output antes de usar</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Documentação gerada automaticamente do schema</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Sem contratos formais</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Acoplamento implícito descoberto só em produção</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Mudança em um agente quebra outro silenciosamente</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Impossível testar agente de forma isolada</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Ninguém sabe o que cada agente realmente precisa</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3">💡 Use Pydantic para contratos em Python</h3>
+        <p class="text-neutral-300 text-sm">Pydantic valida automaticamente que o input do agente é válido antes de executar, e que o output é válido antes de passar para o próximo. Quando o output é inválido, você recebe um ValidationError com o campo específico — não um resultado silenciosamente errado descoberto 10 etapas depois.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumo do Módulo 4.4</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Especialização = eficiência + qualidade</strong><span class="text-neutral-400"> — 6x mais barato com qualidade igual ou superior</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Planejador</strong><span class="text-neutral-400"> usa modelo caro uma vez — invista aqui para economizar em todo o resto</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Executor</strong><span class="text-neutral-400"> é o agente mais frequente — modelo adequado à tarefa com max_iterations obrigatório</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Revisor</strong><span class="text-neutral-400"> é o controle de qualidade — aprova/rejeita com feedback antes de avançar</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Contratos Pydantic</strong><span class="text-neutral-400"> tornam o sistema substituível, testável e documentado automaticamente</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-amber-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">4.5 — Gerenciamento de Estado: quando múltiplos agentes precisam ler e escrever o mesmo dado, o que acontece? Redis, locks, versionamento e recovery.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-4-3.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 4.3 BMad</a>
+          <a href="modulo-4-5.html" class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors">Próximo: 4.5 Estado →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden'); themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

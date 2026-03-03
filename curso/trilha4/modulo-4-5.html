@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4.5 Gerenciamento de Estado | Trilha 4 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Multi-Agentes</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-amber-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-amber-400 transition-colors">Trilha 4 — Multi-Agentes e Orquestração</a>
+      <span>/</span>
+      <span class="text-amber-400">Módulo 4.5</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 4.5</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🗃️ Gerenciamento de Estado</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Quando 3 agentes leem e escrevem o mesmo dado, surgem race conditions, dados corrompidos e inconsistências. Aprenda Redis como blackboard, locks distribuídos, estratégias de resolução de conflito e versionamento de estado com event sourcing.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Backend</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">⚠️ O problema do estado em sistemas multi-agente</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Estado compartilhado em sistemas multi-agente é como um documento Google Docs sendo editado por 10 pessoas ao mesmo tempo — sem controle de versão, sem locks, sem coordenação. O resultado inevitável são conflitos, sobrescritas e dados corrompidos que aparecem horas depois em produção.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">⚠️ Cenário real: 3 agentes, 1 estado compartilhado</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 font-mono text-xs text-neutral-300">
+          <p class="text-neutral-500"># Três agentes executando em paralelo</p>
+          <p>Agente A (t=0ms): lê status = "in_progress"</p>
+          <p>Agente B (t=1ms): lê status = "in_progress"</p>
+          <p>Agente A (t=50ms): escreve status = "done", resultado = "análise A"</p>
+          <p>Agente B (t=51ms): escreve status = "done", resultado = "análise B"</p>
+          <p></p>
+          <p class="text-red-400"># Problema: Agente B sobrescreveu o resultado de A</p>
+          <p class="text-red-400"># A "análise A" foi perdida silenciosamente</p>
+          <p class="text-red-400"># O sistema acredita que terminou com sucesso</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-4">
+          <h5 class="font-semibold text-red-400 mb-2 text-sm">Race Condition</h5>
+          <p class="text-xs text-neutral-400">Dois agentes leem o mesmo estado velho, processam e escrevem versões incompatíveis. O resultado depende de qual escreveu por último.</p>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-4">
+          <h5 class="font-semibold text-red-400 mb-2 text-sm">Dirty Read</h5>
+          <p class="text-xs text-neutral-400">Agente B lê dados que Agente A está no meio de escrever. O dado está em estado transitório e é inconsistente.</p>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-4">
+          <h5 class="font-semibold text-red-400 mb-2 text-sm">Lost Update</h5>
+          <p class="text-xs text-neutral-400">Agente B sobrescreve a atualização de Agente A sem saber que ela existia. Horas de processamento perdidas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🔴 Estado compartilhado com Redis</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Redis como blackboard (quadro negro) é o padrão de fato para estado compartilhado em sistemas multi-agente de alta performance. Todos os agentes leem e escrevem no mesmo Redis, e o Redlock garante exclusão mútua para operações críticas.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">🔴 Padrões Redis para agentes</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <h5 class="font-semibold text-neutral-300 mb-2 text-sm">Hash para estado estruturado</h5>
+            <div class="bg-dark-900/50 rounded p-2 font-mono text-xs text-neutral-300">
+              <p class="text-neutral-500"># Cada agente tem seu namespace</p>
+              <p>redis.hset("run:123:agentA",</p>
+              <p>  "status", "done",</p>
+              <p>  "result", json.dumps(result)</p>
+              <p>)</p>
+            </div>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <h5 class="font-semibold text-neutral-300 mb-2 text-sm">Pub/Sub para notificações</h5>
+            <div class="bg-dark-900/50 rounded p-2 font-mono text-xs text-neutral-300">
+              <p class="text-neutral-500"># Agente publica quando termina</p>
+              <p>redis.publish(</p>
+              <p>  "run:123:events",</p>
+              <p>  '{"agent": "A", "status": "done"}'</p>
+              <p>)</p>
+            </div>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <h5 class="font-semibold text-neutral-300 mb-2 text-sm">Redlock para exclusão mútua</h5>
+            <div class="bg-dark-900/50 rounded p-2 font-mono text-xs text-neutral-300">
+              <p class="text-neutral-500"># Lock antes de escrever estado crítico</p>
+              <p>with redis_lock("run:123:state"):</p>
+              <p>  state = get_state()</p>
+              <p>  state.update(new_data)</p>
+              <p>  set_state(state)</p>
+            </div>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <h5 class="font-semibold text-neutral-300 mb-2 text-sm">TTL para dados temporários</h5>
+            <div class="bg-dark-900/50 rounded p-2 font-mono text-xs text-neutral-300">
+              <p class="text-neutral-500"># Estado expira automaticamente</p>
+              <p>redis.set("run:123:temp",</p>
+              <p>  value, ex=3600  # 1 hora</p>
+              <p>)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3">💡 Redlock: lock distribuído correto</h3>
+        <p class="text-neutral-300 text-sm">Redlock adquire lock em 3 instâncias Redis em paralelo. Se 2 de 3 respondem com sucesso, o lock é válido. Se o processo morre, o lock expira automaticamente (TTL). Use a biblioteca <strong class="text-primary">redis-py</strong> com Redlock para implementação correta.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🔒 Estado isolado por agente</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A alternativa mais simples ao estado compartilhado: cada agente mantém seu próprio estado isolado, executa de forma completamente independente e entrega o resultado ao coordenador ao finalizar. O coordenador combina todos os estados parciais na fase de fan-in.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">✓ Quando usar estado isolado</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Agentes não precisam ler o resultado de outros durante execução</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Tarefas são realmente independentes entre si</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Você prefere simplicidade a performance extrema</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Equipe pequena sem expertise em sistemas distribuídos</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Quando NÃO usar estado isolado</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Agente B precisa do resultado do Agente A antes de continuar</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Agentes precisam colaborar em tempo real para ajustar estratégia</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Estado é muito grande para passar via resultado (memória)</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="bg-dark-900/80 rounded-xl border border-dark-600 p-5 overflow-x-auto">
+        <p class="text-xs text-neutral-500 mb-3 font-semibold">Python — Padrão de estado isolado com merge</p>
+        <pre class="text-xs text-neutral-300"><code><span class="text-amber-400">async def</span> run_parallel_with_isolated_state(agents, task):
+    <span class="text-neutral-500"># Cada agente recebe cópia do estado inicial (não referência)</span>
+    results = <span class="text-amber-400">await</span> asyncio.gather(*[
+        agent.run(task, initial_state.copy())
+        <span class="text-amber-400">for</span> agent <span class="text-amber-400">in</span> agents
+    ], return_exceptions=True)
+
+    <span class="text-neutral-500"># Coordenador combina estados parciais</span>
+    final_state = merge_results([
+        r <span class="text-amber-400">for</span> r <span class="text-amber-400">in</span> results
+        <span class="text-amber-400">if not isinstance</span>(r, Exception)
+    ])
+    <span class="text-amber-400">return</span> final_state
+
+<span class="text-amber-400">def</span> merge_results(results: list) -> dict:
+    <span class="text-neutral-500"># Estratégia de merge: combina resultados sem conflito</span>
+    merged = {}
+    <span class="text-amber-400">for</span> result <span class="text-amber-400">in</span> results:
+        merged.update(result)  <span class="text-neutral-500"># ou lógica mais sofisticada</span>
+    <span class="text-amber-400">return</span> merged</code></pre>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">⚡ Conflitos de estado e estratégias de resolução</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Mesmo com boas práticas, conflitos de estado acontecem. A questão não é evitá-los completamente — é ter uma estratégia explícita de resolução antes que aconteçam. Descobrir a estratégia em produção quando o usuário já perdeu dados é tarde demais.
+      </p>
+      <div class="space-y-4 mb-6">
+        <div class="flex items-start space-x-4 bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-sm">1</div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-white mb-2">Last-Write-Wins (LWW)</h4>
+            <p class="text-sm text-neutral-400 mb-2">A escrita mais recente (por timestamp) vence. Simples de implementar, mas pode perder dados válidos. Aceitável quando os dados são cumulativos e perda parcial é tolerável.</p>
+            <div class="flex items-center space-x-4">
+              <span class="text-xs text-emerald-400">Prós: simples, sem bloqueio</span>
+              <span class="text-xs text-red-400">Contras: pode perder dados</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4 bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-sm">2</div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-white mb-2">Three-Way Merge</h4>
+            <p class="text-sm text-neutral-400 mb-2">Compara as duas versões conflitantes com o ancestral comum. Combina as mudanças não-conflitantes automaticamente, sinaliza conflitos verdadeiros para resolução manual. Mesmo algoritmo do Git.</p>
+            <div class="flex items-center space-x-4">
+              <span class="text-xs text-emerald-400">Prós: preserva mudanças de ambos</span>
+              <span class="text-xs text-amber-400">Contras: pode ainda ter conflito não-resolvível</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4 bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-sm">3</div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-white mb-2">Human-in-the-Loop para conflitos críticos</h4>
+            <p class="text-sm text-neutral-400 mb-2">Para dados de alto valor (resultados finais, decisões irreversíveis), conflito → escalada para humano. O humano escolhe qual versão é correta ou como combinar. Lento, mas seguro.</p>
+            <div class="flex items-center space-x-4">
+              <span class="text-xs text-emerald-400">Prós: zero risco de perda de dados críticos</span>
+              <span class="text-xs text-red-400">Contras: latência humana, não escala</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">📚 Versionamento de estado com Event Sourcing</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Em vez de sobrescrever o estado atual, adicione cada mudança a um log imutável. Você mantém toda a história do estado, pode fazer rollback para qualquer ponto no passado, e tem um audit trail completo — gratuitamente. É o pattern mais usado em sistemas de alta confiabilidade.
+      </p>
+      <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4">📚 Event Sourcing para estado de agente</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 font-mono text-xs text-neutral-300 overflow-x-auto mb-4">
+          <p class="text-neutral-500"># Em vez de:</p>
+          <p>state["status"] = "done"  <span class="text-red-400"># sobrescreve, perde histórico</span></p>
+          <p></p>
+          <p class="text-neutral-500"># Use event sourcing:</p>
+          <p>events.append({"</p>
+          <p>  "timestamp": now(),</p>
+          <p>  "agent_id": "executor_A",</p>
+          <p>  "event_type": "status_changed",</p>
+          <p>  "data": {<span class="text-amber-400">"from"</span>: "running", <span class="text-amber-400">"to"</span>: "done"},</p>
+          <p>  "prev_hash": events[-1]["hash"]  <span class="text-neutral-500"># integridade</span></p>
+          <p>})</p>
+          <p></p>
+          <p class="text-neutral-500"># Estado atual = reprodução de todos os eventos</p>
+          <p>current_state = replay_events(events)</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div class="bg-dark-800/60 rounded-lg p-3">
+            <h5 class="font-semibold text-emerald-400 mb-1">Rollback</h5>
+            <p class="text-xs text-neutral-400">Reproduza apenas os eventos até o timestamp desejado. Você volta a qualquer estado passado.</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-3">
+            <h5 class="font-semibold text-blue-400 mb-1">Debug temporal</h5>
+            <p class="text-xs text-neutral-400">"O que exatamente aconteceu entre 14h e 14h30?" O log de eventos responde com precisão de milissegundo.</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-3">
+            <h5 class="font-semibold text-purple-400 mb-1">Audit automático</h5>
+            <p class="text-xs text-neutral-400">O log de eventos é o audit trail. Cada mudança tem agente, timestamp e hash de integridade.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3">💡 Snapshot + Log para performance</h3>
+        <p class="text-neutral-300 text-sm">Reproduzir 10.000 eventos toda vez que precisa do estado atual é lento. A solução: <strong class="text-primary">snapshot periódico</strong> (estado serializado em um ponto) + log de eventos desde o snapshot. Reproduza apenas os eventos recentes, não todos desde o início.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🏭 Estado em produção</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Os problemas de estado que aparecem em produção raramente são os que você previu no design. São os problemas acumulativos: estado que cresce indefinidamente, backups que nunca testaram recovery, e falhas que deixam o sistema em estado inconsistente sem alerta.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h4 class="font-semibold text-amber-400 mb-4">Problemas comuns de produção</h4>
+          <div class="space-y-3">
+            <div class="bg-red-900/20 rounded-lg p-3 border border-red-500/20">
+              <p class="text-sm font-semibold text-red-400 mb-1">Estado sem TTL</p>
+              <p class="text-xs text-neutral-400">Estado de execuções antigas nunca expira. Em 3 meses, Redis está cheio e operações ficam lentas.</p>
+            </div>
+            <div class="bg-red-900/20 rounded-lg p-3 border border-red-500/20">
+              <p class="text-sm font-semibold text-red-400 mb-1">Backup não testado</p>
+              <p class="text-xs text-neutral-400">Backup existe, mas ninguém testou o restore. Na hora da falha, descobre que o backup está corrompido há semanas.</p>
+            </div>
+            <div class="bg-red-900/20 rounded-lg p-3 border border-red-500/20">
+              <p class="text-sm font-semibold text-red-400 mb-1">Recovery sem idempotência</p>
+              <p class="text-xs text-neutral-400">Após reiniciar, as tarefas são executadas de novo do começo — pagando duas vezes pelo mesmo trabalho.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h4 class="font-semibold text-amber-400 mb-4">Soluções de produção</h4>
+          <div class="space-y-3">
+            <div class="bg-emerald-900/20 rounded-lg p-3 border border-emerald-500/20">
+              <p class="text-sm font-semibold text-emerald-400 mb-1">TTL strategy</p>
+              <p class="text-xs text-neutral-400">Estado de run ativo: 24h. Estado de run concluído: 7 dias. Estado arquivado: 90 dias → cold storage.</p>
+            </div>
+            <div class="bg-emerald-900/20 rounded-lg p-3 border border-emerald-500/20">
+              <p class="text-sm font-semibold text-emerald-400 mb-1">Backup + restore teste semanal</p>
+              <p class="text-xs text-neutral-400">Agende restore automático em ambiente de staging toda semana. Se falhar, alerta antes de precisar em produção.</p>
+            </div>
+            <div class="bg-emerald-900/20 rounded-lg p-3 border border-emerald-500/20">
+              <p class="text-sm font-semibold text-emerald-400 mb-1">Idempotência nas tarefas</p>
+              <p class="text-xs text-neutral-400">Cada tarefa verifica se já foi executada (por task_id) antes de rodar. Recovery = replay seguro.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">📊 RPO e RTO para sistemas agentic</h3>
+        <p class="text-neutral-300 text-sm mb-3">Defina antes de ir para produção:</p>
+        <div class="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <p class="font-semibold text-neutral-300 mb-1">RPO (Recovery Point Objective)</p>
+            <p class="text-neutral-400 text-xs">Quanto de trabalho de agente posso perder? Se 30 min é aceitável, faça snapshot a cada 30 min.</p>
+          </div>
+          <div>
+            <p class="font-semibold text-neutral-300 mb-1">RTO (Recovery Time Objective)</p>
+            <p class="text-neutral-400 text-xs">Em quanto tempo preciso estar de volta? Se 5 min, o restore precisa ser automatizado e testado.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumo do Módulo 4.5</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Race conditions, dirty reads e lost updates</strong><span class="text-neutral-400"> são os inimigos do estado compartilhado — entenda-os antes de escolher a solução</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Redis + Redlock</strong><span class="text-neutral-400"> é o padrão de mercado para estado compartilhado de alta performance</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Estado isolado</strong><span class="text-neutral-400"> é mais simples quando tarefas são realmente independentes — não force o compartilhamento</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">Event sourcing</strong><span class="text-neutral-400"> fornece rollback, debug temporal e audit trail — gratuitamente pela imutabilidade</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-amber-400 mt-0.5">✓</span><div><strong class="text-white">TTL, backup testado e idempotência</strong><span class="text-neutral-400"> são as três práticas que separam sistemas frágeis de sistemas robustos em produção</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-amber-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">4.6 — Handoffs e Roteamento: a transferência formal de controle entre agentes, critérios de roteamento e o que acontece quando o agente destino falha.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-4-4.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 4.4 Agentes Especializados</a>
+          <a href="modulo-4-6.html" class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors">Próximo: 4.6 Handoffs →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden'); themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

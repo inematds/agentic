@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Módulo 4.8 — Tratamento de Erros | Trilha 4</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#0a0a0f', 800: '#111118', 700: '#1a1a24', 600: '#22222f' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html:not(.dark) body { background: #f8f7f0; color: #1a1a1a; }
+    html:not(.dark) .bg-dark-900 { background: #f8f7f0; }
+    html:not(.dark) .bg-dark-800 { background: #f0efe8; }
+    html:not(.dark) .bg-dark-700 { background: #e8e7e0; }
+    html:not(.dark) .bg-dark-600 { background: #e0dfd8; }
+    html:not(.dark) .text-gray-300 { color: #374151; }
+    html:not(.dark) .text-gray-400 { color: #4b5563; }
+    html:not(.dark) .text-gray-500 { color: #6b7280; }
+    html:not(.dark) .border-gray-700 { border-color: #d1d5db; }
+    html:not(.dark) .border-gray-800 { border-color: #e5e7eb; }
+    html:not(.dark) nav { background: #f0efe8 !important; border-color: #d1d5db !important; }
+    html:not(.dark) .module-card { background: #f0efe8; }
+    html:not(.dark) pre { background: #1a1a24 !important; }
+    .topic-content { display: none; }
+    .topic-content.active { display: block; }
+    .topic-btn.active { background: rgba(245,158,11,0.15); border-color: rgba(245,158,11,0.5); }
+  </style>
+</head>
+<body class="bg-dark-900 text-gray-300 min-h-screen">
+
+  <!-- NAV -->
+  <nav class="bg-dark-800 border-b border-gray-700 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-6">
+        <span class="text-xl font-bold text-amber-400">AEM</span>
+        <div class="hidden md:flex gap-4 text-sm">
+          <a href="../../index.html" class="text-gray-400 hover:text-white transition-colors">Início</a>
+          <a href="../trilha1/index.html" class="text-gray-400 hover:text-emerald-400 transition-colors">T1</a>
+          <a href="../trilha2/index.html" class="text-gray-400 hover:text-blue-400 transition-colors">T2</a>
+          <a href="../trilha3/index.html" class="text-gray-400 hover:text-purple-400 transition-colors">T3</a>
+          <a href="../trilha4/index.html" class="text-amber-400 font-semibold">T4</a>
+          <a href="../trilha5/index.html" class="text-gray-400 hover:text-teal-400 transition-colors">T5</a>
+          <a href="../trilha6/index.html" class="text-gray-400 hover:text-rose-400 transition-colors">T6</a>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="toggleTheme()" class="text-gray-400 hover:text-amber-400 transition-colors text-sm px-3 py-1 border border-gray-700 rounded-lg">
+          Tema
+        </button>
+        <a href="index.html" class="text-sm text-amber-400 hover:text-amber-300 transition-colors">
+          Trilha 4
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="max-w-7xl mx-auto px-4 py-3">
+    <div class="flex items-center gap-2 text-sm text-gray-500">
+      <a href="../../index.html" class="hover:text-amber-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-amber-400 transition-colors">Trilha 4 — Multi-Agentes</a>
+      <span>/</span>
+      <span class="text-amber-400">Módulo 4.8 — Tratamento de Erros</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="max-w-7xl mx-auto px-4 py-10">
+    <div class="bg-dark-700 border border-amber-500/30 rounded-2xl p-8 bg-gradient-to-br from-amber-900/30 to-dark-700">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-2xl font-bold text-amber-400">
+          8
+        </div>
+        <div>
+          <p class="text-amber-400 text-sm font-medium uppercase tracking-widest">Trilha 4 · Módulo 8</p>
+          <h1 class="text-3xl font-bold text-white">Tratamento de Erros</h1>
+        </div>
+      </div>
+      <p class="text-gray-300 text-lg max-w-3xl">
+        Agentes falham. A questão não é se vão falhar, mas como o sistema se recupera com graciosidade.
+        Aprenda a classificar falhas, implementar retry inteligente, circuit breaker, fallback e escalação humana.
+      </p>
+      <div class="flex flex-wrap gap-3 mt-6">
+        <span class="bg-amber-500/20 border border-amber-500/30 text-amber-400 px-3 py-1 rounded-full text-xs">6 tópicos</span>
+        <span class="bg-amber-500/20 border border-amber-500/30 text-amber-400 px-3 py-1 rounded-full text-xs">~45 min</span>
+        <span class="bg-amber-500/20 border border-amber-500/30 text-amber-400 px-3 py-1 rounded-full text-xs">Intermediário-Avançado</span>
+        <span class="bg-amber-500/20 border border-amber-500/30 text-amber-400 px-3 py-1 rounded-full text-xs">Resiliência</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="max-w-7xl mx-auto px-4 pb-16 grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+    <!-- SIDEBAR -->
+    <aside class="lg:col-span-1">
+      <div class="bg-dark-700 border border-gray-700 rounded-xl p-4 sticky top-20">
+        <h3 class="text-amber-400 font-semibold text-sm uppercase tracking-widest mb-4">Tópicos</h3>
+        <div class="flex flex-col gap-2">
+          <button onclick="showTopic(1)" id="btn-1" class="topic-btn active text-left w-full px-3 py-2 rounded-lg border border-transparent text-sm text-gray-300 hover:text-white hover:bg-amber-500/10 transition-all justify-start flex">
+            <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 text-xs flex items-center justify-center mr-2 shrink-0">1</span>
+            Tipos de falha
+          </button>
+          <button onclick="showTopic(2)" id="btn-2" class="topic-btn text-left w-full px-3 py-2 rounded-lg border border-transparent text-sm text-gray-300 hover:text-white hover:bg-amber-500/10 transition-all justify-start flex">
+            <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 text-xs flex items-center justify-center mr-2 shrink-0">2</span>
+            Retry com backoff
+          </button>
+          <button onclick="showTopic(3)" id="btn-3" class="topic-btn text-left w-full px-3 py-2 rounded-lg border border-transparent text-sm text-gray-300 hover:text-white hover:bg-amber-500/10 transition-all justify-start flex">
+            <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 text-xs flex items-center justify-center mr-2 shrink-0">3</span>
+            Fallback strategy
+          </button>
+          <button onclick="showTopic(4)" id="btn-4" class="topic-btn text-left w-full px-3 py-2 rounded-lg border border-transparent text-sm text-gray-300 hover:text-white hover:bg-amber-500/10 transition-all justify-start flex">
+            <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 text-xs flex items-center justify-center mr-2 shrink-0">4</span>
+            Circuit breaker
+          </button>
+          <button onclick="showTopic(5)" id="btn-5" class="topic-btn text-left w-full px-3 py-2 rounded-lg border border-transparent text-sm text-gray-300 hover:text-white hover:bg-amber-500/10 transition-all justify-start flex">
+            <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 text-xs flex items-center justify-center mr-2 shrink-0">5</span>
+            Human escalation
+          </button>
+          <button onclick="showTopic(6)" id="btn-6" class="topic-btn text-left w-full px-3 py-2 rounded-lg border border-transparent text-sm text-gray-300 hover:text-white hover:bg-amber-500/10 transition-all justify-start flex">
+            <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 text-xs flex items-center justify-center mr-2 shrink-0">6</span>
+            Recovery patterns
+          </button>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-gray-700">
+          <p class="text-xs text-gray-500 mb-2">Módulo</p>
+          <div class="w-full bg-dark-600 rounded-full h-2">
+            <div id="progress-bar" class="bg-amber-500 h-2 rounded-full transition-all duration-300" style="width:16.7%"></div>
+          </div>
+          <p id="progress-text" class="text-xs text-gray-500 mt-1">1 / 6 tópicos</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <div class="lg:col-span-3 flex flex-col gap-6">
+
+      <!-- TOPIC 1 -->
+      <div id="topic-1" class="topic-content active bg-dark-700 border border-gray-700 rounded-xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">1</div>
+          <h2 class="text-xl font-bold text-white">Tipos de Falha em Agentes</h2>
+        </div>
+
+        <p class="text-gray-300 mb-4">
+          Sistemas agênticos enfrentam um espectro de falhas muito mais amplo que software tradicional.
+          Classificar corretamente o tipo de falha é o primeiro passo para escolher a estratégia de recuperação certa.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div class="bg-dark-600 border border-red-500/20 rounded-lg p-4">
+            <h4 class="text-red-400 font-semibold mb-2">Falhas de Formato</h4>
+            <ul class="text-sm text-gray-300 space-y-1">
+              <li>LLM retorna JSON inválido ou incompleto</li>
+              <li>Campo obrigatório ausente na resposta</li>
+              <li>Tipo errado (string onde esperava int)</li>
+              <li>Schema Pydantic não validado</li>
+            </ul>
+            <p class="text-xs text-amber-400 mt-2">Solução: retry com prompt corretivo</p>
+          </div>
+          <div class="bg-dark-600 border border-orange-500/20 rounded-lg p-4">
+            <h4 class="text-orange-400 font-semibold mb-2">Falhas de Tool Call</h4>
+            <ul class="text-sm text-gray-300 space-y-1">
+              <li>API externa retorna 5xx</li>
+              <li>Rate limit atingido (429)</li>
+              <li>Timeout na execução da tool</li>
+              <li>Parâmetros inválidos para a tool</li>
+            </ul>
+            <p class="text-xs text-amber-400 mt-2">Solução: retry com backoff exponencial</p>
+          </div>
+          <div class="bg-dark-600 border border-yellow-500/20 rounded-lg p-4">
+            <h4 class="text-yellow-400 font-semibold mb-2">Falhas de Loop</h4>
+            <ul class="text-sm text-gray-300 space-y-1">
+              <li>Agente fica preso chamando a mesma tool</li>
+              <li>Loop de replanejamento infinito</li>
+              <li>Ciclo entre dois agentes</li>
+              <li>Contexto cresce sem progressão</li>
+            </ul>
+            <p class="text-xs text-amber-400 mt-2">Solução: contador de iterações + timeout</p>
+          </div>
+          <div class="bg-dark-600 border border-purple-500/20 rounded-lg p-4">
+            <h4 class="text-purple-400 font-semibold mb-2">Falhas de Recurso</h4>
+            <ul class="text-sm text-gray-300 space-y-1">
+              <li>Contexto excede janela máxima</li>
+              <li>Custo por tarefa ultrapassa limite</li>
+              <li>Memória insuficiente para processamento</li>
+              <li>Concorrência máxima atingida</li>
+            </ul>
+            <p class="text-xs text-amber-400 mt-2">Solução: circuit breaker + escalação</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-600 rounded-lg p-4">
+          <h4 class="text-amber-400 font-semibold mb-3">Taxonomia de Severidade</h4>
+          <div class="space-y-2">
+            <div class="flex items-center gap-3 text-sm">
+              <span class="w-3 h-3 rounded-full bg-green-500 shrink-0"></span>
+              <span class="text-green-400 w-24 shrink-0">Transiente</span>
+              <span class="text-gray-300">Falha temporária, retry resolve. Ex: timeout de rede, rate limit</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="w-3 h-3 rounded-full bg-yellow-500 shrink-0"></span>
+              <span class="text-yellow-400 w-24 shrink-0">Recuperável</span>
+              <span class="text-gray-300">Precisa de ajuste. Ex: formato errado, parâmetro inválido</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="w-3 h-3 rounded-full bg-orange-500 shrink-0"></span>
+              <span class="text-orange-400 w-24 shrink-0">Degradada</span>
+              <span class="text-gray-300">Funciona parcialmente, ativar fallback. Ex: serviço indisponível</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="w-3 h-3 rounded-full bg-red-500 shrink-0"></span>
+              <span class="text-red-400 w-24 shrink-0">Fatal</span>
+              <span class="text-gray-300">Precisa de intervenção humana. Ex: ação irreversível, custo explodido</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOPIC 2 -->
+      <div id="topic-2" class="topic-content bg-dark-700 border border-gray-700 rounded-xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">2</div>
+          <h2 class="text-xl font-bold text-white">Retry com Backoff Exponencial</h2>
+        </div>
+
+        <p class="text-gray-300 mb-4">
+          Falhas transientes como timeouts de API ou rate limits são resolvíveis com retry. Mas retry sem controle
+          pode piorar o problema — sobrecarregando o serviço que já está sob pressão. O backoff exponencial com
+          jitter é o padrão correto.
+        </p>
+
+        <div class="bg-dark-600 rounded-lg p-4 mb-6 overflow-x-auto">
+          <p class="text-xs text-amber-400 mb-2 uppercase tracking-widest">Python — Retry com Backoff Exponencial</p>
+          <pre class="text-sm text-green-300"><code>import asyncio
+import random
+import time
+from functools import wraps
+from typing import Type, Tuple
+
+def retry_with_backoff(
+    max_retries: int = 3,
+    base_delay: float = 1.0,
+    max_delay: float = 60.0,
+    exceptions: Tuple[Type[Exception], ...] = (Exception,),
+    jitter: bool = True
+):
+    """Decorator para retry com backoff exponencial e jitter."""
+    def decorator(func):
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            last_exception = None
+
+            for attempt in range(max_retries + 1):
+                try:
+                    return await func(*args, **kwargs)
+
+                except exceptions as e:
+                    last_exception = e
+
+                    if attempt == max_retries:
+                        raise  # Esgotou retries
+
+                    # Cálculo do delay: base * 2^attempt
+                    delay = min(base_delay * (2 ** attempt), max_delay)
+
+                    # Jitter: evita thundering herd
+                    if jitter:
+                        delay = delay * (0.5 + random.random() * 0.5)
+
+                    print(f"  Tentativa {attempt + 1}/{max_retries} falhou: {e}")
+                    print(f"  Aguardando {delay:.1f}s antes de retry...")
+                    await asyncio.sleep(delay)
+
+            raise last_exception
+        return wrapper
+    return decorator
+
+
+# Uso: decorador em chamadas de API
+@retry_with_backoff(
+    max_retries=3,
+    base_delay=1.0,
+    exceptions=(TimeoutError, ConnectionError, RateLimitError)
+)
+async def call_llm_api(prompt: str) -> str:
+    return await openai_client.chat(prompt)
+
+
+# Retry com contexto para falhas de formato
+async def call_with_format_retry(
+    prompt: str,
+    schema: type,
+    max_format_retries: int = 2
+) -> dict:
+    """Retry específico para falhas de schema/formato."""
+
+    for attempt in range(max_format_retries + 1):
+        response = await call_llm_api(prompt)
+
+        try:
+            return schema.model_validate_json(response)
+        except ValidationError as e:
+            if attempt == max_format_retries:
+                raise
+            # Adiciona instrução corretiva ao prompt
+            prompt += f"\n\nAnterior inválido. Erro: {e}\nRetorne APENAS JSON válido."
+    </code></pre>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 mb-4">
+          <div class="bg-dark-600 border border-amber-500/20 rounded-lg p-3 text-center">
+            <p class="text-amber-400 font-bold text-lg">1s</p>
+            <p class="text-xs text-gray-400">1ª tentativa</p>
+          </div>
+          <div class="bg-dark-600 border border-amber-500/20 rounded-lg p-3 text-center">
+            <p class="text-amber-400 font-bold text-lg">2s</p>
+            <p class="text-xs text-gray-400">2ª tentativa</p>
+          </div>
+          <div class="bg-dark-600 border border-amber-500/20 rounded-lg p-3 text-center">
+            <p class="text-amber-400 font-bold text-lg">4s</p>
+            <p class="text-xs text-gray-400">3ª tentativa</p>
+          </div>
+        </div>
+
+        <div class="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4">
+          <p class="text-amber-400 font-semibold mb-1">Por que Jitter?</p>
+          <p class="text-sm text-gray-300">
+            Sem jitter, múltiplos agentes que falham simultaneamente vão fazer retry no mesmo instante,
+            causando o "thundering herd" — todos atacando o serviço ao mesmo tempo.
+            O jitter randomiza o delay entre 50% e 100% do valor calculado, espalhando as requisições no tempo.
+          </p>
+        </div>
+      </div>
+
+      <!-- TOPIC 3 -->
+      <div id="topic-3" class="topic-content bg-dark-700 border border-gray-700 rounded-xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">3</div>
+          <h2 class="text-xl font-bold text-white">Fallback Strategy</h2>
+        </div>
+
+        <p class="text-gray-300 mb-4">
+          Quando o retry não resolve — o serviço está down, o agente principal não converge — é hora do fallback.
+          Fallback é ter um plano B: agente alternativo, modelo diferente, resultado parcial com flag de incerteza,
+          ou cache da última execução bem-sucedida.
+        </p>
+
+        <div class="bg-dark-600 rounded-lg p-4 mb-6 overflow-x-auto">
+          <p class="text-xs text-amber-400 mb-2 uppercase tracking-widest">Python — Fallback Chain</p>
+          <pre class="text-sm text-green-300"><code>from dataclasses import dataclass
+from typing import Optional, Any
+from enum import Enum
+
+class ResultConfidence(Enum):
+    HIGH = "high"       # Resultado normal
+    MEDIUM = "medium"   # Fallback parcial
+    LOW = "low"         # Cache ou estimativa
+    FAILED = "failed"   # Nenhum fallback funcionou
+
+@dataclass
+class AgentResult:
+    data: Any
+    confidence: ResultConfidence
+    source: str
+    partial: bool = False
+    metadata: dict = None
+
+
+async def execute_with_fallback(task: dict) -> AgentResult:
+    """
+    Cadeia de fallback:
+    1. Agente primário (GPT-4o)
+    2. Agente alternativo (Claude Sonnet)
+    3. Modelo menor com prompt simplificado
+    4. Cache da última execução bem-sucedida
+    5. Resultado parcial com flag de incerteza
+    """
+
+    # Tentativa 1: Agente primário
+    try:
+        result = await primary_agent.execute(task)
+        return AgentResult(
+            data=result,
+            confidence=ResultConfidence.HIGH,
+            source="primary_agent"
+        )
+    except Exception as e:
+        log_failure("primary_agent", e)
+
+    # Tentativa 2: Agente alternativo com abordagem diferente
+    try:
+        result = await fallback_agent.execute(task, simplified=True)
+        return AgentResult(
+            data=result,
+            confidence=ResultConfidence.MEDIUM,
+            source="fallback_agent",
+            partial=True
+        )
+    except Exception as e:
+        log_failure("fallback_agent", e)
+
+    # Tentativa 3: Modelo menor, prompt simplificado
+    try:
+        simplified_task = simplify_task(task)
+        result = await lightweight_agent.execute(simplified_task)
+        return AgentResult(
+            data=result,
+            confidence=ResultConfidence.LOW,
+            source="lightweight_agent",
+            partial=True
+        )
+    except Exception as e:
+        log_failure("lightweight_agent", e)
+
+    # Tentativa 4: Cache da última execução
+    cached = await get_cached_result(task["task_id"])
+    if cached and not cache_is_stale(cached):
+        return AgentResult(
+            data=cached["data"],
+            confidence=ResultConfidence.LOW,
+            source="cache",
+            metadata={"cached_at": cached["timestamp"]}
+        )
+
+    # Nenhum fallback funcionou — resultado parcial forçado
+    return AgentResult(
+        data=None,
+        confidence=ResultConfidence.FAILED,
+        source="none",
+        metadata={"error": "all_fallbacks_exhausted"}
+    )
+
+
+def simplify_task(task: dict) -> dict:
+    """Reduz escopo da tarefa para aumentar chance de sucesso."""
+    return {
+        **task,
+        "scope": "minimal",
+        "depth": "surface",
+        "max_tokens": 500
+    }
+  </code></pre>
+        </div>
+
+        <div class="bg-dark-600 rounded-lg p-4">
+          <h4 class="text-amber-400 font-semibold mb-3">Quando usar cada fallback</h4>
+          <div class="space-y-2 text-sm">
+            <div class="flex gap-3">
+              <span class="text-amber-400 w-40 shrink-0">Agente alternativo</span>
+              <span class="text-gray-300">Agente primário não converge em N tentativas ou usa abordagem incompatível com o domínio</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-amber-400 w-40 shrink-0">Modelo menor</span>
+              <span class="text-gray-300">Custo explodiu ou API principal offline — usa haiku/mini com prompt mais direto</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-amber-400 w-40 shrink-0">Cache</span>
+              <span class="text-gray-300">Tarefa repetitiva, dados não críticos — resultado de 24h atrás pode ser aceitável</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-amber-400 w-40 shrink-0">Resultado parcial</span>
+              <span class="text-gray-300">Quando é melhor retornar algo com flag de incerteza do que falhar completamente</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOPIC 4 -->
+      <div id="topic-4" class="topic-content bg-dark-700 border border-gray-700 rounded-xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">4</div>
+          <h2 class="text-xl font-bold text-white">Circuit Breaker</h2>
+        </div>
+
+        <p class="text-gray-300 mb-4">
+          O circuit breaker é o padrão de resiliência mais importante para sistemas distribuídos.
+          Quando um serviço falha repetidamente, parar de chamá-lo temporariamente protege o sistema
+          de cascata de falhas e dá ao serviço tempo para se recuperar.
+        </p>
+
+        <div class="grid grid-cols-3 gap-4 mb-6">
+          <div class="bg-dark-600 border border-green-500/30 rounded-lg p-4 text-center">
+            <div class="w-10 h-10 rounded-full bg-green-500/20 border-2 border-green-500 flex items-center justify-center text-green-400 font-bold mx-auto mb-2">F</div>
+            <p class="text-green-400 font-semibold">Fechado</p>
+            <p class="text-xs text-gray-400 mt-1">Chamadas passam normalmente. Monitora falhas.</p>
+          </div>
+          <div class="bg-dark-600 border border-red-500/30 rounded-lg p-4 text-center">
+            <div class="w-10 h-10 rounded-full bg-red-500/20 border-2 border-red-500 flex items-center justify-center text-red-400 font-bold mx-auto mb-2">A</div>
+            <p class="text-red-400 font-semibold">Aberto</p>
+            <p class="text-xs text-gray-400 mt-1">Bloqueia chamadas. Retorna erro imediato.</p>
+          </div>
+          <div class="bg-dark-600 border border-yellow-500/30 rounded-lg p-4 text-center">
+            <div class="w-10 h-10 rounded-full bg-yellow-500/20 border-2 border-yellow-500 flex items-center justify-center text-yellow-400 font-bold mx-auto mb-2">M</div>
+            <p class="text-yellow-400 font-semibold">Meio-Aberto</p>
+            <p class="text-xs text-gray-400 mt-1">Permite teste. Fecha se OK, reabre se falha.</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-600 rounded-lg p-4 mb-6 overflow-x-auto">
+          <p class="text-xs text-amber-400 mb-2 uppercase tracking-widest">Python — Circuit Breaker Implementation</p>
+          <pre class="text-sm text-green-300"><code>import time
+from enum import Enum
+from dataclasses import dataclass, field
+from typing import Callable, Any
+
+class CircuitState(Enum):
+    CLOSED = "closed"       # Normal
+    OPEN = "open"           # Bloqueado
+    HALF_OPEN = "half_open" # Testando
+
+@dataclass
+class CircuitBreaker:
+    name: str
+    failure_threshold: int = 5      # Falhas para abrir
+    success_threshold: int = 2      # Sucessos para fechar
+    timeout: float = 60.0           # Segundos aberto antes de testar
+
+    # Estado interno
+    state: CircuitState = field(default=CircuitState.CLOSED)
+    failure_count: int = 0
+    success_count: int = 0
+    last_failure_time: float = 0
+
+    async def call(self, func: Callable, *args, **kwargs) -> Any:
+        if self.state == CircuitState.OPEN:
+            # Verifica se passou o timeout
+            if time.time() - self.last_failure_time > self.timeout:
+                self.state = CircuitState.HALF_OPEN
+                self.success_count = 0
+                print(f"  CB '{self.name}': HALF_OPEN — testando...")
+            else:
+                raise CircuitOpenError(
+                    f"Circuit '{self.name}' aberto. "
+                    f"Tenta novamente em {self.timeout - (time.time() - self.last_failure_time):.0f}s"
+                )
+
+        try:
+            result = await func(*args, **kwargs)
+            self._on_success()
+            return result
+
+        except Exception as e:
+            self._on_failure()
+            raise
+
+    def _on_success(self):
+        self.failure_count = 0
+        if self.state == CircuitState.HALF_OPEN:
+            self.success_count += 1
+            if self.success_count >= self.success_threshold:
+                self.state = CircuitState.CLOSED
+                print(f"  CB '{self.name}': CLOSED — serviço recuperado!")
+
+    def _on_failure(self):
+        self.failure_count += 1
+        self.last_failure_time = time.time()
+
+        if self.state == CircuitState.HALF_OPEN:
+            # Falhou no teste — volta a abrir
+            self.state = CircuitState.OPEN
+            print(f"  CB '{self.name}': OPEN — serviço ainda instável")
+
+        elif self.failure_count >= self.failure_threshold:
+            self.state = CircuitState.OPEN
+            print(f"  CB '{self.name}': OPEN após {self.failure_count} falhas!")
+
+
+# Uso no orquestrador
+llm_circuit = CircuitBreaker("openai_api", failure_threshold=5, timeout=30)
+
+async def safe_llm_call(prompt: str) -> str:
+    try:
+        return await llm_circuit.call(openai_client.chat, prompt)
+    except CircuitOpenError:
+        # Circuit aberto — usa fallback imediato sem esperar
+        return await fallback_model.chat(prompt)
+  </code></pre>
+        </div>
+
+        <div class="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4">
+          <p class="text-amber-400 font-semibold mb-1">Métricas a monitorar</p>
+          <p class="text-sm text-gray-300">
+            Expor o estado do circuit breaker via métricas (Prometheus/Datadog): número de aberturas por hora,
+            tempo médio em estado OPEN, taxa de sucesso após HALF_OPEN. Esses dados revelam quais dependências
+            são mais instáveis no seu sistema.
+          </p>
+        </div>
+      </div>
+
+      <!-- TOPIC 5 -->
+      <div id="topic-5" class="topic-content bg-dark-700 border border-gray-700 rounded-xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">5</div>
+          <h2 class="text-xl font-bold text-white">Human Escalation</h2>
+        </div>
+
+        <p class="text-gray-300 mb-4">
+          Nem toda falha é resolvível por código. Quando o custo ultrapassa limite, a ação é irreversível
+          ou a confiança no resultado é baixa demais, o sistema deve pausar e escalar para um humano.
+          Isso não é fraqueza — é design responsável.
+        </p>
+
+        <div class="bg-dark-600 rounded-lg p-4 mb-6">
+          <h4 class="text-amber-400 font-semibold mb-3">Critérios de Escalação</h4>
+          <div class="space-y-3">
+            <div class="flex items-start gap-3">
+              <div class="w-5 h-5 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-red-400 text-xs">!</span>
+              </div>
+              <div>
+                <p class="text-white text-sm font-medium">Custo acima do limite</p>
+                <p class="text-gray-400 text-xs">Task consumiu mais de N tokens / R$ X. Parar antes de desperdiçar mais.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-5 h-5 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-red-400 text-xs">!</span>
+              </div>
+              <div>
+                <p class="text-white text-sm font-medium">Ação irreversível detectada</p>
+                <p class="text-gray-400 text-xs">Delete de dados, transferência financeira, email enviado. Requer aprovação.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-5 h-5 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-orange-400 text-xs">!</span>
+              </div>
+              <div>
+                <p class="text-white text-sm font-medium">Baixa confiança no resultado</p>
+                <p class="text-gray-400 text-xs">Score de confiança abaixo de threshold (ex: 70%). Agente não tem certeza.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-5 h-5 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center shrink-0 mt-0.5">
+                <span class="text-orange-400 text-xs">!</span>
+              </div>
+              <div>
+                <p class="text-white text-sm font-medium">Contradição nos dados</p>
+                <p class="text-gray-400 text-xs">Múltiplos agentes chegaram a conclusões opostas. Desempate humano necessário.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-600 rounded-lg p-4 mb-4 overflow-x-auto">
+          <p class="text-xs text-amber-400 mb-2 uppercase tracking-widest">Python — Checkpoint de Aprovação</p>
+          <pre class="text-sm text-green-300"><code>from dataclasses import dataclass
+from typing import Literal
+import asyncio
+
+@dataclass
+class EscalationCheckpoint:
+    task_id: str
+    reason: str
+    context: dict
+    action_proposed: str
+    risk_level: Literal["low", "medium", "high", "critical"]
+
+class HumanEscalationManager:
+    def __init__(self, slack_webhook: str, approval_timeout: int = 3600):
+        self.slack_webhook = slack_webhook
+        self.approval_timeout = approval_timeout  # segundos
+        self.pending_approvals: dict = {}
+
+    async def request_approval(
+        self,
+        checkpoint: EscalationCheckpoint
+    ) -> bool:
+        """
+        Pausa execução e aguarda aprovação humana.
+        Returns True se aprovado, False se rejeitado ou timeout.
+        """
+        # 1. Notifica humano
+        await self._notify_slack(checkpoint)
+
+        # 2. Salva estado atual (para poder retomar)
+        await self._save_state(checkpoint.task_id)
+
+        # 3. Aguarda resposta com timeout
+        try:
+            approval = await asyncio.wait_for(
+                self._wait_for_approval(checkpoint.task_id),
+                timeout=self.approval_timeout
+            )
+            return approval
+        except asyncio.TimeoutError:
+            # Timeout: escalação automática para nível acima
+            await self._escalate_to_manager(checkpoint)
+            return False
+
+    async def _notify_slack(self, checkpoint: EscalationCheckpoint):
+        message = {
+            "blocks": [
+                {"type": "header", "text": {"type": "plain_text",
+                    "text": f"Aprovação Necessária — {checkpoint.risk_level.upper()}"}},
+                {"type": "section", "text": {"type": "mrkdwn",
+                    "text": f"*Motivo:* {checkpoint.reason}\n"
+                            f"*Ação proposta:* {checkpoint.action_proposed}"}},
+                {"type": "actions", "elements": [
+                    {"type": "button", "text": {"type": "plain_text", "text": "Aprovar"},
+                     "style": "primary", "action_id": f"approve_{checkpoint.task_id}"},
+                    {"type": "button", "text": {"type": "plain_text", "text": "Rejeitar"},
+                     "style": "danger", "action_id": f"reject_{checkpoint.task_id}"}
+                ]}
+            ]
+        }
+        await send_slack_message(self.slack_webhook, message)
+  </code></pre>
+        </div>
+
+        <div class="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4">
+          <p class="text-amber-400 font-semibold mb-1">Princípio do Checkpoint Gradual</p>
+          <p class="text-sm text-gray-300">
+            Defina thresholds crescentes: $0.10 → log, $1.00 → notificação, $10.00 → pausa automática.
+            Ações reversíveis permitem mais autonomia; ações irreversíveis sempre requerem aprovação.
+          </p>
+        </div>
+      </div>
+
+      <!-- TOPIC 6 -->
+      <div id="topic-6" class="topic-content bg-dark-700 border border-gray-700 rounded-xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">6</div>
+          <h2 class="text-xl font-bold text-white">Recovery Patterns</h2>
+        </div>
+
+        <p class="text-gray-300 mb-4">
+          Quando um agente falha no meio de uma tarefa longa, o desperdício de repetir tudo do zero pode ser
+          inaceitável — tanto em custo quanto em tempo. Recovery patterns permitem retomar a execução
+          a partir do último ponto estável.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="bg-dark-600 border border-amber-500/20 rounded-lg p-4">
+            <h4 class="text-amber-400 font-semibold mb-2">Checkpointing</h4>
+            <p class="text-sm text-gray-300">Salvar estado a cada etapa concluída. Em caso de falha, recarregar o último checkpoint e continuar de onde parou.</p>
+          </div>
+          <div class="bg-dark-600 border border-amber-500/20 rounded-lg p-4">
+            <h4 class="text-amber-400 font-semibold mb-2">Replay Seletivo</h4>
+            <p class="text-sm text-gray-300">Usar o log de eventos para identificar quais steps falharam e reexecutar apenas eles, mantendo resultados válidos.</p>
+          </div>
+          <div class="bg-dark-600 border border-amber-500/20 rounded-lg p-4">
+            <h4 class="text-amber-400 font-semibold mb-2">Sagas</h4>
+            <p class="text-sm text-gray-300">Para ações com efeito colateral: cada step tem uma compensação (rollback). Falha aciona compensações em ordem reversa.</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-600 rounded-lg p-4 mb-6 overflow-x-auto">
+          <p class="text-xs text-amber-400 mb-2 uppercase tracking-widest">Python — Checkpoint + Replay</p>
+          <pre class="text-sm text-green-300"><code>import json
+import redis.asyncio as redis
+from dataclasses import dataclass, asdict
+from typing import List, Optional
+
+@dataclass
+class StepResult:
+    step_id: str
+    status: str  # "completed" | "failed" | "skipped"
+    output: dict
+    tokens_used: int
+    completed_at: float
+
+class CheckpointedExecutor:
+    def __init__(self, task_id: str, redis_client: redis.Redis):
+        self.task_id = task_id
+        self.redis = redis_client
+        self.checkpoint_key = f"checkpoint:{task_id}"
+
+    async def execute_pipeline(self, steps: List[callable]) -> dict:
+        """Executa pipeline com checkpointing automático."""
+
+        # Carrega checkpoint existente (se houver)
+        completed_steps = await self._load_checkpoint()
+        results = {}
+
+        for step in steps:
+            step_id = step.__name__
+
+            # Skip steps já completados
+            if step_id in completed_steps:
+                results[step_id] = completed_steps[step_id]
+                print(f"  [SKIP] {step_id} — já completado no checkpoint")
+                continue
+
+            # Executa step
+            try:
+                output = await step(results)
+
+                # Salva checkpoint imediatamente
+                await self._save_checkpoint(step_id, output)
+                results[step_id] = output
+                print(f"  [OK]   {step_id} — checkpoint salvo")
+
+            except Exception as e:
+                print(f"  [FAIL] {step_id} — {e}")
+                # Estado até aqui está salvo — pode retomar depois
+                raise ExecutionError(
+                    f"Falha em '{step_id}'. "
+                    f"Execute novamente para retomar do checkpoint."
+                )
+
+        # Pipeline completo — limpa checkpoint
+        await self.redis.delete(self.checkpoint_key)
+        return results
+
+    async def _save_checkpoint(self, step_id: str, output: dict):
+        existing = await self._load_checkpoint()
+        existing[step_id] = output
+        await self.redis.setex(
+            self.checkpoint_key,
+            86400,  # TTL: 24 horas
+            json.dumps(existing)
+        )
+
+    async def _load_checkpoint(self) -> dict:
+        data = await self.redis.get(self.checkpoint_key)
+        return json.loads(data) if data else {}
+  </code></pre>
+        </div>
+
+        <div class="bg-dark-600 rounded-lg p-4">
+          <h4 class="text-amber-400 font-semibold mb-3">Resumo: Qual Pattern para Cada Falha</h4>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="text-amber-400 border-b border-gray-600">
+                  <th class="text-left pb-2">Tipo de Falha</th>
+                  <th class="text-left pb-2">Pattern Primário</th>
+                  <th class="text-left pb-2">Fallback</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-700 text-gray-300">
+                <tr>
+                  <td class="py-2">Timeout de API</td>
+                  <td class="py-2">Retry + backoff</td>
+                  <td class="py-2">Circuit breaker</td>
+                </tr>
+                <tr>
+                  <td class="py-2">Formato inválido</td>
+                  <td class="py-2">Retry com prompt corretivo</td>
+                  <td class="py-2">Agente alternativo</td>
+                </tr>
+                <tr>
+                  <td class="py-2">Serviço down</td>
+                  <td class="py-2">Circuit breaker + fallback</td>
+                  <td class="py-2">Cache</td>
+                </tr>
+                <tr>
+                  <td class="py-2">Custo estourado</td>
+                  <td class="py-2">Human escalation</td>
+                  <td class="py-2">Modelo menor</td>
+                </tr>
+                <tr>
+                  <td class="py-2">Falha no meio</td>
+                  <td class="py-2">Checkpoint + replay</td>
+                  <td class="py-2">Saga compensation</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESUMO FINAL -->
+      <div class="bg-dark-700 border border-amber-500/30 rounded-xl p-6 bg-gradient-to-br from-amber-900/20 to-dark-700">
+        <h3 class="text-amber-400 font-bold text-lg mb-4">Resumo do Módulo</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <h4 class="text-white font-semibold mb-2 text-sm">Conceitos centrais</h4>
+            <ul class="text-sm text-gray-300 space-y-1">
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Taxonomia: transiente, recuperável, degradada, fatal</li>
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Retry com backoff exponencial e jitter</li>
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Fallback chain: primário → alternativo → cache → parcial</li>
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Circuit breaker: Fechado → Aberto → Meio-aberto</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-white font-semibold mb-2 text-sm">Na prática</h4>
+            <ul class="text-sm text-gray-300 space-y-1">
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Escalar quando custo, confiança ou reversibilidade exigem</li>
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Checkpointing para tarefas longas e custosas</li>
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Sagas para ações com efeito colateral irreversível</li>
+              <li class="flex items-center gap-2"><span class="text-amber-400">→</span> Monitorar circuit breakers como KPI de resiliência</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- NAV PREV/NEXT -->
+      <div class="flex justify-between items-center pt-4">
+        <a href="modulo-4-7.html" class="flex items-center gap-2 text-gray-400 hover:text-amber-400 transition-colors text-sm">
+          <span class="w-7 h-7 rounded-full bg-dark-600 border border-gray-600 flex items-center justify-center text-xs">7</span>
+          Módulo anterior
+        </a>
+        <a href="modulo-4-9.html" class="flex items-center gap-2 text-amber-400 hover:text-amber-300 transition-colors text-sm font-medium">
+          Próximo módulo
+          <span class="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-xs">9</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-gray-700 mt-8 py-6 text-center text-sm text-gray-500">
+    <p>Agentic Engineering Masterclass · Trilha 4 · Módulo 8</p>
+    <p class="mt-1">
+      Conteúdo por <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 transition-colors">INEMA.CLUB</a>
+    </p>
+  </footer>
+
+  <script>
+    let currentTopic = 1;
+    const totalTopics = 6;
+
+    function showTopic(n) {
+      document.querySelectorAll('.topic-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.topic-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('topic-' + n).classList.add('active');
+      document.getElementById('btn-' + n).classList.add('active');
+      currentTopic = n;
+      const pct = (n / totalTopics * 100).toFixed(1);
+      document.getElementById('progress-bar').style.width = pct + '%';
+      document.getElementById('progress-text').textContent = n + ' / ' + totalTopics + ' tópicos';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+    }
+  </script>
+</body>
+</html>
