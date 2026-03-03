@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6.6 Gestão de Custos em Escala | Trilha 6 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300"><span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span></a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Enterprise</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-rose-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-rose-400 transition-colors">Trilha 6 — Enterprise e Produto</a>
+      <span>/</span>
+      <span class="text-rose-400">Módulo 6.6</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 6.6</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">💸 Gestão de Custos em Escala</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Como gerenciar, alocar, otimizar e prever custos de operações agentic — do cost allocation por departamento ao cálculo de ROI para liderança, incluindo negociação de volume com provedores.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">FinOps</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">📈 O problema do custo em escala: $0.01 × 1M execuções</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">O erro mais comum: calcular custo por execução unitário e achar barato. <strong class="text-rose-400">A aritmética da escala é implacável</strong> — o que parece centavos por execução torna-se dezenas de milhares por mês quando o sistema ganha tração.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">💰 A aritmética da escala</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between py-2 border-b border-dark-700">
+            <span class="text-neutral-300 text-sm">Agente simples (1k tokens avg)</span>
+            <div class="text-right">
+              <div class="text-white font-semibold">$0.015/execução</div>
+              <div class="text-neutral-500 text-xs">100k exec/mês → $1.500/mês</div>
+            </div>
+          </div>
+          <div class="flex items-center justify-between py-2 border-b border-dark-700">
+            <span class="text-neutral-300 text-sm">Agente médio (10k tokens avg)</span>
+            <div class="text-right">
+              <div class="text-white font-semibold">$0.15/execução</div>
+              <div class="text-neutral-500 text-xs">100k exec/mês → $15.000/mês</div>
+            </div>
+          </div>
+          <div class="flex items-center justify-between py-2">
+            <span class="text-neutral-300 text-sm">Agente complexo (100k tokens avg)</span>
+            <div class="text-right">
+              <div class="text-rose-400 font-bold">$1.50/execução</div>
+              <div class="text-neutral-500 text-xs">100k exec/mês → $150.000/mês</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">🚨</span> O cenário do runaway agent</h3>
+        <p class="text-neutral-300 text-sm mb-3">Cenário real: agente com bug entra em loop infinito. Sem budget ceiling, em uma noite pode consumir:</p>
+        <div class="bg-dark-800 rounded-lg p-3 text-sm">
+          <p class="text-neutral-300">10.000 iterações × 50k tokens/iteração = 500M tokens</p>
+          <p class="text-rose-400 font-bold">Custo: ~$7.500 em uma única noite</p>
+        </div>
+        <p class="text-neutral-300 text-sm mt-3">Solução: budget ceiling hard no nível do agente, alertas em tempo real de custo e kill switch automático quando custo/hora ultrapassa threshold.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-4">
+          <h4 class="text-rose-400 font-semibold text-sm mb-2">Budget ceiling</h4>
+          <p class="text-neutral-300 text-xs">Limite máximo de gasto por agente, por workflow e por período. Se ultrapassar, o agente para e alerta.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-4">
+          <h4 class="text-rose-400 font-semibold text-sm mb-2">Cost anomaly detection</h4>
+          <p class="text-neutral-300 text-xs">Algoritmo que detecta quando custo/hora está 3x acima da média histórica. Alerta imediato por Slack/PagerDuty.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-4">
+          <h4 class="text-rose-400 font-semibold text-sm mb-2">Monthly cost review</h4>
+          <p class="text-neutral-300 text-xs">Processo mensal formal: revisar top 10 workflows por custo, identificar anomalias, criar plano de otimização.</p>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Monitoramento em tempo real é não-negociável</h3>
+        <p class="text-neutral-300 text-sm">Custo de LLM não é como custo de servidor (estável e previsível) — é altamente variável e pode explodir em minutos. Dashboard de custo em tempo real com alertas é parte da infraestrutura, não um extra. Implemente desde o primeiro agente em produção.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🏷️ Cost allocation e chargeback: accountability por departamento</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Quando TI paga por todos os agentes, departamentos não têm incentivo para usar com eficiência. <strong class="text-rose-400">Cost allocation</strong> atribui custos a quem usa; <strong class="text-rose-400">chargeback</strong> cobra internamente; <strong class="text-rose-400">showback</strong> mostra sem cobrar.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">📊 Chargeback vs. Showback</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-rose-400 font-semibold text-sm mb-2">Chargeback</p>
+            <ul class="text-neutral-300 text-xs space-y-1">
+              <li>• Departamento paga o custo do agente no seu centro de custo</li>
+              <li>• Cria accountability financeira real</li>
+              <li>• Incentivo forte para otimizar uso</li>
+              <li>• Requer processo de orçamento para agentes</li>
+              <li>• Melhor para organizações com maturidade FinOps</li>
+            </ul>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-blue-400 font-semibold text-sm mb-2">Showback</p>
+            <ul class="text-neutral-300 text-xs space-y-1">
+              <li>• Departamento vê o custo mas TI paga</li>
+              <li>• Cria awareness sem conflito orçamentário</li>
+              <li>• Incentivo mais suave para otimizar</li>
+              <li>• Mais fácil de implementar inicialmente</li>
+              <li>• Melhor para fase inicial de adoção</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">🏷️ Cost tagging para agentes</h3>
+        <p class="text-neutral-300 text-sm mb-3">Todo LLM call deve ser tagged com metadados que permitem allocation:</p>
+        <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+          <pre class="text-xs text-rose-300 overflow-x-auto">
+# Tags obrigatórias em todo LLM call
+tags = {
+    "department": "financial",          # Quem usa
+    "team": "accounting",              # Time específico
+    "agent_id": "reconciliation-agent",# Qual agente
+    "workflow_id": "monthly-close",    # Qual processo
+    "cost_center": "FIN-001",          # Centro de custo
+    "environment": "production",       # Prod vs. dev
+    "project": "Q1-automation"        # Projeto relacionado
+}
+# Esses tags vão para o sistema de cost allocation</pre>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">📊 Impacto do chargeback no comportamento</h3>
+        <ul class="space-y-2 text-neutral-300">
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>Departamentos com chargeback otimizam prompts <strong>40% mais</strong> do que sem chargeback</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>Custo total cai <strong>25-30%</strong> em 6 meses após implementar chargeback (FinOps Foundation, 2025)</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>Departamentos passam a questionar workflows caros com baixo valor — curadoria orgânica do portfolio</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🔧 Otimização contínua: ciclo mensal de redução de custos</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Custo de agentes não é fixo — é uma função de design. <strong class="text-rose-400">Prompts mais curtos, modelos mais baratos para tarefas simples e cache semântico</strong> podem reduzir custo total em 60-80% sem degradar qualidade percebida.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">🔄 Ciclo mensal de otimização</h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">1</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+              <h4 class="font-semibold text-white mb-1">Ranking de custo</h4>
+              <p class="text-sm text-neutral-400">Top 10 workflows por custo total no mês. Para cada um: custo por execução, número de execuções, valor gerado estimado.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">2</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+              <h4 class="font-semibold text-white mb-1">Análise custo-valor</h4>
+              <p class="text-sm text-neutral-400">Identificar workflows caros com baixo valor mensurável. Candidatos a: simplificar, desativar, ou reformular objetivo.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">3</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+              <h4 class="font-semibold text-white mb-1">Otimização técnica</h4>
+              <p class="text-sm text-neutral-400">Para cada workflow candidato: testar compressão de prompt, substituir modelo por versão mais barata, adicionar cache semântico.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">4</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+              <h4 class="font-semibold text-white mb-1">Medir e documentar</h4>
+              <p class="text-sm text-neutral-400">Comparar custo antes/depois com métricas de qualidade. Documentar otimização e savings para relatório de FinOps.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h3 class="text-rose-400 font-semibold mb-3 text-sm">Compressão de prompt</h3>
+          <p class="text-neutral-300 text-xs mb-2">Reduzir tokens de input sem perder contexto crítico.</p>
+          <div class="text-center mt-3">
+            <div class="text-xl font-bold text-rose-400">-30%</div>
+            <div class="text-xs text-neutral-500">redução média de custo</div>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h3 class="text-rose-400 font-semibold mb-3 text-sm">Model cascade</h3>
+          <p class="text-neutral-300 text-xs mb-2">Usar modelo barato para subtarefas simples, caro para raciocínio complexo.</p>
+          <div class="text-center mt-3">
+            <div class="text-xl font-bold text-rose-400">-50%</div>
+            <div class="text-xs text-neutral-500">redução média de custo</div>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h3 class="text-rose-400 font-semibold mb-3 text-sm">Semantic cache</h3>
+          <p class="text-neutral-300 text-xs mb-2">Cachear respostas para queries semanticamente similares (não só idênticas).</p>
+          <div class="text-center mt-3">
+            <div class="text-xl font-bold text-rose-400">-40%</div>
+            <div class="text-xs text-neutral-500">redução média de custo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Model cascade na prática</h3>
+        <p class="text-neutral-300 text-sm">Para um agente de análise de documentos: use Claude Haiku para classificar o tipo de documento e extrair estrutura básica (barato). Use Claude Sonnet apenas para a análise aprofundada do conteúdo relevante (mais caro, mas só em parte do fluxo). Custo médio cai de $0.15 para $0.06/documento.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">📐 ROI calculation: valor gerado vs. custo de operação</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">ROI documentado é o que mantém funding e permite expandir. Sem ROI visível para liderança, iniciativas agentic são cortadas no primeiro momento de pressão orçamentária. <strong class="text-rose-400">Calcule e comunique ROI regularmente</strong>.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">📊 Metodologia de cálculo de ROI</h3>
+        <div class="space-y-4">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+            <h4 class="text-white font-semibold text-sm mb-2">Passo 1: Calcular tempo poupado</h4>
+            <p class="text-neutral-400 text-xs mb-2">Para cada agente, medir: tempo antes (humano fazia) vs. tempo depois (agente faz + humano revisa)</p>
+            <div class="bg-dark-700 rounded p-2">
+              <code class="text-xs text-rose-300">tempo_poupado = (tempo_anterior - tempo_atual) × execucoes_mes</code>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+            <h4 class="text-white font-semibold text-sm mb-2">Passo 2: Calcular valor financeiro</h4>
+            <p class="text-neutral-400 text-xs mb-2">Converter tempo em valor usando fully-loaded cost per hour do colaborador:</p>
+            <div class="bg-dark-700 rounded p-2">
+              <code class="text-xs text-rose-300">valor_poupado = tempo_poupado_horas × custo_hora_funcionario</code>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+            <h4 class="text-white font-semibold text-sm mb-2">Passo 3: Calcular custo do agente</h4>
+            <p class="text-neutral-400 text-xs mb-2">Custo total = tokens + infra + desenvolvimento + manutenção:</p>
+            <div class="bg-dark-700 rounded p-2">
+              <code class="text-xs text-rose-300">custo_agente = custo_tokens + infra + (dev_custo / payback_meses)</code>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-rose-500/20">
+            <h4 class="text-rose-400 font-semibold text-sm mb-2">ROI = (valor_poupado - custo_agente) / custo_agente × 100%</h4>
+            <p class="text-neutral-400 text-xs">ROI positivo a partir do mês N = payback period. Mostre a curva de ROI ao longo do tempo.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">📊 Exemplo real: Agente de Reconciliação Financeira</h3>
+        <div class="grid grid-cols-2 gap-6 text-sm">
+          <div>
+            <p class="text-neutral-500 font-semibold mb-2">Antes do agente:</p>
+            <ul class="space-y-1 text-neutral-300">
+              <li>• 3 analistas × 2 dias/mês = 48h/mês</li>
+              <li>• Custo/hora (fully-loaded): R$80/h</li>
+              <li>• Custo mensal: R$3.840/mês</li>
+              <li>• Erros: ~2-3 por ciclo</li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-neutral-500 font-semibold mb-2">Com o agente:</p>
+            <ul class="space-y-1 text-neutral-300">
+              <li>• Agente: 4h automáticas + 2h revisão</li>
+              <li>• Custo de tokens: R$120/mês</li>
+              <li>• Custo revisão: 2h × R$80 = R$160</li>
+              <li>• Erros: 0 (agente não erra reconciliação)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-4 p-3 bg-rose-900/20 rounded-lg border border-rose-500/20">
+          <p class="text-rose-400 font-bold text-sm">ROI: (R$3.840 - R$280) / R$280 = <strong>1.271% de retorno mensal</strong></p>
+          <p class="text-neutral-400 text-xs mt-1">Payback do investimento de desenvolvimento: semana 1</p>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Hard vs. Soft savings</h3>
+        <p class="text-neutral-300 text-sm">Hard savings = custo que saiu do orçamento (funcionário realocado para outras funções). Soft savings = tempo liberado mas custo não reduziu (funcionário usa o tempo em outras tarefas). Para aprovação de liderança, foque em hard savings — são os únicos que aparecem no P&L.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🔮 Previsão de custo: forecast baseado em histórico</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Custo surpresa no fim do mês é inaceitável. <strong class="text-rose-400">Forecast proativo</strong> permite ajustes antes do impacto — reduzir uso, negociar desconto ou ajustar pricing de clientes antes que a fatura chegue.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">📈 Modelo de forecast simples</h3>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600 mb-4">
+          <pre class="text-xs text-rose-300 overflow-x-auto">
+def forecast_monthly_cost(historical_costs, growth_rate=None):
+    """
+    Forecast baseado em média móvel + taxa de crescimento
+    """
+    # Média dos últimos 3 meses
+    recent_avg = sum(historical_costs[-3:]) / 3
+
+    # Taxa de crescimento inferida se não fornecida
+    if not growth_rate:
+        growth_rate = (historical_costs[-1] / historical_costs[-4]) ** (1/3) - 1
+
+    # Forecast para próximo mês
+    forecast = recent_avg * (1 + growth_rate)
+
+    # Intervalo de confiança (±20% como incerteza base)
+    low = forecast * 0.8
+    high = forecast * 1.2
+
+    return {
+        "expected": forecast,
+        "low": low,
+        "high": high,
+        "growth_rate": growth_rate
+    }</pre>
+        </div>
+        <p class="text-neutral-400 text-sm">Rodar este forecast semanalmente e comparar com orçamento. Se high > budget, acionar plano de contenção.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">Alertas de forecast</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Forecast 80-100% do budget → email para gestor</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Forecast 100-120% do budget → Slack urgente + reunião</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Forecast >120% do budget → escalar para CFO/VP</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Incluir sugestão de ação em cada alerta</span></li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h4 class="font-semibold text-neutral-300 mb-4">Seasonality e eventos</h4>
+          <p class="text-neutral-300 text-sm mb-2">Incorporar no modelo:</p>
+          <ul class="space-y-1 text-neutral-300 text-sm">
+            <li>• Picos de fim de mês (fechamento contábil)</li>
+            <li>• Black Friday para agentes de e-commerce</li>
+            <li>• Lançamentos de produto que aumentam suporte</li>
+            <li>• Onboarding de novos tenants/clientes</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> What-if analysis</h3>
+        <p class="text-neutral-300 text-sm">Antes de lançar um novo agente ou expandir um existente, rodar what-if analysis: "se este agente processa 10k execuções/mês, qual o impacto no custo total?". Isso permite aprovar novos agentes com visibilidade de impacto financeiro antes de entrar em produção.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🤝 Negociação com provedores e análise make vs. buy</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Em escala, diferença de 20% no preço por token representa centenas de milhares de dólares por ano. <strong class="text-rose-400">Negociação e análise make/buy</strong> são competências financeiras críticas para gestores de plataformas agentic.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">💼 Negociação de volume discounts</h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-rose-400 font-bold flex-shrink-0 text-sm">Quando:</span>
+            <span class="text-neutral-300 text-sm">Com consumo acima de $5.000/mês com um provedor, você já tem poder de negociação. Acima de $20.000/mês, pode negociar desconto significativo (15-30%).</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-rose-400 font-bold flex-shrink-0 text-sm">Como:</span>
+            <span class="text-neutral-300 text-sm">Contato com account executive do provedor, apresentar projeção de crescimento, propor committed use (pagar antecipado por volume em troca de desconto). Anthropic, OpenAI e AWS têm programas formais.</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-rose-400 font-bold flex-shrink-0 text-sm">Proteção:</span>
+            <span class="text-neutral-300 text-sm">Nunca committe 100% do volume em um único provedor. Mantenha multi-provider capability. Vendor lock-in em LLM é um risco estratégico real.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">🖥️ Análise Make vs. Buy: hospedar modelo local</h3>
+        <p class="text-neutral-300 text-sm mb-4">Quando faz sentido hospedar modelo próprio (Llama 3, Mistral, Qwen)?</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs">
+            <thead>
+              <tr class="border-b border-dark-600">
+                <th class="text-left text-neutral-400 pb-2 pr-3">Fator</th>
+                <th class="text-center text-neutral-400 pb-2 px-2">API Cloud</th>
+                <th class="text-center text-neutral-400 pb-2 px-2">Self-hosted GPU</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-dark-700/50"><td class="py-2 text-neutral-300 pr-3">Custo em baixo volume</td><td class="text-center py-2 text-green-400">Barato</td><td class="text-center py-2 text-red-400">Caro (GPU ociosa)</td></tr>
+              <tr class="border-b border-dark-700/50"><td class="py-2 text-neutral-300 pr-3">Custo em alto volume</td><td class="text-center py-2 text-red-400">Linear (sem desconto)</td><td class="text-center py-2 text-green-400">Fixo (GPU amortizada)</td></tr>
+              <tr class="border-b border-dark-700/50"><td class="py-2 text-neutral-300 pr-3">Qualidade do modelo</td><td class="text-center py-2 text-green-400">State-of-the-art</td><td class="text-center py-2 text-amber-400">Depende do modelo</td></tr>
+              <tr><td class="py-2 text-neutral-300 pr-3">Break-even (aprox.)</td><td class="text-center py-2 text-neutral-400">—</td><td class="text-center py-2 text-neutral-400">~$30k/mês em tokens</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Regra prática: $30k/mês em tokens</h3>
+        <p class="text-neutral-300 text-sm">Abaixo de $30k/mês em tokens: use API cloud. Acima disso, faça análise detalhada de make vs. buy considerando: custo de GPU (A100/H100), engenharia de MLOps, latência de self-hosted vs. cloud e qualidade do modelo open-source para seu use case específico. O break-even varia muito pelo caso de uso.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-rose-900/40 via-dark-800 to-dark-800 rounded-xl border border-rose-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumo do Módulo 6.6</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Escala</strong><span class="text-neutral-400"> — $0.01/execução × 1M = $10k/mês; budget ceiling e runaway detection são não-negociáveis</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Cost allocation</strong><span class="text-neutral-400"> — chargeback cria accountability real; showback é passo inicial para organizações menos maduras</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Otimização</strong><span class="text-neutral-400"> — prompt compression (-30%), model cascade (-50%), semantic cache (-40%); ciclo mensal de revisão</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">ROI</strong><span class="text-neutral-400"> — medir tempo poupado × custo/hora vs. custo do agente; foco em hard savings para aprovação</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Forecast</strong><span class="text-neutral-400"> — média móvel + taxa de crescimento; alertas em 80%, 100% e 120% do orçamento</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Negociação</strong><span class="text-neutral-400"> — a partir de $5k/mês negocie; make vs. buy break-even em ~$30k/mês em tokens cloud</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-rose-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">6.7 — Governança Organizacional: AI governance framework, política de adoção, risk assessment e modelo de maturidade agentic.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-6-5.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 6.5 Produto SaaS</a>
+          <a href="modulo-6-7.html" class="flex-1 text-center px-6 py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-500 transition-colors">Próximo: 6.7 Governança →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

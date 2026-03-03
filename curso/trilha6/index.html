@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trilha 6 — Enterprise e Produto | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block">
+            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Frameworks</span>
+          </a>
+          <a href="../trilha4/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors hidden lg:block">
+            <span>Multi-Agentes</span>
+          </a>
+          <a href="../trilha5/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors hidden lg:block">
+            <span>Orquestrador</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10">
+            <span class="sm:hidden">T6</span><span class="hidden sm:inline">Enterprise</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER DA TRILHA -->
+  <header class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full mb-4 tracking-wide">
+        TRILHA 6
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🏢 Enterprise e Produto</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Do sistema em produção ao produto escalável. Integração enterprise, segurança agentic, agentes por vertical de negócio, produto SaaS, gestão de custos e governança organizacional — o que separa projetos de prova de conceito de produtos reais.
+      </p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-rose-400">9</div>
+          <div class="text-xs text-neutral-400">Módulos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-rose-400">54</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-rose-400">~7h</div>
+          <div class="text-xs text-neutral-400">Duração</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-rose-400">Avançado</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVEGACAO RAPIDA -->
+  <div class="border-b border-dark-600 bg-dark-800/30">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-2">
+        <a href="modulo-6-1.html" class="text-center px-2 py-2 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-semibold hover:bg-rose-500/20 transition-colors">
+          <div class="text-lg mb-1">🔗</div><div>6.1 Integração</div>
+        </a>
+        <a href="modulo-6-2.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-rose-500/30 hover:text-rose-400 transition-colors">
+          <div class="text-lg mb-1">🔐</div><div>6.2 Segurança</div>
+        </a>
+        <a href="modulo-6-3.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-rose-500/30 hover:text-rose-400 transition-colors">
+          <div class="text-lg mb-1">🏢</div><div>6.3 Verticais</div>
+        </a>
+        <a href="modulo-6-4.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-rose-500/30 hover:text-rose-400 transition-colors">
+          <div class="text-lg mb-1">👤</div><div>6.4 HITL</div>
+        </a>
+        <a href="modulo-6-5.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-rose-500/30 hover:text-rose-400 transition-colors">
+          <div class="text-lg mb-1">🚀</div><div>6.5 SaaS</div>
+        </a>
+        <a href="modulo-6-6.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-rose-500/30 hover:text-rose-400 transition-colors">
+          <div class="text-lg mb-1">💸</div><div>6.6 Custos</div>
+        </a>
+        <a href="modulo-6-7.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-rose-500/30 hover:text-rose-400 transition-colors">
+          <div class="text-lg mb-1">🏛️</div><div>6.7 Governança</div>
+        </a>
+        <a href="modulo-6-8.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-rose-500/30 hover:text-rose-400 transition-colors">
+          <div class="text-lg mb-1">📚</div><div>6.8 Cases</div>
+        </a>
+        <a href="modulo-6-9.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-rose-500/30 hover:text-rose-400 transition-colors">
+          <div class="text-lg mb-1">🎓</div><div>6.9 Carreira</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <div class="flex items-center space-x-3 mb-8">
+      <div class="h-px flex-1 bg-dark-600"></div>
+      <span class="text-neutral-500 text-sm font-medium px-4">Conteúdo Detalhado</span>
+      <div class="h-px flex-1 bg-dark-600"></div>
+    </div>
+
+    <!-- MÓDULO 6.1 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-rose-400 font-bold">6.1</span>
+          <span class="text-xs text-neutral-500">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔗 Padrões de Integração Enterprise</h3>
+        <p class="text-neutral-400 text-sm">Como conectar agentes aos 50-200 sistemas internos que toda empresa já tem — sem quebrar nada e com segurança.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🏗️</span>
+            <div><span class="font-medium">O desafio de integrar agentes</span><span class="text-neutral-500 text-sm ml-2">- Complexidade real de enterprise</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">A maioria das empresas opera 50 a 200 sistemas internos — ERPs, CRMs, bancos de dados legados, APIs internas — e agentes precisam comunicar-se com todos eles de forma confiável.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Sem integração sólida, o agente opera em silos e entrega valor limitado. Integrar corretamente é o que transforma um protótipo em produto enterprise.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">API catalog, service discovery, integration patterns (point-to-point vs. hub-and-spoke), contrato de API, versionamento de integração.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🌐</span>
+            <div><span class="font-medium">REST e GraphQL para agentes</span><span class="text-neutral-500 text-sm ml-2">- Padrões de autenticação e resiliência</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Padrões de integração via HTTP com foco em autenticação (OAuth 2.0, JWT, API keys), tratamento de rate limits, retry com exponential backoff e paginação em APIs enterprise.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Agentes que não tratam rate limits corretamente causam banimentos de IP e falhas em produção. GraphQL reduz over-fetching, crítico quando cada token tem custo.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">OAuth 2.0 flows, JWT refresh tokens, retry-after header, cursor-based pagination, GraphQL fragments para agentes, circuit breaker pattern.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">📨</span>
+            <div><span class="font-medium">Webhooks e eventos</span><span class="text-neutral-500 text-sm ml-2">- Agentes acionados por sistemas externos</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Como expor agentes via webhook para que sistemas externos possam trigerá-los, e como processar eventos de forma assíncrona sem perder mensagens.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Webhooks são o padrão de integração event-driven em enterprise. Sem tratamento adequado de idempotência, você executa o mesmo agente duas vezes com consequências desastrosas.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Webhook signature validation, idempotency key, dead letter queue, webhook retry policy, event schema versioning, webhook logging.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">📬</span>
+            <div><span class="font-medium">Sistemas legados e filas de mensagem</span><span class="text-neutral-500 text-sm ml-2">- RabbitMQ e Kafka como middleware</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Uso de RabbitMQ e Apache Kafka como camada de desacoplamento entre agentes e sistemas legados, garantindo entrega de mensagens mesmo quando sistemas estão offline.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Sistemas legados não têm APIs modernas. Filas de mensagem são o padrão para integrar agentes a mainframes, ERPs antigos e qualquer sistema que não fala REST.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Message broker, consumer group, at-least-once delivery, exactly-once semantics, Kafka topic partitioning, AMQP protocol, message TTL.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🔀</span>
+            <div><span class="font-medium">API Gateway para agentes</span><span class="text-neutral-500 text-sm ml-2">- Centralizar autenticação e roteamento</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Centralizar autenticação, rate limiting, logging e roteamento de chamadas para o pool de agentes via AWS API Gateway ou Kong — ponto único de entrada para todos os agentes.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Sem API Gateway, cada agente implementa autenticação e rate limiting do seu jeito, gerando inconsistência e brechas de segurança. Gateway centraliza e padroniza.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">API Gateway patterns, Kong plugins, AWS API Gateway stages, usage plans, request transformation, response caching, mTLS entre serviços.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔑</span>
+            <div><span class="font-medium">Gestão de segredos e credenciais</span><span class="text-neutral-500 text-sm ml-2">- HashiCorp Vault e zero-trust</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Nunca hardcodar credenciais em agentes. Uso de HashiCorp Vault e AWS Secrets Manager para gerenciamento centralizado com rotação automática de segredos e modelo zero-trust.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Credenciais expostas em código são a causa de 80% dos vazamentos de dados em cloud. Agentes têm acesso a muitos sistemas — um vazamento pode comprometer todos.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Vault dynamic secrets, AWS IAM roles para agentes, secret rotation, least privilege principle, environment variable injection, secret scanning em CI/CD.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-6-1')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-6-1.html" class="px-4 py-2 text-sm bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- MÓDULO 6.2 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-rose-400 font-bold">6.2</span>
+          <span class="text-xs text-neutral-500">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔐 Segurança Agentic</h3>
+        <p class="text-neutral-400 text-sm">Prompt injection, sandboxing, data leakage e todos os vetores de ataque específicos de sistemas agentic — e como mitigá-los.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">💉</span>
+            <div><span class="font-medium">Prompt Injection</span><span class="text-neutral-500 text-sm ml-2">- O ataque mais comum em sistemas agentic</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Dados externos maliciosos que modificam o comportamento do agente — um email pode conter instruções que redirecionam as ações do agente para fins não pretendidos.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Agentes que processam dados externos (emails, PDFs, web pages) são vulneráveis por design. Entender o ataque é prerequisito para construir defesas efetivas.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Direct vs indirect prompt injection, instruction hierarchy, input sanitization, system prompt protection, adversarial input detection.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🎭</span>
+            <div><span class="font-medium">Agent Manipulation</span><span class="text-neutral-500 text-sm ml-2">- Defense in depth para agentes</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Induzir o agente a agir fora do seu escopo pretendido através de entradas elaboradas — jailbreak de agentes, role confusion e scope creep malicioso.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Defense in depth é o único modelo efetivo: validação de input, guardrails no processamento e audit de outputs. Nenhuma camada sozinha é suficiente.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Scope boundary enforcement, input validation layers, behavioral guardrails, output validation, anomaly detection em tool calls, audit trail completo.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">📦</span>
+            <div><span class="font-medium">Sandboxing de execução de código</span><span class="text-neutral-500 text-sm ml-2">- Isolamento de ambientes perigosos</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Quando o agente gera e executa código, isolar a execução em Docker containers, gVisor ou AWS Lambda para evitar Remote Code Execution (RCE) no host.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Código gerado por LLM pode conter backdoors, loops infinitos ou chamadas de sistema perigosas. Sem sandbox, um prompt malicioso pode comprometer o servidor inteiro.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Container isolation, seccomp profiles, gVisor kernel interception, resource limits (CPU/memory/network), ephemeral execution environments, code signing.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🚰</span>
+            <div><span class="font-medium">Data Leakage</span><span class="text-neutral-500 text-sm ml-2">- Vazamento de contexto para outputs públicos</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O agente pode inadvertidamente incluir dados sensíveis do contexto (system prompt, dados de outros usuários) em respostas públicas ou logs acessíveis.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Em sistemas multi-tenant, data leakage entre clientes é uma violação de LGPD/GDPR com consequências legais severas. Prevenção é obrigatória desde o design.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Data classification (public/internal/confidential/restricted), PII detection, output filtering, context window isolation por tenant, log redaction.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🚫</span>
+            <div><span class="font-medium">Unauthorized Tool Use</span><span class="text-neutral-500 text-sm ml-2">- RBAC por tool e audit de chamadas</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Agente sendo manipulado a chamar ferramentas fora do seu escopo (ex: delete_database via prompt injection). Role-Based Access Control por tool é a defesa fundamental.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Um agente com acesso a delete operations e sem RBAC é um risco crítico. Uma única chamada não autorizada pode apagar dados de produção irreversivelmente.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Tool-level RBAC, tool call audit log, allowlist de tools por contexto, tool call anomaly detection, mandatory approval para tools destrutivas.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🧹</span>
+            <div><span class="font-medium">Response Filtering</span><span class="text-neutral-500 text-sm ml-2">- Pipeline de sanitização de outputs</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Validar outputs do agente antes de entregar ao usuário — remover PII, verificar conteúdo sensível, validar formato esperado e garantir que a resposta está dentro do escopo.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">O modelo pode gerar respostas com informações indevidas mesmo sem intenção maliciosa. Response filtering é a última linha de defesa antes do output chegar ao usuário.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Output validation pipeline, PII regex detection, content policy enforcement, schema validation de responses, structured output forcing, fallback responses.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-6-2')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-6-2.html" class="px-4 py-2 text-sm bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- MÓDULO 6.3 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-rose-400 font-bold">6.3</span>
+          <span class="text-xs text-neutral-500">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🏢 Agentes de Negócio por Vertical</h3>
+        <p class="text-neutral-400 text-sm">Arquitetura, ferramentas e compliance para agentes financeiros, jurídicos, RH, comercial e de operações — com critérios de seleção de vertical.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">💰</span>
+            <div><span class="font-medium">Agente Financeiro</span><span class="text-neutral-500 text-sm ml-2">- Análise de risco, reconciliação e SOX compliance</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Agente especializado em análise de risco, reconciliação contábil, relatórios regulatórios e detecção de fraude — com compliance SOX e LGPD embutido na arquitetura.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Finanças é a vertical com maior ROI documentado para agentes — tarefas repetitivas de alto volume com dados estruturados. Compliance correto é o que separa POC de produção.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">APIs de dados financeiros (Bloomberg, Refinitiv), calculadoras financeiras como tools, audit trail imutável, segregação de funções, aprovação dupla para transações acima do limite.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">⚖️</span>
+            <div><span class="font-medium">Agente Jurídico</span><span class="text-neutral-500 text-sm ml-2">- Revisão de contratos e pesquisa de jurisprudência</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Revisão de contratos para identificar cláusulas de risco, pesquisa de jurisprudência e checklists de compliance. O agente advisa — o humano (advogado) decide. Sempre.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Revisão de contratos é um processo que consome centenas de horas por mês em qualquer empresa. Agente pode reduzir de 8h para 20min por contrato mantendo qualidade de análise.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">PDF parsing tools, RAG em base de contratos anteriores, cláusula de risco taxonomy, relatório de risco estruturado, limitações éticas e legais do agente jurídico.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">👥</span>
+            <div><span class="font-medium">Agente de RH</span><span class="text-neutral-500 text-sm ml-2">- Triagem, onboarding e compliance LGPD</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Triagem de currículos, onboarding automatizado, FAQ de RH e análise de pesquisa de clima. Integra com ATS (Applicant Tracking Systems), email e Slack.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">RH tem processos altamente repetitivos com alto volume. LGPD em dados de candidatos é obrigatório — agente mal configurado pode gerar passivo legal significativo.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">ATS API integration, bias detection em triagem, LGPD data minimization, consent management, structured onboarding workflows, sentiment analysis em pesquisa de clima.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">📈</span>
+            <div><span class="font-medium">Agente Comercial (SDR)</span><span class="text-neutral-500 text-sm ml-2">- Qualificação de leads e CRM automatizado</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Qualificação de leads por critérios (BANT, MEDDIC), personalização de outreach, follow-up automático em múltiplos canais e atualização de CRM sem intervenção humana.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">SDR é função com alto turnover e custo elevado. Agente opera 24/7 com consistência e qualidade superior. ROI mensurável em taxa de conversão e custo por lead qualificado.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">CRM API (Salesforce, HubSpot), LinkedIn Sales Navigator, lead scoring algorithm, email sequence automation, escalation para humano em ICP de alto valor.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">⚙️</span>
+            <div><span class="font-medium">Agente de Operações</span><span class="text-neutral-500 text-sm ml-2">- Incidentes, runbooks e on-call</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Monitoramento de incidentes, execução de runbooks automáticos, relatórios de status e coordenação de on-call. Integra Slack, PagerDuty, Datadog e runbook executor.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Incidentes às 3h da manhã são a realidade de todo time de ops. Agente que executa as primeiras etapas do runbook automaticamente reduz MTTR (Mean Time To Recover) drasticamente.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Runbook automation, incident severity classification, Datadog alerts como triggers, PagerDuty escalation policies, post-mortem automation, SLO tracking.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🎯</span>
+            <div><span class="font-medium">Seleção de vertical</span><span class="text-neutral-500 text-sm ml-2">- Critérios e ROI esperado por vertical</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Framework para avaliar onde implantar o primeiro agente — critérios: volume repetitivo, custo atual alto, baixo risco de erro, dados disponíveis e stakeholders favoráveis.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Escolher a vertical errada para o primeiro agente pode comprometer toda a iniciativa de IA da empresa. Começar onde ROI é rápido e risco é baixo é estratégia, não acidente.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">ROI matrix por vertical, risk scoring, data readiness assessment, stakeholder mapping, quick win vs. long-term value, change management por vertical.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-6-3')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-6-3.html" class="px-4 py-2 text-sm bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- MÓDULO 6.4 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-rose-400 font-bold">6.4</span>
+          <span class="text-xs text-neutral-500">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">👤 Human-in-the-Loop Avançado</h3>
+        <p class="text-neutral-400 text-sm">Design inteligente de checkpoints, aprovação assíncrona via Slack/email, audit de decisões humanas e métricas de HITL.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🤔</span>
+            <div><span class="font-medium">Quando colocar humano no processo</span><span class="text-neutral-500 text-sm ml-2">- Design inteligente, não fraqueza</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Human-in-the-loop não é sinal de que o agente não funciona — é design inteligente para ações irreversíveis, baixa confiança do modelo ou decisões com impacto financeiro alto.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Agentes 100% autônomos em processos críticos são arriscados. HITL bem projetado aumenta confiança, reduz erros catastróficos e cria o dataset para treinar o sistema a precisar cada vez menos de humanos.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Ações irreversíveis, confidence threshold, impacto financeiro como critério, dado sensível como trigger, HITL como estratégia de longo prazo para autonomia crescente.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🚦</span>
+            <div><span class="font-medium">Tipos de checkpoint</span><span class="text-neutral-500 text-sm ml-2">- Approval gate, review gate, notification only</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Três tipos: approval gate (bloqueia até aprovação), review gate (humano pode aprovar ou pedir revisão) e notification only (informa mas não bloqueia o fluxo).</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Usar approval gate em tudo transforma o agente em um sistema de geração de tickets. Calibrar o tipo correto de checkpoint para cada situação é crítico para performance.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Checkpoint taxonomy, gate implementation patterns, state machine para workflow com checkpoints, rollback em caso de não-aprovação, timeout handling.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🖥️</span>
+            <div><span class="font-medium">UX de aprovação</span><span class="text-neutral-500 text-sm ml-2">- Contexto claro, não dump de JSON</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Como apresentar ao humano o contexto da decisão de forma clara e rápida — dashboard de aprovações pendentes com resumo executivo, não JSON cru do estado do agente.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Se o processo de aprovação é difícil, humanos aprovam sem ler — eliminando o valor do checkpoint. UX de aprovação define se o HITL é defesa real ou teatro de segurança.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Approval dashboard design, context summarization, one-click approve/reject, mobile-friendly approval, approval queue management, SLA por tipo de decisão.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">⏸️</span>
+            <div><span class="font-medium">Aprovação assíncrona</span><span class="text-neutral-500 text-sm ml-2">- Agente pausa, notifica, retoma</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Agente pausa a execução, envia notificação (Slack, email), humano aprova via link, agente retoma do ponto exato. Timeout configrável com escalada automática.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Aprovação síncrona (agente aguarda em loop) desperdiça recursos e cria timeout. Aprovação assíncrona com persistência de estado é o padrão correto para produção.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">State persistence entre pausas, Slack approval bot, email with approval token, timeout escalation chain, state recovery após aprovação, webhook para retomada.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">📋</span>
+            <div><span class="font-medium">Audit de decisões humanas</span><span class="text-neutral-500 text-sm ml-2">- Quem aprovou o quê e quando</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Registrar quem aprovou o quê, quando e baseado em qual contexto. Fundamental para compliance e para criar o dataset que treinará o sistema a precisar cada vez menos de aprovação humana.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Sem audit trail, você não pode provar compliance, investigar incidentes ou melhorar o sistema. Audit também cria accountability — humanos aprovam com mais cuidado quando sabem que está registrado.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Immutable audit log, approver identity verification, decision context snapshot, approval reasoning capture, compliance reporting, LGPD data retention policies.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📊</span>
+            <div><span class="font-medium">Métricas de HITL</span><span class="text-neutral-500 text-sm ml-2">- Taxa de aprovação e tempo médio</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Taxa de aprovação sem revisão (% dos checkpoints aprovados diretamente), tempo médio de aprovação, gargalos no processo e tendência de autonomia crescente do sistema.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Métricas de HITL são o sinal de maturidade do sistema. Taxa de aprovação crescendo = agente aprendendo a tomar decisões melhores. Tempo de aprovação alto = UX ruim ou critérios errados.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Approval rate KPI, time-to-approve SLA, revision request rate, escalation rate, HITL overhead cost, autonomy progression tracking.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-6-4')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-6-4.html" class="px-4 py-2 text-sm bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- MÓDULO 6.5 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-rose-400 font-bold">6.5</span>
+          <span class="text-xs text-neutral-500">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🚀 Produto SaaS Agentic</h3>
+        <p class="text-neutral-400 text-sm">Arquitetura multi-tenant, billing por uso, rate limiting, painel admin, onboarding e pricing strategy para SaaS com agentes.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🏗️</span>
+            <div><span class="font-medium">Arquitetura multi-tenant</span><span class="text-neutral-500 text-sm ml-2">- Isolamento de dados por cliente</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Isolamento de dados entre clientes via schema isolation no Postgres ou namespace isolation no Redis. Configurações e limites por plano de tenant.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Multi-tenancy incorreto é o maior risco de data breach em SaaS. Contaminar dados de um cliente com outro é catastrófico legalmente e comercialmente.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Row-level security (RLS) no Postgres, tenant context propagation, Redis namespace per tenant, shared vs. dedicated resources, tenant configuration schema.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">💳</span>
+            <div><span class="font-medium">Billing por uso de tokens</span><span class="text-neutral-500 text-sm ml-2">- Rastreamento e integração com Stripe</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Rastrear tokens consumidos por tenant, por agent e por workflow. Converter em unidade de cobrança (créditos, tokens, execuções) e integrar com Stripe Billing.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Sem metering preciso, você não sabe o custo real por cliente e não consegue precificar com margem. Metering incorreto = clientes que dão prejuízo operacional.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Usage-based billing, Stripe Meter API, token-to-credit conversion, metering pipeline, billing cycle management, invoice generation, dunning management.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">⚡</span>
+            <div><span class="font-medium">Rate limiting e quotas</span><span class="text-neutral-500 text-sm ml-2">- Soft e hard limits por plano</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Limitar execuções por minuto por tenant e custo de tokens por período. Soft limits com alertas (80% do limite) vs. hard limits com bloqueio de novas execuções.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Um tenant sem rate limiting pode consumir recursos que impactam outros clientes (noisy neighbor problem) e gerar custo acima do contratado, eliminando sua margem.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Token bucket algorithm, sliding window rate limiting, Redis-based rate limiter, quota enforcement middleware, overage pricing, limit notification webhooks.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">📊</span>
+            <div><span class="font-medium">Painel admin</span><span class="text-neutral-500 text-sm ml-2">- Dashboard para tenant e para SaaS admin</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Dashboard para o tenant ver execuções, histórico e custo. Para o admin do SaaS: visão consolidada de todos os tenants, MRR, churn, consumo e alertas.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Visibilidade é o que mantém clientes — e o que mantém o SaaS saudável. Admin sem dashboards opera às cegas; cliente sem visibilidade cancela assinatura.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Tenant dashboard design, cost transparency, agent activity logs, SaaS metrics (MRR, ARR, churn, LTV), operational health indicators, alerting framework.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🎯</span>
+            <div><span class="font-medium">Onboarding de novos tenants</span><span class="text-neutral-500 text-sm ml-2">- Provisionamento automático e tutorial</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Provisionamento automático (namespace, configurações padrão, agentes pré-configurados) e tutorial in-app guiado para o primeiro agente funcionar em menos de 15 minutos.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Time-to-value é o principal preditor de churn em SaaS B2B. Onboarding que demora mais de 1 hora perde 60% dos leads. Provisionamento automático é diferencial competitivo.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Tenant provisioning automation, IaC para ambientes de tenant, product-led onboarding, interactive tutorials, success milestones, activation event tracking.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">💰</span>
+            <div><span class="font-medium">Pricing strategy</span><span class="text-neutral-500 text-sm ml-2">- Por execução, token, seat ou resultado</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Análise dos modelos: por execução (previsível), por token (complexo), por seat (simples) ou por resultado (alto risco/alta margem). Como calcular custo para garantir margem.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Pricing errado é o maior killer de SaaS agentic. Precificar por seat quando o uso é por execução cria clientes que dão prejuízo. Pricing deve refletir o valor entregue e o custo real.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Value metric definition, unit economics por modelo de pricing, gross margin targets, tiered pricing design, freemium vs. free trial, enterprise custom pricing.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-6-5')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-6-5.html" class="px-4 py-2 text-sm bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- MÓDULO 6.6 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-rose-400 font-bold">6.6</span>
+          <span class="text-xs text-neutral-500">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">💸 Gestão de Custos em Escala</h3>
+        <p class="text-neutral-400 text-sm">Cost allocation, chargeback, otimização contínua, cálculo de ROI e previsão de custo para operações agentic de grande escala.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">📈</span>
+            <div><span class="font-medium">O problema do custo em escala</span><span class="text-neutral-500 text-sm ml-2">- $0.01 × 1M execuções = $10.000/mês</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">O que parece barato por execução torna-se uma fatura enorme em escala. Como monitorar, alertar e controlar custos antes de surpresas no fim do mês.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Custos explosivos são a causa número 1 de morte de iniciativas agentic em empresas. Sem gestão proativa, um bug de loop infinito pode gerar $50.000 em tokens em uma noite.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Token cost modeling, spend anomaly detection, budget alerts, cost ceiling enforcement, runaway agent detection, monthly cost review process.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🏷️</span>
+            <div><span class="font-medium">Cost allocation e chargeback</span><span class="text-neutral-500 text-sm ml-2">- Alocar custos por departamento</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Alocar o custo de agentes para cada departamento que os usa. Chargeback cobra do departamento; showback apenas mostra sem cobrar — cada modelo tem impacto diferente no comportamento.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Quando TI paga por tudo, departamentos não têm incentivo para otimizar uso. Chargeback cria accountability e comportamento de uso responsável nos consumidores dos agentes.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Cost tagging by department/team, chargeback vs. showback tradeoffs, internal billing process, FinOps principles for AI, departmental cost dashboards.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔧</span>
+            <div><span class="font-medium">Otimização contínua</span><span class="text-neutral-500 text-sm ml-2">- Ciclo mensal de revisão e redução de custos</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Ciclo mensal de identificação de workflows caros com baixo valor, otimização de prompts, troca de modelos por versões mais baratas e adição de cache semântico.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Custo de agentes não é fixo — é uma função de design. Prompts mais curtos, modelos mais baratos para subtarefas simples e cache semântico podem reduzir custo em 60-80%.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Cost-per-value analysis, prompt compression techniques, model cascade (GPT-4 vs. GPT-4o-mini), semantic caching, workflow decomposition for cost optimization.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">📐</span>
+            <div><span class="font-medium">ROI calculation</span><span class="text-neutral-500 text-sm ml-2">- Valor gerado vs. custo de operação</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Calcular valor gerado por agente (tempo humano poupado × custo/hora), comparar com custo de operação e gerar relatório de ROI para liderança aprovar expansão.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Sem ROI documentado, iniciativas agentic são cortadas no primeiro momento de pressão orçamentária. ROI visível é o que mantém funding e permite escalar.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Time-saved calculation methodology, fully-loaded cost per hour, hard vs. soft savings, ROI timeline, executive ROI report format, payback period calculation.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🔮</span>
+            <div><span class="font-medium">Previsão de custo</span><span class="text-neutral-500 text-sm ml-2">- Modelo de forecast baseado em histórico</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Dado o crescimento esperado de uso, prever custo do próximo mês. Modelo simples com base em histórico, tendências e alertas quando previsão ultrapassa orçamento.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Custo surpresa no fim do mês é inaceitável para liderança. Forecast proativo permite ajustes antes do impacto — reduzir uso, negociar desconto, ajustar pricing.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Time-series cost forecasting, growth rate modeling, seasonality adjustment, budget alert thresholds, what-if analysis for new agents, cloud cost anomaly detection.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🤝</span>
+            <div><span class="font-medium">Negociação com provedores</span><span class="text-neutral-500 text-sm ml-2">- Volume discounts e make vs. buy</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Como negociar volume discounts com Anthropic/OpenAI, quando vale hospedar modelo local (Llama 3, Mistral) e análise de make vs. buy para diferentes cargas de trabalho.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Em escala, diferença de 20% no preço por token pode representar centenas de milhares de dólares por ano. Negociação e análise make/buy são competências financeiras críticas.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Committed use discounts, enterprise pricing negotiation, self-hosted LLM TCO, GPU infrastructure costs, Ollama for local models, hybrid cloud/local architecture.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-6-6')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-6-6.html" class="px-4 py-2 text-sm bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- MÓDULO 6.7 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-rose-400 font-bold">6.7</span>
+          <span class="text-xs text-neutral-500">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🏛️ Governança Organizacional</h3>
+        <p class="text-neutral-400 text-sm">AI governance framework, comitê de IA, risk assessment por agente, change management e modelo de maturidade agentic em 5 níveis.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">📜</span>
+            <div><span class="font-medium">O que é AI governance</span><span class="text-neutral-500 text-sm ml-2">- Políticas, processos e tecnologias de controle</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Framework de políticas, processos e tecnologias que garantem uso responsável, seguro e alinhado de IA com os objetivos da organização — e com regulamentações.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Sem governança, cada time cria agentes de formas diferentes, com acessos diferentes e sem accountability. O resultado é proliferação de risco sem visibilidade centralizada.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">EU AI Act compliance, responsible AI principles, AI ethics framework, governance maturity assessment, regulatory landscape for agentic AI, accountability chains.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">📋</span>
+            <div><span class="font-medium">Política de adoção de IA</span><span class="text-neutral-500 text-sm ml-2">- Quem pode criar agentes e com quais dados</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Definir quem pode criar agentes, quais dados podem ser processados, quais sistemas podem ser integrados e qual o processo de aprovação para novos agentes em produção.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Sem política clara, shadow AI prolifera — times usam ChatGPT com dados confidenciais, criam agentes com APIs sem inventário. Política é a base de tudo.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Acceptable use policy for AI, data classification for AI processing, approved model list, agent approval workflow, shadow AI detection, policy enforcement mechanisms.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🏛️</span>
+            <div><span class="font-medium">AI Governance Framework</span><span class="text-neutral-500 text-sm ml-2">- Comitê, registro e avaliação de risco</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Comitê de IA com cadência definida, registro centralizado de todos os agentes em produção (inventário), e processo estruturado de avaliação de risco por agente.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Registro de agentes é o equivalente ao inventário de software — você não pode proteger ou auditar o que não sabe que existe. Comitê de IA dá governança sem burocracia excessiva.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">AI governance committee charter, agent registry schema, risk assessment cadence, governance tooling, AI incident response process, regulatory reporting.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">⚠️</span>
+            <div><span class="font-medium">Risk assessment para agentes</span><span class="text-neutral-500 text-sm ml-2">- Framework de classificação de risco</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Framework de avaliação de risco considerando: dados sensíveis processados, ações irreversíveis possíveis, impacto financeiro máximo e escopo de acesso a sistemas.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Nem todo agente tem o mesmo nível de risco. Aplicar os mesmos controles a um agente de FAQ e a um agente de transações financeiras é ineficiente e inadequado.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Risk scoring matrix (1-5 em cada dimensão), risk classification (low/medium/high/critical), corresponding controls per level, periodic risk re-assessment triggers.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🔄</span>
+            <div><span class="font-medium">Change management</span><span class="text-neutral-500 text-sm ml-2">- Transformação cultural para adoção de agentes</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Conduzir a transformação cultural para adoção de agentes — capacitação, identificação de champions internos, quick wins para demonstrar valor e gestão da resistência.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">A maioria dos projetos de IA falha por resistência cultural, não por limitação técnica. Change management é a competência que transforma projetos-piloto em transformação real.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">ADKAR change model applied to AI, AI champion program, internal communication strategy, quick win identification, resistance handling tactics, success celebration.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📊</span>
+            <div><span class="font-medium">Maturidade agentic</span><span class="text-neutral-500 text-sm ml-2">- Modelo de maturidade em 5 níveis</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Modelo de maturidade: Prompt → Script → Agente → Multi-Agente → Orquestrador Enterprise. Avaliação de onde a organização está e roadmap para o próximo nível.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Tentar pular níveis de maturidade é a receita para falha. Saber onde você está permite planejar a evolução com recursos e riscos adequados ao estágio atual.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Maturity model assessment criteria, gap analysis between levels, investment required per level, capability building roadmap, maturity indicators per dimension.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-6-7')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-6-7.html" class="px-4 py-2 text-sm bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- MÓDULO 6.8 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-rose-400 font-bold">6.8</span>
+          <span class="text-xs text-neutral-500">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">📚 Cases Reais</h3>
+        <p class="text-neutral-400 text-sm">Azure AI Studio, OpenAI Enterprise, Databricks AI Governance, case brasileiro de fintech — análise crítica e lições universais.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">☁️</span>
+            <div><span class="font-medium">Azure AI Studio</span><span class="text-neutral-500 text-sm ml-2">- Prompt Flow e integrações enterprise Microsoft</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Arquitetura do produto, Prompt Flow como orquestrador visual de agentes, integrações enterprise (Azure AD, Cosmos DB, Azure Functions) e lições do design da Microsoft.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Azure AI Studio representa o estado da arte em plataformas enterprise de agentes. Entender suas escolhas arquiteturais revela padrões reutilizáveis em qualquer stack.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Prompt Flow DAG, Azure Managed Identity para agentes, content safety filters, evaluation framework, responsible AI tooling, enterprise deployment patterns.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🤖</span>
+            <div><span class="font-medium">OpenAI Enterprise Controls</span><span class="text-neutral-500 text-sm ml-2">- Assistants API e enterprise guardrails</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Assistants API como orquestrador, functions como tools, thread management como estado persistente, enterprise guardrails e modelo de pricing para clientes enterprise.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">OpenAI Assistants API é a plataforma de agentes mais adotada globalmente. Entender seus tradeoffs — inclusive limitações — é fundamental para decisões de arquitetura.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Thread lifecycle, run object management, function calling patterns, file search tool, code interpreter, data residency controls, usage monitoring, enterprise SSO.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🧱</span>
+            <div><span class="font-medium">Databricks AI Governance</span><span class="text-neutral-500 text-sm ml-2">- MLflow, Unity Catalog e Mosaic AI</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">MLflow para rastreamento de experimentos de agentes, Unity Catalog para governança de dados que agentes consomem, Mosaic AI para fine-tuning e compliance em escala.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Databricks é a escolha de enterprises com grandes volumes de dados. Seu modelo de governança de dados aplicado a agentes é referência para qualquer organização data-driven.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">MLflow agent tracking, Unity Catalog data lineage, Mosaic AI fine-tuning pipeline, Databricks Model Serving, lakehouse architecture for agent data.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🇧🇷</span>
+            <div><span class="font-medium">Case brasileiro: Fintech de crédito</span><span class="text-neutral-500 text-sm ml-2">- LGPD, legado e resultados reais</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Como uma fintech brasileira implementou agente de análise de crédito — arquitetura, desafios de LGPD, integração com sistemas legados (core bancário) e resultados mensuráveis.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Cases brasileiros têm desafios específicos: LGPD, BACEN, infraestrutura legada e mercado de consumo diferente. Aprender de quem resolveu esses problemas no mesmo contexto é irreplaceable.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">LGPD compliance in AI, BACEN regulations for AI in credit, legacy core banking integration, explainability requirements for credit decisions, auditability.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🔍</span>
+            <div><span class="font-medium">Análise arquitetural crítica</span><span class="text-neutral-500 text-sm ml-2">- O que cada case faz bem e o que poderia melhorar</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Análise honesta e crítica de cada case — o que funciona, quais padrões são reutilizáveis, quais são específicos ao contexto e onde cada solução tem limitações não documentadas.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Marketing de cases esconde falhas. Análise crítica permite extrair o aprendizado real — incluindo o que não funcionar para não replicar os mesmos erros.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Architectural pattern extraction, context-dependency analysis, scalability analysis, total cost of ownership comparison, vendor lock-in risk assessment.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🏆</span>
+            <div><span class="font-medium">Lições aprendidas universais</span><span class="text-neutral-500 text-sm ml-2">- As 10 lições de todo case bem-sucedido</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">As 10 lições que aparecem em todos os cases bem-sucedidos: começar pequeno, medir tudo, governança desde o dia 1, HITL primeiro, custo como métrica primária, e mais.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Padrões que aparecem em múltiplos cases de contextos diferentes são leis do universo agentic — não coincidências. Internalizar essas lições evita os erros mais comuns.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Universal success patterns, failure modes to avoid, organizational readiness prerequisites, scaling sequence, technology adoption lifecycle for agentic systems.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-6-8')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-6-8.html" class="px-4 py-2 text-sm bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- MÓDULO 6.9 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-rose-400 font-bold">6.9</span>
+          <span class="text-xs text-neutral-500">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🎓 Certificações e Carreira Agentic</h3>
+        <p class="text-neutral-400 text-sm">NVIDIA, Microsoft, IBM, JHU — comparativo honesto. Career paths, como construir portfolio e o futuro da profissão nos próximos 3 anos.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">📜</span>
+            <div><span class="font-medium">O cenário de certificações em 2026</span><span class="text-neutral-500 text-sm ml-2">- NVIDIA, Microsoft, IBM, JHU comparados</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Comparativo honesto entre NVIDIA Agentic AI Professional, Microsoft Agentic AI Business Solutions Architect, IBM RAG & Agentic AI Certificate e Johns Hopkins Certificate.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Mercado de certificações em agentic AI está se formando em 2026. Escolher bem evita investir tempo e dinheiro em certificações que o mercado não valoriza.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Certification comparison matrix (conteúdo, custo, tempo, reconhecimento), market demand por certificação, stackability com outras certs, renewal requirements.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">💼</span>
+            <div><span class="font-medium">Portfolio vs. certificação</span><span class="text-neutral-500 text-sm ml-2">- O que importa mais para cada perfil</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Para vagas seniores, portfolio de sistemas em produção vale mais. Para entrada no mercado, certificação como sinal de baseline. Como combinar os dois estrategicamente.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Investir 3 meses em uma certificação quando um projeto de portfolio teria mais impacto é desperdício. Entender o que recrutadores procuram para cada senioridade otimiza o investimento.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Recruiter survey data on cert vs. portfolio, GitHub portfolio best practices, case study documentation, live demos vs. documentation, social proof building.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🗺️</span>
+            <div><span class="font-medium">Career paths em Agentic Engineering</span><span class="text-neutral-500 text-sm ml-2">- 5 papéis emergentes e salários</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Agentic Platform Engineer, Multi-Agent Architect, AI Governance Specialist, Agent Observability Engineer e Agentic Product Manager — o que cada papel faz, skills e faixa salarial.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">O mercado está criando novos papéis específicos para agentic AI. Posicionar-se no papel certo para seu perfil maximiza empregabilidade e remuneração.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Role definition and responsibilities, skill requirements per role, compensation ranges (BR e internacional), career progression paths, adjacent skills that differentiate.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🛠️</span>
+            <div><span class="font-medium">Como construir portfolio</span><span class="text-neutral-500 text-sm ml-2">- 3 projetos que impressionam recrutadores</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Os 3 projetos de portfolio que mais impressionam: agente de análise com RAG, sistema multi-agente com orquestrador e micro-SaaS agentic. Como documentar e apresentar cada um.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">Portfolio técnico é o passaporte para vagas senior em agentic AI. Mas projeto sem documentação não conta — apresentação é tão importante quanto o código.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Project selection criteria, README architecture documentation, demo video production, architecture diagrams, cost analysis, lessons learned write-up, open source contribution.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🚀</span>
+            <div><span class="font-medium">Próximos passos concretos</span><span class="text-neutral-500 text-sm ml-2">- Roadmap por perfil (dev, arquiteto, founder, exec)</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Roadmap personalizado por perfil: desenvolvedor, arquiteto de soluções, founder de startup e executivo. Recursos de aprendizagem recomendados e comunidades para se conectar.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">O aprendizado mais eficiente é contextualizado ao seu papel atual e ao papel que você quer atingir. Roadmap genérico desperdiça tempo em conteúdo que não é relevante para você.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Profile-specific learning paths, 30-60-90 day plans, community recommendations (Discord, LinkedIn groups, meetups), mentor finding strategies, continued education cadence.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔭</span>
+            <div><span class="font-medium">O futuro da profissão</span><span class="text-neutral-500 text-sm ml-2">- Skills mais valorizadas nos próximos 3 anos</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-rose-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm">Como o papel do engenheiro evolui nos próximos 3 anos à medida que agentes ganham mais autonomia. Skills que serão mais valorizadas e como se manter atualizado em área que muda semanalmente.</p></div>
+              <div><span class="text-rose-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm">A carreira em agentic AI exige atualização constante — o que é state-of-the-art hoje pode ser commodity em 12 meses. Saber como se atualizar eficientemente é tão importante quanto o conhecimento atual.</p></div>
+              <div><span class="text-rose-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm">Emerging skill areas (reasoning, multi-modal agents, embodied AI), fundamental skills that won't be automated, staying current (papers, benchmarks, releases), professional positioning.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-6-9')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-6-9.html" class="px-4 py-2 text-sm bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- NAVEGAÇÃO -->
+    <div class="flex flex-col sm:flex-row gap-4 mt-12">
+      <a href="../trilha5/index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+        ← Trilha 5: Orquestrador
+      </a>
+      <a href="../../index.html" class="flex-1 text-center px-6 py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-500 transition-colors">
+        Página Principal do Curso
+      </a>
+    </div>
+
+  </main>
+
+  <!-- MODALS -->
+  <div id="modal-6-1" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-rose-400 font-bold">6.1</span><span class="font-semibold">Padrões de Integração Enterprise</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-6-1.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-6-2" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-rose-400 font-bold">6.2</span><span class="font-semibold">Segurança Agentic</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-6-2.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-6-3" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-rose-400 font-bold">6.3</span><span class="font-semibold">Agentes de Negócio por Vertical</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-6-3.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-6-4" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-rose-400 font-bold">6.4</span><span class="font-semibold">Human-in-the-Loop Avançado</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-6-4.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-6-5" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-rose-400 font-bold">6.5</span><span class="font-semibold">Produto SaaS Agentic</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-6-5.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-6-6" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-rose-400 font-bold">6.6</span><span class="font-semibold">Gestão de Custos em Escala</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-6-6.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-6-7" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-rose-400 font-bold">6.7</span><span class="font-semibold">Governança Organizacional</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-6-7.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-6-8" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-rose-400 font-bold">6.8</span><span class="font-semibold">Cases Reais</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-6-8.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-6-9" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-rose-400 font-bold">6.9</span><span class="font-semibold">Certificações e Carreira Agentic</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-6-9.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const moduleCard = button.closest('.bg-dark-800');
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) exp.classList.remove('active');
+      });
+      explanation.classList.toggle('active');
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+    }
+
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(modal => modal.classList.add('hidden'));
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

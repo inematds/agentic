@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6.4 Human-in-the-Loop Avançado | Trilha 6 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300"><span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span></a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Enterprise</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-rose-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-rose-400 transition-colors">Trilha 6 — Enterprise e Produto</a>
+      <span>/</span>
+      <span class="text-rose-400">Módulo 6.4</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 6.4</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">👤 Human-in-the-Loop Avançado</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Design inteligente de checkpoints, tipos de aprovação, UX de aprovação, aprovação assíncrona via Slack/email, audit de decisões humanas e métricas de HITL para sistemas agentic em produção.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">Design</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🤔 Por que e quando colocar humano no processo</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Human-in-the-loop não é uma admissão de que o agente não funciona — é <strong class="text-rose-400">design inteligente</strong>. Sistemas agentic bem projetados usam HITL estrategicamente: nos pontos onde o custo de um erro é maior do que o custo de um humano revisar.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">🎯 Quando HITL é obrigatório</h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-rose-400 font-bold flex-shrink-0">1.</span>
+            <div>
+              <span class="text-white font-medium text-sm">Ações irreversíveis</span>
+              <p class="text-neutral-400 text-xs mt-1">Delete de dados, transferência financeira, envio de email em massa, rescisão de contrato. Se não pode desfazer, humano aprova.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-rose-400 font-bold flex-shrink-0">2.</span>
+            <div>
+              <span class="text-white font-medium text-sm">Baixa confiança do modelo</span>
+              <p class="text-neutral-400 text-xs mt-1">O agente retorna confidence score abaixo do threshold definido para aquele tipo de decisão. Incerteza é motivo de escalada.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-rose-400 font-bold flex-shrink-0">3.</span>
+            <div>
+              <span class="text-white font-medium text-sm">Impacto financeiro acima do limite</span>
+              <p class="text-neutral-400 text-xs mt-1">Defina limites claros: agente pode aprovar pagamentos até R$500, acima disso requer aprovação humana.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-rose-400 font-bold flex-shrink-0">4.</span>
+            <div>
+              <span class="text-white font-medium text-sm">Dados altamente sensíveis</span>
+              <p class="text-neutral-400 text-xs mt-1">Qualquer ação que envolva dados RESTRICTED (saúde, financeiro, legal) precisa de revisão humana antes de execução.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">HITL como estratégia de longo prazo</h4>
+          <p class="text-neutral-300 text-sm mb-3">Cada decisão que humano aprova é um dado de treinamento. Com o tempo:</p>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Taxa de aprovação sem revisão sobe (agente melhora)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Threshold de confiança pode subir gradualmente</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Limites financeiros de autonomia podem expandir</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>HITL overhead diminui conforme agente amadurece</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">Quando NÃO usar HITL</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Ações reversíveis de baixo impacto (análise, rascunho)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Processos de alta frequência onde latência importa</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tarefas onde agente tem histórico de 99%+ de acurácia</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Notificações informativas (sem ação consequente)</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> HITL como diferencial de confiança</h3>
+        <p class="text-neutral-300 text-sm">Paradoxalmente, agentes com HITL bem projetado têm mais adoção interna do que agentes totalmente autônomos. Stakeholders confiam mais quando sabem que existe revisão humana nos pontos críticos. Use HITL não só como defesa técnica, mas como argumento comercial para adoção.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🚦 Tipos de checkpoint: approval, review e notification</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Usar o mesmo tipo de checkpoint para todas as situações é ineficiente. <strong class="text-rose-400">Calibrar o tipo correto de checkpoint</strong> para cada ponto do fluxo define se o HITL adiciona valor ou apenas burocracia.</p>
+
+      <div class="space-y-6 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+            <span class="text-red-400 font-bold text-xl">🔴</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-red-500/20">
+            <h4 class="font-semibold text-red-400 mb-2">Approval Gate — bloqueante</h4>
+            <p class="text-sm text-neutral-400 mb-3">O agente para completamente e aguarda aprovação humana. Sem aprovação, não executa a ação seguinte. Timeout sem resposta: escalada automática.</p>
+            <p class="text-xs text-neutral-500"><strong class="text-neutral-400">Usar quando:</strong> ação irreversível, impacto financeiro alto, acesso a dados restritos, decisão legal ou regulatória</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center">
+            <span class="text-amber-400 font-bold text-xl">🟡</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-amber-500/20">
+            <h4 class="font-semibold text-amber-400 mb-2">Review Gate — com opção de revisão</h4>
+            <p class="text-sm text-neutral-400 mb-3">Humano pode aprovar (agente continua), solicitar revisão (agente refaz com novo contexto) ou rejeitar (agente aborta). Permite iteração sem bloquear totalmente.</p>
+            <p class="text-xs text-neutral-500"><strong class="text-neutral-400">Usar quando:</strong> qualidade importa mas processo pode iterar, output tem ambiguidade que humano pode clarear</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
+            <span class="text-green-400 font-bold text-xl">🟢</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-green-500/20">
+            <h4 class="font-semibold text-green-400 mb-2">Notification Only — informativo</h4>
+            <p class="text-sm text-neutral-400 mb-3">Agente executa e informa o humano do que foi feito. Sem bloqueio. Humano pode reverter se necessário, mas fluxo não para.</p>
+            <p class="text-xs text-neutral-500"><strong class="text-neutral-400">Usar quando:</strong> ação reversível de baixo impacto, informação que stakeholder precisa ter mas não precisa aprovar</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">🗺️ Mapeando checkpoints no fluxo do agente</h3>
+        <p class="text-neutral-300 text-sm mb-3">Para cada etapa do agente, defina explicitamente: qual tipo de checkpoint? Qual o trigger? Quem recebe? Qual o timeout? Qual a escalada?</p>
+        <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+          <pre class="text-xs text-rose-300 overflow-x-auto">
+checkpoint_config = {
+    "send_proposal_email": {
+        "type": "approval_gate",
+        "approver": "sales_manager",
+        "timeout_hours": 4,
+        "escalation": "vp_sales",
+        "context_required": ["proposal_pdf", "client_history", "deal_value"]
+    },
+    "generate_draft": {
+        "type": "review_gate",
+        "reviewer": "account_executive",
+        "timeout_hours": 24,
+        "escalation": "auto_approve"
+    },
+    "log_crm_activity": {
+        "type": "notification_only",
+        "notify": "account_executive",
+        "channel": "slack"
+    }
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🖥️ UX de aprovação: contexto claro, não dump de JSON</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Se o processo de aprovação é difícil ou confuso, humanos aprovam sem ler — eliminando completamente o valor do HITL. A <strong class="text-rose-400">UX de aprovação</strong> define se o checkpoint é uma defesa real ou apenas teatro de segurança.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">📋 Anatomia de uma boa notificação de aprovação</h3>
+        <div class="bg-dark-800 rounded-xl p-5 border border-dark-600">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-rose-400 font-bold text-sm">APROVAÇÃO NECESSÁRIA</span>
+              <p class="text-neutral-400 text-xs mt-1">Agente SDR · Lead: TechCorp LTDA</p>
+            </div>
+            <span class="px-3 py-1 bg-amber-500/20 text-amber-400 text-xs rounded-full font-semibold">⏱ 3h restantes</span>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4 mb-4 border border-dark-600">
+            <h4 class="text-white text-sm font-semibold mb-2">O que o agente quer fazer:</h4>
+            <p class="text-neutral-300 text-sm">Enviar proposta comercial personalizada para <strong>João Silva (CTO)</strong> da TechCorp LTDA com valor de <strong>R$85.000/ano</strong>.</p>
+          </div>
+          <div class="grid grid-cols-3 gap-3 mb-4">
+            <div class="bg-dark-700 rounded-lg p-3">
+              <p class="text-xs text-neutral-500 mb-1">Qualificação</p>
+              <p class="text-sm text-green-400 font-semibold">Score: 87/100</p>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-3">
+              <p class="text-xs text-neutral-500 mb-1">Tamanho</p>
+              <p class="text-sm text-white font-semibold">240 funcionários</p>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-3">
+              <p class="text-xs text-neutral-500 mb-1">Interação</p>
+              <p class="text-sm text-white font-semibold">3 emails, 1 call</p>
+            </div>
+          </div>
+          <div class="flex space-x-3">
+            <button class="flex-1 px-4 py-2 bg-rose-600 text-white text-sm rounded-lg font-semibold">Aprovar envio</button>
+            <button class="flex-1 px-4 py-2 bg-dark-600 text-neutral-300 text-sm rounded-lg">Pedir revisão</button>
+            <button class="px-4 py-2 bg-dark-600 text-red-400 text-sm rounded-lg">Rejeitar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">UX de aprovação efetivo</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Resumo executivo em 3-5 linhas do que o agente quer fazer</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Dados relevantes pré-calculados (não raw data)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Timer visível com deadline para aprovação</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>One-click approve para mobile (a maioria aprova no celular)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Campo para comentário opcional ao aprovar/rejeitar</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">UX que causa aprovação sem leitura</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Dump de JSON do estado interno do agente</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Notificações muito frequentes (fadiga de aprovação)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Processo de aprovação com muitos cliques</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Contexto insuficiente para tomar decisão informada</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sem indicação de urgência ou consequência de não responder</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Regra dos 30 segundos</h3>
+        <p class="text-neutral-300 text-sm">O humano deve ser capaz de entender o que o agente quer fazer e tomar uma decisão informada em menos de 30 segundos. Se seu processo de aprovação demora mais, a UX está errada. Teste com cronômetro: simule aprovação e meça o tempo até decisão informada.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">⏸️ Aprovação assíncrona: pause, notify, resume</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Aprovação síncrona (agente fica em loop esperando) desperdiça recursos e cria timeouts. O padrão correto é <strong class="text-rose-400">pause-notify-resume</strong>: agente persiste estado, envia notificação e retoma do ponto exato quando aprovado.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">🔄 Fluxo de aprovação assíncrona</h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">1</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+              <h4 class="font-semibold text-white mb-1">Persistir estado completo</h4>
+              <p class="text-sm text-neutral-400">Agente serializa estado atual (contexto, tools já executadas, próxima ação pendente) e persiste em banco de dados. Pode ser reiniciado sem perder progresso.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">2</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+              <h4 class="font-semibold text-white mb-1">Enviar notificação com token de aprovação</h4>
+              <p class="text-sm text-neutral-400">Envia Slack/email com link de aprovação único (JWT token assinado). O link contém o approval_request_id que identifica qual decisão está sendo tomada.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">3</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+              <h4 class="font-semibold text-white mb-1">Humano aprova via link</h4>
+              <p class="text-sm text-neutral-400">Humano clica no link, vê contexto formatado, toma decisão (approve/reject/request_revision). Ação registrada com identidade, timestamp e reasoning.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">4</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+              <h4 class="font-semibold text-white mb-1">Webhook retoma o agente</h4>
+              <p class="text-sm text-neutral-400">Sistema envia webhook para o agente com a decisão. Agente carrega estado persistido, aplica a decisão e continua execução do ponto exato onde parou.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">⏰</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-4 border border-amber-500/20">
+              <h4 class="font-semibold text-amber-400 mb-1">Timeout: escalada automática</h4>
+              <p class="text-sm text-neutral-400">Se não há resposta em N horas: renotifica, escalada para supervisor. Se ainda sem resposta: auto-aprovação (para ações de baixo risco) ou auto-rejeição com alerta.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">🏗️ Implementação: schema de estado persistido</h3>
+        <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+          <pre class="text-xs text-rose-300 overflow-x-auto">
+{
+  "execution_id": "exec_7f3a2b",
+  "agent_id": "financial-agent-prod",
+  "checkpoint_at": "send_payment",
+  "state_snapshot": {
+    "conversation_history": [...],
+    "tools_executed": ["fetch_invoice", "validate_supplier"],
+    "next_action": {
+      "tool": "create_payment",
+      "params": {"amount": 3500.00, "recipient": "vendor-456"}
+    }
+  },
+  "approval_request": {
+    "id": "apr_8g4b3c",
+    "created_at": "2026-03-03T14:00:00Z",
+    "expires_at": "2026-03-03T18:00:00Z",
+    "approver": "finance_manager_id",
+    "token": "eyJhbGc..."
+  }
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">📋 Audit de decisões humanas: quem aprovou o quê</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Registrar decisões humanas no contexto de HITL não é apenas compliance — é <strong class="text-rose-400">o dataset que treinará o sistema a precisar cada vez menos de aprovação</strong>. Cada aprovação é um exemplo de "o que o agente propôs estava correto". Cada rejeição é um exemplo de "aqui o agente errou".</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">📊 Schema do audit trail de decisões humanas</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="space-y-2">
+            <p class="text-rose-400 font-semibold">Campos obrigatórios:</p>
+            <ul class="space-y-1 text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>approval_id: ID único da decisão</span></li>
+              <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>approver_id: quem aprovou (verificado por SSO)</span></li>
+              <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>decision: approve/reject/request_revision</span></li>
+              <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>timestamp: com timezone UTC</span></li>
+              <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>context_snapshot: o que o agente propôs</span></li>
+            </ul>
+          </div>
+          <div class="space-y-2">
+            <p class="text-rose-400 font-semibold">Campos para melhoria contínua:</p>
+            <ul class="space-y-1 text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>reasoning: por que aprovou/rejeitou</span></li>
+              <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>time_to_decide: quanto tempo levou</span></li>
+              <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>modifications: o que foi alterado (se revision)</span></li>
+              <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>confidence_reported: o humano estava seguro?</span></li>
+              <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>outcome: resultado posterior da decisão</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">📊 Usando o audit para melhorar o agente</h3>
+        <ul class="space-y-3 text-neutral-300">
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>Alta taxa de rejeição em determinado tipo de ação = agente está errando sistematicamente neste caso</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>Tempo de aprovação alto = contexto insuficiente ou UX ruim para este tipo de decisão</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>Reasoning de rejeição recorrente = padrão que pode virar nova regra para o agente</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>Taxa de aprovação subindo = agente pode ter autonomia expandida nessa categoria</span></li>
+        </ul>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Audit trail imutável é requisito de compliance</h3>
+        <p class="text-neutral-300 text-sm">Para conformidade com SOX, BACEN e regulamentos similares, o audit trail deve ser imutável — não pode ser modificado ou deletado retroativamente. Use append-only storage: AWS CloudTrail, Kafka com retenção configurada, ou banco de dados com triggers que bloqueiam UPDATE/DELETE.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">📊 Métricas de HITL: medir para melhorar</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Métricas de HITL são o <strong class="text-rose-400">sinal de maturidade do sistema agentic</strong>. Taxa de aprovação crescendo significa agente aprendendo. Tempo de aprovação alto significa UX ruim. Escalada frequente significa threshold de confiança muito baixo.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-5">
+          <h3 class="text-rose-400 font-semibold mb-3 text-sm">Approval Rate</h3>
+          <div class="text-2xl font-bold text-white mb-1">87%</div>
+          <p class="text-xs text-neutral-400 mb-2">Checkpoints aprovados sem pedido de revisão</p>
+          <p class="text-xs text-neutral-500">Meta: crescer mensalmente. Indica que agente está acertando mais.</p>
+        </div>
+        <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-5">
+          <h3 class="text-blue-400 font-semibold mb-3 text-sm">Time-to-Approve</h3>
+          <div class="text-2xl font-bold text-white mb-1">18 min</div>
+          <p class="text-xs text-neutral-400 mb-2">Tempo médio de aprovação humana</p>
+          <p class="text-xs text-neutral-500">Meta: abaixo do SLA definido. Alto indica UX ruim ou contexto insuficiente.</p>
+        </div>
+        <div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-5">
+          <h3 class="text-amber-400 font-semibold mb-3 text-sm">Escalation Rate</h3>
+          <div class="text-2xl font-bold text-white mb-1">4%</div>
+          <p class="text-xs text-neutral-400 mb-2">Checkpoints escalados por timeout</p>
+          <p class="text-xs text-neutral-500">Meta: abaixo de 5%. Alto indica problemas no processo de notificação.</p>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">📈 KPIs de maturidade do HITL</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between py-2 border-b border-dark-700">
+            <span class="text-neutral-300 text-sm">Taxa de aprovação sem revisão</span>
+            <div class="flex items-center space-x-3">
+              <div class="h-2 w-24 bg-dark-700 rounded-full"><div class="h-2 bg-rose-400 rounded-full" style="width: 87%"></div></div>
+              <span class="text-rose-400 text-sm font-semibold">87%</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between py-2 border-b border-dark-700">
+            <span class="text-neutral-300 text-sm">Revision request rate</span>
+            <div class="flex items-center space-x-3">
+              <div class="h-2 w-24 bg-dark-700 rounded-full"><div class="h-2 bg-amber-400 rounded-full" style="width: 9%"></div></div>
+              <span class="text-amber-400 text-sm font-semibold">9%</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between py-2 border-b border-dark-700">
+            <span class="text-neutral-300 text-sm">Rejection rate</span>
+            <div class="flex items-center space-x-3">
+              <div class="h-2 w-24 bg-dark-700 rounded-full"><div class="h-2 bg-red-400 rounded-full" style="width: 4%"></div></div>
+              <span class="text-red-400 text-sm font-semibold">4%</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between py-2">
+            <span class="text-neutral-300 text-sm">Escalation rate (timeout)</span>
+            <div class="flex items-center space-x-3">
+              <div class="h-2 w-24 bg-dark-700 rounded-full"><div class="h-2 bg-neutral-400 rounded-full" style="width: 4%"></div></div>
+              <span class="text-neutral-400 text-sm font-semibold">4%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> HITL como trajetória para autonomia</h3>
+        <p class="text-neutral-300 text-sm">O objetivo de longo prazo não é ter mais HITL — é ter HITL apenas onde realmente importa. Meça a aprovação rate por categoria de ação. Quando uma categoria atinge 95%+ de aprovação por 3 meses consecutivos, considere remover o checkpoint e mover para notification-only. HITL bem gerenciado se torna cada vez menos necessário.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-rose-900/40 via-dark-800 to-dark-800 rounded-xl border border-rose-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumo do Módulo 6.4</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Quando usar HITL</strong><span class="text-neutral-400"> — ações irreversíveis, baixa confiança, impacto financeiro alto e dados sensíveis são os 4 critérios</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Tipos de checkpoint</strong><span class="text-neutral-400"> — approval gate (bloqueante), review gate (iterativo), notification only (informativo)</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">UX de aprovação</strong><span class="text-neutral-400"> — decisão informada em menos de 30 segundos; contexto claro, não JSON bruto</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Aprovação assíncrona</strong><span class="text-neutral-400"> — persistir estado, notificar com token, retomar do ponto exato após aprovação</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Audit trail</strong><span class="text-neutral-400"> — imutável, com reasoning e outcome — o dataset que melhora o agente continuamente</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Métricas de HITL</strong><span class="text-neutral-400"> — approval rate, time-to-approve, revision rate e escalation rate como KPIs de maturidade</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-rose-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">6.5 — Produto SaaS Agentic: arquitetura multi-tenant, billing por uso, rate limiting, painel admin e pricing strategy.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-6-3.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 6.3 Agentes por Vertical</a>
+          <a href="modulo-6-5.html" class="flex-1 text-center px-6 py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-500 transition-colors">Próximo: 6.5 Produto SaaS →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

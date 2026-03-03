@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6.9 Certificações e Carreira Agentic | Trilha 6 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300"><span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span></a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Enterprise</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- Breadcrumb -->
+    <nav class="flex items-center space-x-2 text-sm text-neutral-400 mb-6">
+      <a href="../../index.html" class="hover:text-neutral-200 transition-colors">Início</a>
+      <span>›</span>
+      <a href="index.html" class="hover:text-neutral-200 transition-colors">Trilha 6 — Enterprise e Produto</a>
+      <span>›</span>
+      <span class="text-rose-400">6.9 Certificações e Carreira Agentic</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 border border-rose-500/30 rounded-2xl p-8 mb-8">
+      <div class="flex items-start justify-between flex-wrap gap-4">
+        <div>
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="bg-rose-500/20 text-rose-400 text-xs font-bold px-3 py-1 rounded-full border border-rose-500/30">MÓDULO 6.9 — FINAL</span>
+            <span class="bg-dark-700 text-neutral-400 text-xs px-3 py-1 rounded-full">Trilha 6 — Enterprise e Produto</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-bold text-neutral-100 mb-3">Certificações e Carreira Agentic</h1>
+          <p class="text-neutral-400 text-lg max-w-2xl">Mapeie sua trajetória profissional em Agentic Engineering — certificações que valem, caminhos de carreira, projetos de portfolio e o futuro da profissão.</p>
+        </div>
+        <div class="text-right">
+          <div class="text-rose-400 text-4xl mb-1">🎓</div>
+          <div class="text-neutral-500 text-sm">~50 min</div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-xl">5</div>
+          <div class="text-neutral-500 text-xs mt-1">Caminhos de Carreira</div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-xl">4</div>
+          <div class="text-neutral-500 text-xs mt-1">Certificações Top</div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-xl">3</div>
+          <div class="text-neutral-500 text-xs mt-1">Projetos de Portfolio</div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-xl">Avançado</div>
+          <div class="text-neutral-500 text-xs mt-1">Nível</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 1: Panorama de Certificações -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">1</div>
+        <h2 class="text-2xl font-bold text-neutral-100">Panorama de Certificações em IA Agentic</h2>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-4">
+        <p class="text-neutral-300 mb-5">O mercado de certificações em IA está em expansão acelerada, mas a maioria cobre ML clássico e GenAI básico, não Agentic Engineering especificamente. Aqui está o que realmente vale em 2025:</p>
+
+        <div class="space-y-4">
+          <!-- NVIDIA -->
+          <div class="bg-dark-700 rounded-xl p-5">
+            <div class="flex items-start gap-4 mb-3">
+              <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                <span class="text-green-400 font-black text-sm">NV</span>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h3 class="text-neutral-200 font-semibold">NVIDIA — Generative AI LLMs + Agentic AI</h3>
+                  <span class="bg-green-500/20 text-green-400 text-xs px-2 py-0.5 rounded-full border border-green-500/30">Técnico</span>
+                </div>
+                <p class="text-neutral-500 text-sm mt-0.5">DLI (Deep Learning Institute) — online + presencial</p>
+              </div>
+              <div class="text-right flex-shrink-0">
+                <div class="text-green-400 font-bold">$$$</div>
+                <div class="text-neutral-500 text-xs">~$500/curso</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+              <div>
+                <div class="text-neutral-400 font-medium mb-1">Conteúdo relevante</div>
+                <ul class="text-neutral-500 space-y-1">
+                  <li>• Building RAG Agents with LLMs</li>
+                  <li>• Deploying AI in Production</li>
+                  <li>• NIM Microservices para agentes</li>
+                </ul>
+              </div>
+              <div>
+                <div class="text-neutral-400 font-medium mb-1">Para quem</div>
+                <p class="text-neutral-500">Engenheiros que trabalham com infra de GPU, deploy em escala, otimização de inferência.</p>
+              </div>
+              <div>
+                <div class="text-neutral-400 font-medium mb-1">Valor de mercado</div>
+                <p class="text-neutral-500">Alto em empresas com infra própria. Menos relevante em cloud-first.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Microsoft -->
+          <div class="bg-dark-700 rounded-xl p-5">
+            <div class="flex items-start gap-4 mb-3">
+              <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                <span class="text-blue-400 font-black text-sm">MS</span>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h3 class="text-neutral-200 font-semibold">Microsoft — AI-102 + AI Engineer Associate</h3>
+                  <span class="bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded-full border border-blue-500/30">Cloud Enterprise</span>
+                </div>
+                <p class="text-neutral-500 text-sm mt-0.5">Exam AI-102: Designing and Implementing an Azure AI Solution</p>
+              </div>
+              <div class="text-right flex-shrink-0">
+                <div class="text-blue-400 font-bold">$$</div>
+                <div class="text-neutral-500 text-xs">~$165 exam</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+              <div>
+                <div class="text-neutral-400 font-medium mb-1">Conteúdo relevante</div>
+                <ul class="text-neutral-500 space-y-1">
+                  <li>• Azure AI Studio + Prompt Flow</li>
+                  <li>• Azure OpenAI Service</li>
+                  <li>• AI Search (RAG enterprise)</li>
+                </ul>
+              </div>
+              <div>
+                <div class="text-neutral-400 font-medium mb-1">Para quem</div>
+                <p class="text-neutral-500">Quem trabalha em ambientes Azure. Muito valorizado por SIs (System Integrators) e consultorias.</p>
+              </div>
+              <div>
+                <div class="text-neutral-400 font-medium mb-1">Valor de mercado</div>
+                <p class="text-neutral-500">Alto em projetos enterprise Azure. Parceiros Microsoft precisam de headcount certificado.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- IBM -->
+          <div class="bg-dark-700 rounded-xl p-5">
+            <div class="flex items-start gap-4 mb-3">
+              <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                <span class="text-purple-400 font-black text-sm">IBM</span>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h3 class="text-neutral-200 font-semibold">IBM — AI Developer Professional Certificate</h3>
+                  <span class="bg-purple-500/20 text-purple-400 text-xs px-2 py-0.5 rounded-full border border-purple-500/30">Generalista</span>
+                </div>
+                <p class="text-neutral-500 text-sm mt-0.5">Coursera — IBM AI Engineering Specialization (6 cursos)</p>
+              </div>
+              <div class="text-right flex-shrink-0">
+                <div class="text-purple-400 font-bold">$</div>
+                <div class="text-neutral-500 text-xs">~$50/mês Coursera</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+              <div>
+                <div class="text-neutral-400 font-medium mb-1">Conteúdo relevante</div>
+                <ul class="text-neutral-500 space-y-1">
+                  <li>• LangChain e Agentes (curso 5)</li>
+                  <li>• RAG com WatsonX</li>
+                  <li>• MLOps e deploy de modelos</li>
+                </ul>
+              </div>
+              <div>
+                <div class="text-neutral-400 font-medium mb-1">Para quem</div>
+                <p class="text-neutral-500">Transição de carreira. Bom ponto de entrada para quem está começando em IA.</p>
+              </div>
+              <div>
+                <div class="text-neutral-400 font-medium mb-1">Valor de mercado</div>
+                <p class="text-neutral-500">Médio. Reconhecimento do nome IBM ajuda, mas o conteúdo é mais generalista.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- JHU / DeepLearning.AI -->
+          <div class="bg-dark-700 rounded-xl p-5">
+            <div class="flex items-start gap-4 mb-3">
+              <div class="w-12 h-12 rounded-xl bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+                <span class="text-rose-400 font-black text-xs">DL.AI</span>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h3 class="text-neutral-200 font-semibold">DeepLearning.AI — AI Agentic Design Patterns</h3>
+                  <span class="bg-rose-500/20 text-rose-400 text-xs px-2 py-0.5 rounded-full border border-rose-500/30">Mais Relevante</span>
+                </div>
+                <p class="text-neutral-500 text-sm mt-0.5">Short courses + Specializations com Andrew Ng e parceiros</p>
+              </div>
+              <div class="text-right flex-shrink-0">
+                <div class="text-rose-400 font-bold">$</div>
+                <div class="text-neutral-500 text-xs">Gratuito / $49/mês</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+              <div>
+                <div class="text-neutral-400 font-medium mb-1">Conteúdo relevante</div>
+                <ul class="text-neutral-500 space-y-1">
+                  <li>• AI Agentic Design Patterns (Andrew Ng)</li>
+                  <li>• Multi-Agent Systems with CrewAI</li>
+                  <li>• LangGraph: Build Agentic Apps</li>
+                </ul>
+              </div>
+              <div>
+                <div class="text-neutral-400 font-medium mb-1">Para quem</div>
+                <p class="text-neutral-500">Todo engenheiro agentic. Cursos curtos (1-2h) com código prático. O melhor custo-benefício.</p>
+              </div>
+              <div>
+                <div class="text-neutral-400 font-medium mb-1">Valor de mercado</div>
+                <p class="text-neutral-500">Alto. Andrew Ng é referência global. Conteúdo diretamente aplicável a entrevistas técnicas.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-5">
+        <h3 class="text-rose-400 font-semibold mb-2">Portfolio vs. Certificação: O Que Contrata Mais</h3>
+        <p class="text-neutral-300 text-sm mb-3">Em entrevistas técnicas para vagas de Agentic Engineering em 2025, a tendência é clara:</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-3">
+            <div class="text-rose-400 font-semibold text-sm mb-2">O que técnicos perguntam primeiro</div>
+            <ul class="text-neutral-400 text-xs space-y-1">
+              <li>• "Me mostra um agente que você construiu"</li>
+              <li>• "Como você lidou com erros e loops infinitos?"</li>
+              <li>• "Qual foi o maior desafio técnico?"</li>
+              <li>• "Como você monitora em produção?"</li>
+            </ul>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-3">
+            <div class="text-rose-400 font-semibold text-sm mb-2">Conclusão prática</div>
+            <p class="text-neutral-400 text-xs">Certificações abrem portas no processo seletivo inicial (triagem de CV). Portfolio fecha a oferta. A ordem correta: construir projetos reais → documentar no GitHub → certificar para CV. Não o contrário.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Caminhos de Carreira -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">2</div>
+        <h2 class="text-2xl font-bold text-neutral-100">5 Caminhos de Carreira em Agentic Engineering</h2>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 mb-4">
+        <!-- Career 1 -->
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+              <span class="text-blue-400 text-xl">🛠️</span>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+                <h3 class="text-neutral-200 font-semibold">Agentic Engineer / AI Engineer</h3>
+                <div class="text-right">
+                  <div class="text-emerald-400 font-bold">R$12k–R$25k/mês</div>
+                  <div class="text-neutral-500 text-xs">Brasil | R$180k–R$350k USD/ano</div>
+                </div>
+              </div>
+              <p class="text-neutral-400 text-sm mb-3">O papel técnico central. Constrói, testa, monitora e mantém agentes em produção. Responsável pela arquitetura de sistemas multi-agente, integração com APIs, observabilidade e performance.</p>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Skills obrigatórias</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>Python + LangChain/LangGraph</li>
+                    <li>RAG + Vector Databases</li>
+                    <li>Docker + cloud (AWS/GCP/Azure)</li>
+                    <li>Observabilidade (LangSmith, Langfuse)</li>
+                  </ul>
+                </div>
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Skills diferenciadoras</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>Fine-tuning de modelos</li>
+                    <li>FinOps para LLMs</li>
+                    <li>Security (prompt injection)</li>
+                    <li>Multi-agent orchestration</li>
+                  </ul>
+                </div>
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Crescimento</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>→ Senior AI Engineer</li>
+                    <li>→ AI Architect</li>
+                    <li>→ Principal Engineer</li>
+                    <li>→ CTO em AI startup</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Career 2 -->
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+              <span class="text-purple-400 text-xl">🏗️</span>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+                <h3 class="text-neutral-200 font-semibold">AI Solutions Architect</h3>
+                <div class="text-right">
+                  <div class="text-emerald-400 font-bold">R$18k–R$35k/mês</div>
+                  <div class="text-neutral-500 text-xs">Brasil | $200k–$400k USD/ano</div>
+                </div>
+              </div>
+              <p class="text-neutral-400 text-sm mb-3">Define a arquitetura de sistemas agentic para clientes enterprise ou internamente. Faz a ponte entre negócio e engenharia. Requer experiência sólida em engenharia antes de migrar para este papel.</p>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Skills técnicas</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>Padrões de integração enterprise</li>
+                    <li>Multi-cloud e segurança</li>
+                    <li>AI Governance frameworks</li>
+                    <li>FinOps e TCO analysis</li>
+                  </ul>
+                </div>
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Skills soft</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>Apresentação para C-suite</li>
+                    <li>Estimativa e planejamento</li>
+                    <li>Negociação com vendors</li>
+                    <li>Documentação de ADRs</li>
+                  </ul>
+                </div>
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Contextos</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>Consultorias (Accenture, Deloitte)</li>
+                    <li>Hyperscalers (AWS, Google)</li>
+                    <li>Empresas enterprise grandes</li>
+                    <li>AI product companies</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Career 3 -->
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
+              <span class="text-yellow-400 text-xl">📦</span>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+                <h3 class="text-neutral-200 font-semibold">AI Product Manager</h3>
+                <div class="text-right">
+                  <div class="text-emerald-400 font-bold">R$15k–R$30k/mês</div>
+                  <div class="text-neutral-500 text-xs">Brasil | $150k–$300k USD/ano</div>
+                </div>
+              </div>
+              <p class="text-neutral-400 text-sm mb-3">Define o produto de IA — quais agentes construir, para quem, com quais métricas. Precisa ter fluência técnica suficiente para dialogar com engenheiros e entender limitações. Papel em crescimento explosivo em 2025.</p>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Skills técnicas</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>Entende RAG, agentes, HITL</li>
+                    <li>Sabe ler métricas de LLM</li>
+                    <li>Benchmark de modelos</li>
+                    <li>Básico de Python / prompting</li>
+                  </ul>
+                </div>
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Skills de produto</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>Discovery de usuário</li>
+                    <li>OKRs e métricas de AI</li>
+                    <li>Pricing de produto SaaS</li>
+                    <li>Roadmap com incerteza técnica</li>
+                  </ul>
+                </div>
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Background comum</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>PM de software geral</li>
+                    <li>Analista de dados → PM</li>
+                    <li>Engenheiro → PM</li>
+                    <li>UX designer → PM</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Career 4 -->
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0">
+              <span class="text-orange-400 text-xl">⚖️</span>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+                <h3 class="text-neutral-200 font-semibold">AI Governance / Responsible AI Lead</h3>
+                <div class="text-right">
+                  <div class="text-emerald-400 font-bold">R$15k–R$28k/mês</div>
+                  <div class="text-neutral-500 text-xs">Brasil | $150k–$280k USD/ano</div>
+                </div>
+              </div>
+              <p class="text-neutral-400 text-sm mb-3">Papel emergente e de alta demanda por regulação crescente. Define políticas, audita sistemas de IA, garante compliance com LGPD/EU AI Act/BACEN. Combina jurídico, ética e tecnologia.</p>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Skills</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>LGPD + EU AI Act</li>
+                    <li>Risk frameworks (NIST AI RMF)</li>
+                    <li>Bias detection e fairness</li>
+                    <li>Audit de sistemas de IA</li>
+                  </ul>
+                </div>
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Crescimento</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>→ Head of AI Ethics</li>
+                    <li>→ Chief AI Officer</li>
+                    <li>→ Consultor independente</li>
+                    <li>→ Regulador (ANPD, BACEN)</li>
+                  </ul>
+                </div>
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Backgrounds</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>Advogados de tecnologia</li>
+                    <li>Data Officers (CDOs/DPOs)</li>
+                    <li>Analistas de risco</li>
+                    <li>Engenheiros com interesse legal</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Career 5 -->
+        <div class="bg-dark-800 border border-rose-500/30 rounded-xl p-5">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+              <span class="text-rose-400 text-xl">🚀</span>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+                <h3 class="text-neutral-200 font-semibold">Fundador de AI-Native Startup</h3>
+                <div class="text-right">
+                  <div class="text-rose-400 font-bold">R$0 → ilimitado</div>
+                  <div class="text-neutral-500 text-xs">Alto risco / alta recompensa</div>
+                </div>
+              </div>
+              <p class="text-neutral-400 text-sm mb-3">Construir um produto SaaS agentic do zero. O maior risco e a maior oportunidade. Empresas como Cursor, Cognition (Devin) e Clay foram fundadas por engenheiros com profundo conhecimento técnico e visão de produto.</p>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Necessário</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>Expertise técnica sólida</li>
+                    <li>Problem-market fit claro</li>
+                    <li>Capacidade de vender</li>
+                    <li>Tolerância a incerteza</li>
+                  </ul>
+                </div>
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Oportunidades BR</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>Verticais brasileiras (LGPD-native)</li>
+                    <li>Agentes para PMEs</li>
+                    <li>Integração com sistemas legados BR</li>
+                    <li>Regulados (fintech, healthtech)</li>
+                  </ul>
+                </div>
+                <div>
+                  <div class="text-neutral-500 font-medium mb-1">Fundos relevantes</div>
+                  <ul class="text-neutral-500 space-y-0.5">
+                    <li>Y Combinator (AI-focused)</li>
+                    <li>Monashees, Kaszek (BR)</li>
+                    <li>a16z (AI fund)</li>
+                    <li>Anthropic / OpenAI funds</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Projetos de Portfolio -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">3</div>
+        <h2 class="text-2xl font-bold text-neutral-100">3 Projetos de Portfolio para Destacar</h2>
+      </div>
+
+      <div class="space-y-5">
+        <!-- Project 1 -->
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-6">
+          <div class="flex items-start gap-3 mb-4">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold flex-shrink-0">1</div>
+            <div>
+              <h3 class="text-neutral-200 font-semibold">Agente de Pesquisa com RAG e Multi-Agente</h3>
+              <p class="text-neutral-500 text-sm">Nível: Intermediário-Avançado | Tempo: 2–3 semanas</p>
+            </div>
+          </div>
+          <p class="text-neutral-300 text-sm mb-4">Construa um sistema de pesquisa acadêmica com múltiplos agentes especializados: um que busca e indexa papers (arXiv API + Chroma), um que analisa e extrai insights, e um que sintetiza o relatório final. Mostre o raciocínio de cada agente.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+            <div>
+              <div class="text-rose-400 font-medium mb-2">Stack técnica</div>
+              <ul class="text-neutral-400 space-y-1 text-xs">
+                <li>LangGraph para orquestração</li>
+                <li>ChromaDB para vector store</li>
+                <li>Claude / GPT-4o para raciocínio</li>
+                <li>Streamlit para interface</li>
+                <li>LangSmith para observabilidade</li>
+              </ul>
+            </div>
+            <div>
+              <div class="text-rose-400 font-medium mb-2">O que demonstra</div>
+              <ul class="text-neutral-400 space-y-1 text-xs">
+                <li>Multi-agent coordination</li>
+                <li>RAG com citação de fontes</li>
+                <li>State management entre agentes</li>
+                <li>Observabilidade de traces</li>
+                <li>UX para sistemas complexos</li>
+              </ul>
+            </div>
+            <div>
+              <div class="text-rose-400 font-medium mb-2">Diferenciais</div>
+              <ul class="text-neutral-400 space-y-1 text-xs">
+                <li>Adicionar avaliação automática (LLM-as-judge)</li>
+                <li>Cache semântico para economia</li>
+                <li>Deploy em produção (não só local)</li>
+                <li>README com arquitetura clara</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-6">
+          <div class="flex items-start gap-3 mb-4">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold flex-shrink-0">2</div>
+            <div>
+              <h3 class="text-neutral-200 font-semibold">Agente de Automação com HITL e Audit Trail</h3>
+              <p class="text-neutral-500 text-sm">Nível: Avançado | Tempo: 3–4 semanas</p>
+            </div>
+          </div>
+          <p class="text-neutral-300 text-sm mb-4">Construa um agente que processa solicitações de um domínio real (ex: triagem de e-mails de suporte, classificação de documentos, análise de contratos simples), com checkpoints de aprovação humana e log imutável de todas as decisões. Mostre o fluxo completo de HITL.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+            <div>
+              <div class="text-rose-400 font-medium mb-2">Stack técnica</div>
+              <ul class="text-neutral-400 space-y-1 text-xs">
+                <li>FastAPI backend</li>
+                <li>PostgreSQL + pgvector</li>
+                <li>Redis para filas de aprovação</li>
+                <li>Webhook para notificações</li>
+                <li>Next.js dashboard de aprovação</li>
+              </ul>
+            </div>
+            <div>
+              <div class="text-rose-400 font-medium mb-2">O que demonstra</div>
+              <ul class="text-neutral-400 space-y-1 text-xs">
+                <li>HITL real (não simulado)</li>
+                <li>Async state management</li>
+                <li>Audit log imutável</li>
+                <li>API design para agentes</li>
+                <li>Prod-ready architecture</li>
+              </ul>
+            </div>
+            <div>
+              <div class="text-rose-400 font-medium mb-2">Diferenciais</div>
+              <ul class="text-neutral-400 space-y-1 text-xs">
+                <li>Métricas de aprovação em dashboard</li>
+                <li>Escalação automática por timeout</li>
+                <li>Testes de integração completos</li>
+                <li>Deploy com Docker Compose</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="bg-dark-800 border border-rose-500/30 rounded-xl p-6">
+          <div class="flex items-start gap-3 mb-4">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold flex-shrink-0">3</div>
+            <div>
+              <h3 class="text-neutral-200 font-semibold">Mini SaaS Agentic Multi-Tenant</h3>
+              <p class="text-neutral-500 text-sm">Nível: Expert | Tempo: 4–6 semanas</p>
+            </div>
+          </div>
+          <p class="text-neutral-300 text-sm mb-4">O projeto de portfolio mais diferenciador: um produto SaaS real (mesmo que pequeno) com multi-tenancy, billing por uso e agentes configuráveis por cliente. Mesmo com 5 usuários reais pagantes, demonstra compreensão completa do ciclo de produto-engenharia-negócio.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+            <div>
+              <div class="text-rose-400 font-medium mb-2">Stack técnica</div>
+              <ul class="text-neutral-400 space-y-1 text-xs">
+                <li>Next.js + Supabase (auth + RLS)</li>
+                <li>Vector store por tenant</li>
+                <li>Stripe para billing por uso</li>
+                <li>Vercel para deploy</li>
+                <li>Posthog para analytics</li>
+              </ul>
+            </div>
+            <div>
+              <div class="text-rose-400 font-medium mb-2">O que demonstra</div>
+              <ul class="text-neutral-400 space-y-1 text-xs">
+                <li>Product thinking + engineering</li>
+                <li>Multi-tenancy real (RLS)</li>
+                <li>Metering e billing</li>
+                <li>Onboarding de usuários</li>
+                <li>Capacidade de entregar produto</li>
+              </ul>
+            </div>
+            <div>
+              <div class="text-rose-400 font-medium mb-2">Impacto no recrutamento</div>
+              <ul class="text-neutral-400 text-xs space-y-1">
+                <li>Demonstra visão de produto</li>
+                <li>"Você tem usuários reais?" é a pergunta mais impressionante</li>
+                <li>Diferencia de quem só faz tutoriais</li>
+                <li>Mostra execução completa</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Roadmaps por Perfil -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">4</div>
+        <h2 class="text-2xl font-bold text-neutral-100">Roadmaps por Perfil de Origem</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <h3 class="text-neutral-200 font-semibold mb-3">Desenvolvedor Backend → AI Engineer</h3>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">1</span>
+              <span class="text-neutral-400">Mês 1-2: Fundamentos de LLMs (DeepLearning.AI short courses)</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">2</span>
+              <span class="text-neutral-400">Mês 3-4: LangChain + RAG + primeiro agente funcional</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">3</span>
+              <span class="text-neutral-400">Mês 5-6: Projeto portfolio 1 (agente de pesquisa) + GitHub</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">4</span>
+              <span class="text-neutral-400">Mês 7-8: Observabilidade, segurança, multi-agente</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">5</span>
+              <span class="text-neutral-400">Mês 9-12: Projeto portfolio 2 (HITL) + certificação MS AI-102 + busca ativa</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <h3 class="text-neutral-200 font-semibold mb-3">Analista / Cientista de Dados → AI Engineer</h3>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">1</span>
+              <span class="text-neutral-400">Mês 1-2: Python avançado (FastAPI, async, Docker)</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">2</span>
+              <span class="text-neutral-400">Mês 3-4: LLMs + agentes + deploy em cloud</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">3</span>
+              <span class="text-neutral-400">Mês 5-6: MLflow + Databricks + lineage (aproveita background DS)</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">4</span>
+              <span class="text-neutral-400">Mês 7-9: Projeto portfolio com ML + agentes integrados</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">5</span>
+              <span class="text-neutral-400">Mês 10-12: NVIDIA DLI ou Databricks certifications + busca ativa</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <h3 class="text-neutral-200 font-semibold mb-3">PM de Software → AI Product Manager</h3>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">1</span>
+              <span class="text-neutral-400">Mês 1-2: LLMs sem código (OpenAI Playground, Claude) + prompting</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">2</span>
+              <span class="text-neutral-400">Mês 3-4: Python básico + construir agente simples (sem framework)</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">3</span>
+              <span class="text-neutral-400">Mês 5-6: Métricas de AI (latência, custo, acurácia, hallucination rate)</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">4</span>
+              <span class="text-neutral-400">Mês 7-9: Liderar projeto interno de agente (com time técnico)</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">5</span>
+              <span class="text-neutral-400">Mês 10-12: Case study do projeto interno + busca ativa para AI PM roles</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <h3 class="text-neutral-200 font-semibold mb-3">Advogado / DPO → AI Governance Lead</h3>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">1</span>
+              <span class="text-neutral-400">Mês 1-2: EU AI Act + LGPD aplicada a IA + NIST AI RMF</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">2</span>
+              <span class="text-neutral-400">Mês 3-4: Entender tecnicamente RAG, agentes, viés algorítmico</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">3</span>
+              <span class="text-neutral-400">Mês 5-6: Criar framework de AI Governance para empresa atual</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">4</span>
+              <span class="text-neutral-400">Mês 7-9: Liderar AI Council, documentar políticas, treinar times</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-xs flex-shrink-0">5</span>
+              <span class="text-neutral-400">Mês 10-12: Publicar artigos/posts sobre AI Governance BR + networking</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: O Futuro da Profissão -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">5</div>
+        <h2 class="text-2xl font-bold text-neutral-100">O Futuro da Profissão de Agentic Engineer</h2>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-4">
+        <p class="text-neutral-300 mb-5">Agentic Engineering em 2025 é análogo a Mobile Engineering em 2010 ou Cloud Engineering em 2015. Quem investe agora captura uma janela de oportunidade de 5–7 anos antes da commoditização. Mas como qualquer campo em evolução rápida, requer atualização contínua.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+          <div class="bg-dark-700 rounded-xl p-4">
+            <h3 class="text-rose-400 font-semibold mb-3">2025–2026</h3>
+            <ul class="text-neutral-400 text-sm space-y-2">
+              <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">→</span>Demanda por AI Engineers 3–5x a oferta</li>
+              <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">→</span>Multi-agent systems se tornam padrão em enterprise</li>
+              <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">→</span>Regulação EU AI Act em vigor, pressão no Brasil</li>
+              <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">→</span>Primeiros "computer use" agents amplamente adotados</li>
+            </ul>
+          </div>
+          <div class="bg-dark-700 rounded-xl p-4">
+            <h3 class="text-rose-400 font-semibold mb-3">2027–2028</h3>
+            <ul class="text-neutral-400 text-sm space-y-2">
+              <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">→</span>Agentes coordenando outros agentes sem intervenção humana</li>
+              <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">→</span>Especialização: vertical AI engineers (saúde, direito, finanças)</li>
+              <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">→</span>Papel de "Agentic Architect" separado de "AI Engineer"</li>
+              <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">→</span>Certificações formais de órgãos reguladores</li>
+            </ul>
+          </div>
+          <div class="bg-dark-700 rounded-xl p-4">
+            <h3 class="text-rose-400 font-semibold mb-3">2029+</h3>
+            <ul class="text-neutral-400 text-sm space-y-2">
+              <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">→</span>Abstração: plataformas no-code/low-code para agentes simples</li>
+              <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">→</span>Valor concentrado em sistemas complexos e regulados</li>
+              <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">→</span>AI Governance como profissão estabelecida</li>
+              <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">→</span>Novas categorias que ainda não existem hoje</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-5">
+          <h3 class="text-rose-400 font-semibold mb-2">Habilidades Perenes vs. Habilidades de Framework</h3>
+          <p class="text-neutral-300 text-sm mb-3">Frameworks mudam. LangChain 0.1 → 0.2 → 1.0 → LangGraph. Daqui a 3 anos haverá outros. Invista em habilidades que não ficam obsoletas:</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <div class="text-neutral-400 font-medium text-sm mb-2">Perenes (invista sempre)</div>
+              <ul class="text-neutral-500 text-sm space-y-1">
+                <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span>Entender como LLMs funcionam (atenção, contexto, temperatura)</li>
+                <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span>Design de sistemas distribuídos</li>
+                <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span>Avaliação rigorosa de sistemas (métricas, testes)</li>
+                <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span>Segurança e privacidade de dados</li>
+                <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span>Comunicação técnica e storytelling</li>
+              </ul>
+            </div>
+            <div>
+              <div class="text-neutral-400 font-medium text-sm mb-2">De Framework (aprender quando necessário)</div>
+              <ul class="text-neutral-500 text-sm space-y-1">
+                <li class="flex items-start gap-2"><span class="text-yellow-400">~</span>APIs específicas (OpenAI, Anthropic) — mudam rápido</li>
+                <li class="flex items-start gap-2"><span class="text-yellow-400">~</span>Frameworks de orquestração (LangChain, CrewAI)</li>
+                <li class="flex items-start gap-2"><span class="text-yellow-400">~</span>Ferramentas de observabilidade específicas</li>
+                <li class="flex items-start gap-2"><span class="text-yellow-400">~</span>Sintaxes de prompt de cada modelo</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Próximos Passos Concretos -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">6</div>
+        <h2 class="text-2xl font-bold text-neutral-100">Seus Próximos 30 Dias — Plano de Ação</h2>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-4">
+        <p class="text-neutral-300 mb-5">Você concluiu a Trilha 6 do Agentic Engineering Masterclass. Agora é hora de sair do modo aprendizado e entrar no modo construção. Aqui está o plano concreto para os próximos 30 dias:</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-3">
+            <h3 class="text-neutral-200 font-semibold">Semana 1 — Consolidar</h3>
+            <div class="space-y-2">
+              <div class="flex items-start gap-2 bg-dark-700 rounded-lg p-3 text-sm">
+                <input type="checkbox" class="mt-0.5 accent-rose-500" onclick="return false">
+                <span class="text-neutral-400">Revise os módulos onde você se sentiu menos seguro e refaça os exercícios</span>
+              </div>
+              <div class="flex items-start gap-2 bg-dark-700 rounded-lg p-3 text-sm">
+                <input type="checkbox" class="mt-0.5 accent-rose-500" onclick="return false">
+                <span class="text-neutral-400">Escolha seu caminho de carreira principal (1 dos 5) e o roadmap correspondente</span>
+              </div>
+              <div class="flex items-start gap-2 bg-dark-700 rounded-lg p-3 text-sm">
+                <input type="checkbox" class="mt-0.5 accent-rose-500" onclick="return false">
+                <span class="text-neutral-400">Faça uma autoavaliação honesta: qual projeto de portfolio está mais próximo de sua realidade atual?</span>
+              </div>
+            </div>
+
+            <h3 class="text-neutral-200 font-semibold mt-4">Semana 2 — Começar</h3>
+            <div class="space-y-2">
+              <div class="flex items-start gap-2 bg-dark-700 rounded-lg p-3 text-sm">
+                <input type="checkbox" class="mt-0.5 accent-rose-500" onclick="return false">
+                <span class="text-neutral-400">Crie o repositório GitHub do projeto de portfolio escolhido</span>
+              </div>
+              <div class="flex items-start gap-2 bg-dark-700 rounded-lg p-3 text-sm">
+                <input type="checkbox" class="mt-0.5 accent-rose-500" onclick="return false">
+                <span class="text-neutral-400">Complete o primeiro DeepLearning.AI short course sobre agentes (se ainda não fez)</span>
+              </div>
+              <div class="flex items-start gap-2 bg-dark-700 rounded-lg p-3 text-sm">
+                <input type="checkbox" class="mt-0.5 accent-rose-500" onclick="return false">
+                <span class="text-neutral-400">Escreva um post LinkedIn sobre o que aprendeu neste curso (visibilidade + networking)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="text-neutral-200 font-semibold">Semana 3 — Construir</h3>
+            <div class="space-y-2">
+              <div class="flex items-start gap-2 bg-dark-700 rounded-lg p-3 text-sm">
+                <input type="checkbox" class="mt-0.5 accent-rose-500" onclick="return false">
+                <span class="text-neutral-400">Tenha o MVP do projeto de portfolio funcionando localmente</span>
+              </div>
+              <div class="flex items-start gap-2 bg-dark-700 rounded-lg p-3 text-sm">
+                <input type="checkbox" class="mt-0.5 accent-rose-500" onclick="return false">
+                <span class="text-neutral-400">Mostre o projeto para 3 pessoas e colete feedback (não espere estar "pronto")</span>
+              </div>
+              <div class="flex items-start gap-2 bg-dark-700 rounded-lg p-3 text-sm">
+                <input type="checkbox" class="mt-0.5 accent-rose-500" onclick="return false">
+                <span class="text-neutral-400">Identifique onde trabalha o profissional de AI Engineering que você quer ser em 2 anos</span>
+              </div>
+            </div>
+
+            <h3 class="text-neutral-200 font-semibold mt-4">Semana 4 — Amplificar</h3>
+            <div class="space-y-2">
+              <div class="flex items-start gap-2 bg-dark-700 rounded-lg p-3 text-sm">
+                <input type="checkbox" class="mt-0.5 accent-rose-500" onclick="return false">
+                <span class="text-neutral-400">Deploy do projeto em ambiente público (não só local)</span>
+              </div>
+              <div class="flex items-start gap-2 bg-dark-700 rounded-lg p-3 text-sm">
+                <input type="checkbox" class="mt-0.5 accent-rose-500" onclick="return false">
+                <span class="text-neutral-400">Conecte com 5 AI Engineers no LinkedIn com mensagem personalizada</span>
+              </div>
+              <div class="flex items-start gap-2 bg-dark-700 rounded-lg p-3 text-sm">
+                <input type="checkbox" class="mt-0.5 accent-rose-500" onclick="return false">
+                <span class="text-neutral-400">Escolha uma certificação relevante ao seu perfil e agende a prova para os próximos 60 dias</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-5">
+        <h3 class="text-rose-400 font-semibold mb-2">A Única Coisa Que Separa Quem Aprende de Quem Constrói</h3>
+        <p class="text-neutral-300 text-sm">A maioria das pessoas que completa um curso de AI volta para o YouTube e começa o próximo curso. As que se destacam no mercado são as que param de consumir e começam a construir — mesmo que imperfeito, mesmo que pequeno, mesmo que "não esteja pronto". Um agente ruim em produção vale mais que dez agentes perfeitos que existem só em tutoriais. Vá construir.</p>
+      </div>
+    </section>
+
+    <!-- Summary / Course Completion -->
+    <div class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 border border-rose-500/40 rounded-2xl p-8 mb-8">
+      <div class="text-center mb-6">
+        <div class="text-6xl mb-4">🎓</div>
+        <h2 class="text-3xl font-bold text-neutral-100 mb-2">Trilha 6 Concluída!</h2>
+        <p class="text-neutral-400 max-w-xl mx-auto">Você completou a Trilha 6 — Enterprise e Produto do Agentic Engineering Masterclass. Passou por integrações enterprise, segurança, verticais de negócio, HITL, SaaS, FinOps, governança, cases reais e carreira.</p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-2xl">9</div>
+          <div class="text-neutral-500 text-xs mt-1">Módulos Completos</div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-2xl">54</div>
+          <div class="text-neutral-500 text-xs mt-1">Tópicos Estudados</div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-2xl">~7h</div>
+          <div class="text-neutral-500 text-xs mt-1">Conteúdo Avançado</div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-2xl">100%</div>
+          <div class="text-neutral-500 text-xs mt-1">Trilha 6</div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 justify-start">
+        <a href="modulo-6-8.html" class="inline-flex items-center gap-2 px-6 py-3 bg-dark-700 hover:bg-dark-600 text-neutral-300 rounded-xl font-medium transition-colors">← 6.8 Cases Reais</a>
+        <a href="../../index.html" class="inline-flex items-center gap-2 px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-bold text-lg transition-colors">Concluir Curso — Voltar ao Início 🏠</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="border-t border-dark-600 py-8 mt-12">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <p class="text-neutral-500 text-sm">Agentic Engineering Masterclass — <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    function updateIcons() {
+      if (document.documentElement.classList.contains('dark')) {
+        darkIcon.classList.add('hidden'); lightIcon.classList.remove('hidden');
+      } else {
+        lightIcon.classList.add('hidden'); darkIcon.classList.remove('hidden');
+      }
+    }
+    updateIcons();
+    themeToggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      updateIcons();
+    });
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+      updateIcons();
+    }
+  </script>
+</body>
+</html>

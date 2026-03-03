@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6.5 Produto SaaS Agentic | Trilha 6 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300"><span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span></a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Enterprise</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-rose-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-rose-400 transition-colors">Trilha 6 — Enterprise e Produto</a>
+      <span>/</span>
+      <span class="text-rose-400">Módulo 6.5</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 6.5</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🚀 Produto SaaS Agentic</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Arquitetura multi-tenant com isolamento real, billing por uso integrado ao Stripe, rate limiting e quotas, painel admin para tenant e para SaaS, onboarding automatizado e pricing strategy que garante margem.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">Produto</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🏗️ Arquitetura multi-tenant: isolamento real de dados</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Multi-tenancy é a capacidade de um único deployment servir múltiplos clientes com <strong class="text-rose-400">isolamento garantido</strong> entre eles. Um cliente jamais pode ver ou afetar os dados de outro — nem via bug, nem via configuração errada.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">🗄️ Estratégias de isolamento de banco de dados</h3>
+        <div class="space-y-4">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="text-white font-semibold text-sm">Row-Level Security (RLS) — Recomendado</h4>
+              <span class="text-green-400 text-xs font-semibold px-2 py-0.5 bg-green-500/10 rounded">Melhor custo-benefício</span>
+            </div>
+            <p class="text-neutral-400 text-sm mb-2">Postgres RLS: toda query automaticamente filtrada por tenant_id via política de banco. Developer não pode esquecer o filtro — o banco garante.</p>
+            <code class="text-xs text-rose-300">CREATE POLICY tenant_isolation ON agent_runs USING (tenant_id = current_setting('app.tenant_id')::uuid);</code>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="text-white font-semibold text-sm">Schema per Tenant — Maior isolamento</h4>
+              <span class="text-amber-400 text-xs font-semibold px-2 py-0.5 bg-amber-500/10 rounded">Alto custo operacional</span>
+            </div>
+            <p class="text-neutral-400 text-sm">Schema Postgres separado por tenant. Isolamento forte, mas migrations precisam rodar N vezes (um por tenant). Dificulta escala acima de centenas de tenants.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="text-white font-semibold text-sm">Database per Tenant — Isolamento máximo</h4>
+              <span class="text-red-400 text-xs font-semibold px-2 py-0.5 bg-red-500/10 rounded">Enterprise only</span>
+            </div>
+            <p class="text-neutral-400 text-sm">Banco de dados separado por tenant. Isolamento total, compliance mais fácil de demonstrar. Custo elevado. Faz sentido apenas para clientes enterprise com requisitos regulatórios específicos.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">🔑 Tenant context propagation</h3>
+        <p class="text-neutral-300 text-sm mb-3">O tenant_id deve fluir por todo o stack — do request HTTP até o banco de dados. Qualquer ponto onde o tenant_id se perde é um potencial data leakage.</p>
+        <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+          <pre class="text-xs text-rose-300 overflow-x-auto">
+# Middleware que injeta tenant_id em cada request
+class TenantMiddleware:
+    async def __call__(self, request, call_next):
+        tenant = await get_tenant_from_jwt(request)
+        # Propaga para banco via connection var
+        await set_db_tenant_context(tenant.id)
+        # Propaga para cache (Redis namespace)
+        request.state.tenant_id = tenant.id
+        request.state.redis_prefix = f"tenant:{tenant.id}:"
+        response = await call_next(request)
+        return response</pre>
+        </div>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> O risco do noisy neighbor</h3>
+        <p class="text-neutral-300 text-sm">Um tenant que consome recursos excessivos degrada a performance para todos os outros. Implemente: CPU limits por tenant, queue priority por plano (enterprise vai na frente), storage quotas e alertas quando tenant ultrapassa 80% do limite. Isolamento não é só de dados — é de recursos também.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">💳 Billing por uso de tokens: metering e Stripe</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Usage-based billing é o modelo natural para SaaS agentic — clientes pagam pelo que consomem. Implementar corretamente requer <strong class="text-rose-400">metering preciso</strong> por tenant e integração confiável com a plataforma de billing.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">📊 Pipeline de metering</h3>
+        <div class="space-y-3">
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-neutral-300">Todo LLM call passa pelo metering middleware: captura tokens de input + output por chamada</span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-neutral-300">Eventos de uso enviados para fila (Kafka): {tenant_id, agent_id, tokens, model, cost, timestamp}</span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-neutral-300">Consumer agrega uso em tempo real: Redis counters por tenant por período de billing</span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-neutral-300">Stripe Meter API: reporta uso ao Stripe a cada hora (ou ao fim do ciclo de billing)</span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-neutral-300">Stripe gera invoice automaticamente no fim do ciclo com breakdown de uso</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">🔄 Token-to-credit conversion</h3>
+        <p class="text-neutral-300 text-sm mb-3">Expor tokens diretamente para o cliente cria confusão (o que é um token?). Converta para créditos ou outra unidade compreensível.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <div class="text-rose-400 font-bold text-lg">1.000</div>
+            <div class="text-neutral-400 text-xs">tokens = 1 crédito</div>
+            <div class="text-neutral-500 text-xs mt-1">Simples, claro para cliente</div>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <div class="text-rose-400 font-bold text-lg">1</div>
+            <div class="text-neutral-400 text-xs">execução = preço fixo</div>
+            <div class="text-neutral-500 text-xs mt-1">Mais previsível para cliente</div>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <div class="text-rose-400 font-bold text-lg">R$0.05</div>
+            <div class="text-neutral-400 text-xs">por mil tokens</div>
+            <div class="text-neutral-500 text-xs mt-1">Mais transparente, mais complexo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Garantias de metering</h3>
+        <p class="text-neutral-300 text-sm">Metering deve ser: idempotente (duplicatas não cobram duas vezes), persistente (não perde eventos se o serviço reinicia), real-time (cliente vê uso atual, não só no fim do mês) e auditável (cliente pode questionar e você pode provar). Metering incorreto é passivo legal.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">⚡ Rate limiting e quotas: soft e hard limits</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Rate limiting protege o SaaS de clientes que consomem recursos excessivos (acidentalmente ou não) e garante que todos os tenants têm acesso justo ao sistema. <strong class="text-rose-400">Soft limits</strong> alertam; <strong class="text-rose-400">hard limits</strong> bloqueiam.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">⚡ Token Bucket Algorithm para agentes</h3>
+        <p class="text-neutral-300 text-sm mb-4">Token bucket é o algoritmo mais adequado para rate limiting de APIs de agentes: permite bursts curtos enquanto limita a taxa média de forma suave.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+            <p class="text-rose-400 font-semibold mb-2">Como funciona</p>
+            <ul class="space-y-1 text-neutral-300 text-xs">
+              <li>• Bucket começa cheio (ex: 1000 tokens)</li>
+              <li>• Cada request consume N tokens</li>
+              <li>• Tokens são repostos a taxa fixa (ex: 100/min)</li>
+              <li>• Burst: pode fazer requests rápidos até esvaziar o bucket</li>
+              <li>• Depois do burst: volta à taxa de reposição</li>
+            </ul>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+            <p class="text-rose-400 font-semibold mb-2">Implementação com Redis</p>
+            <pre class="text-xs text-rose-300 mt-1">
+-- Redis Lua script
+local key = KEYS[1]
+local capacity = tonumber(ARGV[1])
+local refill_rate = tonumber(ARGV[2])
+local tokens_needed = tonumber(ARGV[3])
+-- Busca estado atual
+local tokens = redis.call('GET', key)
+-- Calcula tokens disponíveis
+-- Subtrai se suficiente, retorna erro se não</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">Soft limits (alertas)</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>70% do limite: email para usuário admin do tenant</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>90% do limite: Slack do tenant + painel mostra warning</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>95% do limite: sugestão de upgrade de plano</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Sem interrupção de serviço — apenas alertas</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">Hard limits (bloqueio)</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>100% do limite: novas execuções bloqueadas</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Retorna 429 Too Many Requests com Retry-After</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Execuções em andamento não são interrompidas</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Opção de overage: cobra extra e desbloqueia</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">📋 Configuração de quotas por plano</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-dark-600">
+                <th class="text-left text-neutral-400 pb-3 pr-4">Limite</th>
+                <th class="text-center text-neutral-400 pb-3 px-3">Starter</th>
+                <th class="text-center text-neutral-400 pb-3 px-3">Growth</th>
+                <th class="text-center text-neutral-400 pb-3 px-3">Enterprise</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-dark-700/50">
+                <td class="py-2 text-neutral-300 pr-4">Execuções/mês</td>
+                <td class="text-center py-2 text-neutral-300">500</td>
+                <td class="text-center py-2 text-neutral-300">5.000</td>
+                <td class="text-center py-2 text-neutral-300">Custom</td>
+              </tr>
+              <tr class="border-b border-dark-700/50">
+                <td class="py-2 text-neutral-300 pr-4">Tokens/mês</td>
+                <td class="text-center py-2 text-neutral-300">2M</td>
+                <td class="text-center py-2 text-neutral-300">20M</td>
+                <td class="text-center py-2 text-neutral-300">Custom</td>
+              </tr>
+              <tr class="border-b border-dark-700/50">
+                <td class="py-2 text-neutral-300 pr-4">Execuções concorrentes</td>
+                <td class="text-center py-2 text-neutral-300">5</td>
+                <td class="text-center py-2 text-neutral-300">25</td>
+                <td class="text-center py-2 text-neutral-300">100+</td>
+              </tr>
+              <tr>
+                <td class="py-2 text-neutral-300 pr-4">Retenção de logs</td>
+                <td class="text-center py-2 text-neutral-300">7 dias</td>
+                <td class="text-center py-2 text-neutral-300">90 dias</td>
+                <td class="text-center py-2 text-neutral-300">1 ano</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">📊 Painel admin: visibilidade para tenant e para SaaS</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Existem dois tipos de painel: o <strong class="text-rose-400">painel do tenant</strong> (o cliente vê seus próprios dados) e o <strong class="text-rose-400">painel do SaaS admin</strong> (você vê todos os tenants). Ambos são críticos — um para retenção de clientes, o outro para operação do negócio.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6">
+          <h3 class="text-lg font-semibold text-rose-400 mb-4">📱 Painel do Tenant</h3>
+          <p class="text-neutral-400 text-sm mb-3">O que o cliente precisa ver:</p>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>Execuções do período atual vs. mês anterior</span></li>
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>Consumo de tokens em tempo real + projeção</span></li>
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>Histórico de execuções com status e duração</span></li>
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>Top agentes por uso e por custo</span></li>
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>Alertas de quota e sugestões de otimização</span></li>
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>Custo estimado para o fim do ciclo</span></li>
+          </ul>
+        </div>
+        <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-4">🎛️ Painel do SaaS Admin</h3>
+          <p class="text-neutral-400 text-sm mb-3">O que você (SaaS owner) precisa ver:</p>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>MRR, ARR, churn, novos tenants do mês</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Tenants próximos do limite (upgrade opportunity)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Tenants inativos (churn risk)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Custo de infra vs. receita por tenant (LTV/CAC)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Erros e alertas operacionais em tempo real</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Gross margin por plano e tendência</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Transparência como retenção</h3>
+        <p class="text-neutral-300 text-sm">Clientes que veem seus dados em tempo real têm churn 40% menor do que clientes sem visibilidade (dados internos de SaaS B2B). Visibilidade de custo e uso cria confiança e reduz surpresas na fatura — o maior trigger de churn em SaaS de uso variável.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🎯 Onboarding automatizado: time-to-value em minutos</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Time-to-value é o principal preditor de churn em SaaS B2B. Se o cliente não experimenta valor nas primeiras horas, a probabilidade de converter de trial para pago cai drasticamente. <strong class="text-rose-400">Onboarding automatizado</strong> comprime esse tempo de dias para minutos.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">🔄 Fluxo de provisionamento automático</h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-rose-400 font-bold flex-shrink-0 text-sm">1.</span>
+            <span class="text-neutral-300 text-sm">Cliente se cadastra → tenant criado automaticamente (UUID, subdomain, configurações padrão do plano)</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-rose-400 font-bold flex-shrink-0 text-sm">2.</span>
+            <span class="text-neutral-300 text-sm">Namespace Redis criado, schema de banco inicializado, first-party integrations configuradas (Slack bot provisionado)</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-rose-400 font-bold flex-shrink-0 text-sm">3.</span>
+            <span class="text-neutral-300 text-sm">3 agentes pré-configurados criados (templates do setor do cliente) prontos para customizar e executar</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-rose-400 font-bold flex-shrink-0 text-sm">4.</span>
+            <span class="text-neutral-300 text-sm">Tutorial in-app inicia automaticamente: "Execute seu primeiro agente em 5 minutos"</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-rose-400 font-bold flex-shrink-0 text-sm">5.</span>
+            <span class="text-neutral-300 text-sm">Milestone de ativação: primeiro agente executado com sucesso → gatilho de email de celebração + upsell</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">📊 Métricas de onboarding para otimizar</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-dark-800 rounded-lg p-3 text-center">
+            <div class="text-lg font-bold text-blue-400">&lt;15 min</div>
+            <div class="text-xs text-neutral-400 mt-1">Time to first agent run</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-3 text-center">
+            <div class="text-lg font-bold text-blue-400">&gt;70%</div>
+            <div class="text-xs text-neutral-400 mt-1">Activation rate (semana 1)</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-3 text-center">
+            <div class="text-lg font-bold text-blue-400">&lt;20%</div>
+            <div class="text-xs text-neutral-400 mt-1">Drop durante onboarding</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-3 text-center">
+            <div class="text-lg font-bold text-blue-400">&gt;85%</div>
+            <div class="text-xs text-neutral-400 mt-1">Tutorial completion rate</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">💰 Pricing strategy: modelos e garantia de margem</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Pricing de SaaS agentic é complexo porque o custo é variável (tokens) e o valor percebido é difícil de medir. O modelo de pricing deve <strong class="text-rose-400">capturar valor proporcional ao benefício</strong> enquanto garante margem operacional positiva em todos os planos.</p>
+
+      <div class="space-y-4 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="font-semibold text-white">Por execução</h4>
+            <span class="text-neutral-500 text-sm">Ex: R$0.50/execução</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div><p class="text-green-400 text-xs font-semibold mb-1">Vantagens</p><ul class="text-neutral-300 space-y-1 text-xs"><li>• Previsível para cliente</li><li>• Fácil de calcular ROI</li><li>• Escalabilidade clara</li></ul></div>
+            <div><p class="text-red-400 text-xs font-semibold mb-1">Desvantagens</p><ul class="text-neutral-300 space-y-1 text-xs"><li>• Execuções com custo muito diferente</li><li>• Pode ser caro para workflows simples</li><li>• Precisa definir o que é uma "execução"</li></ul></div>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="font-semibold text-white">Por tokens (usage-based)</h4>
+            <span class="text-neutral-500 text-sm">Ex: R$0.05/1k tokens</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div><p class="text-green-400 text-xs font-semibold mb-1">Vantagens</p><ul class="text-neutral-300 space-y-1 text-xs"><li>• Reflete custo real diretamente</li><li>• Justo para todos os casos de uso</li><li>• Familiar para devs</li></ul></div>
+            <div><p class="text-red-400 text-xs font-semibold mb-1">Desvantagens</p><ul class="text-neutral-300 space-y-1 text-xs"><li>• Imprevisível para clientes</li><li>• Difícil de orçar</li><li>• "Anxiety pricing" — clientes hesitam em usar</li></ul></div>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="font-semibold text-white">Por resultado (outcome-based)</h4>
+            <span class="text-neutral-500 text-sm">Ex: R$50/contrato revisado</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div><p class="text-green-400 text-xs font-semibold mb-1">Vantagens</p><ul class="text-neutral-300 space-y-1 text-xs"><li>• Máximo alinhamento de incentivos</li><li>• Cliente paga proporcional ao valor recebido</li><li>• Maior disposição a pagar</li></ul></div>
+            <div><p class="text-red-400 text-xs font-semibold mb-1">Desvantagens</p><ul class="text-neutral-300 space-y-1 text-xs"><li>• Difícil de definir e medir "resultado"</li><li>• Risco de margem se custo varia muito</li><li>• Complexidade contratual alta</li></ul></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">📐 Calculando margem mínima por plano</h3>
+        <p class="text-neutral-300 text-sm mb-3">Para cada plano, calcule o cenário de uso máximo e verifique se há margem positiva:</p>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+          <pre class="text-xs text-rose-300 overflow-x-auto">
+# Starter Plan: R$99/mês
+# Quota: 500 execuções, 2M tokens
+# Custo máximo se cliente usa 100% do plano:
+custo_tokens = 2_000_000 * 0.000015  # Claude Haiku: $0.000015/token
+custo_infra = 15  # storage, redis, compute
+custo_stripe = 99 * 0.029 + 0.30     # Stripe fee
+custo_total = custo_tokens + custo_infra + custo_stripe
+
+# R$30 tokens + R$15 infra + R$3.17 Stripe = R$48.17
+# Receita: R$99
+# Margem bruta: R$50.83 (51%) — SAUDÁVEL ✓
+
+# Se margem < 30%, revisar pricing ou quota</pre>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Recomendação: híbrido flat + usage</h3>
+        <p class="text-neutral-300 text-sm">O modelo mais robusto para SaaS agentic: mensalidade flat (predictability para cliente, baseline de receita para você) + usage fee acima da quota incluída (captura valor de clientes power users). Esse modelo combina previsibilidade com escalabilidade de receita.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-rose-900/40 via-dark-800 to-dark-800 rounded-xl border border-rose-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumo do Módulo 6.5</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Multi-tenant</strong><span class="text-neutral-400"> — RLS no Postgres como padrão; tenant context propagation em todo o stack</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Billing</strong><span class="text-neutral-400"> — metering idempotente via Kafka + Stripe Meter API; converter tokens em unidade compreensível</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Rate limiting</strong><span class="text-neutral-400"> — token bucket no Redis; soft limits alertam (70%/90%), hard limit bloqueia (100%)</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Painel admin</strong><span class="text-neutral-400"> — tenant vê seus dados; SaaS admin vê todos com MRR, churn e saúde operacional</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Onboarding</strong><span class="text-neutral-400"> — provisionamento automático; primeiro agente rodando em menos de 15 minutos</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Pricing</strong><span class="text-neutral-400"> — híbrido flat + usage; calcular margem mínima para todos os planos antes de lançar</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-rose-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">6.6 — Gestão de Custos em Escala: cost allocation, chargeback, otimização contínua, ROI calculation e previsão de custo.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-6-4.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 6.4 Human-in-the-Loop</a>
+          <a href="modulo-6-6.html" class="flex-1 text-center px-6 py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-500 transition-colors">Próximo: 6.6 Gestão de Custos →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6.3 Agentes de Negócio por Vertical | Trilha 6 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300"><span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span></a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Enterprise</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-rose-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-rose-400 transition-colors">Trilha 6 — Enterprise e Produto</a>
+      <span>/</span>
+      <span class="text-rose-400">Módulo 6.3</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 6.3</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🏢 Agentes de Negócio por Vertical</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Arquitetura, ferramentas e compliance para agentes financeiro, jurídico, RH, comercial e de operações — com framework de seleção de vertical e ROI esperado por domínio.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">Negócio</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">💰 Agente Financeiro: análise, reconciliação e compliance</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">O agente financeiro é a vertical com <strong class="text-rose-400">maior ROI documentado</strong> — processos repetitivos de alto volume com dados estruturados. Análise de risco, reconciliação contábil, relatórios regulatórios e detecção de fraude são casos de uso que combinam frequência alta com custo operacional elevado.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">🏗️ Arquitetura do Agente Financeiro</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-rose-400 font-semibold text-sm mb-2">Tools disponíveis</p>
+            <ul class="text-xs text-neutral-300 space-y-1">
+              <li>• Bloomberg/Refinitiv API (dados de mercado)</li>
+              <li>• Calculadora financeira (NPV, IRR, DCF)</li>
+              <li>• Acesso read-only ao ERP</li>
+              <li>• Sistema de alertas (email/Slack)</li>
+              <li>• Gerador de relatórios PDF</li>
+            </ul>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-rose-400 font-semibold text-sm mb-2">Casos de uso</p>
+            <ul class="text-xs text-neutral-300 space-y-1">
+              <li>• Análise de risco de crédito</li>
+              <li>• Reconciliação contábil automatizada</li>
+              <li>• Relatório regulatório (BACEN, CVM)</li>
+              <li>• Detecção de anomalias em transações</li>
+              <li>• Forecasting de fluxo de caixa</li>
+            </ul>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-rose-400 font-semibold text-sm mb-2">Compliance obrigatório</p>
+            <ul class="text-xs text-neutral-300 space-y-1">
+              <li>• SOX: audit trail imutável</li>
+              <li>• LGPD: dados de clientes</li>
+              <li>• BACEN: regulamentações bancárias</li>
+              <li>• Segregação de funções</li>
+              <li>• Aprovação dupla acima do limite</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">📊 ROI documentado em finanças</h3>
+        <ul class="space-y-3 text-neutral-300">
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>Reconciliação manual de 3 dias → agente: <strong>4 horas</strong>. 90% de redução no tempo de fechamento contábil.</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>Detecção de fraude: <strong>97% de acurácia</strong> vs 78% de abordagem baseada em regras (Febraban, 2025)</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>Custo do agente: ~$2.000/mês. Custo substituído: <strong>2 analistas × R$8.000</strong> = economia de R$14.000/mês líquido</span></li>
+        </ul>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> SOX compliance em agentes financeiros</h3>
+        <p class="text-neutral-300 text-sm">SOX requer que toda decisão financeira seja rastreável. O agente deve logar: qual dado foi consultado, qual cálculo foi feito, qual conclusão foi gerada e quem (humano) aprovou. Audit trail imutável não é opcional — é requisito legal. Use append-only storage (CloudTrail, Kafka com retention longa) para os logs do agente.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">⚖️ Agente Jurídico: revisão de contratos e pesquisa legal</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">O agente jurídico acelera processos de análise que consomem centenas de horas por mês. A regra fundamental: <strong class="text-rose-400">o agente advisa — o advogado decide</strong>. Esta distinção não é só ética — é legal. O agente não pratica advocacia; ele processa informação para auxiliar o profissional habilitado.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">📋 Revisão de contratos: como o agente funciona</h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-4">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0"><span class="text-rose-400 text-sm font-bold">1</span></div>
+            <div class="flex-1 bg-dark-800 rounded-lg p-3 border border-dark-600">
+              <p class="text-white text-sm font-medium">Parsing e extração estruturada</p>
+              <p class="text-neutral-400 text-xs mt-1">Tool de leitura de PDF extrai texto, identifica seções (partes, objeto, obrigações, penalidades, rescisão) e estrutura para análise.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0"><span class="text-rose-400 text-sm font-bold">2</span></div>
+            <div class="flex-1 bg-dark-800 rounded-lg p-3 border border-dark-600">
+              <p class="text-white text-sm font-medium">Análise contra base de precedentes (RAG)</p>
+              <p class="text-neutral-400 text-xs mt-1">Compara cláusulas com base de contratos anteriores da empresa, identifica cláusulas incomuns, abusivas ou que divergem do padrão.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0"><span class="text-rose-400 text-sm font-bold">3</span></div>
+            <div class="flex-1 bg-dark-800 rounded-lg p-3 border border-dark-600">
+              <p class="text-white text-sm font-medium">Relatório de risco estruturado</p>
+              <p class="text-neutral-400 text-xs mt-1">Gera relatório com risco por cláusula (alto/médio/baixo), sugestões de negociação e checklist de pontos que requerem atenção do advogado.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">Impacto documentado</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Revisão de contrato: 8h → 20 minutos (agente) + 30 min revisão humana</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Identificação de cláusulas de risco: 94% de recall vs. 78% humano cansado</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Triagem de contratos para revisão prioritária: volume 10x maior</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">Limitações críticas</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Agente não pode assinar, representar ou emitir parecer jurídico</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Decisões estratégicas de negociação exigem advogado</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Interpretação de lei específica requer contexto jurídico completo</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Responsabilidade final é sempre do profissional OAB</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Taxonomy de cláusulas de risco</h3>
+        <p class="text-neutral-300 text-sm">Defina e documente a taxonomy de cláusulas de risco para o seu contexto: cláusulas de rescisão unilateral, cláusulas de limitação de responsabilidade, cláusulas de exclusividade, penalidades desproporcionais, foro de eleição desfavorável. O agente é tão bom quanto a taxonomy que você definiu para ele identificar.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">👥 Agente de RH: triagem, onboarding e clima organizacional</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">RH concentra processos altamente repetitivos com alto volume: triagem de centenas de currículos, onboarding de novos colaboradores, FAQ repetitivo de benefícios e análise de pesquisa de clima. <strong class="text-rose-400">LGPD em dados de candidatos</strong> é o compliance mais crítico — negligenciá-lo gera passivo legal imediato.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">🔄 Casos de uso e tools do Agente de RH</h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-3">
+            <span class="text-rose-400 font-semibold text-sm w-32 flex-shrink-0">Triagem:</span>
+            <p class="text-neutral-300 text-sm">Lê currículo via PDF parser, extrai skills, experiência e formação, compara com critérios da vaga, gera score e resumo para recrutador. 200 currículos em 20 minutos.</p>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-rose-400 font-semibold text-sm w-32 flex-shrink-0">Onboarding:</span>
+            <p class="text-neutral-300 text-sm">Cria checklist personalizado por cargo, envia documentos, agenda reuniões com time, configura acessos via IT tickets, acompanha conclusão de cada etapa.</p>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-rose-400 font-semibold text-sm w-32 flex-shrink-0">FAQ de RH:</span>
+            <p class="text-neutral-300 text-sm">Responde dúvidas de benefícios, férias, política de home office. Escala para RH humano apenas para casos complexos. Disponível 24/7 via Slack.</p>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-rose-400 font-semibold text-sm w-32 flex-shrink-0">Pesquisa de clima:</span>
+            <p class="text-neutral-300 text-sm">Analisa respostas abertas com sentiment analysis, identifica temas recorrentes, gera relatório por departamento, detecta alertas de eNPS negativo.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> LGPD em dados de candidatos: obrigações</h3>
+        <ul class="space-y-2 text-neutral-300 text-sm">
+          <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Coleta apenas dados necessários para avaliação da vaga (minimização)</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Candidato deve consentir explicitamente com processamento por agente de IA</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Direito de exclusão: candidato pode pedir remoção de todos os dados</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Decisões automatizadas de triagem devem ser revisáveis (não caixa-preta)</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Retenção máxima de dados de candidatos não selecionados: 6 meses</span></li>
+        </ul>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Viés em triagem automatizada</h3>
+        <p class="text-neutral-300 text-sm">LLMs podem reproduzir vieses do mercado de trabalho. Implemente: blind screening (remover nome, gênero, idade antes da análise), diversidade scoring (monitorar distribuição de aprovados por perfil), audit periódico de outcomes (candidatos aprovados pelo agente vs. contratados). Viés não detectado é passivo legal e ético.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">📈 Agente Comercial (SDR): qualificação e outreach automatizado</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">SDR (Sales Development Representative) é uma das funções mais replicadas por agentes — alta repetição, critérios claros de qualificação e métricas objetivas de sucesso. O agente opera 24/7 com consistência que humanos não conseguem manter em centenas de leads simultâneos.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">🔄 Fluxo do Agente SDR</h3>
+        <div class="space-y-3">
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-neutral-300"><strong>Research:</strong> busca dados do lead (LinkedIn, site, news) e da empresa (tamanho, setor, financiamento, tech stack)</span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-neutral-300"><strong>Qualificação:</strong> aplica critérios BANT/MEDDIC, calcula lead score, define prioridade</span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-neutral-300"><strong>Personalização:</strong> escreve email personalizado com referência a dado específico do lead ou empresa</span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-neutral-300"><strong>Sequência:</strong> programа follow-ups (dia 3, 7, 14) com variação de canal (email, LinkedIn)</span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-neutral-300"><strong>CRM:</strong> atualiza Salesforce/HubSpot com todas as interações e status</span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-neutral-300"><strong>Escalada:</strong> lead responde positivamente → agenda reunião com AE humano automaticamente</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">📊 Métricas de sucesso do Agente SDR</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-dark-800 rounded-lg p-3 text-center">
+            <div class="text-xl font-bold text-blue-400">~3x</div>
+            <div class="text-xs text-neutral-400 mt-1">Volume vs. SDR humano</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-3 text-center">
+            <div class="text-xl font-bold text-blue-400">-60%</div>
+            <div class="text-xs text-neutral-400 mt-1">Custo por lead qualificado</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-3 text-center">
+            <div class="text-xl font-bold text-blue-400">24/7</div>
+            <div class="text-xs text-neutral-400 mt-1">Disponibilidade de follow-up</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-3 text-center">
+            <div class="text-xl font-bold text-blue-400">100%</div>
+            <div class="text-xs text-neutral-400 mt-1">CRM sempre atualizado</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Quando escalar para humano</h3>
+        <p class="text-neutral-300 text-sm">Configure escalada automática para humano quando: lead é ICP de alta prioridade (enterprise >500 func.), lead faz pergunta técnica específica, lead menciona um concorrente direto, lead demonstra urgência de compra. O agente cuida do top-of-funnel; o AE fecha deals estratégicos.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">⚙️ Agente de Operações: incidentes, runbooks e on-call</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">O agente de operações é o que <strong class="text-rose-400">resolve incidentes às 3h da manhã</strong> antes de acordar alguém. Monitora sistemas, detecta anomalias, executa os primeiros passos do runbook automaticamente e só acorda o humano de plantão quando realmente necessário.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">🚨 Fluxo de resposta a incidente com agente</h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center"><span class="text-red-400 font-bold text-sm">!</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-3 border border-red-500/20">
+              <h4 class="font-semibold text-red-400 text-sm">Alerta detectado (Datadog, PagerDuty)</h4>
+              <p class="text-neutral-400 text-xs mt-1">Latência P99 acima de 5s. Agente recebe webhook do alerta e inicia investigação.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold text-sm">1</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-3 border border-dark-600">
+              <h4 class="font-semibold text-white text-sm">Diagnóstico automatizado</h4>
+              <p class="text-neutral-400 text-xs mt-1">Consulta logs, métricas e traces. Identifica serviço afetado, causa provável e impacto estimado.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold text-sm">2</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-3 border border-dark-600">
+              <h4 class="font-semibold text-white text-sm">Execução do runbook (steps seguros)</h4>
+              <p class="text-neutral-400 text-xs mt-1">Executa steps de remediação de baixo risco: restart do pod, clear de cache, scaling up. Documenta cada ação.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold text-sm">?</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-3 border border-dark-600">
+              <h4 class="font-semibold text-amber-400 text-sm">Escalada ou resolução</h4>
+              <p class="text-neutral-400 text-xs mt-1">Se resolveu: posta status update no Slack + fecha o ticket. Se não resolveu: acorda engenheiro de plantão com diagnóstico completo já pronto.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">📊 Impacto em MTTR</h3>
+        <ul class="space-y-2 text-neutral-300">
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>MTTR (Mean Time to Recover) médio sem agente: <strong>45 minutos</strong></span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>MTTR com agente executando primeiros steps: <strong>12 minutos</strong> (redução de 73%)</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>Incidentes resolvidos 100% pelo agente (sem acordar humano): <strong>35%</strong> do total</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>Qualidade do diagnóstico quando escala: engenheiro chega sabendo exatamente o problema</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🎯 Seleção de vertical: onde implantar primeiro</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">A escolha da primeira vertical define o sucesso ou fracasso da iniciativa de agentes. <strong class="text-rose-400">Começar onde ROI é rápido e risco é baixo</strong> é estratégia, não acidente. Um primeiro agente bem-sucedido abre orçamento e apoio interno para os próximos.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">📊 Framework de avaliação de vertical</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-dark-600">
+                <th class="text-left text-neutral-400 pb-3 pr-4">Critério</th>
+                <th class="text-center text-neutral-400 pb-3 px-3">Financeiro</th>
+                <th class="text-center text-neutral-400 pb-3 px-3">Jurídico</th>
+                <th class="text-center text-neutral-400 pb-3 px-3">RH</th>
+                <th class="text-center text-neutral-400 pb-3 px-3">Comercial</th>
+                <th class="text-center text-neutral-400 pb-3 px-3">Ops</th>
+              </tr>
+            </thead>
+            <tbody class="space-y-2">
+              <tr class="border-b border-dark-700/50">
+                <td class="py-2 text-neutral-300 pr-4">Volume repetitivo</td>
+                <td class="text-center py-2"><span class="text-green-400">Alto</span></td>
+                <td class="text-center py-2"><span class="text-amber-400">Médio</span></td>
+                <td class="text-center py-2"><span class="text-green-400">Alto</span></td>
+                <td class="text-center py-2"><span class="text-green-400">Alto</span></td>
+                <td class="text-center py-2"><span class="text-green-400">Alto</span></td>
+              </tr>
+              <tr class="border-b border-dark-700/50">
+                <td class="py-2 text-neutral-300 pr-4">Risco de erro</td>
+                <td class="text-center py-2"><span class="text-red-400">Alto</span></td>
+                <td class="text-center py-2"><span class="text-amber-400">Médio</span></td>
+                <td class="text-center py-2"><span class="text-amber-400">Médio</span></td>
+                <td class="text-center py-2"><span class="text-green-400">Baixo</span></td>
+                <td class="text-center py-2"><span class="text-amber-400">Médio</span></td>
+              </tr>
+              <tr class="border-b border-dark-700/50">
+                <td class="py-2 text-neutral-300 pr-4">ROI esperado</td>
+                <td class="text-center py-2"><span class="text-green-400">Muito Alto</span></td>
+                <td class="text-center py-2"><span class="text-green-400">Alto</span></td>
+                <td class="text-center py-2"><span class="text-amber-400">Médio</span></td>
+                <td class="text-center py-2"><span class="text-green-400">Alto</span></td>
+                <td class="text-center py-2"><span class="text-amber-400">Médio</span></td>
+              </tr>
+              <tr>
+                <td class="py-2 text-neutral-300 pr-4">Facilidade para POC</td>
+                <td class="text-center py-2"><span class="text-red-400">Difícil</span></td>
+                <td class="text-center py-2"><span class="text-amber-400">Médio</span></td>
+                <td class="text-center py-2"><span class="text-green-400">Fácil</span></td>
+                <td class="text-center py-2"><span class="text-green-400">Fácil</span></td>
+                <td class="text-center py-2"><span class="text-amber-400">Médio</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">🔢 Os 4 critérios de seleção</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+          <div class="bg-dark-700 rounded-lg p-4">
+            <p class="text-rose-400 font-semibold mb-2">1. Volume repetitivo</p>
+            <p class="text-neutral-300">Processos que acontecem centenas de vezes por mês com lógica similar. Se o processo ocorre raramente, o ROI não justifica o investimento em automação.</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <p class="text-rose-400 font-semibold mb-2">2. Custo atual alto</p>
+            <p class="text-neutral-300">Processo com custo alto em tempo humano qualificado ou em erros frequentes. Onde cada hora economizada tem alto valor.</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <p class="text-rose-400 font-semibold mb-2">3. Baixo risco de erro</p>
+            <p class="text-neutral-300">Para o primeiro agente, escolha onde erro é corrigível. Evite processos onde um erro do agente tem consequências irreversíveis ou de alto impacto.</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <p class="text-rose-400 font-semibold mb-2">4. Dados disponíveis</p>
+            <p class="text-neutral-300">Processo com dados estruturados e acessíveis. Agente sem dados para trabalhar não funciona. Avalie qualidade e acessibilidade antes de começar.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Recomendação para primeiro agente</h3>
+        <p class="text-neutral-300 text-sm">Para a maioria das empresas, o primeiro agente ideal é: <strong class="text-primary">triagem de currículos (RH)</strong> ou <strong class="text-primary">qualificação de leads (Comercial)</strong>. Ambos têm alto volume, baixo risco de erro fatal, ROI mensurável em semanas e stakeholders tipicamente receptivos. Mostre resultado rápido e use para construir credibilidade para verticais mais complexas.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-rose-900/40 via-dark-800 to-dark-800 rounded-xl border border-rose-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumo do Módulo 6.3</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Agente Financeiro</strong><span class="text-neutral-400"> — ROI mais alto; audit trail imutável e SOX compliance obrigatórios desde o dia 1</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Agente Jurídico</strong><span class="text-neutral-400"> — agente advisa, humano decide sempre; taxonomy de risco é o que define a qualidade da análise</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Agente de RH</strong><span class="text-neutral-400"> — LGPD em dados de candidatos é crítico; blind screening para mitigar viés</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Agente Comercial</strong><span class="text-neutral-400"> — 3x volume de SDR humano; escalar para humano em leads de alto valor</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Agente de Operações</strong><span class="text-neutral-400"> — 73% redução de MTTR; 35% dos incidentes resolvidos sem acordar humano</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Seleção de vertical</strong><span class="text-neutral-400"> — primeiro agente: volume alto + risco baixo + dados disponíveis = RH ou Comercial</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-rose-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">6.4 — Human-in-the-Loop Avançado: design de checkpoints, aprovação assíncrona, UX de aprovação e métricas de HITL.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-6-2.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 6.2 Segurança Agentic</a>
+          <a href="modulo-6-4.html" class="flex-1 text-center px-6 py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-500 transition-colors">Próximo: 6.4 Human-in-the-Loop →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

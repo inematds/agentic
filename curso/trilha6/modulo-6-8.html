@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6.8 Cases Reais | Trilha 6 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300"><span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span></a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Enterprise</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- Breadcrumb -->
+    <nav class="flex items-center space-x-2 text-sm text-neutral-400 mb-6">
+      <a href="../../index.html" class="hover:text-neutral-200 transition-colors">Início</a>
+      <span>›</span>
+      <a href="index.html" class="hover:text-neutral-200 transition-colors">Trilha 6 — Enterprise e Produto</a>
+      <span>›</span>
+      <span class="text-rose-400">6.8 Cases Reais</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 border border-rose-500/30 rounded-2xl p-8 mb-8">
+      <div class="flex items-start justify-between flex-wrap gap-4">
+        <div>
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="bg-rose-500/20 text-rose-400 text-xs font-bold px-3 py-1 rounded-full border border-rose-500/30">MÓDULO 6.8</span>
+            <span class="bg-dark-700 text-neutral-400 text-xs px-3 py-1 rounded-full">Trilha 6 — Enterprise e Produto</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-bold text-neutral-100 mb-3">Cases Reais de Agentic Enterprise</h1>
+          <p class="text-neutral-400 text-lg max-w-2xl">Análise de implementações reais no Azure AI Studio, OpenAI Enterprise, Databricks e casos brasileiros — com lições críticas extraídas de cada um.</p>
+        </div>
+        <div class="text-right">
+          <div class="text-rose-400 text-4xl mb-1">📚</div>
+          <div class="text-neutral-500 text-sm">~60 min</div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-xl">4</div>
+          <div class="text-neutral-500 text-xs mt-1">Cases Analisados</div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-xl">10</div>
+          <div class="text-neutral-500 text-xs mt-1">Lições Universais</div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-xl">3</div>
+          <div class="text-neutral-500 text-xs mt-1">Análises Críticas</div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-xl">Avançado</div>
+          <div class="text-neutral-500 text-xs mt-1">Nível</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 1: Azure AI Studio / Prompt Flow -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">1</div>
+        <h2 class="text-2xl font-bold text-neutral-100">Case 1 — Azure AI Studio + Prompt Flow</h2>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-4">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
+            <span class="text-blue-400 text-xl">☁️</span>
+          </div>
+          <div>
+            <h3 class="text-neutral-200 font-semibold">Contexto: Banco de Varejo — Pipeline de Análise de Documentos</h3>
+            <p class="text-neutral-500 text-sm">Implementação com Azure AI Studio e Prompt Flow para processamento de contratos</p>
+          </div>
+        </div>
+
+        <p class="text-neutral-300 mb-4">Um banco de varejo de médio porte usou o Azure AI Studio com Prompt Flow para construir um pipeline agentic de análise de contratos de crédito imobiliário. Antes do agente, 8 analistas processavam 120 contratos/dia com taxa de erro de 3,2%. O objetivo era escalar para 1.000 contratos/dia mantendo acurácia acima de 99%.</p>
+
+        <h3 class="text-neutral-200 font-semibold mb-3">Arquitetura do Prompt Flow</h3>
+        <div class="bg-dark-900 rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto">
+          <div class="text-neutral-500 mb-2"># Fluxo Prompt Flow — 5 nós sequenciais</div>
+          <div class="space-y-1 text-neutral-300">
+            <div><span class="text-blue-400">Nó 1</span>: <span class="text-yellow-400">document_intake</span> — OCR + normalização do PDF do contrato</div>
+            <div><span class="text-blue-400">Nó 2</span>: <span class="text-yellow-400">entity_extraction</span> — GPT-4o extrai partes, valores, prazos, garantias</div>
+            <div><span class="text-blue-400">Nó 3</span>: <span class="text-yellow-400">compliance_check</span> — Claude valida contra regras BACEN/resolução 4.966</div>
+            <div><span class="text-blue-400">Nó 4</span>: <span class="text-yellow-400">risk_scoring</span> — modelo de risco proprietário (Azure ML endpoint)</div>
+            <div><span class="text-blue-400">Nó 5</span>: <span class="text-yellow-400">human_review_gate</span> — score &lt; 0.85 → fila humana; acima → auto-aprovação</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+          <div class="bg-dark-700 rounded-xl p-4 text-center">
+            <div class="text-emerald-400 font-bold text-2xl">8.3x</div>
+            <div class="text-neutral-400 text-sm mt-1">Aumento de throughput</div>
+            <div class="text-neutral-500 text-xs">120 → 1.000 contratos/dia</div>
+          </div>
+          <div class="bg-dark-700 rounded-xl p-4 text-center">
+            <div class="text-emerald-400 font-bold text-2xl">99.7%</div>
+            <div class="text-neutral-400 text-sm mt-1">Acurácia pós-deploy</div>
+            <div class="text-neutral-500 text-xs">vs 96.8% humano puro</div>
+          </div>
+          <div class="bg-dark-700 rounded-xl p-4 text-center">
+            <div class="text-emerald-400 font-bold text-2xl">R$2.1M</div>
+            <div class="text-neutral-400 text-sm mt-1">Economia anual</div>
+            <div class="text-neutral-500 text-xs">Redução de headcount + erros</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-4">
+            <h4 class="text-emerald-400 font-semibold mb-2">O que funcionou bem</h4>
+            <ul class="space-y-1 text-neutral-300 text-sm">
+              <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span>Prompt Flow com DAG visual acelerou iteração</li>
+              <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span>Azure AI Content Safety bloqueou jailbreaks automaticamente</li>
+              <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span>Human-in-the-loop no nó 5 manteve compliance BACEN</li>
+              <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span>Integração nativa com Azure Active Directory (RBAC)</li>
+            </ul>
+          </div>
+          <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+            <h4 class="text-red-400 font-semibold mb-2">Desafios encontrados</h4>
+            <ul class="space-y-1 text-neutral-300 text-sm">
+              <li class="flex items-start gap-2"><span class="text-red-400">✗</span>Latência alta em contratos com muitas páginas (&gt;50s)</li>
+              <li class="flex items-start gap-2"><span class="text-red-400">✗</span>Custo por contrato 3x acima do previsto no primeiro mês</li>
+              <li class="flex items-start gap-2"><span class="text-red-400">✗</span>Hallucination em contratos com linguagem não-padrão (12%)</li>
+              <li class="flex items-start gap-2"><span class="text-red-400">✗</span>Lock-in em Azure dificultou avaliação de alternativas</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-5">
+        <h3 class="text-rose-400 font-semibold mb-2">Lição do Case 1</h3>
+        <p class="text-neutral-300 text-sm">O maior aprendizado foi sobre o custo de hallucination em domínio jurídico. Um contrato com cláusula extraída incorretamente e aprovado pelo agente gerou uma disputa de R$450k. A solução foi adicionar um nó de validação cruzada entre dois modelos (GPT-4o e Claude) — concordância total obrigatória para auto-aprovação. O custo adicional de ~18% foi justificado pela eliminação de erros críticos.</p>
+      </div>
+    </section>
+
+    <!-- Section 2: OpenAI Enterprise Controls -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">2</div>
+        <h2 class="text-2xl font-bold text-neutral-100">Case 2 — OpenAI Enterprise Controls</h2>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-4">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
+            <span class="text-green-400 text-xl">🤖</span>
+          </div>
+          <div>
+            <h3 class="text-neutral-200 font-semibold">Contexto: Consultoria de Estratégia — Agente de Pesquisa com Assistants API</h3>
+            <p class="text-neutral-500 text-sm">Multi-agent com Assistants API e File Search para análise de mercado</p>
+          </div>
+        </div>
+
+        <p class="text-neutral-300 mb-4">Uma consultoria de estratégia de grande porte implementou um sistema multi-agente usando a OpenAI Assistants API com File Search para acelerar pesquisas de mercado. Antes: 2 analistas, 2 semanas por relatório. Objetivo: 1 analista, 2 dias por relatório.</p>
+
+        <h3 class="text-neutral-200 font-semibold mb-3">Arquitetura Multi-Agente com Assistants API</h3>
+        <div class="bg-dark-900 rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto">
+          <div class="text-neutral-500 mb-2"># Sistema de 3 agentes especializados com handoff</div>
+          <div class="space-y-2 text-neutral-300">
+            <div class="border-l-2 border-blue-400 pl-3">
+              <div class="text-blue-400">Agent 1: ResearchAgent</div>
+              <div class="text-neutral-400 text-xs">tools: [file_search, web_search]</div>
+              <div class="text-neutral-400 text-xs">vector_store: 50k documentos internos da consultoria</div>
+              <div class="text-neutral-400 text-xs">saída: research_brief.json com fontes citadas</div>
+            </div>
+            <div class="border-l-2 border-yellow-400 pl-3">
+              <div class="text-yellow-400">Agent 2: AnalysisAgent</div>
+              <div class="text-neutral-400 text-xs">tools: [code_interpreter, file_search]</div>
+              <div class="text-neutral-400 text-xs">input: research_brief.json do Agent 1</div>
+              <div class="text-neutral-400 text-xs">saída: financial_model.xlsx + analysis_narrative.md</div>
+            </div>
+            <div class="border-l-2 border-rose-400 pl-3">
+              <div class="text-rose-400">Agent 3: ReportAgent</div>
+              <div class="text-neutral-400 text-xs">tools: [file_search]</div>
+              <div class="text-neutral-400 text-xs">input: outputs dos agentes 1 e 2</div>
+              <div class="text-neutral-400 text-xs">saída: relatório final em formato PDF-ready</div>
+            </div>
+            <div class="text-neutral-500 text-xs mt-2"># Orchestrator: verifica qualidade a cada handoff, rejeita e re-tenta se score &lt; 0.8</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+          <div class="bg-dark-700 rounded-xl p-4 text-center">
+            <div class="text-emerald-400 font-bold text-2xl">5x</div>
+            <div class="text-neutral-400 text-sm mt-1">Redução de tempo</div>
+            <div class="text-neutral-500 text-xs">2 semanas → 2 dias</div>
+          </div>
+          <div class="bg-dark-700 rounded-xl p-4 text-center">
+            <div class="text-emerald-400 font-bold text-2xl">40%</div>
+            <div class="text-neutral-400 text-sm mt-1">Mais fontes por relatório</div>
+            <div class="text-neutral-500 text-xs">Pela escala de leitura do vector store</div>
+          </div>
+          <div class="bg-dark-700 rounded-xl p-4 text-center">
+            <div class="text-yellow-400 font-bold text-2xl">$18k</div>
+            <div class="text-neutral-400 text-sm mt-1">Custo mensal de API</div>
+            <div class="text-neutral-500 text-xs">Alto, mas vs $120k em salários</div>
+          </div>
+        </div>
+
+        <div class="bg-dark-700 rounded-lg p-4">
+          <h4 class="text-neutral-200 font-medium mb-3">Controles Enterprise da OpenAI Utilizados</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            <div class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <div><span class="text-neutral-200">Zero Data Retention</span> — logs não usados para treinar modelos</div>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <div><span class="text-neutral-200">SSO + SCIM</span> — integração com Okta, controle de acesso granular</div>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <div><span class="text-neutral-200">Audit Logs</span> — quem acessou qual agente, quando, com quais dados</div>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <div><span class="text-neutral-200">Usage Policies</span> — bloqueio de categorias de conteúdo específicas</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-5">
+        <h3 class="text-rose-400 font-semibold mb-2">Lição do Case 2</h3>
+        <p class="text-neutral-300 text-sm">O maior risco foi confidencialidade: um agente de pesquisa com acesso a documentos de múltiplos clientes pode cruzar informações indevidamente. A solução foi Vector Stores por cliente (isolamento total), com o Orchestrator garantindo que cada run do agente acesse apenas o vector store do cliente correto. Implementar isso retroativamente levou 3 semanas — teria sido trivial se planejado desde o início.</p>
+      </div>
+    </section>
+
+    <!-- Section 3: Databricks AI Governance -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">3</div>
+        <h2 class="text-2xl font-bold text-neutral-100">Case 3 — Databricks AI Governance</h2>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-4">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 rounded-xl bg-orange-500/20 flex items-center justify-center">
+            <span class="text-orange-400 text-xl">🔶</span>
+          </div>
+          <div>
+            <h3 class="text-neutral-200 font-semibold">Contexto: Varejo Nacional — Agente de Previsão de Demanda</h3>
+            <p class="text-neutral-500 text-sm">MLflow + Unity Catalog + Mosaic AI para agente de supply chain</p>
+          </div>
+        </div>
+
+        <p class="text-neutral-300 mb-4">Uma rede varejista com 800 lojas usou o stack Databricks (MLflow, Unity Catalog, Mosaic AI) para construir um agente de previsão de demanda que automaticamente ajusta pedidos de compra. O agente combina modelos de ML próprios com LLMs para raciocínio sobre eventos externos (clima, feriados, campanhas).</p>
+
+        <h3 class="text-neutral-200 font-semibold mb-3">Stack Técnico Databricks</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+          <div class="bg-dark-700 rounded-xl p-4">
+            <div class="text-orange-400 font-semibold mb-2">MLflow</div>
+            <ul class="text-neutral-400 text-xs space-y-1">
+              <li>• Tracking de experimentos e versões de modelos</li>
+              <li>• Registro de hiperparâmetros e métricas</li>
+              <li>• Model Registry com stage (Staging/Production)</li>
+              <li>• Audit de quem promoveu qual modelo quando</li>
+            </ul>
+          </div>
+          <div class="bg-dark-700 rounded-xl p-4">
+            <div class="text-orange-400 font-semibold mb-2">Unity Catalog</div>
+            <ul class="text-neutral-400 text-xs space-y-1">
+              <li>• Catálogo unificado de dados e modelos</li>
+              <li>• Lineage automático: dado → feature → modelo → decisão</li>
+              <li>• Controle de acesso fino (column-level security)</li>
+              <li>• Auditoria de quem acessou qual dado</li>
+            </ul>
+          </div>
+          <div class="bg-dark-700 rounded-xl p-4">
+            <div class="text-orange-400 font-semibold mb-2">Mosaic AI Agent</div>
+            <ul class="text-neutral-400 text-xs space-y-1">
+              <li>• Agente com acesso ao modelo ML + LLM raciocínio</li>
+              <li>• Tool calling para APIs de fornecedores</li>
+              <li>• Human review antes de emitir pedidos acima de R$50k</li>
+              <li>• Feedback loop: buyer pode corrigir previsão</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-dark-900 rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto">
+          <div class="text-neutral-500 mb-2"># Exemplo de lineage automático no Unity Catalog</div>
+          <div class="text-neutral-300">Dado: <span class="text-green-400">vendas_historicas (catalog.bronze.sales)</span></div>
+          <div class="text-neutral-300 ml-4">→ Feature: <span class="text-yellow-400">demand_features (catalog.gold.features)</span></div>
+          <div class="text-neutral-300 ml-8">→ Modelo: <span class="text-orange-400">demand_forecast_v3 (models:/demand_forecast/3)</span></div>
+          <div class="text-neutral-300 ml-12">→ Agente: <span class="text-blue-400">supply_chain_agent (agents:/supply-chain/prod)</span></div>
+          <div class="text-neutral-300 ml-16">→ Decisão: <span class="text-rose-400">pedido_compra_2025_03_15.json</span></div>
+          <div class="text-neutral-500 text-xs mt-2"># Se um modelo precisar ser explicado para regulador,</div>
+          <div class="text-neutral-500 text-xs"># o lineage rastreia até o dado original em milissegundos</div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="text-neutral-200 font-medium mb-2">Resultados</h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Acurácia de previsão</span>
+                <span class="text-emerald-400 font-semibold">87% → 94%</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Excesso de estoque</span>
+                <span class="text-emerald-400 font-semibold">-23%</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Ruptura de estoque</span>
+                <span class="text-emerald-400 font-semibold">-31%</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">ROI em 12 meses</span>
+                <span class="text-emerald-400 font-semibold">R$8.4M</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="text-neutral-200 font-medium mb-2">Governança em Ação</h4>
+            <div class="space-y-2 text-sm text-neutral-400">
+              <div class="flex items-start gap-2"><span class="text-orange-400 mt-0.5">•</span>Drift detection automático — alerta quando acurácia cai &gt;5%</div>
+              <div class="flex items-start gap-2"><span class="text-orange-400 mt-0.5">•</span>Explainability via SHAP — comprador vê top features da previsão</div>
+              <div class="flex items-start gap-2"><span class="text-orange-400 mt-0.5">•</span>Rollback automático se modelo novo piora vs baseline</div>
+              <div class="flex items-start gap-2"><span class="text-orange-400 mt-0.5">•</span>Auditoria mensal obrigatória com reporte ao CFO</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-5">
+        <h3 class="text-rose-400 font-semibold mb-2">Lição do Case 3</h3>
+        <p class="text-neutral-300 text-sm">O lineage automático foi o diferencial em uma auditoria interna. O auditor questionou uma decisão de pedido de compra atípica — em 30 segundos, a equipe apresentou o caminho completo: dado bruto → feature → modelo → agente → decisão, incluindo a versão exata do modelo e os dados que o alimentaram. Isso seria impossível sem Unity Catalog. Empresas que constroem sistemas de IA sem lineage estão criando passivos de auditoria que vão explodir eventualmente.</p>
+      </div>
+    </section>
+
+    <!-- Section 4: Case Brasileiro -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">4</div>
+        <h2 class="text-2xl font-bold text-neutral-100">Case 4 — Fintech Brasileira de Crédito (LGPD + BACEN)</h2>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-4">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
+            <span class="text-green-400 text-xl">🇧🇷</span>
+          </div>
+          <div>
+            <h3 class="text-neutral-200 font-semibold">Contexto: Fintech de Crédito Pessoal — Agente de Análise de Risco</h3>
+            <p class="text-neutral-500 text-sm">Sistema agentic para concessão de crédito sob LGPD e Resolução BACEN 4.966</p>
+          </div>
+        </div>
+
+        <p class="text-neutral-300 mb-4">Uma fintech brasileira de crédito pessoal (série B, 2M clientes) precisava escalar análise de crédito mantendo compliance com a LGPD (proteção de dados pessoais), a Resolução BACEN 4.966/2021 (que exige explicabilidade de modelos de crédito) e as diretrizes da ANPD sobre tratamento automatizado de dados.</p>
+
+        <h3 class="text-neutral-200 font-semibold mb-4">Desafios Regulatórios Específicos do Brasil</h3>
+        <div class="space-y-3 mb-5">
+          <div class="flex items-start gap-3 bg-dark-700 rounded-lg p-4">
+            <div class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-400 font-bold text-sm flex-shrink-0">1</div>
+            <div>
+              <div class="text-neutral-200 font-medium text-sm">Art. 20 LGPD — Direito à Revisão Humana</div>
+              <p class="text-neutral-400 text-sm mt-1">O titular de dados tem direito à revisão humana de decisões tomadas exclusivamente por meios automatizados. O agente de crédito NUNCA pode ser a palavra final — sempre deve haver um humano disponível para recurso.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 bg-dark-700 rounded-lg p-4">
+            <div class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-400 font-bold text-sm flex-shrink-0">2</div>
+            <div>
+              <div class="text-neutral-200 font-medium text-sm">BACEN 4.966 — Explicabilidade de Modelos</div>
+              <p class="text-neutral-400 text-sm mt-1">Modelos de crédito devem ser explicáveis. Para LLMs usados em decisões de crédito: não basta o score, é preciso as razões. A fintech resolveu isso com SHAP values nos modelos de ML + sumário LLM das razões em linguagem natural para o cliente.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 bg-dark-700 rounded-lg p-4">
+            <div class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-400 font-bold text-sm flex-shrink-0">3</div>
+            <div>
+              <div class="text-neutral-200 font-medium text-sm">Retenção de Dados e Consentimento</div>
+              <p class="text-neutral-400 text-sm mt-1">Dados enviados para APIs de LLM externas precisam de base legal clara. A fintech optou por modelo de linguagem fine-tuned on-premise para dados sensíveis, usando apenas APIs externas para raciocínio com dados sintéticos/anonimizados.</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="text-neutral-200 font-semibold mb-3">Arquitetura de Compliance</h3>
+        <div class="bg-dark-900 rounded-lg p-4 font-mono text-sm overflow-x-auto mb-4">
+          <div class="text-neutral-500 mb-2"># Pipeline de decisão de crédito com compliance BACEN/LGPD</div>
+          <div class="text-neutral-300">
+            <div>1. Coleta: <span class="text-green-400">dados_cpf, score_bureau, histórico_pagamentos</span></div>
+            <div>2. Anonimização: <span class="text-yellow-400">remove PII antes de qualquer API externa</span></div>
+            <div>3. ML Model (on-premise): <span class="text-blue-400">credit_score = predict(features_anonimizadas)</span></div>
+            <div>4. LLM on-premise (Llama 3.1): <span class="text-purple-400">razoes = explain(credit_score, SHAP_values)</span></div>
+            <div>5. Decisão: <span class="text-rose-400">if score &gt;= threshold: APROVAR else: RECUSAR</span></div>
+            <div>6. Notificação: <span class="text-orange-400">email com score + razoes em pt-BR + link_recurso_humano</span></div>
+            <div>7. Registro: <span class="text-neutral-400">audit_log imutável para BACEN (10 anos)</span></div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="bg-dark-700 rounded-xl p-3 text-center">
+            <div class="text-emerald-400 font-bold text-lg">98.2%</div>
+            <div class="text-neutral-500 text-xs mt-1">Conformidade LGPD</div>
+          </div>
+          <div class="bg-dark-700 rounded-xl p-3 text-center">
+            <div class="text-emerald-400 font-bold text-lg">0.3%</div>
+            <div class="text-neutral-500 text-xs mt-1">Taxa de recurso humano</div>
+          </div>
+          <div class="bg-dark-700 rounded-xl p-3 text-center">
+            <div class="text-emerald-400 font-bold text-lg">4s</div>
+            <div class="text-neutral-500 text-xs mt-1">Tempo de decisão</div>
+          </div>
+          <div class="bg-dark-700 rounded-xl p-3 text-center">
+            <div class="text-emerald-400 font-bold text-lg">R$0</div>
+            <div class="text-neutral-500 text-xs mt-1">Multas BACEN/ANPD</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-5">
+        <h3 class="text-rose-400 font-semibold mb-2">Lição do Case 4</h3>
+        <p class="text-neutral-300 text-sm">O maior insight foi que compliance e performance não são opostos — são complementares quando bem desenhados. A explicabilidade exigida pelo BACEN forçou a fintech a entender melhor seu próprio modelo, levando a melhorias que reduziram a inadimplência em 8%. O cumprimento regulatório se tornou vantagem competitiva: fintechs reguladas têm acesso a produtos que as não-reguladas não podem oferecer.</p>
+      </div>
+    </section>
+
+    <!-- Section 5: Análise Crítica -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">5</div>
+        <h2 class="text-2xl font-bold text-neutral-100">Análise Crítica — O Que os Cases Não Mostram</h2>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-4">
+        <p class="text-neutral-300 mb-5">Cases de sucesso tendem a omitir fracassos, tentativas falhadas e custos ocultos. Veja o que raramente aparece nas apresentações:</p>
+
+        <div class="space-y-4">
+          <div class="border-l-4 border-red-400 pl-4">
+            <h3 class="text-neutral-200 font-semibold mb-1">O Problema do Promissory Note</h3>
+            <p class="text-neutral-400 text-sm">Projetos de IA agentic frequentemente são vendidos internamente com projeções de ROI de 500–1000%. O ROI real leva 6–18 meses para se materializar. Nesse intervalo, projetos são cancelados por falta de resultados imediatos. Solução: defina métricas de processo (não só de resultado) desde o dia 1.</p>
+          </div>
+          <div class="border-l-4 border-yellow-400 pl-4">
+            <h3 class="text-neutral-200 font-semibold mb-1">O Custo de Retreinamento e Manutenção</h3>
+            <p class="text-neutral-400 text-sm">Modelos degradam com o tempo (data drift). O custo de manutenção de um agente em produção é tipicamente 30–50% do custo de desenvolvimento original por ano. Isso raramente aparece nos planos de negócio iniciais, gerando surpresas no orçamento.</p>
+          </div>
+          <div class="border-l-4 border-blue-400 pl-4">
+            <h3 class="text-neutral-200 font-semibold mb-1">A Resistência Humana Subestimada</h3>
+            <p class="text-neutral-400 text-sm">Em todos os 4 cases acima, o maior bloqueio não foi técnico — foi humano. Analistas que rejeitavam recomendações do agente mesmo quando corretas, gestores que revertiam decisões automatizadas por "instinto", e times que sabotavam sutilmente a adoção. Change management consome 30–40% do esforço total e raramente é orçado adequadamente.</p>
+          </div>
+          <div class="border-l-4 border-rose-400 pl-4">
+            <h3 class="text-neutral-200 font-semibold mb-1">O Risco de Consolidação de Vendor</h3>
+            <p class="text-neutral-400 text-sm">Azure, OpenAI e Databricks criam lock-in. Migrar de OpenAI para Anthropic ou vice-versa é tecnicamente simples (troca de API), mas migrar toda uma plataforma de agentes com Vector Stores, Fine-tuning e integrações é um projeto de 3–6 meses. Considere isso ao negociar contratos e ao arquitetar sistemas.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <h3 class="text-neutral-200 font-semibold mb-3">Padrões de Fracasso</h3>
+          <ul class="space-y-2 text-neutral-400 text-sm">
+            <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">✗</span>Começar com caso de uso complexo e de alto risco</li>
+            <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">✗</span>Ignorar o change management até o projeto falhar</li>
+            <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">✗</span>Não medir baseline antes do agente entrar em produção</li>
+            <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">✗</span>Prometer automação total sem HITL para casos edge</li>
+            <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">✗</span>Subestimar custo de manutenção e monitoramento</li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <h3 class="text-neutral-200 font-semibold mb-3">Padrões de Sucesso</h3>
+          <ul class="space-y-2 text-neutral-400 text-sm">
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span>Começar com caso de uso de alto volume e baixo risco</li>
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span>Medir e compartilhar vitórias continuamente</li>
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span>Ter um "Agent Owner" humano responsável por cada agente</li>
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span>Tratar compliance como design constraint, não afterthought</li>
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span>Planejar para 3–5 versões de iteração antes de escalar</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: 10 Lições Universais -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">6</div>
+        <h2 class="text-2xl font-bold text-neutral-100">10 Lições Universais dos Cases</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-sm flex-shrink-0">1</div>
+            <div>
+              <div class="text-neutral-200 font-medium mb-1">Baseline Antes de Tudo</div>
+              <p class="text-neutral-400 text-sm">Meça o processo atual (tempo, custo, erros) ANTES de implementar o agente. Sem baseline, você não consegue provar o ROI — nem ajustar o agente.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-sm flex-shrink-0">2</div>
+            <div>
+              <div class="text-neutral-200 font-medium mb-1">Compliance é Design, Não Retrofitting</div>
+              <p class="text-neutral-400 text-sm">Resolver LGPD, BACEN ou EU AI Act depois que o sistema está em produção custa 10x mais e pode exigir redesign completo da arquitetura.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-sm flex-shrink-0">3</div>
+            <div>
+              <div class="text-neutral-200 font-medium mb-1">HITL Não é Fraqueza</div>
+              <p class="text-neutral-400 text-sm">Human-in-the-Loop em pontos críticos não é sinal de que o agente não funciona — é arquitetura inteligente. Elimine HITL gradualmente com dados, não com pressa.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-sm flex-shrink-0">4</div>
+            <div>
+              <div class="text-neutral-200 font-medium mb-1">Isolamento de Tenant é Não-Negociável</div>
+              <p class="text-neutral-400 text-sm">Em sistemas multi-cliente, a separação de dados entre clientes deve ser garantida por arquitetura (vector stores separadas, RLS, schemas), não só por lógica de aplicação.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-sm flex-shrink-0">5</div>
+            <div>
+              <div class="text-neutral-200 font-medium mb-1">Explainability Vende</div>
+              <p class="text-neutral-400 text-sm">Usuários adotam agentes mais quando entendem as razões das decisões. Explainability não é só regulatório — é product design que aumenta trust e adoção.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-sm flex-shrink-0">6</div>
+            <div>
+              <div class="text-neutral-200 font-medium mb-1">Custo Real = API + Infra + Pessoas + Manutenção</div>
+              <p class="text-neutral-400 text-sm">O custo de API é a parte visível do iceberg. Infra de observabilidade, time de manutenção, retreinamento e incidentes respondem por 60–70% do TCO total.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-sm flex-shrink-0">7</div>
+            <div>
+              <div class="text-neutral-200 font-medium mb-1">Lineage Automático Salva Auditorias</div>
+              <p class="text-neutral-400 text-sm">A capacidade de responder "por que esse agente tomou essa decisão 6 meses atrás" não vem de boa memória — vem de lineage automático implementado desde o início.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-sm flex-shrink-0">8</div>
+            <div>
+              <div class="text-neutral-200 font-medium mb-1">Drift é Inevitável, Surpresa é Evitável</div>
+              <p class="text-neutral-400 text-sm">Todo modelo degrada. Configure alertas de performance desde o dia 1. Quando o alerta disparar, tenha um runbook pronto — não improvise em crise.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-sm flex-shrink-0">9</div>
+            <div>
+              <div class="text-neutral-200 font-medium mb-1">Small Wins, Big Trust</div>
+              <p class="text-neutral-400 text-sm">Quick wins em 2–4 semanas constroem o capital político para projetos mais ambiciosos. Tente fazer o agente de crédito automatizado no primeiro projeto e você perderá o apoio executivo.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-sm flex-shrink-0">10</div>
+            <div>
+              <div class="text-neutral-200 font-medium mb-1">O Humano é a Feature, Não o Bug</div>
+              <p class="text-neutral-400 text-sm">Os melhores sistemas agentic amplificam humanos, não os substituem. O analista de crédito que usa o agente para processar 10x mais contratos é mais valioso que o agente sem supervisão. Posicione assim internamente.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Summary -->
+    <div class="bg-gradient-to-br from-rose-900/20 to-dark-800 border border-rose-500/20 rounded-2xl p-8 mb-8">
+      <h2 class="text-2xl font-bold text-neutral-100 mb-4">Resumo do Módulo</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div>
+          <h3 class="text-rose-400 font-semibold mb-3">Cases Estudados</h3>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">1.</span>Azure AI Studio + Prompt Flow — análise de contratos bancários (8.3x throughput)</li>
+            <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">2.</span>OpenAI Assistants API — pesquisa de mercado multi-agente (5x mais rápido)</li>
+            <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">3.</span>Databricks MLflow + Unity Catalog — previsão de demanda com lineage (R$8.4M ROI)</li>
+            <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">4.</span>Fintech brasileira — crédito com LGPD + BACEN (0 multas, 98.2% conformidade)</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-rose-400 font-semibold mb-3">Padrões Críticos</h3>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start gap-2"><span class="text-neutral-500 mt-0.5">•</span>Compliance como design constraint desde o início</li>
+            <li class="flex items-start gap-2"><span class="text-neutral-500 mt-0.5">•</span>Lineage automático para auditoria e explicabilidade</li>
+            <li class="flex items-start gap-2"><span class="text-neutral-500 mt-0.5">•</span>HITL estratégico, não cosmético</li>
+            <li class="flex items-start gap-2"><span class="text-neutral-500 mt-0.5">•</span>Change management = 30-40% do esforço real</li>
+            <li class="flex items-start gap-2"><span class="text-neutral-500 mt-0.5">•</span>Quick wins para capital político antes de grandes projetos</li>
+          </ul>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3 justify-start">
+        <a href="modulo-6-7.html" class="inline-flex items-center gap-2 px-6 py-3 bg-dark-700 hover:bg-dark-600 text-neutral-300 rounded-xl font-medium transition-colors">← 6.7 Governança</a>
+        <a href="modulo-6-9.html" class="inline-flex items-center gap-2 px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-semibold transition-colors">Próximo: 6.9 Certificações e Carreira →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="border-t border-dark-600 py-8 mt-12">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <p class="text-neutral-500 text-sm">Agentic Engineering Masterclass — <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    function updateIcons() {
+      if (document.documentElement.classList.contains('dark')) {
+        darkIcon.classList.add('hidden'); lightIcon.classList.remove('hidden');
+      } else {
+        lightIcon.classList.add('hidden'); darkIcon.classList.remove('hidden');
+      }
+    }
+    updateIcons();
+    themeToggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      updateIcons();
+    });
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+      updateIcons();
+    }
+  </script>
+</body>
+</html>

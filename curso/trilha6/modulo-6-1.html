@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6.1 Padrões de Integração Enterprise | Trilha 6 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10">
+            <span class="sm:hidden">T6</span><span class="hidden sm:inline">Enterprise</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-rose-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-rose-400 transition-colors">Trilha 6 — Enterprise e Produto</a>
+      <span>/</span>
+      <span class="text-rose-400">Módulo 6.1</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 6.1</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔗 Padrões de Integração Enterprise</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Como conectar agentes aos 50-200 sistemas internos que toda empresa já tem — REST, GraphQL, webhooks, filas de mensagem, API Gateway e gestão de segredos.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-rose-400">Prático</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🏗️ O desafio real de integrar agentes em enterprise</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">A maioria das empresas opera entre <strong class="text-rose-400">50 e 200 sistemas internos</strong> — ERPs, CRMs, sistemas de RH, bancos de dados legados, APIs internas de múltiplos times, sistemas de BI e ferramentas SaaS. Um agente enterprise precisa comunicar-se com todos eles de forma confiável, segura e rastreável.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4 flex items-center"><span class="mr-2">🗺️</span> A realidade do ambiente enterprise</h3>
+        <p class="text-neutral-300 mb-4">Em projetos de prova de conceito, você integra o agente com 2 ou 3 APIs bem documentadas. Em produção enterprise, a realidade é diferente: APIs sem documentação, autenticações heterogêneas, sistemas que caem com frequência e equipes que não querem que você acesse os dados delas.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-dark-600">
+            <p class="text-sm text-neutral-500 font-semibold mb-2">Ambiente de POC</p>
+            <ul class="space-y-1 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">→</span><span>2-3 APIs bem documentadas</span></li>
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">→</span><span>Autenticação simples (API key)</span></li>
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">→</span><span>Dados de teste disponíveis</span></li>
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">→</span><span>Tolerância a falhas eventual</span></li>
+            </ul>
+          </div>
+          <div class="bg-rose-900/20 rounded-lg p-4 border border-rose-500/20">
+            <p class="text-sm text-rose-400 font-semibold mb-2">Ambiente de Produção Enterprise</p>
+            <ul class="space-y-1 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>50-200 sistemas com qualidade variável</span></li>
+              <li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>OAuth, SAML, JWT, certificados mTLS</span></li>
+              <li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>Dados sensíveis com compliance</span></li>
+              <li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>SLA de 99.9% exigido</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Dados do mercado enterprise</h3>
+        <ul class="space-y-3 text-neutral-300">
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span><strong>73%</strong> dos projetos de IA enterprise falham na fase de integração, não na fase de modelo (Gartner, 2025)</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>Empresa média Fortune 500 tem <strong>164 sistemas SaaS</strong> em uso simultâneo (Okta, 2025)</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span><strong>45%</strong> do custo de um projeto de agente enterprise está na camada de integração</span></li>
+        </ul>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Princípio de integração enterprise</h3>
+        <p class="text-neutral-300">Construa a camada de integração como uma <strong class="text-primary">infraestrutura separada do agente</strong>. O agente não deve saber como se autenticar no SAP — ele chama uma tool que abstrai isso. Isso permite trocar sistemas sem reescrever o agente.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🌐 REST e GraphQL: autenticação, retry e paginação</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">REST e GraphQL são os padrões dominantes em APIs modernas, mas implementá-los corretamente para agentes requer atenção especial a <strong class="text-rose-400">autenticação robusta</strong>, tratamento de rate limits e paginação eficiente — cada token consumido pelo agente tem custo.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">🔐 Fluxo OAuth 2.0 para agentes</h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold text-sm">1</span></div>
+            <div class="flex-1 bg-dark-800 rounded-lg p-3 border border-dark-600">
+              <h4 class="font-semibold text-white text-sm mb-1">Client Credentials Flow</h4>
+              <p class="text-sm text-neutral-400">Para agentes servidor-a-servidor: agent usa client_id + client_secret para obter access_token. Não há usuário envolvido. Token expira — agente deve renovar automaticamente antes do vencimento.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold text-sm">2</span></div>
+            <div class="flex-1 bg-dark-800 rounded-lg p-3 border border-dark-600">
+              <h4 class="font-semibold text-white text-sm mb-1">Token Refresh Automático</h4>
+              <p class="text-sm text-neutral-400">Implemente refresh proativo: se token expira em menos de 5 minutos, renove antes de fazer a chamada. Nunca espere receber 401 para renovar — isso causa falha na tool call do agente.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold text-sm">3</span></div>
+            <div class="flex-1 bg-dark-800 rounded-lg p-3 border border-dark-600">
+              <h4 class="font-semibold text-white text-sm mb-1">Rate Limit com Exponential Backoff</h4>
+              <p class="text-sm text-neutral-400">Ao receber 429 Too Many Requests, espere o tempo indicado no header Retry-After. Se não houver header, use exponential backoff: 1s, 2s, 4s, 8s... com jitter para evitar thundering herd.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">GraphQL: vantagens para agentes</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Busca exatamente os campos necessários — menos tokens no contexto do agente</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Uma query pode buscar dados de múltiplas entidades relacionadas</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Schema tipado — agente pode descobrir campos disponíveis via introspection</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Mutations para escrita com retorno de dados atualizado</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">Erros comuns de REST/GraphQL</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Hardcodar credenciais no código da tool</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Não tratar paginação — pegar apenas primeira página</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Retry sem backoff — causa mais rate limiting</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Buscar todos os campos quando só precisa de 3</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">📄 Paginação para agentes: cursor-based</h3>
+        <p class="text-neutral-300 text-sm mb-3">APIs enterprise com grandes volumes de dados usam cursor-based pagination. O agente deve iterar páginas até atingir o critério de parada — não buscar tudo de uma vez.</p>
+        <div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+          <pre class="text-xs text-rose-300 overflow-x-auto">
+# Padrão correto de paginação para agentes
+async def fetch_all_records(api_client, endpoint, filter_params):
+    results = []
+    cursor = None
+    while True:
+        page = await api_client.get(endpoint,
+            params={**filter_params, "cursor": cursor, "limit": 100}
+        )
+        results.extend(page["data"])
+        cursor = page.get("next_cursor")
+        if not cursor or len(results) >= MAX_RECORDS:
+            break
+    return results</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">📨 Webhooks e eventos: agentes acionados externamente</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Webhooks invertem o fluxo: em vez do agente chamar sistemas externos, sistemas externos chamam o agente quando algo acontece. Isso permite <strong class="text-rose-400">processamento assíncrono baseado em eventos</strong> — o agente só executa quando há trabalho real a fazer.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">🔄 Arquitetura de webhook para agentes</h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">1</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+              <h4 class="font-semibold text-white mb-1">Validação de assinatura</h4>
+              <p class="text-sm text-neutral-400">Sempre valide a assinatura HMAC do webhook antes de processar. Sem isso, qualquer agente malicioso pode enviar requests falsos para o endpoint e acionar o agente com dados forjados.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">2</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+              <h4 class="font-semibold text-white mb-1">Idempotência obrigatória</h4>
+              <p class="text-sm text-neutral-400">Webhooks podem ser entregues mais de uma vez (retry automático). Use idempotency key — registre o ID do evento processado e ignore duplicatas. Sem isso, o mesmo agente executa duas vezes para o mesmo evento.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center"><span class="text-rose-400 font-bold">3</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+              <h4 class="font-semibold text-white mb-1">Resposta imediata, processamento assíncrono</h4>
+              <p class="text-sm text-neutral-400">Responda 200 OK imediatamente ao receber o webhook (em menos de 5s, senão o sistema reenvia). Coloque o evento em uma fila para processamento assíncrono. O agente processa da fila, não do request HTTP.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> O problema da idempotência em webhooks</h3>
+        <p class="text-neutral-300 text-sm mb-3">Cenário real: um CRM envia webhook de "contrato assinado". O agente processa o evento e dispara um email de onboarding. 30 segundos depois, o CRM reenvia o webhook por timeout. Sem idempotência, o cliente recebe dois emails de onboarding. Com dados financeiros, isso pode significar dupla cobrança.</p>
+        <div class="bg-dark-800/50 rounded-lg p-3 mt-2">
+          <p class="text-xs text-rose-300">Solução: <code>IF NOT EXISTS (SELECT 1 FROM processed_events WHERE event_id = ?) THEN process AND INSERT INTO processed_events</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">📬 Sistemas legados e filas: RabbitMQ e Kafka</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Toda empresa grande tem sistemas legados que não falam REST — mainframes IBM, ERPs dos anos 90, sistemas core bancários em COBOL. <strong class="text-rose-400">Filas de mensagem</strong> são o middleware que permite agentes modernos se comunicarem com esses sistemas sem modificar o legado.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6">
+          <h3 class="text-lg font-semibold text-rose-400 mb-4">RabbitMQ — para mensagens de negócio</h3>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>Ideal para tasks de baixo volume com routing complexo</span></li>
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>Exchanges e bindings para roteamento de mensagens por tipo</span></li>
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>Dead Letter Queue para mensagens que falharam N vezes</span></li>
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>Message acknowledgment: agente confirma após processar</span></li>
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>Prioridade de filas: agentes urgentes processam primeiro</span></li>
+          </ul>
+        </div>
+        <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-4">Apache Kafka — para streams de eventos</h3>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Ideal para alto volume — milhões de eventos/segundo</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Topics particionados: agentes paralelos processam em escala</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Retention configurável: replay de eventos históricos</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Consumer groups: múltiplos agentes dividem a carga</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Exactly-once semantics com transações Kafka</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">🔄 Padrão: agente como consumer de fila</h3>
+        <p class="text-neutral-300 text-sm mb-4">O padrão mais robusto para integração com sistemas legados: o sistema legado publica eventos em formato conhecido (ex: novo pedido, novo cliente, novo contrato). O agente consome da fila e processa. O legado não sabe que o agente existe.</p>
+        <div class="space-y-2">
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-neutral-300">Sistema legado publica mensagem na fila: <code class="text-rose-300 text-xs">{"event": "new_order", "order_id": "ORD-123"}</code></span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-neutral-300">Agente consome a mensagem, busca detalhes do pedido via API</span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-neutral-300">Agente processa (análise de risco, notificação, atualização de CRM)</span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-neutral-300">Agente confirma (ack) a mensagem — removida da fila</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Garantia de entrega</h3>
+        <p class="text-neutral-300 text-sm">At-least-once delivery é o padrão seguro: a mensagem pode ser entregue mais de uma vez, mas nunca perdida. Combine com idempotência no processamento do agente. Exactly-once é possível com Kafka transactions, mas tem overhead — use apenas quando idempotência não é suficiente.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🔀 API Gateway para agentes: centralização e controle</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Em vez de cada agente implementar autenticação, rate limiting e logging do seu jeito, o <strong class="text-rose-400">API Gateway centraliza</strong> todas essas preocupações. Todo request de/para agentes passa pelo gateway — ponto único de controle, auditoria e otimização.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">🏛️ O que o API Gateway faz por você</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-rose-400 font-semibold text-sm mb-2">Autenticação centralizada</p>
+            <p class="text-xs text-neutral-400">Valida JWT/API key antes de chegar ao agente. O agente nunca vê credenciais inválidas — o gateway já filtra.</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-rose-400 font-semibold text-sm mb-2">Rate limiting por agente</p>
+            <p class="text-xs text-neutral-400">Limita chamadas por segundo por agente ou por usuário. Evita que um agente bugado consuma todos os recursos disponíveis.</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-rose-400 font-semibold text-sm mb-2">Logging e rastreabilidade</p>
+            <p class="text-xs text-neutral-400">Todo request/response logado centralmente com correlation ID. Crucial para debugging de comportamento de agentes em produção.</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-rose-400 font-semibold text-sm mb-2">Roteamento inteligente</p>
+            <p class="text-xs text-neutral-400">Direciona requests para o agente correto com base em path, header ou conteúdo. Permite A/B testing entre versões de agentes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">⚙️ AWS API Gateway vs. Kong</h3>
+        <div class="space-y-3 text-sm">
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-primary font-bold flex-shrink-0">AWS</span>
+            <span class="text-neutral-300">Serverless, integração nativa com Lambda/ECS onde agentes rodam. Gerenciado (sem infraestrutura para manter). Melhor para stacks 100% AWS. Lambda authorizer para autenticação customizada.</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-primary font-bold flex-shrink-0">Kong</span>
+            <span class="text-neutral-300">Open-source, multi-cloud, altamente extensível via plugins. Melhor para ambientes híbridos (on-premise + cloud). Plugin ecosystem rico: rate limiting avançado, JWT, OAuth, caching, transformações.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Sem API Gateway: os problemas em produção</h3>
+        <p class="text-neutral-300 text-sm">Sem gateway centralizado: cada agente implementa auth diferente (inconsistência), sem visibilidade de quem chama o quê (debugging impossível), sem rate limiting (um agente derruba todos os outros), sem auditoria (compliance impossível). O gateway não é opcional em enterprise.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🔑 Gestão de segredos: Vault, Secrets Manager e zero-trust</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">A regra é absoluta: <strong class="text-rose-400">NUNCA hardcode credenciais em agentes</strong>. Nunca em variáveis de ambiente hardcodadas, nunca em arquivos de config commitados, nunca em código fonte. Um agente com credenciais expostas é um vetor de ataque para todos os sistemas que ele acessa.</p>
+
+      <div class="bg-gradient-to-br from-rose-900/30 to-dark-800 rounded-xl border border-rose-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-rose-400 mb-4">🏛️ HashiCorp Vault para agentes</h3>
+        <p class="text-neutral-300 mb-4 text-sm">Vault provê <strong>dynamic secrets</strong> — em vez de uma senha fixa do banco de dados, o agente pede ao Vault uma credencial temporária com TTL de 1 hora. Quando o agente termina, a credencial expira automaticamente. Vazamento de credencial expira sozinho.</p>
+        <div class="space-y-3">
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-neutral-300">Agente inicializa e autentica no Vault com sua identidade (AppRole, Kubernetes ServiceAccount)</span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-neutral-300">Vault verifica que o agente tem permissão para o secret solicitado (política de least privilege)</span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-neutral-300">Vault retorna credencial dinâmica com TTL — agente usa apenas durante a tarefa</span>
+          </div>
+          <div class="flex items-center space-x-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-neutral-300">TTL expira: credencial inválida automaticamente. Vault rotaciona a credencial no sistema de destino</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h3 class="text-lg font-semibold text-neutral-300 mb-4">AWS Secrets Manager</h3>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>Integração nativa com IAM — agente assume role com permissão</span></li>
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>Rotação automática de RDS passwords sem downtime</span></li>
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>Replicação multi-region para agentes distribuídos</span></li>
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>CloudTrail audit de todo acesso a secrets</span></li>
+            <li class="flex items-start space-x-2"><span class="text-rose-400">•</span><span>$0.40/secret/mês — custo negligenciável vs. risco</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">O que NUNCA fazer</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Hardcodar API keys no código do agente</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Commitar .env com credenciais no git</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Passar credenciais em variáveis de ambiente de CI/CD sem encryption</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Logar respostas de API que contêm tokens</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Usar mesma credencial para prod e dev</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Zero-trust para agentes</h3>
+        <p class="text-neutral-300 text-sm">Zero-trust significa: cada agente tem identidade verificável, acesso apenas ao mínimo necessário (least privilege), cada request é autenticado (sem confiança implícita por estar na mesma rede) e todo acesso é auditado. Implemente desde o primeiro agente em produção — retrofit é doloroso.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-rose-900/40 via-dark-800 to-dark-800 rounded-xl border border-rose-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumo do Módulo 6.1</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Complexidade real</strong><span class="text-neutral-400"> — enterprise tem 50-200 sistemas; integração é onde a maioria dos projetos falha</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">REST/GraphQL</strong><span class="text-neutral-400"> — OAuth 2.0, token refresh automático, exponential backoff e cursor pagination</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Webhooks</strong><span class="text-neutral-400"> — validação de assinatura, idempotência obrigatória, processamento assíncrono via fila</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Filas de mensagem</strong><span class="text-neutral-400"> — RabbitMQ para tasks de negócio, Kafka para streams de alto volume, legado via adapter</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">API Gateway</strong><span class="text-neutral-400"> — ponto único de autenticação, rate limiting, logging e roteamento para todos os agentes</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-rose-400 mt-0.5">✓</span><div><strong class="text-white">Gestão de segredos</strong><span class="text-neutral-400"> — Vault dynamic secrets, AWS Secrets Manager, rotação automática, zero-trust</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-rose-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">6.2 — Segurança Agentic: prompt injection, agent manipulation, sandboxing de código, data leakage e response filtering.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para Trilha 6</a>
+          <a href="modulo-6-2.html" class="flex-1 text-center px-6 py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-500 transition-colors">Próximo: 6.2 Segurança Agentic →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

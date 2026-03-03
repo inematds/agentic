@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6.7 Governança Organizacional | Trilha 6 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300"><span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span></a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Enterprise</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- Breadcrumb -->
+    <nav class="flex items-center space-x-2 text-sm text-neutral-400 mb-6">
+      <a href="../../index.html" class="hover:text-neutral-200 transition-colors">Início</a>
+      <span>›</span>
+      <a href="index.html" class="hover:text-neutral-200 transition-colors">Trilha 6 — Enterprise e Produto</a>
+      <span>›</span>
+      <span class="text-rose-400">6.7 Governança Organizacional</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-800 border border-rose-500/30 rounded-2xl p-8 mb-8">
+      <div class="flex items-start justify-between flex-wrap gap-4">
+        <div>
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="bg-rose-500/20 text-rose-400 text-xs font-bold px-3 py-1 rounded-full border border-rose-500/30">MÓDULO 6.7</span>
+            <span class="bg-dark-700 text-neutral-400 text-xs px-3 py-1 rounded-full">Trilha 6 — Enterprise e Produto</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-bold text-neutral-100 mb-3">Governança Organizacional</h1>
+          <p class="text-neutral-400 text-lg max-w-2xl">Estruture políticas, processos e comitês para adoção responsável de IA agentic em escala enterprise — sem travar a inovação.</p>
+        </div>
+        <div class="text-right">
+          <div class="text-rose-400 text-4xl mb-1">🏛️</div>
+          <div class="text-neutral-500 text-sm">~55 min</div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-xl">6</div>
+          <div class="text-neutral-500 text-xs mt-1">Seções</div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-xl">4</div>
+          <div class="text-neutral-500 text-xs mt-1">Frameworks</div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-xl">5</div>
+          <div class="text-neutral-500 text-xs mt-1">Níveis Maturidade</div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl p-3 text-center">
+          <div class="text-rose-400 font-bold text-xl">Avançado</div>
+          <div class="text-neutral-500 text-xs mt-1">Nível</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 1: O que é AI Governance -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">1</div>
+        <h2 class="text-2xl font-bold text-neutral-100">O que é AI Governance</h2>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-4">
+        <p class="text-neutral-300 mb-4">AI Governance é o conjunto de políticas, processos, papéis e tecnologias que garantem o uso responsável, seguro e conforme de sistemas de inteligência artificial dentro de uma organização. No contexto agentic, a governança vai além de modelos — ela abrange agentes autônomos que tomam decisões, executam ações e interagem com sistemas externos.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+          <div class="bg-dark-700 rounded-lg p-4">
+            <div class="text-rose-400 font-semibold mb-2">Políticas</div>
+            <p class="text-neutral-400 text-sm">Regras explícitas sobre o que agentes podem e não podem fazer. Quais dados acessam, quais ações executam, quem aprova o quê.</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <div class="text-rose-400 font-semibold mb-2">Processos</div>
+            <p class="text-neutral-400 text-sm">Fluxos de aprovação, ciclos de revisão, auditorias periódicas. Como um agente é criado, testado, aprovado, monitorado e descontinuado.</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <div class="text-rose-400 font-semibold mb-2">Tecnologia</div>
+            <p class="text-neutral-400 text-sm">Ferramentas de observabilidade, registros imutáveis, controle de acesso, sandboxing e alertas automáticos que enforcement as políticas.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-5 mb-4">
+        <h3 class="text-rose-400 font-semibold mb-2">Por que Governance Importa Agora</h3>
+        <p class="text-neutral-300 text-sm mb-3">Em 2023, menos de 5% das empresas tinham políticas formais de AI Governance. Em 2025, regulações como o EU AI Act, as diretrizes do BACEN sobre modelos de crédito automatizados e as exigências da LGPD tornaram isso obrigatório. Empresas sem governança enfrentam:</p>
+        <ul class="space-y-1">
+          <li class="text-neutral-400 text-sm flex items-start gap-2"><span class="text-rose-400 mt-0.5">•</span>Multas regulatórias (EU AI Act: até 3% do faturamento global)</li>
+          <li class="text-neutral-400 text-sm flex items-start gap-2"><span class="text-rose-400 mt-0.5">•</span>Incidentes de agentes autônomos tomando decisões incorretas sem auditoria</li>
+          <li class="text-neutral-400 text-sm flex items-start gap-2"><span class="text-rose-400 mt-0.5">•</span>Shadow AI: times usando agentes não aprovados com dados sensíveis</li>
+          <li class="text-neutral-400 text-sm flex items-start gap-2"><span class="text-rose-400 mt-0.5">•</span>Impossibilidade de explicar decisões automatizadas para clientes ou reguladores</li>
+        </ul>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+        <h3 class="text-neutral-200 font-semibold mb-3">Governança vs. Burocracia</h3>
+        <p class="text-neutral-400 text-sm mb-3">O objetivo da governança não é travar a inovação — é criar guardrails que permitam mover rápido com segurança. A diferença:</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-dark-600">
+                <th class="text-left text-neutral-400 font-medium pb-2 pr-4">Burocracia</th>
+                <th class="text-left text-neutral-400 font-medium pb-2">Boa Governança</th>
+              </tr>
+            </thead>
+            <tbody class="text-neutral-300 space-y-1">
+              <tr class="border-b border-dark-700">
+                <td class="py-2 pr-4">Aprovação manual para cada prompt</td>
+                <td class="py-2">Aprovação automática para agentes de baixo risco, manual só para alto risco</td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-2 pr-4">Documentação retroativa que ninguém lê</td>
+                <td class="py-2">Registro automático via código (IaC + GitOps)</td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-2 pr-4">Comitê que só diz não</td>
+                <td class="py-2">Comitê que provê templates, padrões e acelera adoção</td>
+              </tr>
+              <tr>
+                <td class="py-2 pr-4">Revisão anual desatualizada</td>
+                <td class="py-2">Monitoramento contínuo com alertas automáticos</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Política de Adoção de IA -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">2</div>
+        <h2 class="text-2xl font-bold text-neutral-100">Política de Adoção de IA</h2>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-4">
+        <p class="text-neutral-300 mb-4">Uma política de adoção de IA define as regras do jogo: quem pode criar agentes, com quais dados, para quais finalidades, e com quais aprovações. Ela deve ser clara o suficiente para guiar, mas flexível o suficiente para não engessar times.</p>
+
+        <h3 class="text-neutral-200 font-semibold mb-3">Estrutura de Uma Política Eficaz</h3>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3 bg-dark-700 rounded-lg p-4">
+            <div class="w-7 h-7 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-sm flex-shrink-0">1</div>
+            <div>
+              <div class="text-neutral-200 font-medium text-sm mb-1">Escopo e Definições</div>
+              <p class="text-neutral-400 text-sm">O que conta como "agente de IA" na organização (LLM com ferramentas, automações de ML, sistemas de recomendação com autonomia). Definição precisa evita ambiguidade sobre o que precisa de aprovação.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 bg-dark-700 rounded-lg p-4">
+            <div class="w-7 h-7 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-sm flex-shrink-0">2</div>
+            <div>
+              <div class="text-neutral-200 font-medium text-sm mb-1">Classificação por Risco</div>
+              <p class="text-neutral-400 text-sm">Agentes são classificados em Baixo / Médio / Alto risco. Cada nível tem requisitos diferentes de aprovação, monitoramento e revisão periódica.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 bg-dark-700 rounded-lg p-4">
+            <div class="w-7 h-7 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-sm flex-shrink-0">3</div>
+            <div>
+              <div class="text-neutral-200 font-medium text-sm mb-1">Uso Aceitável de Dados</div>
+              <p class="text-neutral-400 text-sm">Quais categorias de dados podem ser enviadas para modelos externos (OpenAI, Anthropic) e quais devem ficar on-premise ou em modelos auto-hospedados. Dados de clientes identificáveis = on-premise ou acordo específico.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 bg-dark-700 rounded-lg p-4">
+            <div class="w-7 h-7 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 font-bold text-sm flex-shrink-0">4</div>
+            <div>
+              <div class="text-neutral-200 font-medium text-sm mb-1">Responsabilidade e Accountability</div>
+              <p class="text-neutral-400 text-sm">Para cada agente em produção, um humano identificado é o "Agent Owner" — responsável por monitoramento, incidentes e desativação. Sem owner = sem deploy.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+        <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-5">
+          <h3 class="text-emerald-400 font-semibold mb-3">Permitido por Padrão (Baixo Risco)</h3>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span>Sugestões de texto para usuário revisar antes de enviar</li>
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span>Classificação de documentos internos não-sensíveis</li>
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span>Chatbots de suporte com FAQ curado</li>
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span>Geração de código para revisão humana</li>
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span>Análise de dados agregados anonimizados</li>
+          </ul>
+        </div>
+        <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-5">
+          <h3 class="text-red-400 font-semibold mb-3">Requer Aprovação (Alto Risco)</h3>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">✗</span>Agentes com acesso a dados pessoais identificáveis</li>
+            <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">✗</span>Decisões automáticas que afetam clientes (crédito, preço)</li>
+            <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">✗</span>Execução de código em produção sem revisão humana</li>
+            <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">✗</span>Comunicação externa autônoma em nome da empresa</li>
+            <li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">✗</span>Acesso a sistemas financeiros ou de RH</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+        <h3 class="text-neutral-200 font-semibold mb-2">Combatendo Shadow AI</h3>
+        <p class="text-neutral-400 text-sm mb-3">Shadow AI — times usando ChatGPT, Claude ou agentes não aprovados com dados corporativos — é o maior risco de governança em 2025. A resposta não é proibição total (ineficaz), mas sim:</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <div class="text-rose-400 font-semibold text-sm mb-1">Caminho Fácil</div>
+            <p class="text-neutral-400 text-xs">Ofereça uma plataforma aprovada e fácil de usar. Se o caminho oficial é mais fácil, ninguém precisa do shadow.</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <div class="text-rose-400 font-semibold text-sm mb-1">Detecção</div>
+            <p class="text-neutral-400 text-xs">Monitor tráfego de rede para APIs de LLM não aprovadas. DLP (Data Loss Prevention) para detectar dados sensíveis saindo.</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <div class="text-rose-400 font-semibold text-sm mb-1">Anistia + Registro</div>
+            <p class="text-neutral-400 text-xs">Crie um período de anistia para times declararem agentes shadow e migrá-los para a plataforma oficial sem punição.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: AI Governance Framework -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">3</div>
+        <h2 class="text-2xl font-bold text-neutral-100">AI Governance Framework</h2>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-4">
+        <p class="text-neutral-300 mb-5">Um framework de governança precisa de três componentes operacionais: um comitê que decide, um registro que rastreia, e processos de aprovação que operam em velocidade compatível com o negócio.</p>
+
+        <h3 class="text-neutral-200 font-semibold mb-4">Comitê de IA (AI Council)</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+          <div class="space-y-3">
+            <div class="bg-dark-700 rounded-lg p-3">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-rose-400 text-sm">👑</span>
+                <span class="text-neutral-200 text-sm font-medium">Chief AI Officer / Sponsor</span>
+              </div>
+              <p class="text-neutral-400 text-xs">Decisão final em casos de alto risco e disputas. Garante alinhamento estratégico com objetivos de negócio.</p>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-3">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-rose-400 text-sm">🔒</span>
+                <span class="text-neutral-200 text-sm font-medium">CISO (Segurança)</span>
+              </div>
+              <p class="text-neutral-400 text-xs">Avalia riscos de segurança de cada agente. Aprova arquitetura de sandboxing e controle de acesso.</p>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-3">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-rose-400 text-sm">⚖️</span>
+                <span class="text-neutral-200 text-sm font-medium">DPO / Legal</span>
+              </div>
+              <p class="text-neutral-400 text-xs">Garante conformidade com LGPD, BACEN, EU AI Act. Avalia implicações legais de decisões automatizadas.</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="bg-dark-700 rounded-lg p-3">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-rose-400 text-sm">🛠️</span>
+                <span class="text-neutral-200 text-sm font-medium">CTO / Arquiteto Principal</span>
+              </div>
+              <p class="text-neutral-400 text-xs">Avalia viabilidade técnica, riscos de integração e conformidade com padrões arquiteturais da empresa.</p>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-3">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-rose-400 text-sm">📊</span>
+                <span class="text-neutral-200 text-sm font-medium">Representante de Negócio</span>
+              </div>
+              <p class="text-neutral-400 text-xs">Valida o caso de uso, KPIs esperados e impacto para usuários finais. Evita soluções técnicas sem problema real.</p>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-3">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-rose-400 text-sm">🔬</span>
+                <span class="text-neutral-200 text-sm font-medium">Ethics / Responsible AI</span>
+              </div>
+              <p class="text-neutral-400 text-xs">Avalia viés algorítmico, impacto em grupos vulneráveis, explicabilidade das decisões. Papel crescente em empresas maduras.</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="text-neutral-200 font-semibold mb-3">Registro de Agentes (Agent Registry)</h3>
+        <p class="text-neutral-400 text-sm mb-3">Todo agente em produção deve ter um registro canônico. Este é o "inventário de IA" da organização — equivalente ao CMDB para infraestrutura.</p>
+        <div class="bg-dark-900 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-500 mb-1"># agent-registry.yaml — entrada para cada agente aprovado</div>
+          <div class="text-neutral-300">agent_id: <span class="text-rose-400">agt-fin-credit-001</span></div>
+          <div class="text-neutral-300">name: <span class="text-yellow-400">"Agente Análise de Crédito v2"</span></div>
+          <div class="text-neutral-300">owner: <span class="text-yellow-400">"joao.silva@empresa.com"</span></div>
+          <div class="text-neutral-300">team: <span class="text-yellow-400">"Financeiro / Crédito"</span></div>
+          <div class="text-neutral-300">risk_level: <span class="text-red-400">HIGH</span></div>
+          <div class="text-neutral-300">models_used: <span class="text-green-400">["claude-3-opus", "gpt-4o"]</span></div>
+          <div class="text-neutral-300">data_access:</div>
+          <div class="text-neutral-300 ml-4">- <span class="text-yellow-400">customer_pii</span>: <span class="text-red-400">true</span></div>
+          <div class="text-neutral-300 ml-4">- <span class="text-yellow-400">financial_data</span>: <span class="text-red-400">true</span></div>
+          <div class="text-neutral-300">external_apis: <span class="text-green-400">["serasa", "receita_federal"]</span></div>
+          <div class="text-neutral-300">actions_permitted: <span class="text-green-400">["read", "score_calculation"]</span></div>
+          <div class="text-neutral-300">actions_forbidden: <span class="text-green-400">["write_credit_decision", "send_to_customer"]</span></div>
+          <div class="text-neutral-300">approved_by: <span class="text-yellow-400">"ai-council@empresa.com"</span></div>
+          <div class="text-neutral-300">approval_date: <span class="text-yellow-400">"2025-03-15"</span></div>
+          <div class="text-neutral-300">review_date: <span class="text-yellow-400">"2025-09-15"</span></div>
+          <div class="text-neutral-300">hitl_required: <span class="text-red-400">true</span></div>
+          <div class="text-neutral-300">monitoring_dashboard: <span class="text-blue-400">"https://grafana.empresa.com/d/agt-fin-001"</span></div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-5">
+        <h3 class="text-neutral-200 font-semibold mb-3">Fluxo de Aprovação por Nível de Risco</h3>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-3">
+            <div class="w-20 text-center text-emerald-400 font-bold text-xs bg-emerald-500/20 py-1 px-2 rounded">BAIXO</div>
+            <div class="text-neutral-300 text-sm">Auto-aprovação + registro automático. Team lead assina. Deploy em 1 dia. Revisão a cada 6 meses.</div>
+          </div>
+          <div class="flex items-center gap-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3">
+            <div class="w-20 text-center text-yellow-400 font-bold text-xs bg-yellow-500/20 py-1 px-2 rounded">MÉDIO</div>
+            <div class="text-neutral-300 text-sm">Aprovação de segurança (CISO) + DPO. Registro obrigatório. Deploy em até 5 dias. Revisão a cada 3 meses.</div>
+          </div>
+          <div class="flex items-center gap-3 bg-red-500/10 border border-red-500/20 rounded-lg p-3">
+            <div class="w-20 text-center text-red-400 font-bold text-xs bg-red-500/20 py-1 px-2 rounded">ALTO</div>
+            <div class="text-neutral-300 text-sm">Aprovação do AI Council completo. HITL obrigatório. Audit trail imutável. Deploy em até 15 dias. Revisão a cada 1 mês.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Risk Assessment Framework -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">4</div>
+        <h2 class="text-2xl font-bold text-neutral-100">Risk Assessment para Agentes</h2>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-4">
+        <p class="text-neutral-300 mb-5">O Risk Assessment é o processo estruturado de avaliar o nível de risco de um agente antes de aprovar seu deploy. Use as 4 dimensões abaixo para calcular o score de risco:</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+          <div class="bg-dark-700 rounded-xl p-4">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-2xl">🗂️</span>
+              <h3 class="text-neutral-200 font-semibold">Dimensão 1: Dados</h3>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Dados públicos apenas</span>
+                <span class="text-emerald-400 font-bold">+0</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Dados internos anonimizados</span>
+                <span class="text-yellow-400 font-bold">+1</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Dados pessoais (LGPD)</span>
+                <span class="text-orange-400 font-bold">+2</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Dados sensíveis (saúde, financeiro)</span>
+                <span class="text-red-400 font-bold">+3</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-dark-700 rounded-xl p-4">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-2xl">⚡</span>
+              <h3 class="text-neutral-200 font-semibold">Dimensão 2: Ações</h3>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Apenas leitura / análise</span>
+                <span class="text-emerald-400 font-bold">+0</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Escrita em sistemas internos</span>
+                <span class="text-yellow-400 font-bold">+1</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Comunicação externa</span>
+                <span class="text-orange-400 font-bold">+2</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Transações financeiras / legais</span>
+                <span class="text-red-400 font-bold">+3</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-dark-700 rounded-xl p-4">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-2xl">💰</span>
+              <h3 class="text-neutral-200 font-semibold">Dimensão 3: Impacto Financeiro</h3>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Nenhum impacto direto</span>
+                <span class="text-emerald-400 font-bold">+0</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Impacto interno &lt; R$10k</span>
+                <span class="text-yellow-400 font-bold">+1</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Impacto em clientes &lt; R$100k</span>
+                <span class="text-orange-400 font-bold">+2</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Impacto sistêmico &gt; R$100k</span>
+                <span class="text-red-400 font-bold">+3</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-dark-700 rounded-xl p-4">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-2xl">↩️</span>
+              <h3 class="text-neutral-200 font-semibold">Dimensão 4: Reversibilidade</h3>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Totalmente reversível</span>
+                <span class="text-emerald-400 font-bold">+0</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Reversível com esforço</span>
+                <span class="text-yellow-400 font-bold">+1</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Difícil de reverter</span>
+                <span class="text-orange-400 font-bold">+2</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400">Irreversível</span>
+                <span class="text-red-400 font-bold">+3</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-900 rounded-lg p-4">
+          <h3 class="text-neutral-200 font-semibold mb-3">Score Final → Nível de Risco</h3>
+          <div class="grid grid-cols-3 gap-3 text-sm text-center">
+            <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-3">
+              <div class="text-emerald-400 font-bold text-lg">0–3</div>
+              <div class="text-neutral-400 mt-1">Baixo Risco</div>
+              <div class="text-neutral-500 text-xs mt-1">Auto-aprovação</div>
+            </div>
+            <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
+              <div class="text-yellow-400 font-bold text-lg">4–7</div>
+              <div class="text-neutral-400 mt-1">Médio Risco</div>
+              <div class="text-neutral-500 text-xs mt-1">CISO + DPO</div>
+            </div>
+            <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-3">
+              <div class="text-red-400 font-bold text-lg">8–12</div>
+              <div class="text-neutral-400 mt-1">Alto Risco</div>
+              <div class="text-neutral-500 text-xs mt-1">AI Council</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-5">
+        <h3 class="text-rose-400 font-semibold mb-2">Exemplo Prático: Agente SDR</h3>
+        <p class="text-neutral-300 text-sm mb-3">Um agente que pesquisa leads, personaliza emails e os envia automaticamente:</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm mb-3">
+          <div class="bg-dark-800 rounded-lg p-2 text-center">
+            <div class="text-neutral-400 text-xs">Dados Pessoais</div>
+            <div class="text-orange-400 font-bold">+2</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-2 text-center">
+            <div class="text-neutral-400 text-xs">Comunicação Externa</div>
+            <div class="text-orange-400 font-bold">+2</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-2 text-center">
+            <div class="text-neutral-400 text-xs">Impacto Reputacional</div>
+            <div class="text-orange-400 font-bold">+2</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-2 text-center">
+            <div class="text-neutral-400 text-xs">Email Irreversível</div>
+            <div class="text-orange-400 font-bold">+2</div>
+          </div>
+        </div>
+        <p class="text-neutral-300 text-sm">Score total: <span class="text-red-400 font-bold">8 → Alto Risco</span>. Requer aprovação do AI Council, HITL obrigatório antes do envio, audit log de todos os emails.</p>
+      </div>
+    </section>
+
+    <!-- Section 5: Change Management -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">5</div>
+        <h2 class="text-2xl font-bold text-neutral-100">Change Management — Transformação Cultural</h2>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-4">
+        <p class="text-neutral-300 mb-4">Tecnologia é a parte fácil. O maior desafio da adoção de IA enterprise é a transformação cultural. Times resistem por medo de substituição, desconfiança nos resultados e falta de habilidade. O modelo ADKAR oferece um framework para navegar isso.</p>
+
+        <h3 class="text-neutral-200 font-semibold mb-4">ADKAR para Transformação Agentic</h3>
+        <div class="space-y-3">
+          <div class="flex items-start gap-4 bg-dark-700 rounded-xl p-4">
+            <div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+              <span class="text-rose-400 font-black text-lg">A</span>
+            </div>
+            <div>
+              <div class="text-neutral-200 font-semibold">Awareness — Consciência</div>
+              <p class="text-neutral-400 text-sm mt-1">Por que a mudança é necessária? Comunique o problema de negócio, não a solução tecnológica. "Concorrentes estão respondendo prospects 10x mais rápido" ressoa mais que "vamos implementar agentes de IA".</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 bg-dark-700 rounded-xl p-4">
+            <div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+              <span class="text-rose-400 font-black text-lg">D</span>
+            </div>
+            <div>
+              <div class="text-neutral-200 font-semibold">Desire — Desejo</div>
+              <p class="text-neutral-400 text-sm mt-1">As pessoas precisam querer mudar. Mostre "o que tem pra mim": menos trabalho repetitivo, tempo para atividades mais interessantes. Evite narrativas de "IA vai te tornar mais produtivo" — foque em "IA vai eliminar as tarefas chatas".</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 bg-dark-700 rounded-xl p-4">
+            <div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+              <span class="text-rose-400 font-black text-lg">K</span>
+            </div>
+            <div>
+              <div class="text-neutral-200 font-semibold">Knowledge — Conhecimento</div>
+              <p class="text-neutral-400 text-sm mt-1">Como usar as novas ferramentas? Treinamentos hands-on, não slides. Champions internos que ensinam pelos corredores. Documentação contextual dentro das próprias ferramentas.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 bg-dark-700 rounded-xl p-4">
+            <div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+              <span class="text-rose-400 font-black text-lg">A</span>
+            </div>
+            <div>
+              <div class="text-neutral-200 font-semibold">Ability — Habilidade</div>
+              <p class="text-neutral-400 text-sm mt-1">Capacidade de fazer na prática. Ofereça sandbox para experimentação sem risco. Hackathons internos. Mentoria de times técnicos para times de negócio. Medir e celebrar primeiros usos.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 bg-dark-700 rounded-xl p-4">
+            <div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+              <span class="text-rose-400 font-black text-lg">R</span>
+            </div>
+            <div>
+              <div class="text-neutral-200 font-semibold">Reinforcement — Reforço</div>
+              <p class="text-neutral-400 text-sm mt-1">Sustentar a mudança. Reconhecer e premiar adoção. Métricas de uso em dashboards de liderança. Comunidades internas de prática (CoP de IA). Compartilhamento de casos de sucesso em all-hands.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 mb-4">
+        <h3 class="text-neutral-200 font-semibold mb-3">Programa de AI Champions</h3>
+        <p class="text-neutral-400 text-sm mb-3">AI Champions são funcionários de alto desempenho (não necessariamente técnicos) que se tornam embaixadores internos da adoção de IA em seus times. São mais eficazes que treinamentos top-down porque:</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="bg-dark-700 rounded-lg p-3">
+            <div class="text-rose-400 text-sm font-semibold mb-1">Credibilidade Peer-to-Peer</div>
+            <p class="text-neutral-400 text-xs">Colegas confiam mais em quem faz o mesmo trabalho que em especialistas externos ou gestores.</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3">
+            <div class="text-rose-400 text-sm font-semibold mb-1">Contexto de Domínio</div>
+            <p class="text-neutral-400 text-xs">Sabem exatamente quais tarefas do time são candidatas a automação e como adaptar os agentes.</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3">
+            <div class="text-rose-400 text-sm font-semibold mb-1">Escala Orgânica</div>
+            <p class="text-neutral-400 text-xs">1 champion por time de 10 pessoas = adoção muito mais rápida que um time central de CoE tentando alcançar todos.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-5">
+        <h3 class="text-rose-400 font-semibold mb-2">Quick Wins: A Estratégia das Primeiras Vitórias</h3>
+        <p class="text-neutral-300 text-sm mb-3">Quick wins são essenciais para superar o ceticismo inicial e criar momentum. Escolha projetos com impacto visível em 2–4 semanas:</p>
+        <ul class="space-y-2 text-neutral-300 text-sm">
+          <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">1</span><strong>Resumo de reuniões</strong>: Agente que transcreve e resume reuniões. Impacto imediato, risco zero, adoção alta.</li>
+          <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">2</span><strong>Classificação de tickets</strong>: Triagem automática de suporte. Mensurável em dias, melhoria visível para time de CS.</li>
+          <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">3</span><strong>Gerador de relatórios</strong>: Relatório semanal de vendas gerado automaticamente de dados já existentes. Economiza 2h/semana por pessoa.</li>
+          <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">4</span><strong>FAQ inteligente</strong>: Chatbot interno para políticas de RH, TI, financeiro. Reduz interrupções do time de suporte interno.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Section 6: Maturidade Agentic -->
+    <section class="mb-10">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold text-lg flex-shrink-0">6</div>
+        <h2 class="text-2xl font-bold text-neutral-100">Modelo de Maturidade Agentic</h2>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-4">
+        <p class="text-neutral-300 mb-5">O modelo de maturidade agentic descreve a jornada de uma organização desde o uso casual de LLMs até a orquestração enterprise de múltiplos agentes autônomos. Use-o para diagnosticar onde sua empresa está e planejar o próximo nível.</p>
+
+        <div class="space-y-4">
+          <!-- Level 1 -->
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12">
+              <div class="w-12 h-12 rounded-full bg-neutral-600 flex items-center justify-center text-white font-black text-lg">1</div>
+            </div>
+            <div class="flex-1 bg-dark-700 rounded-xl p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-neutral-200 font-semibold">Prompt</span>
+                <span class="bg-neutral-600/50 text-neutral-400 text-xs px-2 py-0.5 rounded-full">Inicial</span>
+              </div>
+              <p class="text-neutral-400 text-sm mb-2">Uso individual e informal. Pessoas usam ChatGPT/Claude para tarefas pessoais. Sem política, sem registro, sem compartilhamento de boas práticas.</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-dark-900 text-neutral-400 px-2 py-1 rounded">Sem governança</span>
+                <span class="text-xs bg-dark-900 text-neutral-400 px-2 py-1 rounded">Ad hoc</span>
+                <span class="text-xs bg-dark-900 text-neutral-400 px-2 py-1 rounded">Individual</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Level 2 -->
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12">
+              <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-black text-lg">2</div>
+            </div>
+            <div class="flex-1 bg-dark-700 rounded-xl p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-neutral-200 font-semibold">Script</span>
+                <span class="bg-blue-600/20 text-blue-400 text-xs px-2 py-0.5 rounded-full border border-blue-600/30">Exploratório</span>
+              </div>
+              <p class="text-neutral-400 text-sm mb-2">Times técnicos criam scripts e automações simples com LLMs. Primeiros casos de uso em produção. Política básica começa a ser discutida.</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-dark-900 text-blue-400 px-2 py-1 rounded">Scripts Python</span>
+                <span class="text-xs bg-dark-900 text-blue-400 px-2 py-1 rounded">Primeiros prompts sistêmicos</span>
+                <span class="text-xs bg-dark-900 text-blue-400 px-2 py-1 rounded">Piloto técnico</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Level 3 -->
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12">
+              <div class="w-12 h-12 rounded-full bg-yellow-500 flex items-center justify-center text-dark-900 font-black text-lg">3</div>
+            </div>
+            <div class="flex-1 bg-dark-700 rounded-xl p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-neutral-200 font-semibold">Agente</span>
+                <span class="bg-yellow-500/20 text-yellow-400 text-xs px-2 py-0.5 rounded-full border border-yellow-500/30">Definido</span>
+              </div>
+              <p class="text-neutral-400 text-sm mb-2">Agentes com ferramentas em produção. Política de adoção formalizada. AI Council constituído. Agent Registry em uso. Primeiros casos de sucesso documentados e compartilhados.</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-dark-900 text-yellow-400 px-2 py-1 rounded">LLM + Tools</span>
+                <span class="text-xs bg-dark-900 text-yellow-400 px-2 py-1 rounded">Governança básica</span>
+                <span class="text-xs bg-dark-900 text-yellow-400 px-2 py-1 rounded">Registry ativo</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Level 4 -->
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12">
+              <div class="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center text-white font-black text-lg">4</div>
+            </div>
+            <div class="flex-1 bg-dark-700 rounded-xl p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-neutral-200 font-semibold">Multi-Agente</span>
+                <span class="bg-orange-500/20 text-orange-400 text-xs px-2 py-0.5 rounded-full border border-orange-500/30">Gerenciado</span>
+              </div>
+              <p class="text-neutral-400 text-sm mb-2">Múltiplos agentes colaboram em pipelines complexos. Plataforma interna de agentes (CoE de IA). FinOps para custos de LLM. Monitoramento centralizado. Champions em cada time.</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-dark-900 text-orange-400 px-2 py-1 rounded">Orquestração</span>
+                <span class="text-xs bg-dark-900 text-orange-400 px-2 py-1 rounded">Plataforma interna</span>
+                <span class="text-xs bg-dark-900 text-orange-400 px-2 py-1 rounded">FinOps ativo</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Level 5 -->
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12">
+              <div class="w-12 h-12 rounded-full bg-rose-500 flex items-center justify-center text-white font-black text-lg">5</div>
+            </div>
+            <div class="flex-1 bg-dark-700 rounded-xl p-4 border border-rose-500/30">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-neutral-200 font-semibold">Orquestrador Enterprise</span>
+                <span class="bg-rose-500/20 text-rose-400 text-xs px-2 py-0.5 rounded-full border border-rose-500/30">Otimizando</span>
+              </div>
+              <p class="text-neutral-400 text-sm mb-2">IA é capacidade organizacional central. Agentes autônomos em todos os processos críticos. Governança proativa com monitoramento contínuo. Modelo de maturidade medido em KPIs. Inovação contínua com feedback loops.</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-dark-900 text-rose-400 px-2 py-1 rounded">AI-native ops</span>
+                <span class="text-xs bg-dark-900 text-rose-400 px-2 py-1 rounded">Governança autônoma</span>
+                <span class="text-xs bg-dark-900 text-rose-400 px-2 py-1 rounded">Vantagem competitiva</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 mb-4">
+        <h3 class="text-neutral-200 font-semibold mb-3">Como Avançar de Nível</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-dark-600">
+                <th class="text-left text-neutral-400 font-medium pb-2 pr-4">De → Para</th>
+                <th class="text-left text-neutral-400 font-medium pb-2">Ação Principal</th>
+                <th class="text-left text-neutral-400 font-medium pb-2 pl-4">Tempo Típico</th>
+              </tr>
+            </thead>
+            <tbody class="text-neutral-300">
+              <tr class="border-b border-dark-700">
+                <td class="py-2 pr-4 text-neutral-400">Prompt → Script</td>
+                <td class="py-2">Formar grupo de trabalho técnico, primeiros projetos piloto, política básica de uso</td>
+                <td class="py-2 pl-4">1–3 meses</td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-2 pr-4 text-neutral-400">Script → Agente</td>
+                <td class="py-2">Constituir AI Council, criar Agent Registry, formalizar política de adoção, primeiro agente em produção</td>
+                <td class="py-2 pl-4">3–6 meses</td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-2 pr-4 text-neutral-400">Agente → Multi-Agente</td>
+                <td class="py-2">Plataforma interna (CoE), treinamento de Champions, FinOps, monitoramento centralizado</td>
+                <td class="py-2 pl-4">6–12 meses</td>
+              </tr>
+              <tr>
+                <td class="py-2 pr-4 text-neutral-400">Multi → Enterprise</td>
+                <td class="py-2">Governança autônoma, agentes nos processos críticos, IA como vantagem competitiva mensurável</td>
+                <td class="py-2 pl-4">12–24 meses</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-5">
+        <h3 class="text-rose-400 font-semibold mb-2">Onde a Maioria das Empresas Está em 2025</h3>
+        <p class="text-neutral-300 text-sm mb-3">Com base em dados de adoção de AI enterprise em 2025:</p>
+        <div class="grid grid-cols-5 gap-2 text-center text-xs">
+          <div class="bg-dark-800 rounded-lg p-2">
+            <div class="text-neutral-500 font-bold text-lg">5%</div>
+            <div class="text-neutral-500 mt-1">Nível 1</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-2">
+            <div class="text-blue-400 font-bold text-lg">35%</div>
+            <div class="text-neutral-500 mt-1">Nível 2</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-2">
+            <div class="text-yellow-400 font-bold text-lg">40%</div>
+            <div class="text-neutral-500 mt-1">Nível 3</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-2">
+            <div class="text-orange-400 font-bold text-lg">15%</div>
+            <div class="text-neutral-500 mt-1">Nível 4</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-2">
+            <div class="text-rose-400 font-bold text-lg">5%</div>
+            <div class="text-neutral-500 mt-1">Nível 5</div>
+          </div>
+        </div>
+        <p class="text-neutral-400 text-sm mt-3">A maioria está no nível 2–3, com pressão crescente para avançar. Empresas no nível 5 têm vantagem competitiva significativa e sustentável.</p>
+      </div>
+    </section>
+
+    <!-- Summary -->
+    <div class="bg-gradient-to-br from-rose-900/20 to-dark-800 border border-rose-500/20 rounded-2xl p-8 mb-8">
+      <h2 class="text-2xl font-bold text-neutral-100 mb-4">Resumo do Módulo</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div>
+          <h3 class="text-rose-400 font-semibold mb-3">Conceitos-chave</h3>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">•</span>Governance = políticas + processos + tecnologia para uso responsável de IA</li>
+            <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">•</span>AI Council com representantes de segurança, legal, técnico e negócio</li>
+            <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">•</span>Agent Registry como CMDB para agentes — rastreabilidade completa</li>
+            <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">•</span>Risk Assessment em 4 dimensões: dados, ações, impacto, reversibilidade</li>
+            <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">•</span>Change Management com ADKAR e programa de AI Champions</li>
+            <li class="flex items-start gap-2"><span class="text-rose-400 mt-0.5">•</span>5 níveis de maturidade agentic: Prompt → Script → Agente → Multi-Agente → Enterprise</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-rose-400 font-semibold mb-3">Para Implementar</h3>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start gap-2"><span class="text-neutral-500 mt-0.5">1.</span>Avalie o nível atual de maturidade agentic da sua organização</li>
+            <li class="flex items-start gap-2"><span class="text-neutral-500 mt-0.5">2.</span>Crie um AI Council mínimo (3 pessoas: tech, segurança, negócio)</li>
+            <li class="flex items-start gap-2"><span class="text-neutral-500 mt-0.5">3.</span>Faça inventário de agentes existentes (incluindo shadow AI)</li>
+            <li class="flex items-start gap-2"><span class="text-neutral-500 mt-0.5">4.</span>Aplique o Risk Assessment nos 3 agentes mais críticos</li>
+            <li class="flex items-start gap-2"><span class="text-neutral-500 mt-0.5">5.</span>Identifique um quick win por time para criar momentum</li>
+          </ul>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3 justify-start">
+        <a href="modulo-6-6.html" class="inline-flex items-center gap-2 px-6 py-3 bg-dark-700 hover:bg-dark-600 text-neutral-300 rounded-xl font-medium transition-colors">← 6.6 Gestão de Custos</a>
+        <a href="modulo-6-8.html" class="inline-flex items-center gap-2 px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-semibold transition-colors">Próximo: 6.8 Cases Reais →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="border-t border-dark-600 py-8 mt-12">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <p class="text-neutral-500 text-sm">Agentic Engineering Masterclass — <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    function updateIcons() {
+      if (document.documentElement.classList.contains('dark')) {
+        darkIcon.classList.add('hidden'); lightIcon.classList.remove('hidden');
+      } else {
+        lightIcon.classList.add('hidden'); darkIcon.classList.remove('hidden');
+      }
+    }
+    updateIcons();
+    themeToggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      updateIcons();
+    });
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+      updateIcons();
+    }
+  </script>
+</body>
+</html>
