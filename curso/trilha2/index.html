@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trilha 2 — Construção de Agentes | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block">
+            <span>Frameworks</span>
+          </a>
+          <a href="../trilha4/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors hidden lg:block">
+            <span>Multi-Agentes</span>
+          </a>
+          <a href="../trilha5/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors hidden lg:block">
+            <span>Orquestrador</span>
+          </a>
+          <a href="../trilha6/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors hidden lg:block">
+            <span>Enterprise</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER DA TRILHA -->
+  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4 tracking-wide">
+        TRILHA 2
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔧 Construção de Agentes</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Da teoria à prática: construa agentes reais com LLMs, memória, tools e padrões de raciocínio. Do LLM como cérebro até o primeiro agente completo com LangChain e rastreamento em produção.
+      </p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">8</div>
+          <div class="text-xs text-neutral-400">Módulos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">48</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">~6h</div>
+          <div class="text-xs text-neutral-400">Duração</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Inic.-Interm.</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVEGACAO RAPIDA -->
+  <div class="border-b border-dark-600 bg-dark-800/30">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2">
+        <a href="modulo-2-1.html" class="text-center px-3 py-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold hover:bg-blue-500/20 transition-colors">
+          <div class="text-lg mb-1">🧠</div>
+          <div>2.1 LLM Cérebro</div>
+        </a>
+        <a href="modulo-2-2.html" class="text-center px-3 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-blue-500/30 hover:text-blue-400 transition-colors">
+          <div class="text-lg mb-1">💾</div>
+          <div>2.2 Mem. Curta</div>
+        </a>
+        <a href="modulo-2-3.html" class="text-center px-3 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-blue-500/30 hover:text-blue-400 transition-colors">
+          <div class="text-lg mb-1">🗄️</div>
+          <div>2.3 RAG</div>
+        </a>
+        <a href="modulo-2-4.html" class="text-center px-3 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-blue-500/30 hover:text-blue-400 transition-colors">
+          <div class="text-lg mb-1">🔧</div>
+          <div>2.4 Tools</div>
+        </a>
+        <a href="modulo-2-5.html" class="text-center px-3 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-blue-500/30 hover:text-blue-400 transition-colors">
+          <div class="text-lg mb-1">🎯</div>
+          <div>2.5 Raciocínio</div>
+        </a>
+        <a href="modulo-2-6.html" class="text-center px-3 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-blue-500/30 hover:text-blue-400 transition-colors">
+          <div class="text-lg mb-1">🔌</div>
+          <div>2.6 MCP</div>
+        </a>
+        <a href="modulo-2-7.html" class="text-center px-3 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-blue-500/30 hover:text-blue-400 transition-colors">
+          <div class="text-lg mb-1">⚙️</div>
+          <div>2.7 LangChain</div>
+        </a>
+        <a href="modulo-2-8.html" class="text-center px-3 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-blue-500/30 hover:text-blue-400 transition-colors">
+          <div class="text-lg mb-1">🔍</div>
+          <div>2.8 Debug</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <div class="mb-6 flex items-center justify-between">
+      <h2 class="text-xl font-bold text-neutral-300">Conteúdo Detalhado</h2>
+      <span class="text-sm text-neutral-500">8 módulos · Clique para expandir tópicos</span>
+    </div>
+
+    <!-- ======== MODULO 2.1 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold text-lg">2.1</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~35 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🧠 LLM como cérebro</h3>
+        <p class="text-neutral-400 text-sm">Seleção de modelo, context window, temperatura, custo por token e como o LLM decide a próxima ação do agente.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🔍</span>
+            <div>
+              <span class="font-medium">Seleção de modelo</span>
+              <span class="text-neutral-500 text-sm ml-2">- Claude, GPT-4o, Gemini, Mistral</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Escolher o modelo certo é a primeira decisão de arquitetura de um agente. Claude 3.5, GPT-4o, Gemini Pro, Mistral e Llama têm capacidades e custos muito diferentes para casos de uso específicos.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Usar o modelo errado é a causa mais comum de custo explosivo ou resultado ruim. A escolha certa pode reduzir custo em 10x sem perder qualidade.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Capacidade de raciocínio · Velocidade de resposta · Custo por token · Suporte a function calling · Limite de contexto</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">📐</span>
+            <div>
+              <span class="font-medium">Context window na prática</span>
+              <span class="text-neutral-500 text-sm ml-2">- O que cabe em 200k tokens</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O context window é a memória de trabalho do LLM — tudo que ele pode "ver" ao mesmo tempo. Entender o que cabe nele (histórico, tools, documentos, instruções) é essencial para arquitetar bem.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Estourar o contexto derruba o agente. Não usar bem o contexto desperdiça capacidade. Saber estimar o tamanho em tokens de diferentes tipos de conteúdo é uma skill fundamental.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Tokenização · Estimativa de tokens por tipo de conteúdo · Context overflow · Long context vs. RAG · Custo do contexto cheio</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🌡️</span>
+            <div>
+              <span class="font-medium">Temperatura e criatividade</span>
+              <span class="text-neutral-500 text-sm ml-2">- 0.0 para código, 0.7 para texto</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Temperatura controla a aleatoriedade das respostas do LLM. Próximo de 0.0 dá respostas determinísticas e previsíveis. Próximo de 1.0 dá respostas mais criativas e variadas.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Temperatura errada é causa silenciosa de bugs difíceis de diagnosticar. Agente de código com temperatura alta produz código não-reproduzível. Agente criativo com temperatura 0 produz textos monótonos.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Temperature vs. top-p · Determinismo em agentes · Quando usar alta vs. baixa temperatura · Seed para reprodutibilidade</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">💰</span>
+            <div>
+              <span class="font-medium">Custo por token</span>
+              <span class="text-neutral-500 text-sm ml-2">- Calculando o custo real do agente</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Cada chamada ao LLM tem custo em input tokens + output tokens. Em um agente com loop, esses custos se multiplicam. Saber calcular o custo real por tarefa é fundamental para viabilidade econômica.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Agentes sem controle de custo geram surpresas no final do mês. Com planejamento correto, você sabe antes quanto cada tarefa vai custar e define budget limits.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Input vs. output pricing · Cache de prompt · Custo por iteração · Budget limits · ROI do agente</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">⚖️</span>
+            <div>
+              <span class="font-medium">Modelos pequenos vs grandes</span>
+              <span class="text-neutral-500 text-sm ml-2">- Quando usar cada um</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">A estratégia de usar modelos diferentes para etapas diferentes do agente. Modelo grande (GPT-4o, Claude Opus) para planejamento complexo; modelo pequeno (Haiku, GPT-4o-mini) para execução simples e repetitiva.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Reduz custo em 80-90% nas etapas de execução sem sacrificar qualidade no planejamento. É a diferença entre um agente economicamente viável e um que custa proibitivo em escala.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Modelos frontier vs. small · Hierarquia de modelos · Routing por complexidade · Latência vs. custo · SLAs por etapa</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🧭</span>
+            <div>
+              <span class="font-medium">Como o LLM decide a próxima ação</span>
+              <span class="text-neutral-500 text-sm ml-2">- Interpretação de tools e decisão</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O processo interno pelo qual o LLM interpreta o estado atual, avalia as tools disponíveis e decide: responder ao usuário, chamar uma tool ou pedir mais informações. É o "cérebro" do loop agentic.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Entender esse processo permite escrever prompts e schemas de tools que guiam o LLM a tomar as decisões corretas, evitando loops infinitos e chamadas desnecessárias.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">System prompt como constituição · Tool schema como menu de ações · Condição de parada · Critério de escolha de tool · Stop sequences</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-1')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-2-1.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 2.2 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold text-lg">2.2</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">💾 Memória Curto Prazo</h3>
+        <p class="text-neutral-400 text-sm">Buffer de conversa, sliding window, resumo automático e estratégias de compressão quando o contexto está cheio.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">📝</span>
+            <div><span class="font-medium">Buffer de conversa</span><span class="text-neutral-500 text-sm ml-2">- Como o agente lembra do que aconteceu</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O buffer de conversa é a lista de mensagens (user + assistant) passada para o LLM a cada chamada. É a forma mais simples de dar memória ao agente dentro de uma sessão.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem buffer, cada chamada ao LLM começa do zero — o agente "esquece" tudo. Com buffer mal gerenciado, o contexto explode e a chamada falha ou fica cara demais.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">ConversationBufferMemory · Formato de mensagens (role/content) · Tamanho do histórico · Custo acumulado por iteração</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🪟</span>
+            <div><span class="font-medium">Sliding window</span><span class="text-neutral-500 text-sm ml-2">- Janela deslizante de mensagens</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Técnica que mantém apenas as N mensagens mais recentes no contexto, descartando as antigas. Resolve o problema de crescimento infinito do buffer.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">É a solução mais simples para evitar context overflow. O custo por chamada fica previsível e estável, mesmo em conversas longas.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Window size · FIFO de mensagens · Perda de contexto histórico · ConversationBufferWindowMemory · Trade-off memória vs. custo</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">📋</span>
+            <div><span class="font-medium">Resumo automático</span><span class="text-neutral-500 text-sm ml-2">- Comprimindo o histórico com LLM</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Quando o contexto está prestes a estourar, um LLM (geralmente pequeno) sumariza o histórico antigo em texto comprimido. O sumário substitui as mensagens originais no contexto.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Preserva a essência da conversa sem estourar o contexto. Melhor que sliding window quando o histórico contém informações críticas que não podem ser descartadas.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">ConversationSummaryMemory · Trigger de sumarização · Qualidade do sumário · Custo extra da chamada de resumo · Degradação progressiva</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">💥</span>
+            <div><span class="font-medium">Problema do contexto longo</span><span class="text-neutral-500 text-sm ml-2">- Lost in the middle</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">LLMs têm dificuldade em usar informações do meio de um contexto muito longo ("lost in the middle"). As informações no início e no fim são usadas melhor do que as do centro.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Contexto longo não é garantia de melhor resultado. Em alguns casos, menos contexto mais relevante supera contexto enorme com ruído. Isso impacta diretamente o design do agente.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Lost in the middle · Primacy/recency effect · Relevância vs. tamanho · Ordenação estratégica do contexto · Chunk filtering</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🗜️</span>
+            <div><span class="font-medium">Estratégias de compressão</span><span class="text-neutral-500 text-sm ml-2">- Sumarização e extração de fatos</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Técnicas avançadas de compressão além da sliding window: extração de fatos-chave em lista estruturada, sumarização por tópico, e compressão semântica que preserva o essencial.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Diferentes casos de uso requerem diferentes estratégias. Um agente de suporte precisa de estratégia diferente de um agente de pesquisa. Conhecer o arsenal permite escolher a ferramenta certa.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Extração de entidades · Fact list compression · Entity memory · Hybrid memory · Compressão por importância</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔴</span>
+            <div><span class="font-medium">Quando a memória curta falha</span><span class="text-neutral-500 text-sm ml-2">- Diagnosticando problemas</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Sintomas e causas de falhas de memória curta: agente esquece informações críticas, contradiz respostas anteriores, ou repete perguntas já respondidas. Como identificar e diagnosticar cada caso.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Bugs de memória são difíceis de diagnosticar porque o agente "parece" funcionar mas produz resultados inconsistentes. Saber os padrões de falha economiza horas de debug.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Context truncation silenciosa · Inconsistência entre turnos · Esquecimento de instrução · Debug de histórico · Testes de regressão de memória</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-2')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-2-2.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 2.3 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold text-lg">2.3</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~45 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🗄️ Memória Longo Prazo e RAG</h3>
+        <p class="text-neutral-400 text-sm">Embeddings, FAISS e Chroma na prática, pipeline RAG completo e como debugar retrieval ruim.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🧠</span>
+            <div><span class="font-medium">O problema da amnésia</span><span class="text-neutral-500 text-sm ml-2">- Por que o agente precisa de memória persistente</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Agentes sem memória longo prazo começam do zero em cada sessão. Para um agente de suporte, isso significa esquecer o histórico do cliente. Para um agente de pesquisa, esquecer o que já foi descoberto.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Memória longo prazo é o que separa um agente útil de um agente brinquedo. Sem ela, você não constrói sistemas que ficam mais inteligentes com o tempo.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Sessão vs. persistência · Tipos de memória (episódica, semântica, procedural) · Quando RAG vs. fine-tuning · Custo de persistência</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🗃️</span>
+            <div><span class="font-medium">Bancos vetoriais: FAISS e Chroma</span><span class="text-neutral-500 text-sm ml-2">- Armazenando semântica</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">FAISS (Meta) e Chroma são bancos de dados especializados em armazenar e buscar vetores de embeddings. Permitem encontrar documentos semanticamente similares a uma query em milissegundos.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">São a base de qualquer sistema RAG. FAISS é rápido e local; Chroma é fácil de usar e tem metadata filtering. Escolher e usar o banco certo é skill central em RAG.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Similaridade cosseno · HNSW index · Metadata filtering · Persistência em disco · Escalabilidade: FAISS vs. Chroma vs. Pinecone</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔢</span>
+            <div><span class="font-medium">Embeddings na prática</span><span class="text-neutral-500 text-sm ml-2">- Texto como posição no espaço semântico</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Embeddings transformam texto em vetores numéricos de alta dimensão onde textos com significado similar ficam próximos no espaço. "Cachorro" e "cão" ficam perto; "cachorro" e "avião" ficam distantes.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Entender embeddings permite escolher o modelo de embedding correto, determinar o tamanho ideal dos chunks e debugar quando a busca retorna resultados irrelevantes.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Dimensionalidade do vetor · text-embedding-3-small vs. large · Chunk size · Overlap · Qualidade de embedding por domínio</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔄</span>
+            <div><span class="font-medium">Pipeline RAG completo</span><span class="text-neutral-500 text-sm ml-2">- Indexar, recuperar, injetar, responder</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O pipeline completo de RAG em 4 fases: (1) Indexação — chunking e embedding dos documentos; (2) Recuperação — busca vetorial por similaridade; (3) Injeção — adicionar chunks ao contexto; (4) Geração — LLM responde com o contexto.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">RAG é a técnica mais usada para dar conhecimento especializado a agentes sem fine-tuning. Entender o pipeline completo permite otimizar cada fase separadamente.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Document loaders · Text splitters · Retriever · top-k · Score threshold · Prompt template com contexto</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🐛</span>
+            <div><span class="font-medium">Debug de retrieval ruim</span><span class="text-neutral-500 text-sm ml-2">- Chunk size, top-k, threshold</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Quando o RAG retorna chunks irrelevantes, o problema pode ser: chunk muito pequeno (perde contexto), chunk muito grande (dilui o sinal), top-k baixo (perde o chunk relevante) ou threshold errado (inclui lixo).</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">"O RAG não funciona" é o bug mais comum e menos bem diagnosticado. Saber identificar qual fase do pipeline está falhando economiza dias de trabalho.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Chunk size 256 vs. 512 vs. 1024 · MMR retrieval · Hybrid search · Reranking · Evaluation com RAGAS</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">💸</span>
+            <div><span class="font-medium">Custo de memória vetorial</span><span class="text-neutral-500 text-sm ml-2">- Indexação e busca em escala</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Custo de um sistema RAG tem duas partes: indexação (embedding de todos os documentos — pago uma vez) e busca (embedding da query a cada chamada — pago sempre). Em escala, esses custos ficam significativos.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Um corpus de 10.000 documentos pode custar centavos para indexar mas dólares por dia em buscas. Planejamento de custo de RAG é diferente de planejamento de custo de LLM.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Custo de embedding por token · Cache de embeddings · Custos de vector DB hosted (Pinecone) vs. self-hosted (FAISS) · Atualização incremental de índice</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-3')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-2-3.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 2.4 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold text-lg">2.4</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~40 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔧 Tools e Function Calling</h3>
+        <p class="text-neutral-400 text-sm">JSON Schema para tools, structured outputs com Pydantic, tools customizadas, chaining e segurança.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🔩</span>
+            <div><span class="font-medium">O que são tools</span><span class="text-neutral-500 text-sm ml-2">- Extensão de capacidade do LLM</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Tools são funções externas que o LLM pode chamar para executar ações além de gerar texto: buscar na web, ler arquivos, consultar banco de dados, chamar APIs, executar código.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem tools, o agente é apenas um gerador de texto sofisticado. Com tools, ele pode agir no mundo real. Tools são o que transforma um LLM em um agente executável.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Function calling · Tool use · Tool schema · Tool result injection · Ciclo: LLM decide → tool executa → resultado volta ao LLM</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">📄</span>
+            <div><span class="font-medium">JSON Schema para tools</span><span class="text-neutral-500 text-sm ml-2">- Anatomia de um tool schema</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Cada tool é definida por um JSON Schema com: name (identificador), description (o LLM usa isso para decidir quando chamar), parameters (o que precisa ser passado) e required (campos obrigatórios).</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">A qualidade da description determina se o LLM vai chamar a tool certa na hora certa. Um schema mal descrito faz o agente ignorar tools disponíveis ou chamar a errada.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">OpenAI function calling format · Anthropic tool use format · Description como instrução · Type annotations · Enum parameters</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🏗️</span>
+            <div><span class="font-medium">Structured outputs com Pydantic</span><span class="text-neutral-500 text-sm ml-2">- Saídas tipadas e validadas</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Pydantic permite definir modelos de dados que o LLM deve seguir ao responder. A resposta do LLM é validada e parseada automaticamente em objetos Python tipados, eliminando parsing manual e erros de formato.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Agentes que dependem de parsing manual de texto quebram facilmente. Structured outputs garantem que a saída do LLM seja sempre válida e utilizável pelo código seguinte.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">BaseModel · Field com description · response_format · Nested models · Validation errors e retry · instructor library</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🛠️</span>
+            <div><span class="font-medium">Criando tools customizadas</span><span class="text-neutral-500 text-sm ml-2">- Busca web, calculadora, leitor de arquivo</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Qualquer função Python pode se tornar uma tool. Exemplos práticos: busca web com Tavily, calculadora com eval seguro, leitor de arquivo com tratamento de encoding. Cada uma com schema JSON correto.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Tools customizadas são o coração do valor que você entrega. A diferença entre um agente genérico e um agente útil para seu negócio está nas tools específicas que você cria.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">@tool decorator · StructuredTool · Tool com estado · Async tools · Error handling na tool · Retorno padronizado</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">⛓️</span>
+            <div><span class="font-medium">Tool chaining</span><span class="text-neutral-500 text-sm ml-2">- Saída de uma vira entrada de outra</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O agente usa o resultado de uma tool como input para chamar outra. Exemplo: busca web → extrai dados relevantes → chama API com esses dados → sumariza resultado. Cada etapa depende da anterior.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Tool chaining é o que permite tarefas complexas de múltiplas etapas. É também onde a maioria dos bugs ocorre — a saída da tool A não é o formato esperado pela tool B.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Tool result parsing · Passagem de estado entre tools · Dependência entre tools · Erro de chaining · Retry em falhas parciais</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔒</span>
+            <div><span class="font-medium">Segurança de tools</span><span class="text-neutral-500 text-sm ml-2">- Validar input, limitar ações, logs</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Tools sem proteção são vetores de ataque. Um agente pode ser induzido (prompt injection) a chamar tools com parâmetros maliciosos. Validação de input, allowlists de ações e logging obrigatório são as defesas essenciais.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Em produção, tools têm acesso a sistemas reais. Um agente comprometido que pode deletar arquivos, enviar emails ou fazer transações é um risco crítico de negócio.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Prompt injection · Input sanitization · Allowlist de operações · Human-in-the-loop para ações críticas · Audit log de tool calls</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-4')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-2-4.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 2.5 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold text-lg">2.5</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~40 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🎯 Padrões de Raciocínio</h3>
+        <p class="text-neutral-400 text-sm">Chain-of-Thought, ReAct, Plan-and-Execute, Reflexion e quando usar cada padrão por tipo de problema.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">💭</span>
+            <div><span class="font-medium">Chain-of-Thought</span><span class="text-neutral-500 text-sm ml-2">- LLM pensando em voz alta</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Chain-of-Thought (CoT) é a técnica de fazer o LLM explicitar seu raciocínio passo a passo antes de dar a resposta final. "Pense passo a passo" melhora significativamente a qualidade em problemas complexos.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">CoT melhora até 40% a precisão em problemas de lógica e matemática. É o padrão mais simples de implementar e o ponto de partida antes de qualquer padrão mais sofisticado.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Zero-shot CoT ("think step by step") · Few-shot CoT (exemplos de raciocínio) · Scratchpad interno · CoT em tool selection · Custo extra de tokens</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">⚡</span>
+            <div><span class="font-medium">ReAct: Reason + Act</span><span class="text-neutral-500 text-sm ml-2">- O padrão mais usado em agentes</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">ReAct intercala Pensamento (Thought), Ação (Action) e Observação (Observation) em loop. O LLM pensa em voz alta, chama uma tool, observa o resultado e repete até ter a resposta final.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">É o padrão default do LangChain AgentExecutor e do maioria dos frameworks. Entender ReAct é entender como 80% dos agentes em produção funcionam hoje.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Thought/Action/Observation loop · Trace de raciocínio · Tool selection pelo pensamento · Condição de parada · Número máximo de iterações</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">📋</span>
+            <div><span class="font-medium">Plan-and-Execute</span><span class="text-neutral-500 text-sm ml-2">- Planejar tudo primeiro, executar depois</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Separa o agente em dois: um Planner (LLM grande) que cria o plano completo da tarefa, e um Executor (LLM pequeno) que executa cada passo do plano. Reduz custo drasticamente nas etapas de execução.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Para tarefas longas com muitos passos previsíveis, Plan-and-Execute reduz custo em até 90% em relação ao ReAct puro (que usa modelo caro a cada iteração). É o padrão de agentes de produção custosos.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Planner vs. Executor · Plan como lista de passos · Replanejamento quando passo falha · DAG de dependências · Hierarquia de modelos por custo</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔁</span>
+            <div><span class="font-medium">Reflexion pattern</span><span class="text-neutral-500 text-sm ml-2">- Agente critica sua própria resposta</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Após gerar uma resposta, o agente usa um segundo LLM (ou o mesmo com prompt diferente) para criticar a resposta, identificar erros e sugerir melhorias. A resposta melhorada passa por nova rodada de crítica.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Melhora qualidade significativamente em tarefas criativas, código e análise crítica. O agente que se auto-corrige frequentemente supera o agente que tenta acertar de primeira.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Actor vs. Critic · Self-critique prompt · Número de iterações de refinamento · Critério de qualidade · Custo vs. ganho de qualidade</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🗺️</span>
+            <div><span class="font-medium">Quando usar cada padrão</span><span class="text-neutral-500 text-sm ml-2">- Por tipo de problema</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Guia prático: CoT para problemas analíticos pontuais, ReAct para exploração com tools, Plan-and-Execute para pipelines longos e previsíveis, Reflexion para geração de alta qualidade onde erro é caro.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Usar o padrão errado é gastar dinheiro sem ganhar qualidade. A escolha correta depende de: número de passos, previsibilidade da tarefa, tolerância a custo e requisito de qualidade.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Dimensões de escolha: latência, custo, qualidade, previsibilidade · Combinação de padrões · Padrão por domínio (código, escrita, análise, pesquisa)</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">💰</span>
+            <div><span class="font-medium">Custo vs. qualidade por padrão</span><span class="text-neutral-500 text-sm ml-2">- Impacto real em tokens</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Análise comparativa de custo em tokens por padrão: CoT gasta ~2x mais tokens que prompt direto. ReAct gasta N×(raciocínio + context) por iteração. Reflexion gasta 3-5x mais mas pode ser necessário.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Decisão de arquitetura com impacto financeiro direto. Um agente de produção com milhares de execuções diárias pode ter 10x diferença de custo dependendo do padrão escolhido.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Token budget por padrão · Custo por tarefa completa · Quality-cost tradeoff · Benchmark de qualidade · Break-even analysis</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-5')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-2-5.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 2.6 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold text-lg">2.6</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~35 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔌 MCP na Prática</h3>
+        <p class="text-neutral-400 text-sm">Model Context Protocol: arquitetura servidor/cliente, conectando banco de dados e APIs externas, e criando seu primeiro servidor MCP.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🔌</span>
+            <div><span class="font-medium">O que é MCP</span><span class="text-neutral-500 text-sm ml-2">- USB dos agentes</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Model Context Protocol (MCP) é o padrão aberto da Anthropic para conectar agentes a ferramentas externas de forma padronizada. Assim como USB padronizou periféricos, MCP padroniza a conexão de tools a agentes.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">MCP está rapidamente se tornando o padrão da indústria. Ferramentas que suportam MCP funcionam automaticamente com qualquer cliente MCP — você escreve uma vez e usa em qualquer agente.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Protocolo aberto · Servidor MCP · Cliente MCP · Transport (stdio, HTTP) · Tool discovery automático · Adoção pela indústria</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🏗️</span>
+            <div><span class="font-medium">Arquitetura servidor/cliente</span><span class="text-neutral-500 text-sm ml-2">- Como o MCP funciona</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O servidor MCP expõe tools (funções) via protocolo padronizado. O cliente MCP (o agente) descobre e chama essas tools. A comunicação pode ser via stdio (processo local) ou HTTP (serviço remoto).</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Entender a arquitetura permite depurar problemas de conexão, escolher o transport correto (stdio para local, HTTP para produção) e escalar servidores MCP independentemente dos agentes.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">JSON-RPC 2.0 · Tool registration · Tool invocation · Stdio transport · HTTP + SSE · Lifecycle de conexão</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🗃️</span>
+            <div><span class="font-medium">Conectando banco de dados via MCP</span><span class="text-neutral-500 text-sm ml-2">- Postgres em 10 linhas</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Usando o servidor MCP oficial de Postgres, você conecta qualquer agente ao seu banco de dados em minutos. O agente pode executar queries, listar tabelas e analisar dados sem nenhum código extra.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Conectar o agente ao banco de dados transforma consultas em linguagem natural em resultados reais. É um dos casos de uso de maior ROI imediato para agentes em empresas com dados estruturados.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">mcp-server-postgres · Connection string · Read-only vs. read-write · SQL sanitization · Permissões mínimas · Schema discovery</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🌐</span>
+            <div><span class="font-medium">Conectando APIs externas</span><span class="text-neutral-500 text-sm ml-2">- API REST como servidor MCP</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Qualquer API REST pode ser exposta como servidor MCP. Você define as tools (endpoints) com seus schemas e o agente passa a poder chamar a API naturalmente, como se fosse uma função Python.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Permite integrar CRMs, ERPs, APIs de pagamento e qualquer serviço externo ao agente sem escrever código de integração customizado. Um servidor MCP bem feito é reutilizável por múltiplos agentes.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">API wrapper como MCP server · Auth handling (Bearer token) · Rate limiting · Error propagation · OpenAPI → MCP conversion</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🤖</span>
+            <div><span class="font-medium">MCP no Claude Code</span><span class="text-neutral-500 text-sm ml-2">- Exemplo prático real</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Claude Code usa MCP nativamente para se conectar a ferramentas externas. Exemplo: adicionar um servidor MCP de Jira permite que o Claude Code leia issues e crie PRs linkados diretamente à tarefa.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ver MCP em ação em um produto real (Claude Code) torna concreto o que era abstrato. Você vê exatamente como a configuração se traduz em comportamento do agente.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">claude_desktop_config.json · mcpServers section · Servidor local vs. remoto · Tool approval no Claude · Debug de MCP connection</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🏗️</span>
+            <div><span class="font-medium">Criando seu primeiro servidor MCP</span><span class="text-neutral-500 text-sm ml-2">- Python mínimo funcional</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Com o SDK oficial do MCP em Python, você cria um servidor funcional em menos de 30 linhas. Define ferramentas com decorator @server.tool(), implementa a lógica e registra no cliente.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Criar servidores MCP próprios permite expor qualquer lógica de negócio como tool reutilizável. É a base para construir um ecossistema de ferramentas compartilhadas entre múltiplos agentes.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">mcp Python SDK · @server.tool decorator · Tool schema gerado automaticamente · stdio_server() · Testando com MCP Inspector · Publicando para outros agentes</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-6')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-2-6.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 2.7 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold text-lg">2.7</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">⚙️ Primeiro Agente Real com LangChain</h3>
+        <p class="text-neutral-400 text-sm">AgentExecutor vs. LCEL, memória, tools LangChain e projeto completo: assistente de email com depuração.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🧩</span>
+            <div><span class="font-medium">Por que LangChain existe</span><span class="text-neutral-500 text-sm ml-2">- Abstraindo a complexidade do loop</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">LangChain abstrai o loop agentic (chamar LLM → processar tool call → retornar resultado → chamar LLM de novo) em componentes reutilizáveis: chains, tools, memory, agents — sem você reescrever o boilerplate.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">É o framework mais adotado do ecossistema Python para agentes. Saber LangChain significa acesso a centenas de integrações prontas (tools, vectorstores, LLMs) sem implementar do zero.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Chain abstraction · LLM interface unificada · Integrations ecosystem · Quando LangChain ajuda vs. quando complica · Alternativas: LlamaIndex, smolagents</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🆚</span>
+            <div><span class="font-medium">AgentExecutor vs. LCEL</span><span class="text-neutral-500 text-sm ml-2">- O jeito antigo vs. o jeito novo</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">AgentExecutor é a API legada que ainda domina tutoriais. LCEL (LangChain Expression Language) é o novo paradigma baseado em composição de Runnables com operador |. LCEL é mais flexível e observável.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Você vai encontrar ambos na prática. Entender a diferença evita usar API depreciada em código novo e permite migrar projetos legados para LCEL de forma consciente.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Runnable interface · Pipe operator (|) · invoke vs. stream · create_react_agent + AgentExecutor · LCEL com RunnableWithMessageHistory</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">💾</span>
+            <div><span class="font-medium">Adicionando memória</span><span class="text-neutral-500 text-sm ml-2">- ConversationBufferMemory ao agente</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Adicionando ConversationBufferMemory ou RunnableWithMessageHistory ao agente para que ele lembre o histórico da conversa entre chamadas. Inclui persistência em SQLite para memória entre sessões.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem memória, cada interação com o agente começa do zero. Com memória bem implementada, o agente acumula contexto e fica progressivamente mais útil ao longo de uma conversa.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">memory_key · return_messages · session_id · ChatMessageHistory · SQLChatMessageHistory · Passagem de memória para o prompt</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🛠️</span>
+            <div><span class="font-medium">Tools com LangChain</span><span class="text-neutral-500 text-sm ml-2">- Decorator @tool e StructuredTool</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">LangChain tem dois jeitos de criar tools: @tool decorator (simples, gera schema automaticamente da docstring) e StructuredTool.from_function() (para tools com múltiplos parâmetros tipados com Pydantic).</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Criar tools corretas em LangChain é o que permite ao AgentExecutor ou LCEL chamar funções externas. A docstring da tool diretamente influencia quando e como o LLM a usa.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">@tool decorator · args_schema com Pydantic · handle_tool_error · Tool com async · Passando state para tools · DuckDuckGoSearchRun, TavilySearchResults</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">📧</span>
+            <div><span class="font-medium">Projeto: assistente de email</span><span class="text-neutral-500 text-sm ml-2">- Código funcional completo</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Projeto completo: agente que lê emails de uma caixa de entrada simulada, classifica por prioridade (urgente/normal/spam), e rascunha respostas personalizadas para os urgentes. Código funcional e comentado.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Projeto real que integra todos os conceitos: tools customizadas, memória, LLM como decisor. Ao final você tem um agente funcional que pode ser adaptado para seu próprio caso de uso.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Tool: read_inbox, classify_email, draft_reply · System prompt especializado · Structured output para classificação · Loop de processamento · Logging de decisões</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🐛</span>
+            <div><span class="font-medium">Depurando com prints e logs</span><span class="text-neutral-500 text-sm ml-2">- Sem LangSmith</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Técnicas de debug sem ferramentas externas: verbose=True no AgentExecutor, callbacks customizados que printam cada step, logging estruturado de tool calls e rastreamento manual do loop agentic.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">LangSmith não está sempre disponível e tem custo. Saber debugar com ferramentas básicas garante que você possa diagnosticar problemas em qualquer ambiente, inclusive produção com acesso limitado.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">verbose=True · BaseCallbackHandler · on_tool_start/end · on_llm_start/end · Logging de input/output de cada step · Identificando o passo que falhou</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-7')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-2-7.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 2.8 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold text-lg">2.8</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~40 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔍 Depuração e Rastreamento</h3>
+        <p class="text-neutral-400 text-sm">LangSmith na prática, rastreando chamadas de LLM, identificando falhas, métricas de qualidade e boas práticas de logging.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">❓</span>
+            <div><span class="font-medium">Por que agentes são difíceis de debugar</span><span class="text-neutral-500 text-sm ml-2">- Não-determinismo e loop</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Agentes são não-determinísticos (o LLM pode tomar decisões diferentes com o mesmo input), têm múltiplas etapas interdependentes, e o erro em uma etapa pode se manifestar como resultado incorreto muito depois.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Entender por que agentes são difíceis de debugar é o primeiro passo para debugar bem. Aplicar técnicas de script sequencial em um agente não-determinístico é uma armadilha comum.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Não-determinismo do LLM · Propagação de erro entre steps · Dependência de estado externo · Reproduzibilidade de bugs · Por que logs são obrigatórios</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🔬</span>
+            <div><span class="font-medium">LangSmith: configuração</span><span class="text-neutral-500 text-sm ml-2">- Em 3 minutos</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">LangSmith é a plataforma de observabilidade oficial do LangChain. Com 3 variáveis de ambiente (LANGCHAIN_TRACING_V2, LANGCHAIN_API_KEY, LANGCHAIN_PROJECT), toda execução do agente fica visível como trace.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">LangSmith transforma o debug de agentes de "imprimir prints aleatórios" para "visualizar o grafo de execução completo". É o maior ganho de produtividade em debugging de agentes disponível hoje.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">LANGCHAIN_TRACING_V2=true · LANGCHAIN_API_KEY · LANGCHAIN_PROJECT · Tier gratuito (generoso) · Traces automáticos sem código extra</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🌲</span>
+            <div><span class="font-medium">Rastreando chamadas de LLM</span><span class="text-neutral-500 text-sm ml-2">- Trace completo no LangSmith</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">No LangSmith, cada execução do agente aparece como uma árvore de nós: cada LLM call, cada tool call, cada chain é um nó com input, output, latência e custo. Você vê exatamente o que aconteceu.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Visualizar a trace completa reduz o tempo de debug de horas para minutos. Você vê qual LLM call gerou o raciocínio errado, qual tool retornou o resultado inesperado, e onde o loop entrou em crise.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Trace tree · Run hierarchy · LLM span · Tool span · Tokens por nó · Latência por nó · Exportar trace para compartilhar</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🎯</span>
+            <div><span class="font-medium">Identificando onde falhou</span><span class="text-neutral-500 text-sm ml-2">- A chamada que causou o problema</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Metodologia para identificar a root cause de uma falha no agente: começar pelo output incorreto, rastrear para trás na trace, identificar qual step introduziu o erro e determinar se é bug do prompt, da tool ou do código.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem metodologia, o debug de agentes é um caça-fantasmas. Com metodologia de rastreamento reverso, você encontra a root cause em minutos mesmo em agentes com dezenas de steps.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Rastreamento reverso · Comparação de traces (run ok vs. run com erro) · Erro de prompt vs. erro de tool vs. erro de lógica · Anotações no LangSmith · Replay de trace</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">📊</span>
+            <div><span class="font-medium">Avaliação de qualidade</span><span class="text-neutral-500 text-sm ml-2">- Latência, custo, success rate</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Métricas objetivas para avaliar agentes em produção: latência p50/p95 por tarefa, custo médio por execução, taxa de sucesso (tarefa completada sem erro), taxa de fallback e satisfação do usuário.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem métricas, você não sabe se o agente está melhorando ou piorando com mudanças. Métricas permitem detectar regressões antes que o usuário reclame e justificar investimentos com dados.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Datasets no LangSmith · Evaluators customizados · LLM-as-judge · Success rate tracking · Cost per run dashboard · Alertas de threshold</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📝</span>
+            <div><span class="font-medium">Boas práticas de logging</span><span class="text-neutral-500 text-sm ml-2">- Agentes em produção</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-blue-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Padrões de logging para agentes em produção: logar cada tool call com input/output/custo/latência, logar decisões do LLM, usar correlation IDs para rastrear execuções, e definir níveis de log por ambiente.</p></div>
+              <div><span class="text-blue-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Um agente sem logs é uma caixa preta em produção. Quando algo falha (e vai falhar), os logs são a única forma de entender o que aconteceu sem reproduzir o problema.</p></div>
+              <div><span class="text-blue-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Structured logging (JSON) · Correlation ID · Log de tool call com latência · Log de decisão do LLM · Retention policy · Alertas em produção</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-8')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-2-8.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- NAVEGACAO INFERIOR -->
+    <div class="flex flex-col sm:flex-row gap-4 mt-8">
+      <a href="../trilha1/index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+        ← Trilha 1: Mentalidade Agentic
+      </a>
+      <a href="../trilha3/index.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">
+        Trilha 3: Frameworks →
+      </a>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <!-- MODALS -->
+  <div id="modal-2-1" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-blue-400 font-bold">2.1</span><span class="font-semibold">🧠 LLM como cérebro</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-2-1.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-2-2" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-blue-400 font-bold">2.2</span><span class="font-semibold">💾 Memória Curto Prazo</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-2-2.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-2-3" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-blue-400 font-bold">2.3</span><span class="font-semibold">🗄️ Memória Longo Prazo e RAG</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-2-3.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-2-4" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-blue-400 font-bold">2.4</span><span class="font-semibold">🔧 Tools e Function Calling</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-2-4.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-2-5" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-blue-400 font-bold">2.5</span><span class="font-semibold">🎯 Padrões de Raciocínio</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-2-5.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-2-6" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-blue-400 font-bold">2.6</span><span class="font-semibold">🔌 MCP na Prática</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-2-6.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-2-7" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-blue-400 font-bold">2.7</span><span class="font-semibold">⚙️ Primeiro Agente Real com LangChain</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-2-7.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-2-8" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-blue-400 font-bold">2.8</span><span class="font-semibold">🔍 Depuração e Rastreamento</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-2-8.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <script>
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const moduleCard = button.closest('.bg-dark-800');
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) exp.classList.remove('active');
+      });
+      explanation.classList.toggle('active');
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+    }
+
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(modal => modal.classList.add('hidden'));
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

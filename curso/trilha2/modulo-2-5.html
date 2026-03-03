@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2.5 Padrões de Raciocínio | Trilha 2 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span></a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block">Frameworks</a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-blue-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-blue-400 transition-colors">Trilha 2 — Construção de Agentes</a>
+      <span>/</span>
+      <span class="text-blue-400">Módulo 2.5</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 2.5</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🎯 Padrões de Raciocínio</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Chain-of-Thought, ReAct, Plan-and-Execute e Reflexion: os 4 padrões fundamentais que governam como agentes pensam e tomam decisões, com análise de custo e qualidade por padrão.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">40</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Intermediário</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Teoria+Prática</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">💭 Chain-of-Thought (CoT)</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Chain-of-Thought é a técnica de fazer o LLM <strong class="text-blue-400">explicitar seu raciocínio passo a passo</strong> antes de dar a resposta final. Em vez de ir direto ao resultado, o modelo "pensa em voz alta" — e isso melhora significativamente a qualidade em problemas complexos.
+      </p>
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">Comparação: sem CoT vs. com CoT</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-neutral-500 text-xs font-semibold mb-2">SEM CoT</p>
+            <p class="text-xs text-neutral-400 mb-2">Prompt: "Se João tem 3 vezes mais maçãs que Maria, e Maria tem 8, quantas maçãs João tem?"</p>
+            <p class="text-xs text-neutral-300">→ Resposta: "João tem 11 maçãs."</p>
+            <p class="text-xs text-red-400 mt-1">✗ Errado (3×8 = 24, não 11)</p>
+          </div>
+          <div class="bg-blue-900/30 rounded-lg p-4 border border-blue-500/20">
+            <p class="text-blue-400 text-xs font-semibold mb-2">COM CoT ("pense passo a passo")</p>
+            <p class="text-xs text-neutral-400 mb-2">Mesmo prompt + "Pense passo a passo antes de responder."</p>
+            <p class="text-xs text-neutral-300">→ "Maria tem 8 maçãs. João tem 3 vezes mais, então João tem 3 × 8 = 24 maçãs."</p>
+            <p class="text-xs text-emerald-400 mt-1">✓ Correto</p>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-4">
+          <p class="text-blue-400 font-semibold text-sm mb-2">Zero-shot CoT</p>
+          <p class="text-xs text-neutral-400">Adicione "Pense passo a passo" ao prompt. Funciona na maioria dos modelos frontier sem exemplos.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-4">
+          <p class="text-blue-400 font-semibold text-sm mb-2">Few-shot CoT</p>
+          <p class="text-xs text-neutral-400">Inclua 2-3 exemplos de raciocínio passo a passo no prompt. Mais preciso, mais tokens de input.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-4">
+          <p class="text-blue-400 font-semibold text-sm mb-2">CoT em Tool Selection</p>
+          <p class="text-xs text-neutral-400">O LLM explica por que escolheu uma tool específica antes de chamá-la. Melhora a escolha em 30%.</p>
+        </div>
+      </div>
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-2">💡 Onde CoT mais impacta</h3>
+        <p class="text-neutral-300 text-sm">Matemática, lógica, código, raciocínio multi-passo e análise crítica se beneficiam mais de CoT. Para tarefas simples de recuperação de fato ou classificação direta, CoT adiciona custo sem benefício real.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">⚡ ReAct: Reason + Act</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        ReAct é o padrão default da maioria dos agentes em produção. Ele intercala <strong class="text-blue-400">Pensamento → Ação → Observação</strong> em loop até atingir o objetivo. O LLM "pensa em voz alta", escolhe uma action (tool), vê o resultado e repete.
+      </p>
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">Trace de um agente ReAct real</h3>
+        <div class="space-y-3 font-mono text-xs">
+          <div class="bg-blue-900/20 rounded-lg p-3 border border-blue-500/20">
+            <p class="text-blue-400 font-semibold">Thought:</p>
+            <p class="text-neutral-300">O usuário quer saber o preço atual da PETR4. Preciso buscar essa informação em tempo real. Vou usar a tool de cotação de ações.</p>
+          </div>
+          <div class="bg-amber-900/20 rounded-lg p-3 border border-amber-500/20">
+            <p class="text-amber-400 font-semibold">Action: buscar_cotacao</p>
+            <p class="text-neutral-300">Input: &#123;"ticker": "PETR4", "exchange": "B3"&#125;</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-3 border border-dark-600">
+            <p class="text-neutral-500 font-semibold">Observation:</p>
+            <p class="text-neutral-300">PETR4: R$ 38,42 (+1,2%) às 15:32. Volume: 12,5M ações.</p>
+          </div>
+          <div class="bg-blue-900/20 rounded-lg p-3 border border-blue-500/20">
+            <p class="text-blue-400 font-semibold">Thought:</p>
+            <p class="text-neutral-300">Tenho a informação necessária. Posso responder ao usuário diretamente com a cotação atual.</p>
+          </div>
+          <div class="bg-emerald-900/20 rounded-lg p-3 border border-emerald-500/20">
+            <p class="text-emerald-400 font-semibold">Final Answer:</p>
+            <p class="text-neutral-300">A PETR4 está sendo negociada a R$ 38,42 hoje, com alta de 1,2%.</p>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-3">Vantagens do ReAct</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Flexível — adapta o próximo passo com base no resultado atual</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Raciocínio auditável — você vê exatamente o que o agente pensou</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Simples de implementar — é o padrão de AgentExecutor</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-3">Limitações</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Custo cresce com cada iteração (modelo caro a cada thought)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Pode entrar em loop infinito se mal configurado</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Não ideal para tarefas com plano previsível (desnecessariamente caro)</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">📋 Plan-and-Execute</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Plan-and-Execute separa o agente em dois: um <strong class="text-blue-400">Planner</strong> (LLM grande, chamado uma vez) que decompõe a tarefa em passos, e um <strong class="text-blue-400">Executor</strong> (LLM pequeno, chamado por passo) que executa cada item. Reduz custo em até 90% para tarefas longas.
+      </p>
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">Arquitetura Plan-and-Execute</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <p class="text-blue-400 font-semibold text-sm mb-3">1. Planner (Claude Opus — 1 chamada)</p>
+            <div class="bg-dark-900/50 rounded-lg p-3 font-mono text-xs">
+              <p class="text-neutral-400">Input: "Pesquise os 3 maiores players de</p>
+              <p class="text-neutral-400">computação em nuvem e compare preços"</p>
+              <p class="text-neutral-300 mt-2">Output: [</p>
+              <p class="text-neutral-300 ml-2">"1. Buscar info sobre AWS",</p>
+              <p class="text-neutral-300 ml-2">"2. Buscar info sobre Azure",</p>
+              <p class="text-neutral-300 ml-2">"3. Buscar info sobre GCP",</p>
+              <p class="text-neutral-300 ml-2">"4. Comparar preços de VM padrão",</p>
+              <p class="text-neutral-300 ml-2">"5. Montar tabela comparativa"</p>
+              <p class="text-neutral-300">]</p>
+            </div>
+          </div>
+          <div>
+            <p class="text-emerald-400 font-semibold text-sm mb-3">2. Executor (GPT-4o-mini — 5 chamadas)</p>
+            <div class="space-y-2">
+              <div class="bg-dark-900/50 rounded-lg p-2 font-mono text-xs border border-emerald-500/20">
+                <span class="text-emerald-400">Step 1:</span> <span class="text-neutral-300">buscar_web("AWS pricing ec2")</span>
+              </div>
+              <div class="bg-dark-900/50 rounded-lg p-2 font-mono text-xs border border-emerald-500/20">
+                <span class="text-emerald-400">Step 2:</span> <span class="text-neutral-300">buscar_web("Azure VM pricing")</span>
+              </div>
+              <div class="bg-dark-900/50 rounded-lg p-2 font-mono text-xs border border-emerald-500/20">
+                <span class="text-emerald-400">Step 3:</span> <span class="text-neutral-300">buscar_web("GCP compute pricing")</span>
+              </div>
+              <div class="bg-dark-900/50 rounded-lg p-2 font-mono text-xs border border-emerald-500/20">
+                <span class="text-emerald-400">Step 4-5:</span> <span class="text-neutral-300">formatar_tabela(dados)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">📊 Comparação de custo: ReAct vs. Plan-and-Execute</h3>
+        <div class="grid grid-cols-3 gap-4">
+          <div class="bg-dark-800/50 rounded-lg p-3">
+            <p class="text-neutral-500 text-xs mb-1">ReAct puro (GPT-4o todo o tempo)</p>
+            <p class="text-red-400 font-bold text-lg">$0.85</p>
+            <p class="text-xs text-neutral-500">por tarefa de 5 passos</p>
+          </div>
+          <div class="bg-dark-800/50 rounded-lg p-3">
+            <p class="text-blue-400 text-xs mb-1">Plan-and-Execute</p>
+            <p class="text-blue-400 font-bold text-lg">$0.09</p>
+            <p class="text-xs text-neutral-500">Opus (plan) + mini (execute)</p>
+          </div>
+          <div class="bg-dark-800/50 rounded-lg p-3">
+            <p class="text-emerald-400 text-xs mb-1">Economia</p>
+            <p class="text-emerald-400 font-bold text-lg">89%</p>
+            <p class="text-xs text-neutral-500">sem perda de qualidade no plano</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">🔁 Reflexion pattern</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        No padrão Reflexion, o agente gera uma resposta e depois usa um segundo LLM (o <strong class="text-blue-400">Critic</strong>) para criticar, identificar erros e sugerir melhorias. A resposta melhorada passa por nova rodada de crítica até atingir qualidade suficiente.
+      </p>
+      <div class="space-y-4 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">A</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-blue-400 mb-1">Actor — gera a resposta</h4>
+            <p class="text-sm text-neutral-400">Recebe o objetivo e produz uma primeira resposta completa. Não tenta ser perfeito — produz rapidamente e delega a crítica.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-bold">C</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-amber-400 mb-1">Critic — avalia e pontua</h4>
+            <p class="text-sm text-neutral-400">Recebe o objetivo + resposta do Actor. Identifica erros factuais, lógicos, de completude ou de estilo. Produz feedback específico e acionável.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center"><span class="text-emerald-400 font-bold">R</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-emerald-400 mb-1">Revisor — melhora com base no feedback</h4>
+            <p class="text-sm text-neutral-400">Actor recebe o feedback do Critic e revisa a resposta. Ciclo se repete até o Critic dar nota suficiente ou número máximo de iterações.</p>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-blue-400 mb-3">Quando Reflexion compensa</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Geração de código onde bug tem custo alto</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Escrita criativa onde qualidade é diferencial</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Análise crítica onde imprecisão tem consequências</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Geração de relatórios executivos</span></li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-neutral-300 mb-3">Parâmetros de controle</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li><strong>max_iterations:</strong> geralmente 2-3 (custo aumenta linearmente)</li>
+            <li><strong>quality_threshold:</strong> nota mínima do Critic para parar</li>
+            <li><strong>Critic model:</strong> pode ser menor que o Actor (economiza)</li>
+            <li><strong>Critic prompt:</strong> seja específico sobre critérios de qualidade</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🗺️ Quando usar cada padrão</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Não existe padrão universalmente melhor. A escolha depende de <strong class="text-blue-400">4 dimensões</strong>: número de passos da tarefa, previsibilidade do plano, tolerância a custo e requisito de qualidade. A tabela abaixo sintetiza a decisão.
+      </p>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-dark-700 border-b border-dark-600">
+              <th class="text-left p-4 text-blue-400 font-semibold">Padrão</th>
+              <th class="text-left p-4 text-neutral-400 font-semibold">Passos</th>
+              <th class="text-left p-4 text-neutral-400 font-semibold">Previsibilidade</th>
+              <th class="text-left p-4 text-neutral-400 font-semibold">Custo Relativo</th>
+              <th class="text-left p-4 text-neutral-400 font-semibold">Melhor para</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-dark-600">
+            <tr class="hover:bg-dark-700/30">
+              <td class="p-4 font-semibold text-neutral-300">CoT</td>
+              <td class="p-4 text-neutral-400">1</td>
+              <td class="p-4 text-neutral-400">Alta</td>
+              <td class="p-4 text-emerald-400">1-2×</td>
+              <td class="p-4 text-neutral-400">Análise, matemática, lógica pontual</td>
+            </tr>
+            <tr class="hover:bg-dark-700/30">
+              <td class="p-4 font-semibold text-neutral-300">ReAct</td>
+              <td class="p-4 text-neutral-400">2-10</td>
+              <td class="p-4 text-neutral-400">Baixa</td>
+              <td class="p-4 text-amber-400">N×custo_modelo</td>
+              <td class="p-4 text-neutral-400">Exploração com tools, pesquisa dinâmica</td>
+            </tr>
+            <tr class="hover:bg-dark-700/30">
+              <td class="p-4 font-semibold text-neutral-300">Plan+Execute</td>
+              <td class="p-4 text-neutral-400">5-20</td>
+              <td class="p-4 text-neutral-400">Alta</td>
+              <td class="p-4 text-emerald-400">10-90× menor</td>
+              <td class="p-4 text-neutral-400">Pipelines longos e previsíveis</td>
+            </tr>
+            <tr class="hover:bg-dark-700/30">
+              <td class="p-4 font-semibold text-neutral-300">Reflexion</td>
+              <td class="p-4 text-neutral-400">1 (c/ revisões)</td>
+              <td class="p-4 text-neutral-400">Alta</td>
+              <td class="p-4 text-red-400">3-5×</td>
+              <td class="p-4 text-neutral-400">Qualidade crítica, código, escrita profissional</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3">💡 Combinando padrões</h3>
+        <p class="text-neutral-300 text-sm">Os padrões não são mutuamente exclusivos. Exemplo poderoso: <strong class="text-primary">Plan-and-Execute + Reflexion</strong> — o Planner cria o plano (CoT interno), o Executor executa cada passo (ReAct local por passo), e o Reflexion avalia o resultado final antes de entregar. Custo intermediário, qualidade máxima.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">💰 Custo vs. qualidade por padrão</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A escolha de padrão tem <strong class="text-blue-400">impacto financeiro direto</strong> em produção. Um agente com milhares de execuções diárias pode ter diferença de 10× no custo mensal dependendo do padrão escolhido. Entender o trade-off é parte da arquitetura.
+      </p>
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">📊 Análise de custo mensal (10.000 tarefas/dia)</h3>
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-sm text-neutral-300">CoT (GPT-4o, 1 chamada)</span>
+              <span class="text-sm text-emerald-400">~$750/mês</span>
+            </div>
+            <div class="bg-dark-800 rounded-full h-4"><div class="bg-emerald-500/60 h-4 rounded-full" style="width:10%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-sm text-neutral-300">ReAct (GPT-4o, 5 iterações médias)</span>
+              <span class="text-sm text-amber-400">~$3.750/mês</span>
+            </div>
+            <div class="bg-dark-800 rounded-full h-4"><div class="bg-amber-500/60 h-4 rounded-full" style="width:50%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-sm text-neutral-300">Plan+Execute (Opus plan + mini execute)</span>
+              <span class="text-sm text-blue-400">~$900/mês</span>
+            </div>
+            <div class="bg-dark-800 rounded-full h-4"><div class="bg-blue-500/60 h-4 rounded-full" style="width:12%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-sm text-neutral-300">Reflexion (GPT-4o, 3 iterações)</span>
+              <span class="text-sm text-red-400">~$11.250/mês</span>
+            </div>
+            <div class="bg-dark-800 rounded-full h-4"><div class="bg-red-500/60 h-4 rounded-full" style="width:100%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">Regras práticas de decisão arquitetural</h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-primary font-bold flex-shrink-0">1.</span>
+            <span class="text-neutral-300 text-sm">Se o plano é sempre o mesmo (mesmo tipo de tarefa), use Plan-and-Execute. O planner pode ser chamado uma vez por template, não por tarefa.</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-primary font-bold flex-shrink-0">2.</span>
+            <span class="text-neutral-300 text-sm">Se a qualidade tem valor financeiro direto (relatório executivo, proposta comercial), Reflexion com 2 iterações paga o custo extra.</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-primary font-bold flex-shrink-0">3.</span>
+            <span class="text-neutral-300 text-sm">Comece com ReAct para validar o problema. Depois otimize para Plan-and-Execute quando tiver padrões claros de execução.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumo do Módulo 2.5</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Chain-of-Thought</strong><span class="text-neutral-400"> — "pense passo a passo" melhora até 40% a precisão em problemas complexos</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">ReAct</strong><span class="text-neutral-400"> — Thought+Action+Observation loop; padrão dos 80% dos agentes em produção</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Plan-and-Execute</strong><span class="text-neutral-400"> — modelo grande planeja uma vez, modelo pequeno executa N vezes; 89% de economia</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Reflexion</strong><span class="text-neutral-400"> — Actor gera, Critic avalia, Actor revisa; qualidade máxima para casos críticos</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Quando usar cada um</strong><span class="text-neutral-400"> — depende de passos, previsibilidade, custo e qualidade; comece com ReAct e otimize</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Impacto financeiro</strong><span class="text-neutral-400"> — diferença de 15× em custo mensal entre ReAct+frontier e Plan-and-Execute</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-blue-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">2.6 — MCP na Prática: o padrão USB dos agentes. Como conectar banco de dados, APIs externas e criar seu primeiro servidor MCP em Python.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-2-4.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 2.4 Tools e Function Calling</a>
+          <a href="modulo-2-6.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">Próximo: 2.6 MCP →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden'); themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

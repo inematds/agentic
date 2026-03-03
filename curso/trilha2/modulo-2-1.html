@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2.1 LLM como cérebro | Trilha 2 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block">
+            <span>Frameworks</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-blue-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-blue-400 transition-colors">Trilha 2 — Construção de Agentes</a>
+      <span>/</span>
+      <span class="text-blue-400">Módulo 2.1</span>
+    </div>
+  </nav>
+
+  <!-- HEADER DO MODULO -->
+  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 2.1</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🧠 LLM como cérebro</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Aprenda a selecionar o modelo certo, entender context window, temperatura, custo por token e como o LLM interpreta tools para decidir a próxima ação do agente.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">6</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">35</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Iniciante</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Teoria</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🔍 Seleção de modelo por capacidade e custo</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A escolha do modelo é a <strong class="text-blue-400">primeira decisão arquitetural</strong> de qualquer agente. Não existe modelo universalmente melhor — existe o modelo certo para cada caso de uso, considerando capacidade de raciocínio, velocidade, custo e suporte a function calling.
+      </p>
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🗺️</span> Mapa de modelos em 2026</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-blue-500/20">
+            <p class="text-blue-400 font-semibold text-sm mb-2">Modelos Frontier (planejamento)</p>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span><strong>Claude Opus 4.6</strong> — melhor raciocínio, ideal para planner</span></li>
+              <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span><strong>GPT-4o</strong> — excelente function calling, ecossistema maduro</span></li>
+              <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span><strong>Gemini Pro</strong> — contexto longo nativo (1M tokens)</span></li>
+            </ul>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-dark-600">
+            <p class="text-neutral-400 font-semibold text-sm mb-2">Modelos Small (execução)</p>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">•</span><span><strong>Claude Haiku</strong> — mais rápido e barato da família Anthropic</span></li>
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">•</span><span><strong>GPT-4o-mini</strong> — custo 15x menor que GPT-4o</span></li>
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">•</span><span><strong>Mistral / Llama</strong> — open-source, self-hosted, custo zero de API</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Regra de ouro da seleção</h3>
+        <p class="text-neutral-300">Use o <strong class="text-primary">modelo mais barato que ainda acerta</strong> para cada etapa. Comece testando com o menor modelo; só escale para frontier quando o pequeno demonstrar falha específica e documentada.</p>
+      </div>
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">📊 Comparação de custo por 1M tokens (aproximado 2026)</h3>
+        <div class="space-y-3">
+          <div class="flex items-center space-x-3">
+            <span class="w-32 text-sm text-neutral-400">Claude Opus</span>
+            <div class="flex-1 bg-dark-800 rounded-full h-3"><div class="bg-red-500/70 h-3 rounded-full" style="width:100%"></div></div>
+            <span class="text-sm text-red-400 w-20 text-right">$15 in/$75 out</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <span class="w-32 text-sm text-neutral-400">GPT-4o</span>
+            <div class="flex-1 bg-dark-800 rounded-full h-3"><div class="bg-amber-500/70 h-3 rounded-full" style="width:67%"></div></div>
+            <span class="text-sm text-amber-400 w-20 text-right">$2.5/$10</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <span class="w-32 text-sm text-neutral-400">Claude Haiku</span>
+            <div class="flex-1 bg-dark-800 rounded-full h-3"><div class="bg-blue-500/70 h-3 rounded-full" style="width:20%"></div></div>
+            <span class="text-sm text-blue-400 w-20 text-right">$0.25/$1.25</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <span class="w-32 text-sm text-neutral-400">GPT-4o-mini</span>
+            <div class="flex-1 bg-dark-800 rounded-full h-3"><div class="bg-emerald-500/70 h-3 rounded-full" style="width:5%"></div></div>
+            <span class="text-sm text-emerald-400 w-20 text-right">$0.15/$0.60</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">📐 Context window na prática</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O context window é a <strong class="text-blue-400">memória de trabalho do LLM</strong>. Tudo que o LLM pode considerar ao gerar uma resposta cabe ali: o system prompt, o histórico da conversa, os schemas das tools, os resultados das tools e os documentos injetados via RAG. Esgotar o contexto quebra o agente.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-blue-400 mb-3">O que ocupa o contexto</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-0.5">•</span><span>System prompt: 500–2.000 tokens tipicamente</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-0.5">•</span><span>Histórico de conversa: cresce com cada turno</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-0.5">•</span><span>Tool schemas: ~200–500 tokens por tool</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-0.5">•</span><span>Tool results: variável, pode ser enorme</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-0.5">•</span><span>Documentos RAG: 500–3.000 tokens por chunk</span></li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-neutral-300 mb-3">Estimativa de tokens por conteúdo</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-neutral-500 mt-0.5">≈</span><span>1 token ~ 4 caracteres em inglês</span></li>
+            <li class="flex items-start space-x-2"><span class="text-neutral-500 mt-0.5">≈</span><span>1 token ~ 3 caracteres em português</span></li>
+            <li class="flex items-start space-x-2"><span class="text-neutral-500 mt-0.5">≈</span><span>1 página A4 de texto ~ 500 tokens</span></li>
+            <li class="flex items-start space-x-2"><span class="text-neutral-500 mt-0.5">≈</span><span>1 arquivo Python médio ~ 1.000 tokens</span></li>
+            <li class="flex items-start space-x-2"><span class="text-neutral-500 mt-0.5">≈</span><span>1 imagem (GPT-4V) ~ 200–1.500 tokens</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Context windows por modelo</h3>
+        <ul class="space-y-2 text-neutral-300">
+          <li><strong>Claude 3.5 Sonnet:</strong> 200.000 tokens — cabe ~300 páginas de texto</li>
+          <li><strong>GPT-4o:</strong> 128.000 tokens — cabe ~190 páginas</li>
+          <li><strong>Gemini Pro 1.5:</strong> 1.000.000 tokens — cabe ~1.500 páginas</li>
+          <li><strong>Llama 3.1 (70B):</strong> 128.000 tokens — mas self-hosted sem custo de API</li>
+        </ul>
+      </div>
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Context overflow: o bug silencioso</h3>
+        <p class="text-neutral-300 text-sm">Quando o contexto estoura, a API retorna erro 400 e o agente cai. O problema: muitos frameworks truncam silenciosamente o contexto em vez de lançar erro. O LLM responde mas sem ver parte do histórico — produzindo respostas inconsistentes sem aviso.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🌡️ Temperatura e criatividade</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A temperatura é o parâmetro que controla o <strong class="text-blue-400">grau de aleatoriedade</strong> nas respostas do LLM. Em 0.0, o modelo sempre escolhe o token mais provável — produzindo respostas determinísticas. Em 1.0 ou mais, escolhas menos prováveis ganham peso, gerando respostas mais variadas e criativas.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-5">
+          <p class="text-emerald-400 font-bold text-2xl mb-1">0.0</p>
+          <p class="text-emerald-400 font-semibold text-sm mb-2">Determinístico</p>
+          <p class="text-neutral-400 text-sm">Ideal para: código, SQL, JSON, análise estruturada, extração de dados. O mesmo input sempre gera o mesmo output.</p>
+        </div>
+        <div class="bg-primary/10 rounded-xl border border-primary/30 p-5">
+          <p class="text-primary font-bold text-2xl mb-1">0.3–0.5</p>
+          <p class="text-primary font-semibold text-sm mb-2">Balanceado</p>
+          <p class="text-neutral-400 text-sm">Ideal para: respostas de suporte, classificação, resumos, maioria dos casos de uso de agente em produção.</p>
+        </div>
+        <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-5">
+          <p class="text-purple-400 font-bold text-2xl mb-1">0.7–1.0</p>
+          <p class="text-purple-400 font-semibold text-sm mb-2">Criativo</p>
+          <p class="text-neutral-400 text-sm">Ideal para: geração de texto criativo, brainstorming, variações de copy marketing, diálogo natural.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">✓ O que FAZER</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Usar temp=0 para tools que geram código ou SQL</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Documentar a temperatura usada em cada agente</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Testar com temp diferentes antes de ir para produção</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Usar seed junto com temperatura baixa para reprodutibilidade</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ O que NÃO fazer</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Temperatura alta para agente que processa dados financeiros</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Esquecer de definir temperatura e usar o default do provider</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Assumir que temperatura 0 é sempre o melhor</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Mudar temperatura em produção sem testar regressão</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> top_p: o outro parâmetro de aleatoriedade</h3>
+        <p class="text-neutral-300 text-sm">top_p (nucleus sampling) é uma alternativa à temperatura. Em vez de escalar todas as probabilidades, limita as escolhas aos tokens que somam probabilidade p. <strong class="text-primary">Regra prática: altere apenas um por vez</strong>. Mudar temperatura E top_p ao mesmo tempo torna imprevisível qual efeito domina.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">💰 Custo por token na prática</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Cada chamada ao LLM tem um custo mensurável: <strong class="text-blue-400">tokens de input + tokens de output</strong>. Em um agente com loop, esses custos se multiplicam a cada iteração. Um agente que parece barato em teste pode se tornar proibitivo em produção com volume real.
+      </p>
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">📊 Exemplo de custo real por tarefa</h3>
+        <p class="text-neutral-400 text-sm mb-4">Agente de análise de email com GPT-4o, 5 iterações por email:</p>
+        <div class="space-y-3">
+          <div class="bg-dark-800/60 rounded-lg p-3 flex items-center justify-between">
+            <span class="text-sm text-neutral-300">System prompt (1.000 tokens × 5 iterações)</span>
+            <span class="text-sm text-amber-400">= 5.000 tokens input</span>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-3 flex items-center justify-between">
+            <span class="text-sm text-neutral-300">Histórico de conversa (cresce 500 tokens/turno)</span>
+            <span class="text-sm text-amber-400">= ~7.500 tokens input</span>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-3 flex items-center justify-between">
+            <span class="text-sm text-neutral-300">Respostas do LLM (300 tokens × 5 iterações)</span>
+            <span class="text-sm text-red-400">= 1.500 tokens output</span>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-3 flex items-center justify-between border border-primary/20">
+            <span class="text-sm font-semibold text-neutral-200">Total por email com GPT-4o</span>
+            <span class="text-sm font-bold text-primary">~$0.047 por email</span>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-3 flex items-center justify-between border border-emerald-500/20">
+            <span class="text-sm font-semibold text-neutral-200">Mesmo agente com GPT-4o-mini</span>
+            <span class="text-sm font-bold text-emerald-400">~$0.004 por email (12× mais barato)</span>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-blue-400 mb-3">Estratégias para reduzir custo</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-0.5">1.</span><span>Cache de prompt: repete o mesmo system prompt → desconto de 50-90%</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-0.5">2.</span><span>Modelo pequeno para steps simples (classificar, formatar)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-0.5">3.</span><span>Reduzir iterações com Plan-and-Execute</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-0.5">4.</span><span>Compressão de histórico antes de contexto crescer demais</span></li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-neutral-300 mb-3">Budget limits obrigatórios</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-neutral-500 mt-0.5">•</span><span>Defina max_tokens por chamada para limitar output</span></li>
+            <li class="flex items-start space-x-2"><span class="text-neutral-500 mt-0.5">•</span><span>Defina max_iterations no loop do agente</span></li>
+            <li class="flex items-start space-x-2"><span class="text-neutral-500 mt-0.5">•</span><span>Use contador de tokens acumulado e pare antes de estourar</span></li>
+            <li class="flex items-start space-x-2"><span class="text-neutral-500 mt-0.5">•</span><span>Monitore custo por task e alerte desvios de 2×</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">⚖️ Modelos pequenos vs grandes</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A estratégia mais poderosa de otimização de custo em agentes é <strong class="text-blue-400">usar modelos diferentes para etapas diferentes</strong>. O modelo grande faz o raciocínio difícil; o modelo pequeno executa os passos repetitivos. A diferença de custo pode ser de 50-100×.
+      </p>
+      <div class="space-y-6 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+            <span class="text-blue-400 font-bold text-sm">🧠</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <h4 class="font-semibold text-blue-400 mb-2">Modelo Grande — Para o Planner</h4>
+            <p class="text-sm text-neutral-400 mb-3">Claude Opus, GPT-4o, Gemini Pro</p>
+            <p class="text-neutral-300 text-sm">Responsável por entender o objetivo, decompor em passos, escolher quais tools usar e avaliar se o resultado atingiu o objetivo. Chamado poucas vezes por tarefa (1-3 vezes).</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+            <span class="text-emerald-400 font-bold text-sm">⚡</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <h4 class="font-semibold text-emerald-400 mb-2">Modelo Pequeno — Para o Executor</h4>
+            <p class="text-sm text-neutral-400 mb-3">Claude Haiku, GPT-4o-mini, Mistral 7B</p>
+            <p class="text-neutral-300 text-sm">Executa cada passo do plano: formatar dados, chamar tools, parsear resultados, classificar entidades. Chamado muitas vezes (N vezes por passo do plano). É onde você economiza.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Quando modelo pequeno falha</h3>
+        <p class="text-neutral-300 text-sm">Modelos pequenos podem falhar em: raciocínio multi-passo complexo, seguir instruções longas no system prompt, JSON com estrutura aninhada profunda, e tool selection quando as descrições são ambíguas. Nesses casos, escale pontualmente para o modelo maior — não o tempo todo.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🧭 Como o LLM decide a próxima ação</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O processo de decisão do LLM é fundamentalmente uma <strong class="text-blue-400">tarefa de next-token prediction</strong> sofisticada. Mas da perspectiva do agente, o LLM olha para o estado atual do contexto e decide: devo responder ao usuário, chamar uma tool específica, ou pedir mais informações?
+      </p>
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-5">O processo de decisão em 4 etapas</h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/30 text-blue-400 font-bold text-sm flex-shrink-0">1</span>
+            <div><p class="font-semibold text-white">Lê o contexto completo</p><p class="text-sm text-neutral-400 mt-1">System prompt (papel e instruções), histórico (o que aconteceu), tool schemas (o que pode fazer) e resultado da última tool (o que sabe agora).</p></div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/30 text-blue-400 font-bold text-sm flex-shrink-0">2</span>
+            <div><p class="font-semibold text-white">Avalia o estado do objetivo</p><p class="text-sm text-neutral-400 mt-1">Tem informação suficiente para responder? O objetivo foi atingido? Há ambiguidade que precisa ser resolvida?</p></div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/30 text-blue-400 font-bold text-sm flex-shrink-0">3</span>
+            <div><p class="font-semibold text-white">Escolhe entre 3 opções</p><p class="text-sm text-neutral-400 mt-1">A) Responder ao usuário (objetivo atingido) · B) Chamar uma tool (precisa de mais informação ou ação) · C) Pedir clarificação (objetivo ambíguo).</p></div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/30 text-blue-400 font-bold text-sm flex-shrink-0">4</span>
+            <div><p class="font-semibold text-white">Gera a resposta estruturada</p><p class="text-sm text-neutral-400 mt-1">Se tool call: gera JSON com nome da tool e parâmetros. Se resposta: gera texto. O runtime lê essa saída e executa a ação correspondente.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🔑</span> O que torna a decisão melhor</h3>
+        <p class="text-neutral-300 text-sm mb-3">A qualidade da decisão do LLM depende diretamente de 3 elementos que você controla:</p>
+        <ul class="space-y-2 text-neutral-300 text-sm">
+          <li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">1.</span><span><strong>System prompt claro:</strong> define explicitamente o papel, o objetivo e quando usar cada tool</span></li>
+          <li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">2.</span><span><strong>Tool descriptions precisas:</strong> o LLM usa o campo description para decidir quando chamar cada tool</span></li>
+          <li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">3.</span><span><strong>Stop sequences:</strong> tokens específicos que forçam o LLM a parar e deixar o runtime agir</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- RESUMO FINAL -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumo do Módulo 2.1</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Seleção de modelo</strong><span class="text-neutral-400"> — use o mais barato que ainda acerta; escalate frontier só quando necessário</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Context window</strong><span class="text-neutral-400"> — gerencie ativamente o que ocupa o contexto; estouro é bug silencioso</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Temperatura</strong><span class="text-neutral-400"> — 0.0 para código/dados, 0.3-0.5 para maioria dos agentes, 0.7+ para criação</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Custo por token</strong><span class="text-neutral-400"> — calcule antes de ir para produção; cache de prompt e modelo small economizam muito</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Hierarquia de modelos</strong><span class="text-neutral-400"> — modelo grande para planejar, modelo pequeno para executar</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Decisão do LLM</strong><span class="text-neutral-400"> — system prompt, tool descriptions e stop sequences determinam a qualidade da decisão</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-blue-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">2.2 — Memória Curto Prazo: buffer de conversa, sliding window, resumo automático e o problema do contexto longo que derruba agentes em produção.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para Trilha 2</a>
+          <a href="modulo-2-2.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">Próximo: 2.2 Memória Curto Prazo →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden'); themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

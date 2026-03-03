@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2.2 Memória Curto Prazo | Trilha 2 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block">Frameworks</a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-blue-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-blue-400 transition-colors">Trilha 2 — Construção de Agentes</a>
+      <span>/</span>
+      <span class="text-blue-400">Módulo 2.2</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 2.2</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">💾 Memória Curto Prazo</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Como o agente lembra o que aconteceu dentro de uma sessão: buffer de conversa, sliding window, resumo automático e estratégias de compressão para evitar context overflow.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">30</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Iniciante</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Teoria+Prática</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">📝 Buffer de conversa</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O buffer de conversa é a forma mais simples de memória em agentes: uma <strong class="text-blue-400">lista de mensagens</strong> (user + assistant) que é passada para o LLM a cada nova chamada. Sem ele, cada interação começa do zero — o agente não sabe o que aconteceu antes.
+      </p>
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">📋 Estrutura do buffer</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 font-mono text-sm">
+          <p class="text-neutral-500 mb-2"># Estrutura de mensagens (padrão OpenAI/Anthropic)</p>
+          <p class="text-blue-400">messages = [</p>
+          <p class="text-neutral-300 ml-4">{"role": "system", "content": "Você é um assistente..."},</p>
+          <p class="text-neutral-300 ml-4">{"role": "user", "content": "Qual é a capital do Brasil?"},</p>
+          <p class="text-neutral-300 ml-4">{"role": "assistant", "content": "A capital é Brasília."},</p>
+          <p class="text-neutral-300 ml-4">{"role": "user", "content": "E qual é a maior cidade?"},</p>
+          <p class="text-blue-400">]</p>
+          <p class="text-neutral-500 mt-2"># O LLM vê TODAS as mensagens e responde com contexto</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-3">Vantagens do buffer simples</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Implementação trivial — uma lista Python</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Nenhuma perda de informação</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>O LLM tem acesso a toda a conversa</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Fácil de debugar — você vê exatamente o que o LLM vê</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-3">Desvantagens</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Cresce indefinidamente — sem limite natural</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Custo cresce linearmente com a conversa</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Eventualmente estoura o context window</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Não persiste entre sessões por padrão</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3"><span class="mr-2">💡</span>Quando usar buffer simples</h3>
+        <p class="text-neutral-300 text-sm">Ideal para conversas curtas (menos de 20 turnos) ou protótipos. Em produção com conversas longas, você precisa de uma estratégia de gerenciamento. O buffer simples é o ponto de partida — não o destino.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🪟 Sliding Window</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A sliding window (janela deslizante) mantém apenas as <strong class="text-blue-400">N mensagens mais recentes</strong> no buffer. Quando a conversa atinge o limite, as mensagens mais antigas são descartadas (FIFO). O contexto fica estável e o custo previsível.
+      </p>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">🖼️ Visualizando a janela deslizante</h3>
+        <div class="space-y-2 text-sm">
+          <div class="flex items-center space-x-2">
+            <span class="text-neutral-500 w-24">Turno 1-5:</span>
+            <div class="flex space-x-1">
+              <span class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-xs">M1</span>
+              <span class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-xs">M2</span>
+              <span class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-xs">M3</span>
+              <span class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-xs">M4</span>
+              <span class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-xs">M5</span>
+            </div>
+            <span class="text-neutral-500 text-xs">← janela cheia (5 msg)</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="text-neutral-500 w-24">Turno 6:</span>
+            <div class="flex space-x-1">
+              <span class="bg-red-900/30 text-red-400 px-2 py-0.5 rounded text-xs line-through">M1</span>
+              <span class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-xs">M2</span>
+              <span class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-xs">M3</span>
+              <span class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-xs">M4</span>
+              <span class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-xs">M5</span>
+              <span class="bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded text-xs">M6</span>
+            </div>
+            <span class="text-neutral-500 text-xs">← M1 descartado, M6 adicionado</span>
+          </div>
+        </div>
+      </div>
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">📊 Tamanhos de janela por caso de uso</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-dark-800/50 rounded-lg p-3">
+            <p class="text-blue-400 font-semibold text-sm mb-1">5-10 mensagens</p>
+            <p class="text-neutral-400 text-xs">Chatbots simples, FAQ. Conversas que não acumulam contexto complexo.</p>
+          </div>
+          <div class="bg-dark-800/50 rounded-lg p-3">
+            <p class="text-blue-400 font-semibold text-sm mb-1">20-50 mensagens</p>
+            <p class="text-neutral-400 text-xs">Assistentes de trabalho. Conversas longas onde histórico recente importa.</p>
+          </div>
+          <div class="bg-dark-800/50 rounded-lg p-3">
+            <p class="text-blue-400 font-semibold text-sm mb-1">100+ mensagens</p>
+            <p class="text-neutral-400 text-xs">Agentes de pesquisa ou projetos longos. Combine com compressão.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3">⚠️ O problema da janela pura</h3>
+        <p class="text-neutral-300 text-sm">Sliding window descarta informações potencialmente críticas. Se o usuário mencionou seu nome no início da conversa e isso foi descartado, o agente "esquece" e pode tratá-lo como desconhecido. Para contexto crítico, use compressão ou memória longo prazo.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">📋 Resumo automático</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Em vez de descartar mensagens antigas, o resumo automático usa um <strong class="text-blue-400">LLM para comprimir o histórico antigo</strong> em texto denso. O sumário substitui as mensagens originais, preservando a essência sem perder informações críticas.
+      </p>
+      <div class="space-y-6 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">1</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Trigger: contexto quase cheio</h4>
+            <p class="text-sm text-neutral-400">Quando o buffer ultrapassa N tokens (ex: 80% do context window), o sistema detecta e ativa a sumarização antes de fazer a próxima chamada ao agente.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">2</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Chamada de sumarização</h4>
+            <p class="text-sm text-neutral-400">Um LLM pequeno (Claude Haiku, GPT-4o-mini) recebe as mensagens antigas e o prompt: "Sumarize esta conversa preservando fatos importantes, decisões tomadas e contexto relevante."</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">3</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Substituição no buffer</h4>
+            <p class="text-sm text-neutral-400">As mensagens antigas são substituídas por uma única mensagem "system" ou "assistant" com o sumário. As mensagens recentes são mantidas intactas.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">ConversationSummaryMemory em LangChain</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 font-mono text-sm">
+          <p class="text-blue-400">from langchain.memory import ConversationSummaryMemory</p>
+          <p class="text-blue-400">from langchain_openai import ChatOpenAI</p>
+          <p class="text-neutral-500 mt-2"># LLM pequeno para sumarizar (economiza custo)</p>
+          <p class="text-neutral-300">summary_llm = ChatOpenAI(model="gpt-4o-mini")</p>
+          <p class="text-neutral-300">memory = ConversationSummaryMemory(</p>
+          <p class="text-neutral-300 ml-4">llm=summary_llm,</p>
+          <p class="text-neutral-300 ml-4">max_token_limit=1000  <span class="text-neutral-500"># Sumariza quando passa 1k tokens</span></p>
+          <p class="text-neutral-300">)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">💥 O problema do contexto longo: Lost in the Middle</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Pesquisas mostram que LLMs têm <strong class="text-blue-400">dificuldade em usar informações do meio do contexto</strong>. Informações no início e no final são processadas melhor do que as no centro de um contexto muito longo — o fenômeno "lost in the middle".
+      </p>
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">📊 Evidências do problema</h3>
+        <ul class="space-y-3 text-neutral-300">
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>LLMs com contexto de 100k tokens têm desempenho pior no centro vs. início/fim do contexto (Stanford, 2024)</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>Para recuperação de informação, modelos com contexto menor e mais relevante superam modelos com contexto enorme e com ruído</span></li>
+          <li class="flex items-start space-x-3"><span class="text-blue-400 font-bold mt-0.5">•</span><span>O efeito é mais pronunciado em modelos menores e em tarefas que exigem integração de múltiplas informações</span></li>
+        </ul>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-neutral-300 mb-3">Implicações para design</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-0.5">→</span><span>Coloque informações críticas no início ou no final do contexto</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-0.5">→</span><span>System prompt detalhado no início é sempre bem processado</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-0.5">→</span><span>Instruções finais ("responda em JSON") têm peso alto</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400 mt-0.5">→</span><span>Não confie que o LLM "vai achar" informação no meio de um documento longo</span></li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-neutral-300 mb-3">Soluções práticas</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 mt-0.5">✓</span><span>RAG com retrieval focado: menos chunks, mais relevantes</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 mt-0.5">✓</span><span>Reranking para colocar chunks mais relevantes primeiro</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 mt-0.5">✓</span><span>Sumarização de histórico antes de injetar novos documentos</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 mt-0.5">✓</span><span>Teste com contextos de tamanho variado antes de produção</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🗜️ Estratégias avançadas de compressão</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Além da sumarização geral, existem estratégias mais precisas de compressão: <strong class="text-blue-400">extração de fatos-chave</strong>, memória de entidades e compressão por importância. Cada uma preserva um tipo diferente de informação.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6">
+          <h4 class="font-semibold text-blue-400 mb-3">Entity Memory</h4>
+          <p class="text-sm text-neutral-300 mb-3">Mantém um dicionário de entidades mencionadas na conversa com seus atributos. "João é desenvolvedor Python sênior na empresa X".</p>
+          <div class="bg-dark-900/50 rounded-lg p-3 font-mono text-xs text-neutral-300">
+            entities = &#123;<br/>
+            &nbsp;"João": "Dev Python sênior, Empresa X",<br/>
+            &nbsp;"Projeto": "API de pagamentos, prazo Q2"<br/>
+            &#125;
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h4 class="font-semibold text-neutral-300 mb-3">Fact List Compression</h4>
+          <p class="text-sm text-neutral-300 mb-3">Extrai afirmações factuais da conversa em lista estruturada. Mais densa que sumário narrativo — menos tokens para a mesma informação.</p>
+          <div class="bg-dark-900/50 rounded-lg p-3 font-mono text-xs text-neutral-300">
+            fatos = [<br/>
+            &nbsp;"Usuário prefere Python a JavaScript",<br/>
+            &nbsp;"Budget do projeto: R$ 50k",<br/>
+            &nbsp;"Deploy em AWS, não Azure"<br/>
+            ]
+          </div>
+        </div>
+      </div>
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3"><span class="mr-2">💡</span>Hybrid Memory: o melhor dos dois mundos</h3>
+        <p class="text-neutral-300 text-sm">A estratégia mais robusta combina: <strong class="text-primary">Entity Memory</strong> (fatos sobre pessoas/entidades), <strong class="text-primary">Fact List</strong> (decisões e preferências) + <strong class="text-primary">Sliding Window</strong> (N mensagens recentes integrais). O LLM recebe o dict de entidades + lista de fatos + mensagens recentes. Contexto eficiente sem perda de informação crítica.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🔴 Quando a memória curta falha</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Bugs de memória curta são difíceis de diagnosticar porque o agente <strong class="text-blue-400">parece funcionar</strong> mas produz resultados inconsistentes ao longo do tempo. Conhecer os padrões de falha acelera o diagnóstico.
+      </p>
+      <div class="space-y-4 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-red-500/20 p-5">
+          <div class="flex items-start space-x-3">
+            <span class="text-red-400 text-xl flex-shrink-0">🔴</span>
+            <div>
+              <h4 class="font-semibold text-red-400 mb-1">Sintoma: "Agente contradiz resposta anterior"</h4>
+              <p class="text-sm text-neutral-400"><strong>Causa:</strong> Sliding window descartou a mensagem onde o agente afirmou algo. Agora, sem ver o que disse antes, ele afirma o oposto.</p>
+              <p class="text-sm text-emerald-400 mt-1"><strong>Solução:</strong> Aumentar janela ou usar Entity Memory para fatos que não podem ser descartados.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-amber-500/20 p-5">
+          <div class="flex items-start space-x-3">
+            <span class="text-amber-400 text-xl flex-shrink-0">🟡</span>
+            <div>
+              <h4 class="font-semibold text-amber-400 mb-1">Sintoma: "Agente repete pergunta já feita"</h4>
+              <p class="text-sm text-neutral-400"><strong>Causa:</strong> Buffer truncado silenciosamente pelo framework (sem erro!). O LLM não vê a resposta que o usuário já deu.</p>
+              <p class="text-sm text-emerald-400 mt-1"><strong>Solução:</strong> Logar o tamanho do buffer em cada chamada. Detectar truncação e tratar explicitamente.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-blue-500/20 p-5">
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 text-xl flex-shrink-0">🔵</span>
+            <div>
+              <h4 class="font-semibold text-blue-400 mb-1">Sintoma: "Agente ignora instrução do system prompt após muitas trocas"</h4>
+              <p class="text-sm text-neutral-400"><strong>Causa:</strong> Lost in the middle — o system prompt ficou enterrado no meio do contexto enorme e o LLM não o está seguindo.</p>
+              <p class="text-sm text-emerald-400 mt-1"><strong>Solução:</strong> Reinjetar as instruções críticas periodicamente. Mover instruções de formatação para o final do contexto.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">🧪 Como testar memória do seu agente</h3>
+        <ol class="space-y-2 text-neutral-300 text-sm list-decimal list-inside">
+          <li>Mencione uma informação específica na mensagem 1 (ex: "meu nome é Carlos")</li>
+          <li>Faça 15+ trocas sobre outro assunto</li>
+          <li>Pergunte: "Como você me chama?"</li>
+          <li>Se o agente não souber, a memória foi perdida no meio da conversa</li>
+          <li>Repita com diferentes tamanhos de janela para encontrar o limiar</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- RESUMO FINAL -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumo do Módulo 2.2</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Buffer de conversa</strong><span class="text-neutral-400"> — lista de mensagens passada ao LLM; simples mas cresce indefinidamente</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Sliding window</strong><span class="text-neutral-400"> — mantém N mensagens recentes; custo previsível mas perde contexto antigo</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Resumo automático</strong><span class="text-neutral-400"> — comprime histórico com LLM; preserva essência sem estouro de contexto</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Lost in the middle</strong><span class="text-neutral-400"> — LLMs processa pior informações no centro; posicione o crítico no início/fim</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Compressão avançada</strong><span class="text-neutral-400"> — Entity Memory + Fact List para preservar o que importa com mínimo de tokens</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Diagnóstico de falhas</strong><span class="text-neutral-400"> — contradição, repetição de perguntas e desvio de instrução são os 3 sintomas principais</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-blue-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">2.3 — Memória Longo Prazo e RAG: como dar ao agente memória entre sessões com embeddings, bancos vetoriais e o pipeline RAG completo.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-2-1.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 2.1 LLM como cérebro</a>
+          <a href="modulo-2-3.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">Próximo: 2.3 Memória Longo Prazo →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden'); themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

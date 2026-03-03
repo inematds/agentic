@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2.6 MCP na Prática | Trilha 2 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span><span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span></a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block">Frameworks</a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-blue-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-blue-400 transition-colors">Trilha 2 — Construção de Agentes</a>
+      <span>/</span>
+      <span class="text-blue-400">Módulo 2.6</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 2.6</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔌 MCP na Prática</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Model Context Protocol: o padrão USB dos agentes. Arquitetura servidor/cliente, conectando Postgres, APIs externas e criando seu primeiro servidor MCP em Python.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">35</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Intermediário</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Prática</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🔌 O que é MCP</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Model Context Protocol (MCP) é o <strong class="text-blue-400">padrão aberto da Anthropic</strong> para conectar agentes a ferramentas externas de forma padronizada e plug-and-play. Assim como USB eliminou o caos de conectores proprietários, MCP padroniza como agentes se conectam a qualquer ferramenta.
+      </p>
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">🔌 A analogia USB é precisa</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <p class="text-neutral-400 font-semibold text-sm mb-3">Antes do MCP (sem padrão)</p>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Cada agente implementa integração customizada para cada ferramenta</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tool de Slack para Claude ≠ Tool de Slack para GPT-4</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Reescrever integrações quando troca de LLM</span></li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-blue-400 font-semibold text-sm mb-3">Com MCP</p>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Servidor MCP de Slack funciona com qualquer cliente MCP</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Troca de LLM sem reescrever as integrações</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Ecossistema de servidores MCP prontos para usar</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3">📊 Adoção em 2026</h3>
+        <ul class="space-y-2 text-neutral-300 text-sm">
+          <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Claude Code, Claude Desktop e Claude API suportam MCP nativamente</span></li>
+          <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Cursor, Windsurf e outros IDEs AI-first adotaram o protocolo</span></li>
+          <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Repositório oficial MCP-servers tem 100+ servidores prontos (GitHub, Postgres, Slack, Jira...)</span></li>
+          <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>OpenAI anunciou suporte ao protocolo — se tornando padrão de indústria</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🏗️ Arquitetura servidor/cliente</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A arquitetura MCP tem dois papéis: o <strong class="text-blue-400">Servidor MCP</strong> expõe tools (funcionalidades) via protocolo padronizado, e o <strong class="text-blue-400">Cliente MCP</strong> (seu agente) descobre e chama essas tools. A comunicação pode ser local (stdio) ou remota (HTTP).
+      </p>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-5">Arquitetura completa</h3>
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+          <div class="bg-blue-900/30 border border-blue-500/30 rounded-xl p-4 flex-1 text-center">
+            <p class="text-blue-400 font-semibold mb-2">Cliente MCP</p>
+            <p class="text-xs text-neutral-400">Seu agente (Claude, LangChain, qualquer framework)</p>
+            <p class="text-xs text-neutral-500 mt-1">Descobre tools automaticamente na inicialização</p>
+          </div>
+          <div class="text-center">
+            <p class="text-blue-400 font-semibold text-xs">JSON-RPC 2.0</p>
+            <div class="flex items-center space-x-2">
+              <span class="text-blue-400 text-2xl">←</span>
+              <span class="text-blue-400 text-2xl">→</span>
+            </div>
+            <p class="text-neutral-500 text-xs">stdio ou HTTP+SSE</p>
+          </div>
+          <div class="bg-dark-700 border border-dark-600 rounded-xl p-4 flex-1 text-center">
+            <p class="text-neutral-300 font-semibold mb-2">Servidor MCP</p>
+            <p class="text-xs text-neutral-400">Expõe tools, resources e prompts via protocolo</p>
+            <p class="text-xs text-neutral-500 mt-1">Pode ser Postgres, Slack, GitHub, sua API...</p>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-5">
+          <h4 class="font-semibold text-blue-400 mb-3">Transport: stdio</h4>
+          <p class="text-sm text-neutral-300 mb-3">O servidor roda como processo filho do cliente. Comunicação via stdin/stdout. Ideal para servidores locais (mesmo computador).</p>
+          <div class="bg-dark-900/50 rounded-lg p-3 font-mono text-xs">
+            <p class="text-neutral-500"># config no cliente</p>
+            <p class="text-neutral-300">&#123;"command": "python", "args": ["meu_server.py"]&#125;</p>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-neutral-300 mb-3">Transport: HTTP + SSE</h4>
+          <p class="text-sm text-neutral-300 mb-3">O servidor roda como serviço web independente. Client conecta via HTTP. Ideal para produção, múltiplos clientes simultâneos.</p>
+          <div class="bg-dark-900/50 rounded-lg p-3 font-mono text-xs">
+            <p class="text-neutral-500"># config no cliente</p>
+            <p class="text-neutral-300">&#123;"url": "https://meu-server.com/mcp"&#125;</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🗃️ Conectando banco de dados via MCP</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Usando o servidor MCP oficial de Postgres, você conecta qualquer agente ao seu banco de dados em minutos. O agente passa a poder <strong class="text-blue-400">executar queries, listar tabelas e analisar dados em linguagem natural</strong> — sem nenhum código extra no agente.
+      </p>
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">Configuração em 3 passos</h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-3">
+            <span class="bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded font-bold flex-shrink-0">1</span>
+            <div>
+              <p class="text-sm font-semibold text-neutral-300">Instale o servidor MCP de Postgres</p>
+              <div class="bg-dark-900/50 rounded-lg p-2 font-mono text-xs mt-1">
+                <p class="text-neutral-300">npm install -g @modelcontextprotocol/server-postgres</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded font-bold flex-shrink-0">2</span>
+            <div>
+              <p class="text-sm font-semibold text-neutral-300">Configure no arquivo de settings do cliente</p>
+              <div class="bg-dark-900/50 rounded-lg p-2 font-mono text-xs mt-1">
+                <p class="text-neutral-300">&#123;"mcpServers": &#123;"postgres": &#123;</p>
+                <p class="text-neutral-300 ml-4">"command": "mcp-server-postgres",</p>
+                <p class="text-neutral-300 ml-4">"args": ["postgresql://user:pass@localhost/mydb"]</p>
+                <p class="text-neutral-300">&#125;&#125;&#125;</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded font-bold flex-shrink-0">3</span>
+            <div>
+              <p class="text-sm font-semibold text-neutral-300">Pronto — o agente agora pode interagir com o banco</p>
+              <p class="text-xs text-neutral-400 mt-1">Usuário: "Quais são os 10 clientes com maior valor em aberto?" → Agente chama query_postgres automaticamente.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3">⚠️ Segurança obrigatória no MCP de banco</h3>
+        <ul class="space-y-2 text-sm text-neutral-300">
+          <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Use usuário de banco com permissão apenas READ-ONLY (SELECT)</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Nunca exponha connection string com usuário admin</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Limite as tabelas visíveis via schema restrito</span></li>
+          <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Logue todas as queries executadas pelo agente</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">🌐 Conectando APIs externas</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Qualquer API REST pode ser encapsulada como servidor MCP. Você define as tools (endpoints) com seus schemas e o agente passa a <strong class="text-blue-400">chamar a API naturalmente</strong>, como se fosse uma função interna — sem código de integração no agente.
+      </p>
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">Exemplo: wrapper de API REST como MCP server</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 font-mono text-xs">
+          <p class="text-blue-400">from mcp.server import Server</p>
+          <p class="text-blue-400">from mcp.server.models import InitializationOptions</p>
+          <p class="text-blue-400">import httpx</p>
+          <p class="text-neutral-300 mt-2">server = Server("minha-api-crm")</p>
+          <p class="text-neutral-300 mt-2">@server.tool()</p>
+          <p class="text-neutral-300">async def buscar_cliente(cliente_id: str) -&gt; str:</p>
+          <p class="text-neutral-300 ml-4">"""Busca dados completos de um cliente pelo ID no CRM."""</p>
+          <p class="text-neutral-300 ml-4">async with httpx.AsyncClient() as client:</p>
+          <p class="text-neutral-300 ml-8">response = await client.get(</p>
+          <p class="text-neutral-300 ml-12">f"https://api.meucrm.com/customers/&#123;cliente_id&#125;",</p>
+          <p class="text-neutral-300 ml-12">headers=&#123;"Authorization": f"Bearer &#123;API_KEY&#125;"&#125;</p>
+          <p class="text-neutral-300 ml-8">)</p>
+          <p class="text-neutral-300 ml-8">return response.json()</p>
+          <p class="text-neutral-500 mt-2"># O schema é gerado automaticamente dos type hints e docstring!</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-4">
+          <p class="text-blue-400 font-semibold text-sm mb-2">Casos de uso populares</p>
+          <ul class="space-y-1 text-xs text-neutral-400">
+            <li>• CRM (Salesforce, HubSpot)</li>
+            <li>• Ticket system (Jira, Linear)</li>
+            <li>• Email (Gmail API)</li>
+            <li>• Calendário (Google Calendar)</li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-4">
+          <p class="text-blue-400 font-semibold text-sm mb-2">Benefícios do approach MCP</p>
+          <ul class="space-y-1 text-xs text-neutral-400">
+            <li>• Escrito uma vez, usado por múltiplos agentes</li>
+            <li>• Auth centralizado no servidor MCP</li>
+            <li>• Versionado independente do agente</li>
+            <li>• Testável sem o agente</li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-4">
+          <p class="text-blue-400 font-semibold text-sm mb-2">OpenAPI → MCP</p>
+          <ul class="space-y-1 text-xs text-neutral-400">
+            <li>• Ferramentas que convertem OpenAPI spec para servidor MCP automaticamente</li>
+            <li>• Reduz implementação manual para APIs com swagger</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🤖 MCP no Claude Code</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Claude Code usa MCP nativamente. Ao adicionar um servidor MCP à configuração, o Claude Code <strong class="text-blue-400">descobre automaticamente as tools disponíveis</strong> e passa a usá-las em suas respostas — sem nenhuma modificação no código do agente.
+      </p>
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">Configuração no claude_desktop_config.json</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 font-mono text-xs">
+          <p class="text-neutral-500">// ~/.config/claude/claude_desktop_config.json</p>
+          <p class="text-neutral-300">&#123;</p>
+          <p class="text-neutral-300 ml-4">"mcpServers": &#123;</p>
+          <p class="text-neutral-300 ml-8">"postgres": &#123;</p>
+          <p class="text-neutral-300 ml-12">"command": "mcp-server-postgres",</p>
+          <p class="text-neutral-300 ml-12">"args": ["postgresql://readonly:senha@localhost/prod"]</p>
+          <p class="text-neutral-300 ml-8">&#125;,</p>
+          <p class="text-neutral-300 ml-8">"github": &#123;</p>
+          <p class="text-neutral-300 ml-12">"command": "mcp-server-github",</p>
+          <p class="text-neutral-300 ml-12">"env": &#123;"GITHUB_TOKEN": "ghp_..."&#125;</p>
+          <p class="text-neutral-300 ml-8">&#125;,</p>
+          <p class="text-neutral-300 ml-8">"meu-crm": &#123;</p>
+          <p class="text-neutral-300 ml-12">"command": "python",</p>
+          <p class="text-neutral-300 ml-12">"args": ["caminho/para/meu_crm_server.py"]</p>
+          <p class="text-neutral-300 ml-8">&#125;</p>
+          <p class="text-neutral-300 ml-4">&#125;</p>
+          <p class="text-neutral-300">&#125;</p>
+        </div>
+      </div>
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3">💡 Como o Claude Code usa as tools MCP</h3>
+        <p class="text-neutral-300 text-sm">Após adicionar os servidores, reinicie o Claude Code. Ele automaticamente lista as tools disponíveis e as usa quando relevante. Exemplo: com o servidor GitHub configurado, você pode pedir "Abra um PR com estas mudanças" e o Claude Code vai criar o PR diretamente via MCP — sem você copiar e colar código.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🏗️ Criando seu primeiro servidor MCP</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Com o SDK oficial do MCP em Python, você cria um servidor funcional em menos de <strong class="text-blue-400">30 linhas</strong>. Define ferramentas com decorator, implementa a lógica e registra no cliente. Simples como criar uma função Python.
+      </p>
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">Servidor MCP mínimo completo</h3>
+        <div class="bg-dark-900/50 rounded-lg p-4 font-mono text-xs">
+          <p class="text-blue-400">#!/usr/bin/env python3</p>
+          <p class="text-blue-400">"""pip install mcp"""</p>
+          <p class="text-blue-400">import asyncio</p>
+          <p class="text-blue-400">from mcp.server import Server</p>
+          <p class="text-blue-400">from mcp.server.stdio import stdio_server</p>
+          <p class="text-neutral-300 mt-2">server = Server("meu-primeiro-servidor")</p>
+          <p class="text-neutral-300 mt-2">@server.tool()</p>
+          <p class="text-neutral-300">async def saudacao(nome: str) -&gt; str:</p>
+          <p class="text-neutral-300 ml-4">"""Gera uma saudação personalizada para o nome fornecido.</p>
+          <p class="text-neutral-300 ml-4">Use quando precisar cumprimentar alguém formalmente."""</p>
+          <p class="text-neutral-300 ml-4">return f"Olá, &#123;nome&#125;! Bem-vindo ao sistema de agentes."</p>
+          <p class="text-neutral-300 mt-2">@server.tool()</p>
+          <p class="text-neutral-300">async def calcular_desconto(preco: float, desconto_percent: float) -&gt; str:</p>
+          <p class="text-neutral-300 ml-4">"""Calcula o preço final após aplicar desconto percentual."""</p>
+          <p class="text-neutral-300 ml-4">preco_final = preco * (1 - desconto_percent / 100)</p>
+          <p class="text-neutral-300 ml-4">return f"Preço com &#123;desconto_percent&#125;% de desconto: R$ &#123;preco_final:.2f&#125;"</p>
+          <p class="text-neutral-300 mt-2">if __name__ == "__main__":</p>
+          <p class="text-neutral-300 ml-4">asyncio.run(stdio_server(server))</p>
+          <p class="text-neutral-500 mt-2"># Execute: python meu_server.py</p>
+          <p class="text-neutral-500"># Teste: npx @modelcontextprotocol/inspector python meu_server.py</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-blue-400 mb-3">O que o SDK gera automaticamente</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>JSON Schema da tool a partir dos type hints Python</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Description da tool a partir da docstring</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Tool discovery endpoint para o cliente</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Serialização/deserialização de parâmetros</span></li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-neutral-300 mb-3">Testando com MCP Inspector</h4>
+          <p class="text-sm text-neutral-400 mb-2">O MCP Inspector é uma UI para testar seus servidores MCP sem precisar de um agente:</p>
+          <div class="bg-dark-900/50 rounded-lg p-2 font-mono text-xs">
+            <p class="text-neutral-300">npx @modelcontextprotocol/inspector</p>
+            <p class="text-neutral-300 ml-2">python meu_server.py</p>
+          </div>
+          <p class="text-xs text-neutral-500 mt-2">Abre UI web para chamar tools manualmente e ver resultados</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumo do Módulo 2.6</h2>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">O que é MCP</strong><span class="text-neutral-400"> — protocolo aberto para conectar agentes a ferramentas de forma padronizada e reutilizável</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Arquitetura</strong><span class="text-neutral-400"> — servidor expõe tools, cliente as descobre; transport stdio (local) ou HTTP (produção)</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Postgres via MCP</strong><span class="text-neutral-400"> — 3 linhas de config e o agente pode fazer queries em linguagem natural</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">APIs externas</strong><span class="text-neutral-400"> — qualquer REST API vira servidor MCP; escrito uma vez, usado por todos os agentes</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Claude Code + MCP</strong><span class="text-neutral-400"> — adicione ao config, reinicie, e o Claude Code usa as tools automaticamente</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-blue-400 mt-0.5">✓</span><div><strong class="text-white">Criando servidor</strong><span class="text-neutral-400"> — 30 linhas com SDK oficial; schema gerado automaticamente dos type hints</span></div></div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-blue-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">2.7 — Primeiro Agente Real com LangChain: AgentExecutor vs. LCEL, memória, tools e projeto completo de assistente de email com código funcional.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-2-5.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 2.5 Padrões de Raciocínio</a>
+          <a href="modulo-2-7.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">Próximo: 2.7 Primeiro Agente →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden'); themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>
