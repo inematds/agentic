@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5.3 Camada 3 — Controle de Estado | Trilha 5 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    pre { overflow-x: auto; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10">Orquestrador</a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-teal-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-teal-400 transition-colors">Trilha 5</a>
+      <span>/</span>
+      <span class="text-teal-400">Módulo 5.3</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 5.3</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🗄️ Camada 3 — Controle de Estado</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Múltiplos agentes paralelos precisam de um único estado compartilhado. Redis para velocidade de execução, Postgres para durabilidade — e a lógica que mantém tudo consistente mesmo quando processos morrem.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Código</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🌐 Por que Estado Distribuído</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O erro mais comum em sistemas multi-agente de primeira geração: guardar estado em variáveis Python no processo do orquestrador. Funciona em desenvolvimento local. Quebra imediatamente em produção com mais de um worker.
+      </p>
+      <div class="bg-gradient-to-br from-teal-900/20 to-dark-800 rounded-xl border border-teal-500/30 p-6 mb-6">
+        <h3 class="text-base font-semibold text-teal-400 mb-4">Cenário de falha com estado local</h3>
+        <div class="space-y-3 text-sm">
+          <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3">
+            <span class="text-red-400 font-bold mt-0.5">1.</span>
+            <span class="text-neutral-300">Worker A executa tarefa T01, atualiza <code class="text-red-400">self.completed = {"T01"}</code> em memória local</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3">
+            <span class="text-red-400 font-bold mt-0.5">2.</span>
+            <span class="text-neutral-300">Worker B executa tarefa T02 ao mesmo tempo, tem seu próprio <code class="text-red-400">self.completed = {}</code></span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3">
+            <span class="text-red-400 font-bold mt-0.5">3.</span>
+            <span class="text-neutral-300">Worker B verifica se T01 está completa para desbloquear T05 — não sabe, não está no seu estado local</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3">
+            <span class="text-red-400 font-bold mt-0.5">4.</span>
+            <span class="text-neutral-300"><strong class="text-red-400">Resultado:</strong> T05 nunca é executada, workflow trava silenciosamente. Race condition não reproduzível em dev.</span>
+          </div>
+        </div>
+      </div>
+      <div class="bg-teal-900/20 rounded-xl border border-teal-500/30 p-6 mb-6">
+        <h3 class="text-base font-semibold text-teal-400 mb-3">A regra fundamental do estado distribuído</h3>
+        <p class="text-neutral-300 text-sm mb-3">Todo estado que precisa ser lido por mais de um processo deve residir fora de qualquer processo. Redis e Postgres são a implementação padrão:</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800/50 rounded-lg p-4">
+            <p class="text-sm font-bold text-red-400 mb-1">Redis (efêmero, rápido)</p>
+            <p class="text-xs text-neutral-300">Estado de execução atual: status de tarefa, fila, heartbeats, locks. Sub-milissegundo. TTL automático. Perde dados no restart — isso é OK para estado de execução.</p>
+          </div>
+          <div class="bg-dark-800/50 rounded-lg p-4">
+            <p class="text-sm font-bold text-teal-400 mb-1">Postgres (permanente)</p>
+            <p class="text-xs text-neutral-300">Histórico de execuções, audit log, configurações. Durável. ACID. Sobrevive a qualquer restart. Mais lento que Redis — use para dados que precisam existir para sempre.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">⚡ Redis para Estado de Execução</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Redis oferece as estruturas de dados perfeitas para orquestração de agentes. Cada estrutura tem seu papel específico no sistema.
+      </p>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>import redis
+import json
+import time
+from enum import Enum
+
+class TaskStatus(Enum):
+    PENDING   = "pending"
+    RUNNING   = "running"
+    DONE      = "done"
+    FAILED    = "failed"
+    CANCELLED = "cancelled"
+
+class RedisStateManager:
+    """Gerencia estado de execução usando Redis."""
+
+    def __init__(self, session_id: str, redis_url: str = "redis://localhost:6379"):
+        self.r = redis.from_url(redis_url, decode_responses=True)
+        self.session_id = session_id
+        self.prefix = f"orch:{session_id}"
+
+    # ── Estado de tarefa (Hash) ──────────────────────────────────────────
+    def set_task_status(self, task_id: str, status: TaskStatus,
+                        result: dict = None, error: str = None):
+        key = f"{self.prefix}:task:{task_id}"
+        data = {
+            "status": status.value,
+            "updated_at": str(time.time()),
+        }
+        if result:
+            data["result"] = json.dumps(result)
+        if error:
+            data["error"] = error
+
+        self.r.hset(key, mapping=data)
+        self.r.expire(key, 86400)  # TTL: 24 horas
+
+    def get_task_status(self, task_id: str) -> dict:
+        key = f"{self.prefix}:task:{task_id}"
+        return self.r.hgetall(key)
+
+    # ── Fila de prioridade (Sorted Set) ─────────────────────────────────
+    def enqueue_task(self, task_id: str, priority: float):
+        key = f"{self.prefix}:queue"
+        self.r.zadd(key, {task_id: priority})
+
+    def dequeue_task(self) -> str | None:
+        key = f"{self.prefix}:queue"
+        # Pop o elemento com maior score (prioridade)
+        result = self.r.zpopmax(key)
+        return result[0][0] if result else None
+
+    # ── Agentes disponíveis (Set) ────────────────────────────────────────
+    def mark_agent_busy(self, agent_id: str):
+        self.r.srem(f"{self.prefix}:agents:available", agent_id)
+        self.r.sadd(f"{self.prefix}:agents:busy", agent_id)
+
+    def mark_agent_available(self, agent_id: str):
+        self.r.srem(f"{self.prefix}:agents:busy", agent_id)
+        self.r.sadd(f"{self.prefix}:agents:available", agent_id)
+
+    # ── Heartbeat de agente ──────────────────────────────────────────────
+    def agent_heartbeat(self, agent_id: str, ttl_sec: int = 30):
+        key = f"{self.prefix}:heartbeat:{agent_id}"
+        self.r.setex(key, ttl_sec, str(time.time()))
+
+    def is_agent_alive(self, agent_id: str) -> bool:
+        key = f"{self.prefix}:heartbeat:{agent_id}"
+        return self.r.exists(key) > 0
+
+    # ── Eventos de execução (Stream) ────────────────────────────────────
+    def emit_event(self, event_type: str, data: dict):
+        key = f"{self.prefix}:events"
+        self.r.xadd(key, {
+            "type": event_type,
+            "data": json.dumps(data),
+            "ts": str(time.time())
+        }, maxlen=1000)  # Mantém apenas últimos 1000 eventos
+
+    def get_events(self, count: int = 50) -> list[dict]:
+        key = f"{self.prefix}:events"
+        entries = self.r.xrevrange(key, count=count)
+        return [{"id": e[0], **e[1]} for e in entries]</code></pre>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🐘 Postgres para Persistência</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O que vai para o Postgres: tudo que precisa sobreviver ao restart do sistema, ser auditável por reguladores, ou ser consultado semanas depois por análise histórica.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-bold text-teal-400 mb-3">Vai para Redis</h4>
+          <ul class="space-y-1 text-sm text-neutral-300">
+            <li>• Status atual de cada tarefa (pending/running/done)</li>
+            <li>• Fila de prioridade de tarefas prontas</li>
+            <li>• Heartbeats dos agentes</li>
+            <li>• Locks de execução (SETNX)</li>
+            <li>• Cache de resultados intermediários</li>
+            <li>• Eventos em tempo real (Stream)</li>
+          </ul>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-bold text-teal-400 mb-3">Vai para Postgres</h4>
+          <ul class="space-y-1 text-sm text-neutral-300">
+            <li>• Histórico completo de execuções</li>
+            <li>• Audit log imutável (append-only)</li>
+            <li>• Resultados finais de cada sessão</li>
+            <li>• Configurações do orquestrador</li>
+            <li>• Métricas históricas de custo e performance</li>
+            <li>• Metadados de agentes e capabilities</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-sm font-semibold text-teal-400 mb-3">Schema Postgres para orquestrador</h3>
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>-- Schema SQL para persistência do orquestrador
+CREATE TABLE orchestration_sessions (
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    session_id  VARCHAR(64) UNIQUE NOT NULL,
+    objective   TEXT NOT NULL,
+    status      VARCHAR(20) DEFAULT 'running',
+    cost_usd    DECIMAL(10,4) DEFAULT 0,
+    started_at  TIMESTAMPTZ DEFAULT NOW(),
+    completed_at TIMESTAMPTZ,
+    metadata    JSONB DEFAULT '{}'
+);
+
+CREATE TABLE task_executions (
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    session_id  VARCHAR(64) REFERENCES orchestration_sessions(session_id),
+    task_id     VARCHAR(32) NOT NULL,
+    agent_id    VARCHAR(64),
+    model       VARCHAR(64),
+    status      VARCHAR(20),
+    input_data  JSONB,
+    output_data JSONB,
+    tokens_in   INTEGER DEFAULT 0,
+    tokens_out  INTEGER DEFAULT 0,
+    cost_usd    DECIMAL(10,6) DEFAULT 0,
+    started_at  TIMESTAMPTZ DEFAULT NOW(),
+    completed_at TIMESTAMPTZ,
+    error_msg   TEXT,
+    UNIQUE(session_id, task_id)
+);
+
+-- Audit log append-only (NUNCA deletar registros)
+CREATE TABLE audit_log (
+    id          BIGSERIAL PRIMARY KEY,
+    session_id  VARCHAR(64),
+    event_type  VARCHAR(64) NOT NULL,
+    actor       VARCHAR(64),  -- agent_id ou 'human'
+    action      TEXT NOT NULL,
+    details     JSONB DEFAULT '{}',
+    created_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Index para queries frequentes
+CREATE INDEX idx_task_exec_session ON task_executions(session_id);
+CREATE INDEX idx_audit_session ON audit_log(session_id);
+CREATE INDEX idx_audit_created ON audit_log(created_at);</code></pre>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">🔑 Session Management</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Cada execução do orquestrador tem um <strong class="text-teal-400">session_id</strong> único. Todo estado, log e resultado fica associado a ele. TTL automático garante limpeza de sessões abandonadas.
+      </p>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>import uuid
+import asyncpg
+from datetime import datetime, timezone
+
+class SessionManager:
+    """Gerencia ciclo de vida de sessões de orquestração."""
+
+    def __init__(self, redis_state: RedisStateManager, db_pool: asyncpg.Pool):
+        self.redis = redis_state
+        self.db = db_pool
+
+    @classmethod
+    def new_session_id(cls) -> str:
+        """Gera session_id único e legível."""
+        return f"sess_{uuid.uuid4().hex[:16]}"
+
+    async def create_session(self, objective: str, metadata: dict = None) -> str:
+        """Cria nova sessão no Redis (efêmero) e Postgres (permanente)."""
+        session_id = self.new_session_id()
+
+        # Redis: estado de execução com TTL de 4 horas
+        pipe = self.redis.r.pipeline()
+        pipe.hset(f"orch:{session_id}:meta", mapping={
+            "objective": objective,
+            "status": "running",
+            "created_at": str(datetime.now(timezone.utc).timestamp())
+        })
+        pipe.expire(f"orch:{session_id}:meta", 14400)  # 4 horas
+        pipe.execute()
+
+        # Postgres: registro permanente
+        await self.db.execute("""
+            INSERT INTO orchestration_sessions (session_id, objective, metadata)
+            VALUES ($1, $2, $3)
+        """, session_id, objective, metadata or {})
+
+        return session_id
+
+    async def complete_session(self, session_id: str, result: dict, cost: float):
+        """Finaliza sessão: salva resultado no Postgres."""
+        await self.db.execute("""
+            UPDATE orchestration_sessions
+            SET status = 'completed',
+                cost_usd = $2,
+                completed_at = NOW(),
+                metadata = metadata || $3::jsonb
+            WHERE session_id = $1
+        """, session_id, cost, {"final_result": result})
+
+        # Limpa estado Redis (ou deixa expirar pelo TTL)
+        self.redis.r.delete(f"orch:{session_id}:queue")
+
+    async def list_active_sessions(self) -> list[dict]:
+        """Lista sessões ativas no Postgres."""
+        rows = await self.db.fetch("""
+            SELECT session_id, objective, status, cost_usd, started_at
+            FROM orchestration_sessions
+            WHERE status = 'running'
+            ORDER BY started_at DESC
+            LIMIT 50
+        """)
+        return [dict(row) for row in rows]
+
+    async def cleanup_orphan_sessions(self, max_age_hours: int = 12):
+        """Remove sessões que ficaram em 'running' por muito tempo (processo morreu)."""
+        await self.db.execute("""
+            UPDATE orchestration_sessions
+            SET status = 'abandoned'
+            WHERE status = 'running'
+              AND started_at < NOW() - INTERVAL '$1 hours'
+        """, max_age_hours)</code></pre>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🧠 Context Window Management</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O maior consumidor de tokens em sistemas agentic não é o trabalho real — é o contexto injetado. O orquestrador deve injetar apenas o contexto relevante para cada agente, não o histórico completo da sessão.
+      </p>
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-5 mb-6">
+        <h4 class="font-bold text-red-400 mb-2">O problema do contexto ingênuo</h4>
+        <p class="text-sm text-neutral-300">Se uma sessão gera 50 mensagens de histórico durante 15 tarefas, e você injeta todo o histórico para cada agente, o custo se multiplica: 50 mensagens × 15 agentes = cada agente vê 750 mensagens de contexto desnecessário. Custo extra: 5-10x.</p>
+      </div>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>class ContextWindowManager:
+    """Gerencia qual contexto injetar em cada agente."""
+
+    MAX_CONTEXT_TOKENS = 4000  # Budget de contexto por agente
+
+    def build_context_for_task(self,
+                                task: dict,
+                                session_history: list[dict],
+                                completed_tasks: dict) -> list[dict]:
+        """
+        Constrói contexto mínimo relevante para uma tarefa específica.
+        Retorna lista de mensagens para injetar no agente.
+        """
+        messages = []
+
+        # 1. Contexto do objetivo (sempre incluir)
+        messages.append({
+            "role": "user",
+            "content": f"Objetivo da sessão: {session_history[0]['objective']}"
+        })
+
+        # 2. Resultados das dependências diretas (sempre incluir)
+        for dep_id in task.get("dependencias", []):
+            if dep_id in completed_tasks:
+                result = completed_tasks[dep_id]
+                messages.append({
+                    "role": "user",
+                    "content": f"Resultado de {dep_id}: {self._summarize_if_needed(result)}"
+                })
+
+        # 3. Contexto adicional por relevância semântica (opcional)
+        # Se ainda há budget de tokens, adicionar resultados relacionados
+        current_tokens = self._estimate_tokens(messages)
+        if current_tokens < self.MAX_CONTEXT_TOKENS * 0.7:
+            for task_id, result in completed_tasks.items():
+                if task_id not in task.get("dependencias", []):
+                    relevance = self._estimate_relevance(task, result)
+                    if relevance > 0.7:
+                        summary = self._summarize_if_needed(result, max_chars=500)
+                        messages.append({
+                            "role": "user",
+                            "content": f"Contexto relacionado ({task_id}): {summary}"
+                        })
+                        current_tokens += self._estimate_tokens([messages[-1]])
+                        if current_tokens > self.MAX_CONTEXT_TOKENS * 0.9:
+                            break
+
+        return messages
+
+    def _summarize_if_needed(self, result: dict, max_chars: int = 2000) -> str:
+        """Sumariza resultado se for muito longo."""
+        text = result.get("output", "")
+        if len(text) <= max_chars:
+            return text
+        # Retorna início + ... + fim
+        half = max_chars // 2
+        return f"{text[:half]}...[{len(text)-max_chars} chars omitidos]...{text[-half:]}"
+
+    def _estimate_tokens(self, messages: list) -> int:
+        """Estimativa rápida de tokens (1 token ≈ 4 chars)."""
+        total_chars = sum(len(str(m)) for m in messages)
+        return total_chars // 4
+
+    def _estimate_relevance(self, task: dict, result: dict) -> float:
+        """Relevância simples por overlap de palavras-chave."""
+        task_words = set(task["descricao"].lower().split())
+        result_words = set(str(result).lower().split())
+        intersection = task_words & result_words
+        return len(intersection) / max(len(task_words), 1)</code></pre>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🔄 Recuperação após Falha</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O processo do orquestrador morreu no meio de uma execução de $8 em tokens. Como retomar exatamente do ponto onde parou, sem reiniciar do zero e sem duplicar trabalho já feito?
+      </p>
+      <div class="bg-gradient-to-br from-teal-900/20 to-dark-800 rounded-xl border border-teal-500/30 p-6 mb-6">
+        <h3 class="text-base font-semibold text-teal-400 mb-4">O protocolo de recuperação</h3>
+        <div class="space-y-3 text-sm">
+          <div class="flex items-start space-x-3">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-neutral-300">Novo processo do orquestrador inicia. Detecta sessão com status "running" no Postgres com mais de 5 minutos sem atualização.</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-neutral-300">Carrega lista completa de tarefas e seus status do Redis (ou do Postgres se Redis foi reiniciado).</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-neutral-300">Tarefas com status DONE: carrega resultado salvo do Postgres — não reexecuta.</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-neutral-300">Tarefas com status RUNNING: marcar como FAILED (processo morreu, resultado desconhecido). Reagendar para reexecução.</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-neutral-300">Retoma execução normal a partir das tarefas PENDING e FAILED — economizando o custo das tarefas já concluídas.</span>
+          </div>
+        </div>
+      </div>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>class OrchestratorRecovery:
+    """Lógica de recuperação após crash do orquestrador."""
+
+    def __init__(self, redis: RedisStateManager, db: asyncpg.Pool):
+        self.redis = redis
+        self.db = db
+
+    async def detect_and_resume(self, session_id: str) -> dict:
+        """Detecta se sessão pode ser retomada e carrega estado."""
+
+        # 1. Verificar status da sessão no Postgres
+        session = await self.db.fetchrow("""
+            SELECT * FROM orchestration_sessions WHERE session_id = $1
+        """, session_id)
+
+        if not session or session["status"] not in ("running", "abandoned"):
+            return {"can_resume": False, "reason": "Sessão não está em andamento"}
+
+        # 2. Carregar tarefas já concluídas (Postgres é fonte de verdade)
+        done_tasks = await self.db.fetch("""
+            SELECT task_id, output_data, cost_usd
+            FROM task_executions
+            WHERE session_id = $1 AND status = 'done'
+        """, session_id)
+
+        completed = {r["task_id"]: dict(r) for r in done_tasks}
+
+        # 3. Identificar tarefas que estavam "running" (perdidas no crash)
+        running_tasks = await self.db.fetch("""
+            SELECT task_id FROM task_executions
+            WHERE session_id = $1 AND status = 'running'
+        """, session_id)
+
+        # Marcar como FAILED para reexecução
+        for row in running_tasks:
+            await self.db.execute("""
+                UPDATE task_executions SET status = 'failed',
+                error_msg = 'Processo encerrado inesperadamente — reexecutar'
+                WHERE session_id = $1 AND task_id = $2
+            """, session_id, row["task_id"])
+
+        cost_so_far = sum(r["cost_usd"] for r in done_tasks)
+
+        return {
+            "can_resume": True,
+            "session_id": session_id,
+            "completed_tasks": completed,
+            "tasks_to_retry": [r["task_id"] for r in running_tasks],
+            "cost_saved_usd": cost_so_far,
+        }</code></pre>
+      </div>
+      <div class="bg-dark-800/50 rounded-lg p-5 mb-8 border border-dark-600">
+        <h3 class="font-semibold text-teal-400 mb-2">Resumo do Módulo 5.3</h3>
+        <div class="space-y-2 text-sm text-neutral-300">
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Estado em memória local é o erro #1 em sistemas multi-agente reais</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Redis gerencia estado efêmero (sub-ms) — filas, locks, heartbeats, eventos</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Postgres persiste histórico permanente — audit log, resultados, configurações</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Session_id como namespace: isolamento completo entre execuções concorrentes</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Context budget: injete apenas o necessário para cada agente — economiza 70% em tokens</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Recuperação de checkpoint: retomar de onde parou sem reiniciar execuções completas</span></div>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="modulo-5-2.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 5.2 Roteamento Multi-Agente</a>
+        <a href="modulo-5-4.html" class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-500 transition-colors">Próximo: 5.4 Supervisão →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

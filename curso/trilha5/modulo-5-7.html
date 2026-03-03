@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5.7 Camada 6a — Observabilidade: Métricas | Trilha 5 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    pre { overflow-x: auto; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10">Orquestrador</a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <nav class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-teal-400 transition-colors">Home</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-teal-400 transition-colors">Trilha 5</a>
+      <span>/</span>
+      <span class="text-teal-400">Módulo 5.7</span>
+    </nav>
+  </div>
+
+  <header class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-teal-900/30 via-dark-900 to-dark-800"></div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="flex flex-wrap items-center gap-3 mb-4">
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-teal-500/20 text-teal-400 border border-teal-500/30">MÓDULO 5.7</span>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-dark-700 text-neutral-400">Camada 6a</span>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-dark-700 text-neutral-400">Observabilidade</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-neutral-100 mb-4">
+        📊 Camada 6a — Observabilidade: Métricas
+      </h1>
+      <p class="text-lg text-neutral-300 max-w-3xl mb-8">
+        Métricas técnicas e de negócio, SLIs/SLOs, Prometheus + Grafana, dashboards executivos e sistema de alertas para orquestradores de IA em produção.
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="bg-dark-800/60 rounded-xl p-4 border border-dark-600">
+          <div class="text-2xl font-black text-teal-400">6</div>
+          <div class="text-xs text-neutral-400 mt-1">Seções</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 border border-dark-600">
+          <div class="text-2xl font-black text-teal-400">~50min</div>
+          <div class="text-xs text-neutral-400 mt-1">Duração</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 border border-dark-600">
+          <div class="text-2xl font-black text-teal-400">Avançado</div>
+          <div class="text-xs text-neutral-400 mt-1">Nível</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 border border-dark-600">
+          <div class="text-2xl font-black text-teal-400">C6a</div>
+          <div class="text-xs text-neutral-400 mt-1">Camada</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+
+    <!-- Seção 1 -->
+    <section class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg flex-shrink-0">1</div>
+        <h2 class="text-xl font-bold text-neutral-100">Por que Observabilidade é Crítica em Orquestradores</h2>
+      </div>
+      <div class="space-y-4 text-neutral-300">
+        <p>Um orquestrador de IA em produção é uma caixa-preta em movimento: dezenas de agentes executando tarefas em paralelo, chamadas LLM caras acontecendo a cada segundo, loops de retry silenciosos consumindo budget. Sem observabilidade adequada, você descobre os problemas <strong class="text-neutral-100">depois que o cliente reclamou</strong> — ou depois que a fatura chegou.</p>
+        <p>A diferença entre um sistema monitorado e um não-monitorado é a diferença entre detectar um agente preso em loop em <strong class="text-teal-400">30 segundos</strong> versus descobrir <strong class="text-red-400">2 horas depois</strong> com $800 gastos.</p>
+
+        <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-5 mt-4">
+          <h3 class="font-bold text-red-400 mb-3">Incidentes reais por falta de observabilidade</h3>
+          <div class="space-y-3 text-sm">
+            <div class="flex gap-3">
+              <span class="text-red-400 font-bold flex-shrink-0">Caso 1:</span>
+              <span>Agente de pesquisa em loop infinito por 4 horas. Sem alertas configurados. Custo: $1.200. Detectado manualmente ao verificar billing.</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-red-400 font-bold flex-shrink-0">Caso 2:</span>
+              <span>Taxa de sucesso caiu de 94% para 67% após deploy. Sem dashboard de SLO, ninguém percebeu por 3 dias. 200+ tarefas falharam silenciosamente.</span>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-red-400 font-bold flex-shrink-0">Caso 3:</span>
+              <span>Latência P99 subiu de 8s para 45s após mudança de modelo. Usuários abandonaram o produto. Rollback feito 6 horas depois.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-teal-500/10 border border-teal-500/30 rounded-xl p-5 mt-4">
+          <h3 class="font-bold text-teal-400 mb-3">Os 3 pilares da observabilidade para IA</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+            <div>
+              <div class="font-bold text-neutral-100 mb-1">📊 Métricas</div>
+              <div class="text-neutral-400">Números agregados no tempo. Taxa de sucesso, latência P50/P99, custo/hora, throughput. Respondem "o que está acontecendo agora?"</div>
+            </div>
+            <div>
+              <div class="font-bold text-neutral-100 mb-1">🔍 Traces</div>
+              <div class="text-neutral-400">Rastreamento de requests individuais end-to-end. Mostra exatamente onde uma tarefa específica travou. Próximo módulo.</div>
+            </div>
+            <div>
+              <div class="font-bold text-neutral-100 mb-1">📋 Logs</div>
+              <div class="text-neutral-400">Eventos estruturados com contexto completo. Auditoria, debug, compliance. Coberto no módulo 5.5.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 2 -->
+    <section class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg flex-shrink-0">2</div>
+        <h2 class="text-xl font-bold text-neutral-100">PrometheusMetricsCollector — Instrumentação do Orquestrador</h2>
+      </div>
+      <div class="space-y-4 text-neutral-300">
+        <p>Prometheus é o padrão de facto para métricas em sistemas distribuídos. Para orquestradores de IA, instrumentamos quatro tipos de métricas: <strong class="text-neutral-100">Counters</strong> (incrementam), <strong class="text-neutral-100">Gauges</strong> (valor atual), <strong class="text-neutral-100">Histograms</strong> (distribuições de latência) e <strong class="text-neutral-100">Summaries</strong> (percentis calculados no cliente).</p>
+
+        <pre class="bg-dark-900 rounded-xl p-5 text-sm border border-dark-600"><code class="text-green-400"># pip install prometheus-client asyncio
+
+from prometheus_client import (
+    Counter, Histogram, Gauge, Summary,
+    start_http_server, CollectorRegistry, push_to_gateway
+)
+import time
+import asyncio
+from dataclasses import dataclass
+from typing import Optional
+from contextlib import asynccontextmanager
+
+# ============================================================
+# REGISTRY CENTRALIZADO DE MÉTRICAS
+# ============================================================
+
+class OrchestratorMetrics:
+    """Todas as métricas do orquestrador em um único lugar."""
+
+    def __init__(self, namespace: str = "orchestrator"):
+        self.ns = namespace
+
+        # --- COUNTERS: sempre crescem ---
+        self.tasks_total = Counter(
+            f'{namespace}_tasks_total',
+            'Total de tarefas submetidas',
+            ['status', 'agent_type', 'priority']
+        )
+
+        self.llm_calls_total = Counter(
+            f'{namespace}_llm_calls_total',
+            'Total de chamadas LLM',
+            ['model', 'agent_id', 'success']
+        )
+
+        self.retry_total = Counter(
+            f'{namespace}_retry_total',
+            'Total de retries executados',
+            ['reason', 'agent_type']
+        )
+
+        self.tokens_total = Counter(
+            f'{namespace}_tokens_total',
+            'Total de tokens consumidos',
+            ['model', 'token_type']  # token_type: input/output
+        )
+
+        self.cost_total = Counter(
+            f'{namespace}_cost_usd_total',
+            'Custo total em USD',
+            ['model', 'department']
+        )
+
+        # --- GAUGES: valor atual do sistema ---
+        self.active_agents = Gauge(
+            f'{namespace}_active_agents',
+            'Agentes atualmente ativos',
+            ['agent_type', 'status']
+        )
+
+        self.queue_depth = Gauge(
+            f'{namespace}_queue_depth',
+            'Tarefas na fila de execução',
+            ['priority']
+        )
+
+        self.active_sessions = Gauge(
+            f'{namespace}_active_sessions',
+            'Sessões de orquestração ativas'
+        )
+
+        self.budget_remaining_pct = Gauge(
+            f'{namespace}_budget_remaining_pct',
+            'Percentual de budget restante',
+            ['department']
+        )
+
+        # --- HISTOGRAMS: distribuições de tempo ---
+        self.task_duration = Histogram(
+            f'{namespace}_task_duration_seconds',
+            'Duração de execução de tarefas',
+            ['agent_type', 'task_type'],
+            buckets=[1, 5, 10, 30, 60, 120, 300, 600]
+        )
+
+        self.llm_latency = Histogram(
+            f'{namespace}_llm_latency_seconds',
+            'Latência de chamadas LLM',
+            ['model'],
+            buckets=[0.5, 1, 2, 5, 10, 30, 60]
+        )
+
+        self.planning_duration = Histogram(
+            f'{namespace}_planning_duration_seconds',
+            'Tempo de planejamento (Camada 1)',
+            buckets=[0.1, 0.5, 1, 2, 5, 10]
+        )
+
+        self.routing_duration = Histogram(
+            f'{namespace}_routing_duration_seconds',
+            'Tempo de roteamento (Camada 2)',
+            buckets=[0.01, 0.05, 0.1, 0.5, 1]
+        )
+
+    def start_server(self, port: int = 8000):
+        """Inicia servidor HTTP para Prometheus scraping."""
+        start_http_server(port)
+        print(f"Prometheus metrics server: http://localhost:{port}/metrics")
+
+
+# Singleton global
+metrics = OrchestratorMetrics()
+
+
+# ============================================================
+# CONTEXT MANAGERS PARA INSTRUMENTAÇÃO
+# ============================================================
+
+@asynccontextmanager
+async def track_task_execution(agent_type: str, task_type: str, priority: str = "normal"):
+    """Context manager para instrumentar execução de tarefa."""
+    start = time.time()
+    status = "success"
+    try:
+        yield
+    except Exception as e:
+        status = "error"
+        raise
+    finally:
+        duration = time.time() - start
+        metrics.task_duration.labels(
+            agent_type=agent_type,
+            task_type=task_type
+        ).observe(duration)
+        metrics.tasks_total.labels(
+            status=status,
+            agent_type=agent_type,
+            priority=priority
+        ).inc()
+
+
+@asynccontextmanager
+async def track_llm_call(model: str, agent_id: str):
+    """Context manager para instrumentar chamadas LLM."""
+    start = time.time()
+    success = "true"
+    try:
+        yield
+    except Exception:
+        success = "false"
+        raise
+    finally:
+        latency = time.time() - start
+        metrics.llm_latency.labels(model=model).observe(latency)
+        metrics.llm_calls_total.labels(
+            model=model,
+            agent_id=agent_id,
+            success=success
+        ).inc()
+
+
+# ============================================================
+# EXEMPLO DE USO NO ORQUESTRADOR
+# ============================================================
+
+async def execute_agent_task(agent_id: str, task: dict):
+    """Exemplo de agente instrumentado."""
+    agent_type = task.get("agent_type", "generic")
+    task_type = task.get("type", "unknown")
+    model = task.get("model", "claude-3-haiku-20240307")
+
+    # Incrementa agentes ativos
+    metrics.active_agents.labels(
+        agent_type=agent_type,
+        status="running"
+    ).inc()
+
+    try:
+        async with track_task_execution(agent_type, task_type):
+            async with track_llm_call(model, agent_id):
+                # Simula chamada LLM
+                await asyncio.sleep(0.1)  # substituir por chamada real
+
+                # Registra tokens e custo
+                input_tokens = 500
+                output_tokens = 200
+                cost = (input_tokens * 0.25 + output_tokens * 1.25) / 1_000_000
+
+                metrics.tokens_total.labels(
+                    model=model, token_type="input"
+                ).inc(input_tokens)
+                metrics.tokens_total.labels(
+                    model=model, token_type="output"
+                ).inc(output_tokens)
+                metrics.cost_total.labels(
+                    model=model,
+                    department=task.get("department", "default")
+                ).inc(cost)
+
+    finally:
+        metrics.active_agents.labels(
+            agent_type=agent_type,
+            status="running"
+        ).dec()</code></pre>
+
+        <div class="bg-teal-500/10 border border-teal-500/30 rounded-xl p-4">
+          <p class="text-sm text-teal-300"><strong>Dica:</strong> Use labels com moderação. Cada combinação única de labels cria uma nova série temporal no Prometheus. Com 10 agents × 5 models × 3 statuses = 150 séries. Com 100 agents, já são 1.500 séries — pode explodir a memória do Prometheus.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 3 -->
+    <section class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg flex-shrink-0">3</div>
+        <h2 class="text-xl font-bold text-neutral-100">SLIs e SLOs — Definindo Contratos de Qualidade</h2>
+      </div>
+      <div class="space-y-4 text-neutral-300">
+        <p><strong class="text-neutral-100">SLI (Service Level Indicator)</strong> é a métrica real que você mede. <strong class="text-neutral-100">SLO (Service Level Objective)</strong> é o alvo que você se compromete a atingir. <strong class="text-neutral-100">SLA (Service Level Agreement)</strong> é o contrato comercial com penalidades se o SLO for violado.</p>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-dark-600">
+                <th class="text-left py-3 pr-4 text-neutral-400 font-semibold">Dimensão</th>
+                <th class="text-left py-3 pr-4 text-neutral-400 font-semibold">SLI (O que medir)</th>
+                <th class="text-left py-3 text-neutral-400 font-semibold">SLO (Meta)</th>
+              </tr>
+            </thead>
+            <tbody class="space-y-2">
+              <tr class="border-b border-dark-700">
+                <td class="py-3 pr-4 font-medium text-neutral-100">Disponibilidade</td>
+                <td class="py-3 pr-4 text-neutral-300">% requests com status 2xx</td>
+                <td class="py-3 text-teal-400">≥ 99.5%</td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-3 pr-4 font-medium text-neutral-100">Taxa de Sucesso</td>
+                <td class="py-3 pr-4 text-neutral-300">tarefas_sucesso / tarefas_total</td>
+                <td class="py-3 text-teal-400">≥ 95%</td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-3 pr-4 font-medium text-neutral-100">Latência P50</td>
+                <td class="py-3 pr-4 text-neutral-300">Mediana do tempo de conclusão</td>
+                <td class="py-3 text-teal-400">≤ 30s</td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-3 pr-4 font-medium text-neutral-100">Latência P99</td>
+                <td class="py-3 pr-4 text-neutral-300">99° percentil do tempo</td>
+                <td class="py-3 text-teal-400">≤ 120s</td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-3 pr-4 font-medium text-neutral-100">Freshness</td>
+                <td class="py-3 pr-4 text-neutral-300">% dados com idade ≤ threshold</td>
+                <td class="py-3 text-teal-400">≥ 98%</td>
+              </tr>
+              <tr>
+                <td class="py-3 pr-4 font-medium text-neutral-100">Custo por Tarefa</td>
+                <td class="py-3 pr-4 text-neutral-300">USD médio por tarefa completada</td>
+                <td class="py-3 text-teal-400">≤ $0.15</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <pre class="bg-dark-900 rounded-xl p-5 text-sm border border-dark-600 mt-4"><code class="text-green-400">from dataclasses import dataclass, field
+from typing import Dict, List, Optional
+import time
+
+@dataclass
+class SLODefinition:
+    name: str
+    description: str
+    target: float          # 0.0 a 1.0 (ex: 0.995 = 99.5%)
+    window_hours: int = 24 # janela de avaliação
+
+@dataclass
+class SLOStatus:
+    slo: SLODefinition
+    current_value: float
+    is_compliant: bool
+    error_budget_remaining: float  # quanto posso "gastar" antes de violar
+    burn_rate: float               # velocidade de consumo do budget
+
+class SLOManager:
+    """Gerencia definições e avaliação de SLOs."""
+
+    SLOS: List[SLODefinition] = [
+        SLODefinition("task_success_rate", "Taxa de sucesso de tarefas", 0.95),
+        SLODefinition("latency_p99",       "Latência P99 ≤ 120s",       0.99),
+        SLODefinition("availability",      "Disponibilidade do sistema", 0.995),
+        SLODefinition("cost_per_task",     "Custo médio ≤ $0.15",       0.90),
+    ]
+
+    def __init__(self, prometheus_url: str):
+        self.prometheus_url = prometheus_url
+
+    def evaluate_task_success_rate(self, window_hours: int = 24) -> float:
+        """Calcula taxa de sucesso via PromQL."""
+        # PromQL equivalente:
+        # sum(rate(orchestrator_tasks_total{status="success"}[24h]))
+        # / sum(rate(orchestrator_tasks_total[24h]))
+        # Retorna valor entre 0 e 1
+        query = f"""
+            sum(rate(orchestrator_tasks_total{{status="success"}}[{window_hours}h]))
+            /
+            sum(rate(orchestrator_tasks_total[{window_hours}h]))
+        """
+        # Executar via requests.get(f"{self.prometheus_url}/query?query={query}")
+        return 0.962  # simulado
+
+    def calculate_error_budget(
+        self, slo: SLODefinition, current_value: float
+    ) -> float:
+        """
+        Error budget = quanto do SLO posso violar.
+        Ex: SLO 99.5% → error budget = 0.5% de falhas permitidas.
+        Se current é 99.2%, consumi 60% do budget.
+        """
+        total_budget = 1.0 - slo.target
+        consumed = slo.target - current_value
+        if consumed <= 0:
+            return 1.0  # 100% do budget restante
+        remaining = (total_budget - consumed) / total_budget
+        return max(0.0, remaining)
+
+    def calculate_burn_rate(
+        self, current_1h: float, current_24h: float, slo_target: float
+    ) -> float:
+        """
+        Burn rate = velocidade de consumo do error budget.
+        Burn rate 1 = consumindo exatamente na taxa sustentável.
+        Burn rate 10 = consumindo 10x mais rápido → alerta crítico.
+        """
+        hourly_budget = (1.0 - slo_target) / (30 * 24)  # budget por hora (30 dias)
+        current_error_rate = 1.0 - current_1h
+        if hourly_budget == 0:
+            return 0
+        return current_error_rate / hourly_budget
+
+    def evaluate_all(self) -> List[SLOStatus]:
+        results = []
+        for slo in self.SLOS:
+            current = self.evaluate_task_success_rate(slo.window_hours)
+            budget_remaining = self.calculate_error_budget(slo, current)
+            burn_rate = self.calculate_burn_rate(current, current, slo.target)
+
+            results.append(SLOStatus(
+                slo=slo,
+                current_value=current,
+                is_compliant=current >= slo.target,
+                error_budget_remaining=budget_remaining,
+                burn_rate=burn_rate
+            ))
+        return results</code></pre>
+      </div>
+    </section>
+
+    <!-- Seção 4 -->
+    <section class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg flex-shrink-0">4</div>
+        <h2 class="text-xl font-bold text-neutral-100">Prometheus + Grafana — Setup Completo</h2>
+      </div>
+      <div class="space-y-4 text-neutral-300">
+        <p>O stack Prometheus + Grafana é o padrão para visualização de métricas. Prometheus coleta e armazena; Grafana visualiza com dashboards interativos.</p>
+
+        <pre class="bg-dark-900 rounded-xl p-5 text-sm border border-dark-600"><code class="text-green-400"># docker-compose.yml — Stack de observabilidade completo
+
+version: '3.8'
+services:
+
+  # Seu orquestrador expõe métricas na porta 8000
+  orchestrator:
+    build: .
+    ports:
+      - "8000:8000"   # app
+      - "8001:8001"   # /metrics
+    environment:
+      - PROMETHEUS_PORT=8001
+    networks:
+      - monitoring
+
+  # Prometheus: coleta e armazena métricas
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./alerts.yml:/etc/prometheus/alerts.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.enable-lifecycle'
+    networks:
+      - monitoring
+
+  # Grafana: dashboards e visualizações
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/orchestrator.json
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    networks:
+      - monitoring
+
+  # AlertManager: roteamento de alertas
+  alertmanager:
+    image: prom/alertmanager:latest
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    networks:
+      - monitoring
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  monitoring:
+    driver: bridge
+
+---
+# prometheus.yml — Configuração de scraping
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - "alerts.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['alertmanager:9093']
+
+scrape_configs:
+  - job_name: 'orchestrator'
+    static_configs:
+      - targets: ['orchestrator:8001']
+    scrape_interval: 10s
+    metrics_path: /metrics
+
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis-exporter:9121']
+
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-exporter:9187']</code></pre>
+
+        <pre class="bg-dark-900 rounded-xl p-5 text-sm border border-dark-600 mt-4"><code class="text-green-400"># alerts.yml — Regras de alertas Prometheus
+
+groups:
+  - name: orchestrator_alerts
+    interval: 30s
+    rules:
+
+      # Alerta: taxa de sucesso caindo
+      - alert: TaskSuccessRateLow
+        expr: |
+          (
+            sum(rate(orchestrator_tasks_total{status="success"}[5m]))
+            / sum(rate(orchestrator_tasks_total[5m]))
+          ) < 0.90
+        for: 2m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "Taxa de sucesso abaixo de 90%"
+          description: "Taxa atual: {{ $value | humanizePercentage }}"
+          runbook: "https://wiki/runbooks/task-success-rate"
+
+      # Alerta: agente em loop (muito retry)
+      - alert: AgentRetryLoop
+        expr: |
+          rate(orchestrator_retry_total[5m]) > 5
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Agente {{ $labels.agent_type }} com alta taxa de retry"
+
+      # Alerta: budget quase esgotado
+      - alert: BudgetCritical
+        expr: orchestrator_budget_remaining_pct < 10
+        for: 0m
+        labels:
+          severity: critical
+          pager: "true"
+        annotations:
+          summary: "Budget crítico: {{ $value }}% restante"
+
+      # Alerta: latência P99 alta
+      - alert: HighLatencyP99
+        expr: |
+          histogram_quantile(0.99,
+            rate(orchestrator_task_duration_seconds_bucket[10m])
+          ) > 120
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Latência P99 acima de 120s: {{ $value }}s"
+
+      # Alerta: burn rate acelerado
+      - alert: ErrorBudgetBurnRate
+        expr: |
+          (
+            1 - sum(rate(orchestrator_tasks_total{status="success"}[1h]))
+            / sum(rate(orchestrator_tasks_total[1h]))
+          ) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Error budget consumindo 10x mais rápido que o sustentável"</code></pre>
+      </div>
+    </section>
+
+    <!-- Seção 5 -->
+    <section class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg flex-shrink-0">5</div>
+        <h2 class="text-xl font-bold text-neutral-100">Dashboard Executivo — Métricas de Negócio</h2>
+      </div>
+      <div class="space-y-4 text-neutral-300">
+        <p>CEOs e CFOs não leem gráficos de P99. Eles querem saber: quantas tarefas completamos, qual o custo, qual o ROI. O dashboard executivo traduz métricas técnicas em linguagem de negócio.</p>
+
+        <pre class="bg-dark-900 rounded-xl p-5 text-sm border border-dark-600"><code class="text-green-400">from dataclasses import dataclass
+from typing import Dict, List
+import httpx
+import asyncio
+from datetime import datetime, timedelta
+
+@dataclass
+class BusinessMetricSnapshot:
+    timestamp: datetime
+    tasks_completed_today: int
+    tasks_failed_today: int
+    success_rate_pct: float
+    cost_today_usd: float
+    avg_cost_per_task: float
+    human_hours_saved: float    # horas equivalentes de trabalho humano
+    roi_multiplier: float       # quantas vezes o custo foi economizado
+    top_failure_reason: str
+    budget_remaining_pct: float
+
+class ExecutiveDashboard:
+    """Coleta métricas de negócio para dashboard executivo."""
+
+    # Custo médio de um analista humano por hora
+    HUMAN_HOURLY_RATE = 45.0  # USD
+
+    # Tempo médio de uma tarefa feita por humano
+    HUMAN_TASK_MINUTES = {
+        "research": 30,
+        "analysis": 45,
+        "report": 60,
+        "data_extraction": 20,
+        "competitor_analysis": 90,
+    }
+
+    def __init__(self, prometheus_url: str):
+        self.prom = prometheus_url
+
+    async def query(self, promql: str) -> float:
+        """Executa query PromQL e retorna valor escalar."""
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(
+                f"{self.prom}/api/v1/query",
+                params={"query": promql}
+            )
+            data = resp.json()
+            results = data.get("data", {}).get("result", [])
+            if results:
+                return float(results[0]["value"][1])
+        return 0.0
+
+    async def get_snapshot(self) -> BusinessMetricSnapshot:
+        """Coleta snapshot atual de todas as métricas de negócio."""
+
+        # Queries paralelas para eficiência
+        (
+            tasks_success,
+            tasks_failed,
+            cost_today,
+            budget_pct
+        ) = await asyncio.gather(
+            self.query('sum(increase(orchestrator_tasks_total{status="success"}[24h]))'),
+            self.query('sum(increase(orchestrator_tasks_total{status="error"}[24h]))'),
+            self.query('sum(increase(orchestrator_cost_usd_total[24h]))'),
+            self.query('min(orchestrator_budget_remaining_pct)')
+        )
+
+        total = tasks_success + tasks_failed
+        success_rate = (tasks_success / total * 100) if total > 0 else 0
+        avg_cost = (cost_today / tasks_success) if tasks_success > 0 else 0
+
+        # Calcular horas humanas economizadas
+        # Assume média de 35 minutos por tarefa para humano
+        human_hours_saved = (tasks_success * 35) / 60
+
+        # ROI: quanto economizou vs. custo do sistema
+        human_cost_equivalent = human_hours_saved * self.HUMAN_HOURLY_RATE
+        roi = (human_cost_equivalent / cost_today) if cost_today > 0 else 0
+
+        return BusinessMetricSnapshot(
+            timestamp=datetime.now(),
+            tasks_completed_today=int(tasks_success),
+            tasks_failed_today=int(tasks_failed),
+            success_rate_pct=success_rate,
+            cost_today_usd=cost_today,
+            avg_cost_per_task=avg_cost,
+            human_hours_saved=human_hours_saved,
+            roi_multiplier=roi,
+            top_failure_reason="context_limit",  # do log analysis
+            budget_remaining_pct=budget_pct
+        )
+
+    def format_executive_report(self, snap: BusinessMetricSnapshot) -> str:
+        return f"""
+RELATÓRIO EXECUTIVO — ORQUESTRADOR IA
+Data: {snap.timestamp.strftime('%d/%m/%Y %H:%M')}
+{'='*50}
+
+PRODUÇÃO DO DIA
+  Tarefas concluídas:  {snap.tasks_completed_today:,}
+  Taxa de sucesso:     {snap.success_rate_pct:.1f}%
+  Tarefas falhas:      {snap.tasks_failed_today}
+
+FINANCEIRO
+  Custo hoje:          ${snap.cost_today_usd:.2f}
+  Custo médio/tarefa:  ${snap.avg_cost_per_task:.4f}
+  Budget restante:     {snap.budget_remaining_pct:.0f}%
+
+VALOR GERADO
+  Horas humanas salvas: {snap.human_hours_saved:.1f}h
+  Equivalente humano:   ${snap.human_hours_saved * 45:.2f}
+  ROI do sistema:       {snap.roi_multiplier:.1f}x
+
+PRÓXIMAS AÇÕES
+  {'⚠️  ALERTA: Budget crítico' if snap.budget_remaining_pct < 20 else '✓  Budget saudável'}
+  {'⚠️  ALERTA: Taxa de sucesso baixa' if snap.success_rate_pct < 90 else '✓  Qualidade OK'}
+"""</code></pre>
+      </div>
+    </section>
+
+    <!-- Seção 6 -->
+    <section class="bg-dark-800 rounded-2xl p-8 border border-dark-600">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-lg flex-shrink-0">6</div>
+        <h2 class="text-xl font-bold text-neutral-100">AlertManager — Sistema de Alertas com Roteamento Inteligente</h2>
+      </div>
+      <div class="space-y-4 text-neutral-300">
+        <p>AlertManager recebe alertas do Prometheus e roteia para os canais corretos: Slack para on-call, PagerDuty para críticos, e-mail para relatórios. O roteamento evita notification fatigue — nem todo alerta precisa acordar alguém às 3h da manhã.</p>
+
+        <pre class="bg-dark-900 rounded-xl p-5 text-sm border border-dark-600"><code class="text-green-400"># alertmanager.yml — Roteamento de alertas
+
+global:
+  resolve_timeout: 5m
+  slack_api_url: 'https://hooks.slack.com/services/T.../B.../...'
+
+# Templates de mensagem
+templates:
+  - '/etc/alertmanager/templates/*.tmpl'
+
+route:
+  # Regra default
+  receiver: 'slack-warnings'
+  group_by: ['alertname', 'severity']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+
+  routes:
+    # Críticos → PagerDuty + Slack
+    - match:
+        severity: critical
+      receiver: 'pagerduty-critical'
+      continue: true  # continua para próxima rota
+
+    - match:
+        severity: critical
+      receiver: 'slack-critical'
+
+    # Budget crítico → também alerta CFO
+    - match:
+        alertname: BudgetCritical
+      receiver: 'email-finance'
+
+    # Warnings → apenas Slack
+    - match:
+        severity: warning
+      receiver: 'slack-warnings'
+
+receivers:
+  - name: 'slack-critical'
+    slack_configs:
+      - channel: '#alerts-critical'
+        title: '🚨 CRÍTICO: {{ .GroupLabels.alertname }}'
+        text: |
+          {{ range .Alerts }}
+          *{{ .Annotations.summary }}*
+          {{ .Annotations.description }}
+          Runbook: {{ .Annotations.runbook }}
+          {{ end }}
+        color: 'danger'
+        send_resolved: true
+
+  - name: 'slack-warnings'
+    slack_configs:
+      - channel: '#alerts-platform'
+        title: '⚠️ {{ .GroupLabels.alertname }}'
+        text: '{{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+        color: 'warning'
+
+  - name: 'pagerduty-critical'
+    pagerduty_configs:
+      - routing_key: 'YOUR_PAGERDUTY_KEY'
+        severity: 'critical'
+        description: '{{ .GroupLabels.alertname }}: {{ .CommonAnnotations.summary }}'
+
+  - name: 'email-finance'
+    email_configs:
+      - to: 'cfo@empresa.com'
+        subject: '[URGENTE] Budget de IA - Ação Necessária'
+        body: |
+          O budget de IA atingiu nível crítico.
+          Ação necessária: revisar limites ou aprovar aumento.
+
+inhibit_rules:
+  # Se há alerta crítico, suprime warnings relacionados
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname']</code></pre>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+          <div class="bg-dark-900 rounded-xl p-4 border border-teal-500/30">
+            <div class="font-bold text-teal-400 mb-2">PromQL Essenciais</div>
+            <div class="text-xs text-neutral-400 space-y-1 font-mono">
+              <div>rate(metric[5m])</div>
+              <div>histogram_quantile(0.99, ...)</div>
+              <div>increase(counter[24h])</div>
+              <div>avg_over_time(gauge[1h])</div>
+            </div>
+          </div>
+          <div class="bg-dark-900 rounded-xl p-4 border border-teal-500/30">
+            <div class="font-bold text-teal-400 mb-2">Grafana Panels</div>
+            <div class="text-xs text-neutral-400 space-y-1">
+              <div>Time Series → latências</div>
+              <div>Stat → valor atual</div>
+              <div>Gauge → budget %</div>
+              <div>Table → top failures</div>
+            </div>
+          </div>
+          <div class="bg-dark-900 rounded-xl p-4 border border-teal-500/30">
+            <div class="font-bold text-teal-400 mb-2">Retenção</div>
+            <div class="text-xs text-neutral-400 space-y-1">
+              <div>Prometheus: 30 dias</div>
+              <div>Thanos: 1 ano (S3)</div>
+              <div>Resolution: 15s raw</div>
+              <div>Downsample: 5m / 1h</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-900 rounded-xl p-5 border border-dark-600 mt-4">
+          <h3 class="font-bold text-neutral-100 mb-3">Resumo do Módulo 5.7</h3>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex gap-2"><span class="text-teal-400 flex-shrink-0">•</span> <span>Prometheus com 4 tipos de métricas: Counter, Gauge, Histogram, Summary</span></li>
+            <li class="flex gap-2"><span class="text-teal-400 flex-shrink-0">•</span> <span>SLIs medem qualidade real; SLOs definem metas; error budget quantifica quanto posso falhar</span></li>
+            <li class="flex gap-2"><span class="text-teal-400 flex-shrink-0">•</span> <span>Burn rate > 10x → alerta imediato, mesmo que SLO ainda não violado</span></li>
+            <li class="flex gap-2"><span class="text-teal-400 flex-shrink-0">•</span> <span>Dashboard executivo traduz latência P99 em "horas humanas salvas" e ROI</span></li>
+            <li class="flex gap-2"><span class="text-teal-400 flex-shrink-0">•</span> <span>AlertManager roteia: críticos → PagerDuty, warnings → Slack, budget → CFO</span></li>
+            <li class="flex gap-2"><span class="text-teal-400 flex-shrink-0">•</span> <span>Inhibit rules evitam notification fatigue quando sistemas estão em cascata</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navegação -->
+    <div class="flex justify-between items-center pt-4">
+      <a href="modulo-5-6.html" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-dark-800 border border-dark-600 text-neutral-300 hover:text-teal-400 hover:border-teal-500/30 transition-all">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        <span class="text-sm font-medium">5.6 — Custo e Audit</span>
+      </a>
+      <a href="modulo-5-8.html" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-teal-500/20 border border-teal-500/30 text-teal-400 hover:bg-teal-500/30 transition-all">
+        <span class="text-sm font-medium">5.8 — Rastreamento</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+      </a>
+    </div>
+  </main>
+
+  <footer class="border-t border-dark-600 mt-12 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-neutral-400 text-sm">
+        Agentic Engineering Masterclass •
+        <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a>
+        • Módulo 5.7 — Camada 6a: Métricas
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme') || 'dark';
+    html.classList.toggle('dark', saved === 'dark');
+    darkIcon.classList.toggle('hidden', saved === 'dark');
+    lightIcon.classList.toggle('hidden', saved !== 'dark');
+    toggle.addEventListener('click', () => {
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      darkIcon.classList.toggle('hidden', isDark);
+      lightIcon.classList.toggle('hidden', !isDark);
+    });
+  </script>
+</body>
+</html>

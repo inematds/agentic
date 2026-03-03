@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trilha 5 — Orquestrador Completo | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block">
+            <span>Frameworks</span>
+          </a>
+          <a href="../trilha4/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors hidden lg:block">
+            <span>Multi-Agentes</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10">
+            <span class="sm:hidden">T5</span><span class="hidden sm:inline">Orquestrador</span>
+          </a>
+          <a href="../trilha6/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors hidden lg:block">
+            <span>Enterprise</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER DA TRILHA -->
+  <header class="bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full mb-4 tracking-wide">
+        TRILHA 5
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🏗️ Orquestrador Completo</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        As 6 camadas que transformam um conjunto de agentes em um sistema robusto de produção. Planejamento, roteamento, estado, supervisão, governança e observabilidade — construindo o orquestrador que aguenta missões reais.
+      </p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-teal-400">11</div>
+          <div class="text-xs text-neutral-400">Módulos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-teal-400">66</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-teal-400">~9h</div>
+          <div class="text-xs text-neutral-400">Duração</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-teal-400">Avançado</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- AS 6 CAMADAS -->
+  <div class="border-b border-dark-600 bg-dark-800/30">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <p class="text-xs text-neutral-500 font-semibold uppercase tracking-wide mb-3">As 6 Camadas do Orquestrador</p>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+        <div class="bg-teal-500/10 border border-teal-500/30 rounded-lg p-2 text-center">
+          <div class="text-xs font-bold text-teal-400">CAMADA 1</div>
+          <div class="text-xs text-neutral-400 mt-1">Planejamento</div>
+        </div>
+        <div class="bg-teal-500/10 border border-teal-500/30 rounded-lg p-2 text-center">
+          <div class="text-xs font-bold text-teal-400">CAMADA 2</div>
+          <div class="text-xs text-neutral-400 mt-1">Roteamento</div>
+        </div>
+        <div class="bg-teal-500/10 border border-teal-500/30 rounded-lg p-2 text-center">
+          <div class="text-xs font-bold text-teal-400">CAMADA 3</div>
+          <div class="text-xs text-neutral-400 mt-1">Estado</div>
+        </div>
+        <div class="bg-teal-500/10 border border-teal-500/30 rounded-lg p-2 text-center">
+          <div class="text-xs font-bold text-teal-400">CAMADA 4</div>
+          <div class="text-xs text-neutral-400 mt-1">Supervisão</div>
+        </div>
+        <div class="bg-teal-500/10 border border-teal-500/30 rounded-lg p-2 text-center">
+          <div class="text-xs font-bold text-teal-400">CAMADA 5</div>
+          <div class="text-xs text-neutral-400 mt-1">Governança</div>
+        </div>
+        <div class="bg-teal-500/10 border border-teal-500/30 rounded-lg p-2 text-center">
+          <div class="text-xs font-bold text-teal-400">CAMADA 6</div>
+          <div class="text-xs text-neutral-400 mt-1">Observabilidade</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVEGACAO RAPIDA -->
+  <div class="border-b border-dark-600 bg-dark-800/20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-11 gap-2">
+        <a href="modulo-5-1.html" class="text-center px-2 py-2 rounded-lg bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-semibold hover:bg-teal-500/20 transition-colors">
+          <div class="text-base mb-1">🎯</div><div>5.1</div>
+        </a>
+        <a href="modulo-5-2.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-teal-500/30 hover:text-teal-400 transition-colors">
+          <div class="text-base mb-1">🔀</div><div>5.2</div>
+        </a>
+        <a href="modulo-5-3.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-teal-500/30 hover:text-teal-400 transition-colors">
+          <div class="text-base mb-1">🗄️</div><div>5.3</div>
+        </a>
+        <a href="modulo-5-4.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-teal-500/30 hover:text-teal-400 transition-colors">
+          <div class="text-base mb-1">👁️</div><div>5.4</div>
+        </a>
+        <a href="modulo-5-5.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-teal-500/30 hover:text-teal-400 transition-colors">
+          <div class="text-base mb-1">📋</div><div>5.5</div>
+        </a>
+        <a href="modulo-5-6.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-teal-500/30 hover:text-teal-400 transition-colors">
+          <div class="text-base mb-1">💰</div><div>5.6</div>
+        </a>
+        <a href="modulo-5-7.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-teal-500/30 hover:text-teal-400 transition-colors">
+          <div class="text-base mb-1">📊</div><div>5.7</div>
+        </a>
+        <a href="modulo-5-8.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-teal-500/30 hover:text-teal-400 transition-colors">
+          <div class="text-base mb-1">🔍</div><div>5.8</div>
+        </a>
+        <a href="modulo-5-9.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-teal-500/30 hover:text-teal-400 transition-colors">
+          <div class="text-base mb-1">🏛️</div><div>5.9</div>
+        </a>
+        <a href="modulo-5-10.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-teal-500/30 hover:text-teal-400 transition-colors">
+          <div class="text-base mb-1">⚡</div><div>5.10</div>
+        </a>
+        <a href="modulo-5-11.html" class="text-center px-2 py-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 text-xs hover:border-teal-500/30 hover:text-teal-400 transition-colors">
+          <div class="text-base mb-1">🚀</div><div>5.11</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <div class="mb-6 flex items-center justify-between">
+      <h2 class="text-xl font-bold text-neutral-300">Conteúdo Detalhado</h2>
+      <span class="text-sm text-neutral-500">11 módulos · Clique para expandir tópicos</span>
+    </div>
+
+    <!-- ======== MODULO 5.1 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-teal-400 font-bold text-lg">5.1</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🎯 Camada 1 — Planejamento Inteligente</h3>
+        <p class="text-neutral-400 text-sm">Como transformar um objetivo vago em um plano executável com dependências, prioridades e estimativas de custo.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🧩</span>
+            <div><span class="font-medium">Task decomposition automática</span><span class="text-neutral-500 text-sm ml-2">- Do objetivo às subtarefas</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Usar um LLM para decompor um objetivo de alto nível em subtarefas atômicas e executáveis, validando completude e evitando sobreposição entre tarefas.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem decomposição estruturada, o orquestrador tenta executar objetivos impossíveis de uma só vez, resultando em falhas e retrabalho caro.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Subtarefa atômica · Critério de completude · Evitar sobreposição · LLM como decompositor · Validação do plano</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🌐</span>
+            <div><span class="font-medium">Dependency graph (DAG)</span><span class="text-neutral-500 text-sm ml-2">- Tarefas bloqueadoras vs. paralelas</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Representação das tarefas como Directed Acyclic Graph, identificando quais tarefas bloqueiam outras e quais podem ser executadas em paralelo para máxima eficiência.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">O DAG é a estrutura que permite paralelismo seguro — executar as tarefas na ordem errada causa falhas em cascata e resultado incorreto.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">DAG · Nó bloqueador · Tarefa paralela · Topological sort · Dependência transitiva · Ciclo inválido</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔍</span>
+            <div><span class="font-medium">Objective parsing</span><span class="text-neutral-500 text-sm ml-2">- Extraindo dimensões executáveis</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Como extrair do objetivo em linguagem natural as dimensões executáveis: O que fazer? Para quem? Com que critérios de sucesso? Qual o formato de entrega esperado?</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Objetivos ambíguos geram planos ambíguos. O parsing estruturado força clareza antes de qualquer execução — economiza tokens e evita retrabalho.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Structured extraction · Critério de sucesso · Formato de entrega · Stakeholder implícito · Ambiguidade intencional vs. acidental</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🌳</span>
+            <div><span class="font-medium">Árvore de execução</span><span class="text-neutral-500 text-sm ml-2">- Hierarquia de tarefas e subtarefas</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Estrutura hierárquica onde tarefas de alto nível se decompõem em subtarefas, e subtarefas em ações atômicas — formando uma árvore navegável pelo orquestrador.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">A árvore permite rastreamento granular do progresso — saber exatamente em que ponto da execução o sistema está, mesmo em execuções de horas.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Nó raiz · Folha atômica · Nível de abstração · Progresso por nível · Estimativa de profundidade · Limite de recursão</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">⚖️</span>
+            <div><span class="font-medium">Priorização inteligente</span><span class="text-neutral-500 text-sm ml-2">- Critérios para ordem de execução</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Quando múltiplas tarefas estão desbloqueadas, qual executar primeiro? Critérios: criticidade para o caminho crítico, duração estimada, número de dependentes downstream, custo estimado.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">A ordem de execução afeta o tempo total e o custo total. Executar tarefas críticas primeiro reduz o tempo de espera em cascata.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Caminho crítico · Criticidade · FIFO vs. priority queue · Custo de atraso · Estimativa de duração · Score de prioridade</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📋</span>
+            <div><span class="font-medium">Exemplo real completo</span><span class="text-neutral-500 text-sm ml-2">- Due diligence → 15 tarefas → DAG → execução</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Walkthrough completo: "Prepare due diligence da empresa X" → parsing → 15 subtarefas → DAG com dependências → ordem de execução → estimativa de custo total.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ver o planejador completo em ação ancora todos os conceitos anteriores em um caso de uso real e representativo do que você vai construir.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Due diligence · Paralelismo de 5 tarefas · 3 ondas de execução · Custo estimado $2.40 · Tempo estimado 12 min · Código Python completo</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-5-1')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-5-1.html" class="px-4 py-2 text-sm bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 5.2 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-teal-400 font-bold text-lg">5.2</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔀 Camada 2 — Roteamento Multi-Agente</h3>
+        <p class="text-neutral-400 text-sm">Dado um pool de agentes especializados, selecionar dinamicamente o melhor agente para cada tarefa — por capacidade, custo e disponibilidade.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">❓</span>
+            <div><span class="font-medium">O problema de roteamento</span><span class="text-neutral-500 text-sm ml-2">- Pool de agentes, uma tarefa, qual escolher?</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Dado um pool de agentes especializados (financeiro, jurídico, técnico, redação), qual deve executar cada tarefa? Roteamento errado gera qualidade ruim e custo alto.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">O roteamento é a decisão mais impactante do orquestrador — afeta qualidade, custo e latência de toda a execução. Roteamento inteligente pode reduzir custo em 60%.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Pool de agentes · Especialização · Critério de seleção · Fallback · Custo de roteamento errado · Benchmark por tipo de tarefa</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">📊</span>
+            <div><span class="font-medium">Roteamento estático</span><span class="text-neutral-500 text-sm ml-2">- Tabela fixa tipo-de-tarefa → agente</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Tabela fixa mapeando tipo de tarefa para agente responsável. Simples, previsível, fácil de depurar — mas difícil de manter quando o número de agentes e tipos de tarefa cresce.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Entender roteamento estático primeiro é fundamental — é a baseline contra a qual você compara roteamento dinâmico e mede o ganho real.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Routing table · Manutenção manual · Explosão combinatória · Quando usar · Quando migrar para dinâmico · Exemplo de código</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🤖</span>
+            <div><span class="font-medium">Roteamento dinâmico com LLM classifier</span><span class="text-neutral-500 text-sm ml-2">- Seleção automática por semântica</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Um agente roteador usa LLM para ler a descrição da tarefa e selecionar o agente mais adequado do pool, com fallback para agente generalista quando nenhum especialista atende.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">O roteador LLM escala naturalmente: adicionar um novo agente ao pool requer apenas atualizar a descrição das capacidades, sem alterar tabelas de roteamento.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">LLM classifier · Agent capabilities description · Confidence score · Fallback chain · Modelo barato para classificação · Latência de roteamento</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">⚡</span>
+            <div><span class="font-medium">Load balancing</span><span class="text-neutral-500 text-sm ml-2">- Distribuindo carga entre agentes do mesmo tipo</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Quando há múltiplas instâncias do mesmo tipo de agente, distribuir a carga por disponibilidade, custo atual, ou round-robin para evitar gargalos e timeouts.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem load balancing, uma instância fica sobrecarregada enquanto outras ficam ociosas — aumentando latência e risco de timeout no pior momento.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Round-robin · Least connections · Health-aware routing · Agent pool · Concurrency limit · Queue depth por agente</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">💰</span>
+            <div><span class="font-medium">Roteamento por custo</span><span class="text-neutral-500 text-sm ml-2">- Modelo barato para simples, caro para complexo</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Classificar tarefas por complexidade e rotear para o agente com o modelo mais barato capaz de executar com qualidade aceitável — tarefas simples não precisam de GPT-4o.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Usar GPT-4o para tudo pode custar 30x mais que o necessário. Roteamento por custo é a alavanca mais direta para redução de custo em produção.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Complexity classifier · Tier de modelo · Custo por complexidade · Quality floor · Trade-off custo/qualidade · Tabela de decisão</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔧</span>
+            <div><span class="font-medium">Implementação: classe AgentRouter</span><span class="text-neutral-500 text-sm ml-2">- Pool, route(), logging e métricas</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Implementação completa da classe AgentRouter com pool de agentes, método route(task) → agent, logging de decisões de roteamento e métricas de acerto.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ver a implementação concreta solidifica os conceitos e dá um template reutilizável para o projeto final da trilha.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">AgentPool · route() method · Decision log · Routing accuracy · A/B testing de estratégias · Extensibilidade do roteador</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-5-2')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-5-2.html" class="px-4 py-2 text-sm bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 5.3 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-teal-400 font-bold text-lg">5.3</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🗄️ Camada 3 — Controle de Estado</h3>
+        <p class="text-neutral-400 text-sm">Redis para estado de execução, Postgres para persistência, session management e recuperação após falha.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🌐</span>
+            <div><span class="font-medium">Por que estado distribuído</span><span class="text-neutral-500 text-sm ml-2">- Além da memória local do processo</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Quando múltiplos agentes executam em paralelo em processos ou máquinas diferentes, o estado compartilhado não pode ficar em memória local — precisa de armazenamento distribuído.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Estado em memória local é a causa número 1 de falhas em sistemas multi-agente reais — funciona no dev, quebra em produção quando há mais de um worker.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Shared state · Race condition · Single source of truth · Eventual consistency · Locking · Atomicidade de operações</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">⚡</span>
+            <div><span class="font-medium">Redis para estado de execução</span><span class="text-neutral-500 text-sm ml-2">- Hashes, sets e streams</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Estruturas Redis para orquestrador: hashes para estado de cada tarefa, sorted sets para fila de prioridade, streams para eventos de execução, pub/sub para notificações entre agentes.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Redis é a escolha padrão de mercado para estado de execução rápido — latência sub-milissegundo e estruturas de dados perfeitas para orquestração.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">HSET/HGET · ZADD/ZRANGE · XADD/XREAD · TTL de estado · Keyspace para sessão · Atomicidade com MULTI/EXEC</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🐘</span>
+            <div><span class="font-medium">Postgres para persistência</span><span class="text-neutral-500 text-sm ml-2">- Schema de audit e histórico de execuções</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Schema Postgres para dados permanentes: tabelas de execuções históricas, audit log imutável, configurações do orquestrador — o que vai para Redis vs. Postgres e por quê.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Redis é volátil — dados expiram ou são perdidos em restart. Postgres garante que o histórico de execuções, essencial para auditoria e debugging, seja permanente.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Schema de execuções · Audit log append-only · Redis vs. Postgres decision matrix · Sync entre Redis e Postgres · Backup de estado</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔑</span>
+            <div><span class="font-medium">Session management</span><span class="text-neutral-500 text-sm ml-2">- session_id, TTL e limpeza</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Cada execução do orquestrador tem um session_id único. Todo estado, log e resultado é associado a ele. TTL de sessão garante limpeza automática de sessões abandonadas.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem session management, execuções concorrentes interferem entre si e dados de sessões antigas contaminam novas execuções — bug difícil de reproduzir em produção.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">UUID como session_id · Namespace Redis por sessão · TTL automático · Sessão órfã · Cleanup job · Isolamento entre sessões</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🧠</span>
+            <div><span class="font-medium">Context window management</span><span class="text-neutral-500 text-sm ml-2">- Injetando só o contexto relevante</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O orquestrador injeta apenas o contexto relevante para cada agente — não o histórico completo de 1000 mensagens. Técnicas de sumarização e seleção de contexto por relevância.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Context window cheio = custo exponencial e latência alta. Gerenciar o contexto ativamente pode reduzir custo por agente em 70% sem perda de qualidade.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Context budget · Sumarização de histórico · Seleção por relevância · Embedding similarity · Contexto mínimo viável · Sliding window</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔄</span>
+            <div><span class="font-medium">Recuperação após falha</span><span class="text-neutral-500 text-sm ml-2">- Retomando do ponto onde parou</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Se o processo do orquestrador morrer no meio de uma execução, como retomar exatamente do ponto onde parou usando o estado salvo no Redis/Postgres — sem reiniciar do zero.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Execuções longas (horas) em produção sempre enfrentam falhas. Recomeçar do zero pode custar $50+ em tokens. Recuperação de checkpoint é obrigatória em produção.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Checkpoint · Estado de tarefa (PENDING/RUNNING/DONE/FAILED) · Resume logic · Idempotência de tarefas · Detecção de restart · Custo de recuperação</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-5-3')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-5-3.html" class="px-4 py-2 text-sm bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 5.4 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-teal-400 font-bold text-lg">5.4</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">👁️ Camada 4 — Supervisão e Replanejamento</h3>
+        <p class="text-neutral-400 text-sm">Health check, SLA monitoring, detecção de stall, retry inteligente e escalação para humano com critérios claros.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">💓</span>
+            <div><span class="font-medium">Health monitoring de agentes</span><span class="text-neutral-500 text-sm ml-2">- Heartbeat, timeout e detecção de travamento</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Cada agente emite heartbeat periódico. O supervisor monitora: se heartbeat parar, o agente travou. Distinção entre "trabalhando normalmente" vs. "travado" vs. "crashado".</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem health monitoring, um agente travado pode bloquear toda a execução indefinidamente enquanto o orquestrador espera um resultado que nunca virá.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Heartbeat interval · Last seen timestamp · Timeout threshold · Dead vs. slow · Processo zumbi · Forced termination</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">⏱️</span>
+            <div><span class="font-medium">SLA monitoring</span><span class="text-neutral-500 text-sm ml-2">- Tempo máximo por tarefa e alertas</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Cada tipo de tarefa tem um SLA de tempo (análise = 30s, relatório = 120s). Se ultrapassar, aciona alerta e potencialmente replanning ou escalação automática.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">SLA monitoring transforma intuição em dados. Em vez de "parece lento", você tem "tarefa X está a 2.3x do SLA" e pode agir de forma proativa.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">SLA por tipo de tarefa · Warning threshold · Breach threshold · SLA breaches/hora · Impacto cascata · Contrato com downstream</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔁</span>
+            <div><span class="font-medium">Detecção de stall</span><span class="text-neutral-500 text-sm ml-2">- Heurísticas para loop preso</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Heurísticas para detectar quando um agente está preso em loop: N tokens gerados sem mudança de estado, N tool calls idênticos consecutivos, N iterações sem progresso mensurável.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Um agente em loop pode gastar $100+ em tokens antes de ser detectado manualmente. Detecção automática de stall é a diferença entre $0.50 e $500 de custo.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Stall threshold · Repetition detection · Progress metric · Loop fingerprint · Interrupção controlada · Log de comportamento repetitivo</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔃</span>
+            <div><span class="font-medium">Retry inteligente</span><span class="text-neutral-500 text-sm ml-2">- Não apenas retentar o mesmo</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Retry inteligente não repete cegamente: retentar com contexto adicional sobre o erro anterior, com modelo diferente, com abordagem alternativa, ou com decomposição diferente da tarefa.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Retry ingênuo (tentar a mesma coisa 3x) falha exatamente da mesma forma 3x. Retry inteligente aumenta a taxa de sucesso de 40% para 85%+ em falhas transientes.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Error context injection · Model fallback · Abordagem alternativa · Exponential backoff · Max retries · Retry budget</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🗺️</span>
+            <div><span class="font-medium">Replanning automático</span><span class="text-neutral-500 text-sm ml-2">- Quando N tentativas falharam</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Quando N tentativas de retry falharam, acionar replanning completo da subtarefa: gerar nova abordagem usando o estado atual e histórico de falhas como contexto para o planejador.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Replanning é o que diferencia um orquestrador robusto de um script com retry. A capacidade de replanejar é a essência da autonomia controlada.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Replanning trigger · Failure context · Alternative decomposition · Replanning budget · Profundidade máxima de replanning · Escalação após replanning</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">👤</span>
+            <div><span class="font-medium">Human escalation pipeline</span><span class="text-neutral-500 text-sm ml-2">- Triggers, notificação e interface de aprovação</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Definindo triggers claros para escalação humana (custo > $X, ação irreversível, confiança < Y%), implementando notificação assíncrona via Slack/email, interface de aprovação/rejeição.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Human-in-the-loop é o safety net final de qualquer sistema agentic. Um pipeline bem definido garante que humanos são acionados na hora certa — nem cedo demais, nem tarde demais.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Escalation triggers · Async notification · Approval interface · Timeout de aprovação · Default behavior sem resposta · Audit trail de decisões humanas</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-5-4')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-5-4.html" class="px-4 py-2 text-sm bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 5.5 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-teal-400 font-bold text-lg">5.5</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">📋 Camada 5a — Governança: Logs e Permissões</h3>
+        <p class="text-neutral-400 text-sm">Logs estruturados, audit trail imutável, RBAC para agentes e compliance — o que empresas reguladas exigem.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">📝</span>
+            <div><span class="font-medium">Logs estruturados para agentes</span><span class="text-neutral-500 text-sm ml-2">- Schema completo de cada ação</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Cada ação de agente gera log estruturado com: agent_id, task_id, session_id, action_type, input, output, tokens_used, cost, timestamp, duration_ms.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Logs não-estruturados são inúteis para debugging em escala. Logs estruturados permitem queries, alertas e dashboards automáticos sem regex frágil.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">JSON structured log · Schema fixo · Campos obrigatórios vs. opcionais · Log level · Correlação por session_id · Retenção de logs</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🔒</span>
+            <div><span class="font-medium">Audit trail imutável</span><span class="text-neutral-500 text-sm ml-2">- Quem decidiu o quê, quando, com que resultado</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Sequência imutável de todas as ações do orquestrador: quem (agente/humano) decidiu o quê, quando, com que input e com que resultado — requisito enterprise em setores regulados.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Auditoria não é opcional em fintech, saúde ou jurídico. O audit trail é o documento que prova que o sistema agiu dentro dos limites autorizados.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Append-only log · Hash chain · Imutabilidade · Timestamp com timezone · Actor identifier · Event sourcing pattern</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🛡️</span>
+            <div><span class="font-medium">RBAC para agentes</span><span class="text-neutral-500 text-sm ml-2">- Roles, permissões e ambientes</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Cada agente tem um role, cada role tem permissões específicas de tools que pode usar e ambientes que pode acessar — mesmo modelo de RBAC humano aplicado a agentes.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem RBAC, qualquer agente pode usar qualquer tool — um agente de análise poderia deletar dados de produção. RBAC é o princípio de menor privilégio aplicado a agentes.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Role · Permission · Tool allowlist · Environment restriction · Privilege escalation check · Role assignment dinâmico</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔧</span>
+            <div><span class="font-medium">Permissões granulares por tool</span><span class="text-neutral-500 text-sm ml-2">- Leitura, escrita e deploy com aprovação</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Tool de leitura de banco: qualquer agente. Tool de escrita: apenas agentes aprovados. Tool de deploy: apenas com aprovação humana explícita. Hierarquia de risco por tool.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Granularidade de permissão por tool é o que permite dar autonomia máxima onde é seguro e exigir aprovação onde há risco real — sem bloquear tudo ou liberar tudo.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Tool risk level · Read vs. write vs. execute · Approval gate · Tool interceptor · Permission middleware · Blast radius de cada tool</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">📊</span>
+            <div><span class="font-medium">Log centralizado</span><span class="text-neutral-500 text-sm ml-2">- Elasticsearch ou Loki para múltiplos agentes</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Ingerir logs de múltiplos agentes em Elasticsearch ou Loki, permitindo queries cross-agent, alertas automáticos por padrão de log, e retenção configurável por tipo de dado.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Logs distribuídos por agente são impossíveis de analisar manualmente. Centralização é o que torna debugging e auditoria viáveis em escala de dezenas de agentes.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Log aggregation · Elasticsearch index · Loki label · Grafana query · Log retention policy · Custo de armazenamento de log</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">⚖️</span>
+            <div><span class="font-medium">Compliance e auditoria</span><span class="text-neutral-500 text-sm ml-2">- Relatório de todas as ações por período</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Como preparar relatório de auditoria mostrando todas as ações de agentes em um período — formato exigido por empresas reguladas em fintech, saúde e jurídico.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Compliance não é uma feature adicional — é o requisito mínimo para que o sistema agentic seja aprovado em ambientes enterprise. Preparar isso desde o início evita reescritas caras.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Relatório de auditoria · Período de retenção obrigatório · Exportação para regulador · Anonimização de dados sensíveis · LGPD/GDPR com agentes · Assinatura digital de logs</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-5-5')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-5-5.html" class="px-4 py-2 text-sm bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 5.6 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-teal-400 font-bold text-lg">5.6</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">💰 Camada 5b — Governança: Custo e Audit</h3>
+        <p class="text-neutral-400 text-sm">Budget por execução, alertas em tempo real, cost allocation por departamento e ROI de agentes.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">⚠️</span>
+            <div><span class="font-medium">O problema do custo não monitorado</span><span class="text-neutral-500 text-sm ml-2">- $500 em uma hora: isso já aconteceu</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Casos reais de agentes em loop que geraram custos de $500+ em menos de uma hora, como isso acontece e por que controles de custo são obrigatórios desde o primeiro deploy.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem monitoramento de custo, um bug de loop em produção pode resultar em fatura de $10.000+ em horas. Isso arruinou startups. Não é exagero — é documentado.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Loop de custo · Custo por token · Fatura inesperada · Kill switch · Budget cap emergencial · Postmortem de custo</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">💵</span>
+            <div><span class="font-medium">Budget por execução</span><span class="text-neutral-500 text-sm ml-2">- Cap máximo em tempo real</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Cada job tem budget máximo configurável (ex: $5.00). O orquestrador monitora custo acumulado em tempo real e para a execução quando atinge o limite, entregando resultado parcial.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Budget por execução é o controle mais simples e eficaz. Com 5 linhas de código você previne 99% dos overspend acidentais em produção.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Budget per job · Real-time cost tracking · Soft vs. hard limit · Graceful stop · Partial result delivery · Budget warning at 80%</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔔</span>
+            <div><span class="font-medium">Alertas de custo</span><span class="text-neutral-500 text-sm ml-2">- Por execução, hora e usuário</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Sistema de alertas multicamada: por execução (acima de X), por hora (acima de Y), por usuário/tenant (acima de Z mensal), com integração Slack e email.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Alertas são a diferença entre descobrir o problema em 5 minutos vs. no fim do mês na fatura. Multicamada garante que nenhum padrão anômalo passe despercebido.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Alert threshold · Slack webhook · Email notification · Alert fatigue · Smart alerting (baselines) · Escalonamento de alerta</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🏢</span>
+            <div><span class="font-medium">Cost allocation</span><span class="text-neutral-500 text-sm ml-2">- Por departamento, projeto e cliente</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Cada execução tem um cost_center associado (departamento, projeto, cliente). Relatório mensal automatizado por cost_center para chargeback e accountability interna.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem cost allocation, o custo de IA fica em uma conta genérica sem responsável. Cost allocation cria accountability e incentivo para uso eficiente.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Cost center tag · Chargeback · Showback · Relatório mensal · Departamento vs. projeto vs. cliente · Overhead de infraestrutura</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">📈</span>
+            <div><span class="font-medium">Relatório de custo e ROI</span><span class="text-neutral-500 text-sm ml-2">- Dashboard com custo vs. custo humano equivalente</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Dashboard mostrando custo total, custo médio por tipo de tarefa, tendência temporal, e comparação com custo humano equivalente para calcular ROI real dos agentes.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">ROI é o argumento final para justificar investimento em agentes para stakeholders. Sem dados de custo vs. valor, é difícil manter orçamento para expandir o sistema.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Custo por resultado · Custo humano equivalente · ROI calculado · Break-even point · Tendência de eficiência · Apresentação para C-level</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">✂️</span>
+            <div><span class="font-medium">Otimização de custo</span><span class="text-neutral-500 text-sm ml-2">- Heterogeneous routing, caching e batching</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Técnicas para reduzir custo mantendo qualidade: heterogeneous routing por complexidade, caching de resultados similares com embeddings, batching de múltiplas chamadas LLM em uma.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">A combinação de roteamento heterogêneo + caching pode reduzir custo total em 70-90% sem perda de qualidade perceptível — transformando o ROI do sistema.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Semantic caching · Batching de prompts · Heterogeneous routing · Cache hit rate · Qualidade mínima aceitável · Medição pré/pós otimização</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-5-6')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-5-6.html" class="px-4 py-2 text-sm bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 5.7 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-teal-400 font-bold text-lg">5.7</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">📊 Camada 6a — Observabilidade: Métricas</h3>
+        <p class="text-neutral-400 text-sm">SLIs, SLOs, Prometheus + Grafana, alertas inteligentes e dashboards executivos para sistemas multi-agente.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">📐</span>
+            <div><span class="font-medium">Métricas técnicas essenciais</span><span class="text-neutral-500 text-sm ml-2">- Success rate, latência e error rate</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O conjunto mínimo de métricas técnicas: success_rate por tipo de tarefa, latência P50/P95/P99, tokens_per_task, cost_per_task, error_rate, queue_depth por agente.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem métricas técnicas, você opera "no escuro". Com elas, você detecta degradação antes que afete o resultado final e identifica gargalos com precisão cirúrgica.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Success rate · P50/P95/P99 · Error budget · Queue depth · Throughput · Métricas por agente vs. por tipo de tarefa</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">💼</span>
+            <div><span class="font-medium">Métricas de negócio</span><span class="text-neutral-500 text-sm ml-2">- Objetivo atingido, custo por resultado</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Métricas que stakeholders de negócio entendem: objetivo_atingido_rate (% dos objetivos finais cumpridos), tempo_total_por_workflow, custo_por_resultado, NPS de usuários do sistema.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Métricas técnicas são para engenheiros. Métricas de negócio são para gestores e diretores — e são elas que determinam o orçamento futuro do projeto.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Goal completion rate · Time to completion · Cost per outcome · Qual é o "resultado" do seu sistema · Métricas de leading vs. lagging</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🎯</span>
+            <div><span class="font-medium">SLIs e SLOs</span><span class="text-neutral-500 text-sm ml-2">- Definindo e medindo acordos de nível</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">SLI (Service Level Indicator): taxa de sucesso de análise. SLO (Service Level Objective): esse SLI deve ser >= 95% em 99.9% do tempo. Error budget = o que sobra quando o SLO é cumprido.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">SLOs transformam "o sistema parece OK" em "o sistema está X% dentro do objetivo acordado". É a linguagem que alinha engenharia e negócio em torno de qualidade.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">SLI definition · SLO target · Error budget · Burn rate · SLO breach · Negociação de SLO com stakeholders</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔭</span>
+            <div><span class="font-medium">Prometheus + Grafana</span><span class="text-neutral-500 text-sm ml-2">- Setup completo para orquestrador Python</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Configurar prometheus_client em Python, expor /metrics endpoint, criar contadores e histogramas para métricas de agente, importar dashboard Grafana pronto para uso.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Prometheus + Grafana é o stack padrão de observabilidade em 80% das empresas tech. Saber instrumentar código Python é uma skill de alta demanda e baixa oferta.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">prometheus_client · Counter · Histogram · Gauge · PromQL query · Grafana panel · /metrics scraping</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🚨</span>
+            <div><span class="font-medium">Alertas inteligentes</span><span class="text-neutral-500 text-sm ml-2">- Anomaly detection sem ruído</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Alertar quando taxa de erro supera baseline histórico (não em cada erro isolado), usando detecção de anomalia simples — evitando alert fatigue enquanto captura problemas reais.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Alertas mal calibrados criam alert fatigue — equipe ignora todos os alertas porque 95% são falso positivo. Alertas inteligentes garantem que cada alerta merece atenção.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Baseline histórico · Rolling average · Desvio padrão · False positive rate · Alerta por burn rate de SLO · PagerDuty integration</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📋</span>
+            <div><span class="font-medium">Dashboards executivos</span><span class="text-neutral-500 text-sm ml-2">- Painel de alto nível para líderes</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Painel executivo com: jobs rodando agora, taxa de sucesso nas últimas 24h, custo total hoje, agentes mais utilizados, top erros da semana — projetado para leitura em 30 segundos.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Dashboards executivos são o que fazem líderes confiarem no sistema. Um painel claro aumenta a probabilidade de expansão do orçamento e do escopo do projeto.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">KPI panel · Traffic light status · Trend sparkline · Daily summary · Top N erros · Drill-down para detalhes técnicos</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-5-7')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-5-7.html" class="px-4 py-2 text-sm bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 5.8 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-teal-400 font-bold text-lg">5.8</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔍 Camada 6b — Observabilidade: Rastreamento</h3>
+        <p class="text-neutral-400 text-sm">Distributed tracing com OpenTelemetry, rastreamento de decisão e debug de execuções complexas.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🗺️</span>
+            <div><span class="font-medium">Distributed tracing para multi-agente</span><span class="text-neutral-500 text-sm ml-2">- trace_id propagado por todos os agentes</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Cada execução tem um trace_id único propagado por todos os agentes que participam, permitindo reconstruir o fluxo completo de decisões e ações de ponta a ponta.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem trace_id, uma falha em sistema multi-agente pode levar horas para ser diagnosticada — você tem logs de 5 agentes sem saber como eles se relacionam temporalmente.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">trace_id · Context propagation · W3C TraceContext · Correlação entre agentes · End-to-end latency · Gargalo identificado por trace</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🌲</span>
+            <div><span class="font-medium">Spans e contexto</span><span class="text-neutral-500 text-sm ml-2">- Árvore de chamadas com parent_span_id</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Cada chamada de LLM, cada tool call, cada decisão de roteamento vira um span com parent_span_id, formando uma árvore que representa a hierarquia de chamadas da execução.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">A árvore de spans é o mapa de toda execução. Com ela, você vê imediatamente qual span consumiu 80% do tempo — e intervém no lugar certo.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Span · Parent span · Span duration · Span attributes · Waterfall visualization · Critical path no trace</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔬</span>
+            <div><span class="font-medium">OpenTelemetry em Python</span><span class="text-neutral-500 text-sm ml-2">- Instrumentação e envio para Jaeger</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Instrumentar o orquestrador em Python com opentelemetry-sdk, usando decorators e context managers para criar spans, enviando para Jaeger ou Grafana Tempo para visualização.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">OpenTelemetry é o padrão aberto que funciona com qualquer backend (Jaeger, Tempo, Zipkin, Datadog). Instrumentar uma vez, mudar de backend sem reescrever código.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">opentelemetry-api · Tracer · @tracer.start_as_current_span · OTLP exporter · Jaeger UI · Span attributes para LLM calls</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🧠</span>
+            <div><span class="font-medium">Rastreamento de decisão</span><span class="text-neutral-500 text-sm ml-2">- Por que o LLM tomou cada decisão</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Além do que aconteceu, registrar o por quê: qual foi o raciocínio do LLM para cada decisão de roteamento, cada escolha de tool, cada avaliação de qualidade — rastreabilidade de intenção.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">O rastreamento de decisão é o que permite melhorar o sistema iterativamente. Sem entender o porquê de cada escolha, otimização é tentativa e erro cego.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Decision log · Reasoning trace · LLM rationale · Span attribute para decisão · Explainability · Audit de raciocínio</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🔧</span>
+            <div><span class="font-medium">Debug de sistema complexo</span><span class="text-neutral-500 text-sm ml-2">- Walkthrough: onde e por que falhou</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Dado uma execução que falhou, usar o trace para identificar exatamente onde e por que: análise do waterfall, identificação do span problemático, diagnóstico de causa raiz.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Debug de sistema multi-agente sem trace é como depurar código sem stack trace. Com trace, o que levaria horas leva minutos — habilidade indispensável em produção.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Error span · Root cause analysis · Waterfall analysis · Span que falhou vs. span afetado · Reproduzir em staging · Fix verificado via trace</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔗</span>
+            <div><span class="font-medium">Correlação métricas e traces</span><span class="text-neutral-500 text-sm ml-2">- Do alerta ao trace específico</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Quando um alerta de latência dispara no Prometheus, como correlacionar automaticamente com o trace específico que causou o problema — navegação direta de métrica para trace.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">A correlação completa fecha o loop de observabilidade: alerta → métrica → trace → log → causa raiz. Sem correlação, cada camada existe em silos independentes.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Exemplar (Prometheus) · TraceID em log · Grafana Tempo integration · Click-through de métrica para trace · MELT (Metrics Events Logs Traces)</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-5-8')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-5-8.html" class="px-4 py-2 text-sm bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 5.9 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-teal-400 font-bold text-lg">5.9</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🏛️ Arquitetura Composta</h3>
+        <p class="text-neutral-400 text-sm">LangGraph + CrewAI + Redis + Postgres + Prometheus: combinando as 6 camadas em um sistema coeso e testável.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🧩</span>
+            <div><span class="font-medium">Por que não existe produto único</span><span class="text-neutral-500 text-sm ml-2">- Cada ferramenta faz uma coisa bem</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">LangGraph orquestra fluxo, CrewAI abstrai times de agentes, Redis gerencia estado efêmero, Postgres persiste histórico, Prometheus monitora — divisão de responsabilidades clara.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Tentar usar um único produto para tudo resulta em soluções subótimas em todas as dimensões. Entender por que cada ferramenta existe guia escolhas arquiteturais corretas.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Separation of concerns · Best-of-breed vs. all-in-one · Custo de integração · Vendor lock-in · Trade-off complexidade/otimização</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">📦</span>
+            <div><span class="font-medium">O stack de referência</span><span class="text-neutral-500 text-sm ml-2">- LangGraph + CrewAI + Redis + Postgres + Arize</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Stack de referência 2026 para orquestradores de produção: LangGraph (workflow), CrewAI (teams), Redis (estado), Postgres (persistência), Arize (observabilidade LLM).</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Conhecer o stack de referência acelera decisões de arquitetura — você parte de um padrão comprovado e o adapta, em vez de reinventar a roda em cada projeto.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Stack de referência · Versões pinadas · Compatibilidade entre componentes · Custo total de infraestrutura · Alternativas por componente</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔌</span>
+            <div><span class="font-medium">Padrões de integração</span><span class="text-neutral-500 text-sm ml-2">- LangGraph outer loop, CrewAI inner node</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">LangGraph como outer loop de orquestração, CrewAI como nó interno para execução de times, Redis como side-car de estado, Postgres como log store — padrões de comunicação entre eles.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Integrar ferramentas sem padrões claros resulta em acoplamento rígido, onde mudar uma ferramenta exige reescrever tudo. Padrões de integração permitem substituição cirúrgica.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Outer loop · Inner node · Side-car pattern · Event-driven communication · Sync vs. async entre componentes · Circuit breaker entre integrações</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔓</span>
+            <div><span class="font-medium">Evitando acoplamento</span><span class="text-neutral-500 text-sm ml-2">- Adapters, ports e substituição sem reescrever</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Definindo interfaces claras entre componentes com adapters e ports, permitindo trocar Redis por outro KV store sem reescrever o orquestrador — arquitetura hexagonal aplicada a agentes.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Acoplamento rígido mata sistemas a longo prazo. Uma interface bem definida agora permite migração de Redis para DynamoDB em 2 horas em vez de 2 semanas.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Hexagonal architecture · Port · Adapter · Interface abstrata · Dependency injection · Testabilidade por inversão de dependência</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🧪</span>
+            <div><span class="font-medium">Testes de integração</span><span class="text-neutral-500 text-sm ml-2">- Testes de contrato e test doubles para LLMs</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Como testar o orquestrador completo sem mockar tudo: testes de contrato entre componentes, test doubles determinísticos para LLMs em testes, testes de integração com Redis/Postgres reais.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Testar sistemas com LLMs é desafiador pela não-determinismo. Aprender a usar test doubles corretos é o que torna o CI/CD viável sem depender de chamadas reais caras.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Contract test · Test double · LLM mock determinístico · Testcontainers para Redis/Postgres · Integration test vs. unit test · CI/CD de orquestrador</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🗺️</span>
+            <div><span class="font-medium">Diagrama de arquitetura final</span><span class="text-neutral-500 text-sm ml-2">- 6 camadas mapeadas para componentes técnicos</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O orquestrador completo visualizado: todas as 6 camadas mapeadas para os componentes técnicos específicos, com as conexões e fluxos de dados entre eles.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">O diagrama final é a síntese de toda a trilha — e o artefato que você apresentará em entrevistas e revisões de arquitetura para demonstrar domínio do tema.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">C4 model simplificado · Diagrama de componentes · Fluxo de dados · Pontos de falha · Escala horizontal · Custo de infraestrutura total</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-5-9')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-5-9.html" class="px-4 py-2 text-sm bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 5.10 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-teal-400 font-bold text-lg">5.10</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~50 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">⚡ Custo-Otimização: Heterogeneous Routing</h3>
+        <p class="text-neutral-400 text-sm">Classificar chamadas por complexidade e rotear para o modelo mais barato capaz — reduzindo custo em até 90% sem perda de qualidade.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">💸</span>
+            <div><span class="font-medium">O problema do modelo único</span><span class="text-neutral-500 text-sm ml-2">- GPT-4o para tudo custa 10-50x demais</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Usar GPT-4o ou Claude Opus para todas as chamadas LLM — inclusive classificações simples, formatações e extrações triviais — resulta em custo 10-50x acima do necessário.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Este é o erro mais comum em sistemas agentic de primeira geração. Compreender o problema é o primeiro passo para a solução que reduz custo na mesma ordem de grandeza.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Custo por modelo · Tabela de preços 2026 · Tarefas simples vs. complexas · Overkill analysis · Custo desperdiçado estimado</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🔀</span>
+            <div><span class="font-medium">Heterogeneous routing</span><span class="text-neutral-500 text-sm ml-2">- Modelo mais barato capaz de executar</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Classificar cada chamada LLM por complexidade e rotear para o modelo mais barato com qualidade aceitável: GPT-4o-mini para simples, GPT-4o para médio, o1 para raciocínio profundo.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Heterogeneous routing é a alavanca mais poderosa de redução de custo. Implementado corretamente, reduz custo total em 70-90% enquanto mantém 95%+ da qualidade original.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Model tier (barato/médio/caro) · Complexity threshold · Quality floor · Routing policy · Fallback para tier superior · A/B test de qualidade</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🏷️</span>
+            <div><span class="font-medium">Classificador de complexidade</span><span class="text-neutral-500 text-sm ml-2">- Modelo pequeno classifica antes de rotear</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Um modelo muito barato (Haiku, GPT-4o-mini) classifica a complexidade de cada tarefa antes do roteamento. O custo do classificador é < 1% do custo total da execução.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">O classificador é a chave de todo o sistema de roteamento heterogêneo. Calibrar sua precisão é o que determina quanto custo você economiza vs. quanta qualidade você perde.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Complexity features · Few-shot classifier · Accuracy do classificador · Custo do classificador vs. economia gerada · Calibração com exemplos reais</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">📋</span>
+            <div><span class="font-medium">Plan-and-Execute para redução de custo</span><span class="text-neutral-500 text-sm ml-2">- Planejar caro, executar barato</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Planejar uma vez com modelo caro (1 chamada), executar N vezes com modelo barato (N chamadas). Reduz custo total em até 90% em workflows com muitas tarefas de execução.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Plan-and-Execute é o padrão arquitetural mais impactante para redução de custo. Um planejador bem estruturado pode transformar o custo de um workflow de $10 para $1.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Planner (modelo caro) · Executor (modelo barato) · Plano como prompt estruturado · Número de execuções · Custo de planejamento vs. custo total</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">💾</span>
+            <div><span class="font-medium">Semantic caching de resultados</span><span class="text-neutral-500 text-sm ml-2">- Embeddings para detectar perguntas similares</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Quando duas execuções fazem perguntas semanticamente similares ao LLM, retornar resultado cacheado em vez de fazer nova chamada cara. Cache com embeddings detecta similaridade além de match exato.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Em sistemas com múltiplos usuários fazendo perguntas similares, semantic caching pode reduzir chamadas LLM em 40-60%, com impacto proporcional no custo.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Embedding similarity · Cosine distance threshold · Cache hit rate · Cache invalidation · TTL por tipo de query · GPTCache / LangChain cache</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📊</span>
+            <div><span class="font-medium">Benchmark real: custo vs. qualidade</span><span class="text-neutral-500 text-sm ml-2">- Tabela comparativa pré/pós otimização</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Mesmo workflow executado com e sem otimização: tabela comparando custo total, latência e score de qualidade (avaliação por LLM ou humano). Onde aceitar o trade-off qualidade/custo.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Dados de benchmark são o que transforma argumentos de otimização em decisões racionais. Sem medir, você não sabe se a otimização valeu a pena nem onde parar.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Baseline sem otimização · Custo pós-otimização · Qualidade score · Pareto frontier custo/qualidade · Ponto de aceitação · ROI da otimização</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-5-10')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-5-10.html" class="px-4 py-2 text-sm bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ======== MODULO 5.11 ======== -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-teal-400 font-bold text-lg">5.11</span>
+          <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~60 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🚀 Projeto: Construindo o Orquestrador</h3>
+        <p class="text-neutral-400 text-sm">Implementação completa das 6 camadas em um orquestrador de análise competitiva — do planejamento ao deploy com Docker.</p>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">📐</span>
+            <div><span class="font-medium">Definindo o projeto</span><span class="text-neutral-500 text-sm ml-2">- Análise competitiva: requisitos funcionais e não-funcionais</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Orquestrador de análise competitiva: recebe empresa alvo → coleta dados → analisa → gera relatório. Requisitos funcionais (inputs, outputs, SLAs) e não-funcionais (custo máximo, disponibilidade).</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Definir requisitos antes de codificar é o que separa projetos que terminam dos que ficam em refatoração eterna. Requisitos claros guiam cada decisão de implementação.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Requisito funcional · Requisito não-funcional · SLA do sistema · Budget máximo por análise · Definition of Done · Escopo do MVP</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🏗️</span>
+            <div><span class="font-medium">Arquitetura top-down</span><span class="text-neutral-500 text-sm ml-2">- 6 camadas mapeadas para classes Python</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Diagrama completo antes do primeiro código: cada uma das 6 camadas mapeada para classes Python específicas, com interfaces e responsabilidades definidas antes de implementar.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Top-down design previne "código espaguete" em sistemas complexos. Definir as interfaces antes do código garante que os componentes se encaixem sem gambiarra.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Classe por camada · Interface definition · Dependency graph de classes · Data model · API interna · Diagrama antes do código</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">⚙️</span>
+            <div><span class="font-medium">Implementação por camadas</span><span class="text-neutral-500 text-sm ml-2">- Planejador, roteador, estado e supervisor</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Código Python das Camadas 1-4: IntelligentPlanner (decomposição + DAG), AgentRouter (seleção dinâmica), StateManager com Redis, Supervisor com health check e replanning.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Implementar cada camada sequencialmente, testando antes de avançar, é a metodologia que resulta em código confiável. Cada camada é um milestone verificável.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">IntelligentPlanner · AgentRouter · StateManager · Supervisor · Código comentado · Smoke test por camada · Integração progressiva</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔒</span>
+            <div><span class="font-medium">Implementação de governança</span><span class="text-neutral-500 text-sm ml-2">- Logger estruturado, budget monitor, RBAC</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Camada 5 em código: StructuredLogger com JSON, BudgetMonitor com hard stop, RBACManager com roles simples — governança funcional em menos de 150 linhas de Python.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Governança implementada depois é mais cara e frágil. Implementar junto com o sistema garante que todos os componentes geram logs e respeitam limites desde o primeiro deploy.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">StructuredLogger · BudgetMonitor · RBACManager · Middleware de permissão · Log de auditoria automático · Budget hard stop</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">📊</span>
+            <div><span class="font-medium">Observabilidade e testes</span><span class="text-neutral-500 text-sm ml-2">- Prometheus metrics, health endpoint, pytest</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Camada 6 em código: métricas Prometheus, endpoint /health para readiness probe, suite de testes com pytest cobrindo as integrações críticas do orquestrador.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Observabilidade e testes são o que transforma "funciona no meu laptop" em "funciona em produção". Sem eles, o sistema é uma caixa preta que falha de forma imprevisível.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">prometheus_client · /health endpoint · /metrics endpoint · pytest fixtures · Test doubles para LLM · Coverage das camadas críticas</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🚀</span>
+            <div><span class="font-medium">Deploy e entrega</span><span class="text-neutral-500 text-sm ml-2">- Docker, README de arquitetura e próximos passos</span></div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div><span class="text-teal-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Dockerizar o orquestrador completo com docker-compose (app + Redis + Postgres + Prometheus), escrever README com diagrama de arquitetura e guia de como continuar evoluindo o projeto.</p></div>
+              <div><span class="text-teal-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Um projeto que não está no Docker com README claro não existe para outros engenheiros. A entrega profissional do projeto final é o que transforma aprendizado em portfólio.</p></div>
+              <div><span class="text-teal-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Dockerfile · docker-compose.yml · README com diagrama · Como escalar para produção · Próximas features · Contribuição para o projeto</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-5-11')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-5-11.html" class="px-4 py-2 text-sm bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- NAVEGACAO -->
+    <div class="flex flex-col sm:flex-row gap-4">
+      <a href="../trilha4/index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-xl font-semibold hover:bg-dark-600 transition-colors">
+        ← Trilha 4: Multi-Agentes
+      </a>
+      <a href="modulo-5-1.html" class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-500 transition-colors">
+        Começar: Módulo 5.1 →
+      </a>
+    </div>
+
+  </main>
+
+  <!-- MODAIS -->
+  <div id="modal-5-1" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.1</span><span class="font-semibold">Camada 1 — Planejamento Inteligente</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-5-1.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-5-2" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.2</span><span class="font-semibold">Camada 2 — Roteamento Multi-Agente</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-5-2.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-5-3" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.3</span><span class="font-semibold">Camada 3 — Controle de Estado</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-5-3.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-5-4" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.4</span><span class="font-semibold">Camada 4 — Supervisão e Replanejamento</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-5-4.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-5-5" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.5</span><span class="font-semibold">Camada 5a — Logs e Permissões</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-5-5.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-5-6" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.6</span><span class="font-semibold">Camada 5b — Custo e Audit</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-5-6.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-5-7" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.7</span><span class="font-semibold">Camada 6a — Métricas</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-5-7.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-5-8" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.8</span><span class="font-semibold">Camada 6b — Rastreamento</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-5-8.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-5-9" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.9</span><span class="font-semibold">Arquitetura Composta</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-5-9.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-5-10" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.10</span><span class="font-semibold">Custo-Otimização: Heterogeneous Routing</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-5-10.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+  <div id="modal-5-11" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.11</span><span class="font-semibold">Projeto: Construindo o Orquestrador</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-5-11.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const moduleCard = button.closest('.bg-dark-800');
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) exp.classList.remove('active');
+      });
+      explanation.classList.toggle('active');
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+    }
+
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden'));
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

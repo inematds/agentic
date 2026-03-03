@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5.2 Camada 2 — Roteamento Multi-Agente | Trilha 5 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    pre { overflow-x: auto; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10">Orquestrador</a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-teal-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-teal-400 transition-colors">Trilha 5</a>
+      <span>/</span>
+      <span class="text-teal-400">Módulo 5.2</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 5.2</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔀 Camada 2 — Roteamento Multi-Agente</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Dado um pool de agentes especializados, como selecionar o agente certo para cada tarefa — por capacidade, custo e disponibilidade? A Camada 2 é a inteligência de despacho do orquestrador.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Código</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">❓ O Problema de Roteamento</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Imagine um pool de agentes especializados: um agente financeiro, um jurídico, um técnico, um de redação, um de pesquisa. O planejador gerou 15 tarefas. Qual agente executa qual tarefa? Esse é o <strong class="text-teal-400">problema de roteamento</strong> — e a solução errada custa caro.
+      </p>
+      <div class="bg-gradient-to-br from-teal-900/20 to-dark-800 rounded-xl border border-teal-500/30 p-6 mb-6">
+        <h3 class="text-base font-semibold text-teal-400 mb-4">Por que roteamento errado é caro</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-sm font-bold text-red-400 mb-2">Custo extra</p>
+            <p class="text-sm text-neutral-300">Usar agente com modelo GPT-4o para tarefa que GPT-4o-mini faria igual = 30x mais caro sem ganho de qualidade.</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-sm font-bold text-red-400 mb-2">Qualidade ruim</p>
+            <p class="text-sm text-neutral-300">Tarefa jurídica enviada para agente técnico: resultado genérico sem conhecimento de compliance e legislação aplicável.</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-sm font-bold text-red-400 mb-2">Gargalo</p>
+            <p class="text-sm text-neutral-300">Todas as tarefas enviadas para o mesmo agente "polivalente": queue de espera cresce enquanto agentes especializados ficam ociosos.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-6">
+        <h3 class="text-base font-semibold text-neutral-300 mb-3">As dimensões do roteamento</h3>
+        <div class="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <p class="font-semibold text-teal-400 mb-2">Dimensão 1: Capacidade</p>
+            <p class="text-neutral-300">O agente tem as ferramentas e conhecimento de domínio necessários para esta tarefa específica?</p>
+          </div>
+          <div>
+            <p class="font-semibold text-teal-400 mb-2">Dimensão 2: Disponibilidade</p>
+            <p class="text-neutral-300">O agente está livre? Ou está com sua fila cheia? Load balancing resolve quando há múltiplas instâncias.</p>
+          </div>
+          <div>
+            <p class="font-semibold text-teal-400 mb-2">Dimensão 3: Custo</p>
+            <p class="text-neutral-300">Para tarefas simples, usar o modelo mais barato que resolve. Reservar modelos caros para tarefas que realmente exigem.</p>
+          </div>
+          <div>
+            <p class="font-semibold text-teal-400 mb-2">Dimensão 4: SLA</p>
+            <p class="text-neutral-300">Se a tarefa é urgente, escolher o agente mais rápido disponível, mesmo que seja um pouco mais caro.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">📊 Roteamento Estático</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A abordagem mais simples: uma tabela fixa mapeando tipo de tarefa para agente responsável. Funciona bem até o pool de agentes crescer além de 5-6 tipos.
+      </p>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-sm font-semibold text-teal-400 mb-3">Implementação de roteamento estático</h3>
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>class StaticRouter:
+    """Roteador estático: tabela fixa tipo_tarefa → agente."""
+
+    ROUTING_TABLE = {
+        "pesquisa":     "research_agent",
+        "analise":      "analysis_agent",
+        "redacao":      "writing_agent",
+        "juridico":     "legal_agent",
+        "financeiro":   "finance_agent",
+        "tecnico":      "tech_agent",
+        "formatacao":   "formatting_agent",
+    }
+
+    FALLBACK_AGENT = "general_agent"
+
+    def route(self, task: dict) -> str:
+        task_type = task.get("agente_tipo", "").lower()
+        agent = self.ROUTING_TABLE.get(task_type, self.FALLBACK_AGENT)
+
+        print(f"[StaticRouter] Task '{task['id']}' → Agent '{agent}'")
+        return agent
+
+    def add_route(self, task_type: str, agent_id: str):
+        """Adicionar rota dinamicamente (ainda estático, mas configurável)."""
+        self.ROUTING_TABLE[task_type] = agent_id</code></pre>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-teal-900/20 rounded-xl border border-teal-500/30 p-5">
+          <h4 class="font-bold text-teal-400 mb-3">Quando usar roteamento estático</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>Pool de &lt;6 agentes com tipos de tarefa bem definidos</span></li>
+            <li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>Requisito de previsibilidade total no roteamento</span></li>
+            <li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>Ambiente regulado onde cada decisão deve ser auditável</span></li>
+            <li class="flex items-start space-x-2"><span class="text-teal-400">✓</span><span>Time que prefere transparência a flexibilidade</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-5">
+          <h4 class="font-bold text-red-400 mb-3">Limitações do roteamento estático</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Não escala: 20 tipos de tarefa × 10 agentes = 200 entradas manuais</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sem capacidade de aprender com o histórico de execuções</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tarefas com tipo ambíguo caem sempre no fallback, sem tentativa de especialização</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Manutenção custosa quando novos agentes são adicionados</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🤖 Roteamento Dinâmico com LLM Classifier</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Em vez de uma tabela fixa, um agente roteador usa LLM para ler a descrição da tarefa e selecionar o agente mais adequado do pool. Adicionar um novo agente requer apenas atualizar a descrição de capacidades — sem alterar código de roteamento.
+      </p>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-sm font-semibold text-teal-400 mb-3">Implementação: LLMRouter</h3>
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>import anthropic
+import json
+
+client = anthropic.Anthropic()
+
+class LLMRouter:
+    """Roteador dinâmico: LLM seleciona agente por semântica da tarefa."""
+
+    def __init__(self, agent_registry: dict):
+        """
+        agent_registry: dict com agent_id → descrição de capacidades
+        Exemplo:
+        {
+          "research_agent": "Especializado em pesquisa web, coleta de dados públicos...",
+          "legal_agent": "Análise jurídica, contratos, compliance LGPD, litígios...",
+          "finance_agent": "Análise financeira, modelagem, valuation, DCF...",
+        }
+        """
+        self.registry = agent_registry
+
+    def route(self, task: dict) -> tuple[str, float]:
+        """Retorna (agent_id, confidence_score)."""
+
+        agents_desc = "\n".join([
+            f"- {agent_id}: {desc}"
+            for agent_id, desc in self.registry.items()
+        ])
+
+        response = client.messages.create(
+            model="claude-haiku-4-5",  # Modelo barato para classificação
+            max_tokens=256,
+            messages=[{
+                "role": "user",
+                "content": f"""Selecione o agente mais adequado para esta tarefa.
+
+TAREFA:
+Título: {task['titulo']}
+Descrição: {task['descricao']}
+
+AGENTES DISPONÍVEIS:
+{agents_desc}
+
+Retorne JSON com:
+{{"agent_id": "id_do_agente", "confidence": 0.0-1.0, "reasoning": "justificativa curta"}}"""
+            }]
+        )
+
+        result = json.loads(response.content[0].text)
+
+        # Fallback se confiança baixa
+        if result["confidence"] < 0.6:
+            result["agent_id"] = "general_agent"
+
+        return result["agent_id"], result["confidence"]
+
+    def add_agent(self, agent_id: str, capabilities: str):
+        """Adicionar agente ao pool sem alterar código de roteamento."""
+        self.registry[agent_id] = capabilities</code></pre>
+      </div>
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-5 mb-6">
+        <h3 class="text-base font-semibold text-blue-400 mb-2">Por que usar Claude Haiku para classificação?</h3>
+        <p class="text-neutral-300 text-sm">Claude Haiku custa ~$0.0001 por chamada. Classificar 100 tarefas = $0.01 total. Usar Claude Opus para o mesmo: ~$1.50. O classificador é chamado para cada tarefa — o custo acumula. Use o modelo mais barato que classifica corretamente — geralmente Haiku ou GPT-4o-mini são suficientes para classificação semântica de tarefa.</p>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">⚡ Load Balancing</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Quando há múltiplas instâncias do mesmo tipo de agente, o load balancer distribui a carga para evitar gargalos. Sem ele, uma instância fica sobrecarregada enquanto outras ficam ociosas.
+      </p>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-sm font-semibold text-teal-400 mb-3">Estratégias de load balancing</h3>
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>from collections import deque
+import time
+
+class AgentPool:
+    """Pool de instâncias de um tipo de agente com load balancing."""
+
+    def __init__(self, agent_type: str, instances: list[str]):
+        self.agent_type = agent_type
+        self.instances = instances
+        self.queue_depth = {inst: 0 for inst in instances}
+        self.last_used = {inst: 0.0 for inst in instances}
+        self._round_robin = deque(instances)
+
+    def get_instance_round_robin(self) -> str:
+        """Rotação simples — ignora estado."""
+        instance = self._round_robin[0]
+        self._round_robin.rotate(-1)
+        return instance
+
+    def get_instance_least_loaded(self) -> str:
+        """Escolhe instância com menor fila — ótimo para tarefas longas."""
+        return min(self.queue_depth, key=self.queue_depth.get)
+
+    def get_instance_health_aware(self, healthy_instances: set) -> str:
+        """Escolhe instância saudável com menor carga."""
+        healthy = {k: v for k, v in self.queue_depth.items()
+                   if k in healthy_instances}
+        if not healthy:
+            raise RuntimeError(f"Nenhuma instância saudável de {self.agent_type}")
+        return min(healthy, key=healthy.get)
+
+    def mark_busy(self, instance_id: str):
+        self.queue_depth[instance_id] += 1
+        self.last_used[instance_id] = time.time()
+
+    def mark_free(self, instance_id: str):
+        self.queue_depth[instance_id] = max(0, self.queue_depth[instance_id] - 1)
+
+    def status(self) -> dict:
+        return {
+            "type": self.agent_type,
+            "instances": len(self.instances),
+            "queue_depths": dict(self.queue_depth),
+            "total_load": sum(self.queue_depth.values())
+        }</code></pre>
+      </div>
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-5">
+        <h3 class="text-base font-semibold text-neutral-300 mb-3">Quando usar cada estratégia</h3>
+        <div class="space-y-3 text-sm">
+          <div class="flex items-start space-x-3">
+            <span class="text-teal-400 font-bold w-32 flex-shrink-0">Round-robin</span>
+            <span class="text-neutral-300">Tarefas com duração similar e sem estado entre execuções. Simples e eficiente.</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-teal-400 font-bold w-32 flex-shrink-0">Least loaded</span>
+            <span class="text-neutral-300">Tarefas com duração variável. Garante que nenhuma instância fique saturada enquanto outras ficam ociosas.</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-teal-400 font-bold w-32 flex-shrink-0">Health-aware</span>
+            <span class="text-neutral-300">Produção com health checks ativos. Automaticamente exclui instâncias que falharam no último heartbeat.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">💰 Roteamento por Custo</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Para tarefas simples, use o agente com o modelo mais barato. Para tarefas que exigem raciocínio profundo, use o modelo mais capaz. A classificação de complexidade é automática e acontece antes do roteamento principal.
+      </p>
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-5 mb-6">
+        <h3 class="text-base font-semibold text-neutral-300 mb-4">Tabela de decisão: tarefa → modelo</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-dark-600">
+                <th class="text-left py-2 pr-4 text-neutral-400">Complexidade</th>
+                <th class="text-left py-2 pr-4 text-neutral-400">Exemplos</th>
+                <th class="text-left py-2 pr-4 text-neutral-400">Modelo</th>
+                <th class="text-left py-2 text-neutral-400">Custo relativo</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-dark-600">
+              <tr>
+                <td class="py-2 pr-4 text-teal-400 font-semibold">Simples</td>
+                <td class="py-2 pr-4 text-neutral-300">Formatação, extração, classificação, resumo curto</td>
+                <td class="py-2 pr-4 text-neutral-300">Claude Haiku / GPT-4o-mini</td>
+                <td class="py-2 text-green-400">1x</td>
+              </tr>
+              <tr>
+                <td class="py-2 pr-4 text-amber-400 font-semibold">Médio</td>
+                <td class="py-2 pr-4 text-neutral-300">Análise com múltiplas variáveis, síntese de dados, raciocínio moderado</td>
+                <td class="py-2 pr-4 text-neutral-300">Claude Sonnet / GPT-4o</td>
+                <td class="py-2 text-amber-400">10x</td>
+              </tr>
+              <tr>
+                <td class="py-2 pr-4 text-red-400 font-semibold">Complexo</td>
+                <td class="py-2 pr-4 text-neutral-300">Planejamento estratégico, análise jurídica profunda, código complexo</td>
+                <td class="py-2 pr-4 text-neutral-300">Claude Opus / o1</td>
+                <td class="py-2 text-red-400">50x</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+        <h3 class="text-sm font-semibold text-teal-400 mb-3">Implementação: CostAwareRouter</h3>
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>class CostAwareRouter:
+    """Roteador que seleciona o modelo mais barato capaz para a tarefa."""
+
+    MODEL_TIERS = {
+        "simple":  {"model": "claude-haiku-4-5",    "cost_per_1k": 0.00025},
+        "medium":  {"model": "claude-sonnet-4-6",   "cost_per_1k": 0.003},
+        "complex": {"model": "claude-opus-4-6",     "cost_per_1k": 0.015},
+    }
+
+    def classify_complexity(self, task: dict) -> str:
+        """Classifica complexidade da tarefa usando modelo barato."""
+        response = client.messages.create(
+            model="claude-haiku-4-5",
+            max_tokens=64,
+            messages=[{
+                "role": "user",
+                "content": f"""Classifique a complexidade desta tarefa.
+Tarefa: {task['descricao']}
+Responda com APENAS uma palavra: "simple", "medium" ou "complex"."""
+            }]
+        )
+        complexity = response.content[0].text.strip().lower()
+        return complexity if complexity in self.MODEL_TIERS else "medium"
+
+    def route(self, task: dict) -> dict:
+        complexity = self.classify_complexity(task)
+        tier = self.MODEL_TIERS[complexity]
+
+        return {
+            "task_id": task["id"],
+            "complexity": complexity,
+            "model": tier["model"],
+            "estimated_cost_per_1k": tier["cost_per_1k"]
+        }
+
+# Uso:
+router = CostAwareRouter()
+result = router.route({"id": "T01", "descricao": "Formatar os dados da tabela em JSON"})
+# → {"complexity": "simple", "model": "claude-haiku-4-5", ...}</code></pre>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🔧 Implementação Completa: AgentRouter</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Juntando tudo: a classe <strong class="text-teal-400">AgentRouter</strong> completa com pool de agentes, roteamento dinâmico, load balancing, logging de decisões e métricas de acerto.
+      </p>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>import time
+import json
+from dataclasses import dataclass, field
+from typing import Optional
+
+@dataclass
+class RoutingDecision:
+    task_id: str
+    agent_id: str
+    model: str
+    complexity: str
+    confidence: float
+    timestamp: float = field(default_factory=time.time)
+    duration_ms: float = 0.0
+
+class AgentRouter:
+    """Router completo com pool, load balancing, custo e logging."""
+
+    def __init__(self, agent_registry: dict, pools: dict[str, AgentPool]):
+        self.registry = agent_registry  # agent_type → capabilities
+        self.pools = pools              # agent_type → AgentPool
+        self.llm_router = LLMRouter(agent_registry)
+        self.cost_router = CostAwareRouter()
+        self.decisions_log: list[RoutingDecision] = []
+
+    def route(self, task: dict) -> RoutingDecision:
+        start = time.time()
+
+        # 1. Classificar por complexidade (custo)
+        cost_result = self.cost_router.route(task)
+
+        # 2. Selecionar tipo de agente (capacidade)
+        agent_type, confidence = self.llm_router.route(task)
+
+        # 3. Selecionar instância (disponibilidade)
+        pool = self.pools.get(agent_type)
+        if pool:
+            instance_id = pool.get_instance_least_loaded()
+            pool.mark_busy(instance_id)
+        else:
+            instance_id = f"{agent_type}_default"
+
+        decision = RoutingDecision(
+            task_id=task["id"],
+            agent_id=instance_id,
+            model=cost_result["model"],
+            complexity=cost_result["complexity"],
+            confidence=confidence,
+            duration_ms=(time.time() - start) * 1000
+        )
+
+        self.decisions_log.append(decision)
+        print(f"[Router] {task['id']} → {instance_id} ({cost_result['model']}, "
+              f"conf={confidence:.2f}, {decision.duration_ms:.0f}ms)")
+
+        return decision
+
+    def get_routing_metrics(self) -> dict:
+        """Métricas de acerto do roteador."""
+        if not self.decisions_log:
+            return {}
+        avg_confidence = sum(d.confidence for d in self.decisions_log) / len(self.decisions_log)
+        avg_latency = sum(d.duration_ms for d in self.decisions_log) / len(self.decisions_log)
+        complexity_dist = {}
+        for d in self.decisions_log:
+            complexity_dist[d.complexity] = complexity_dist.get(d.complexity, 0) + 1
+
+        return {
+            "total_decisions": len(self.decisions_log),
+            "avg_confidence": round(avg_confidence, 3),
+            "avg_routing_latency_ms": round(avg_latency, 1),
+            "complexity_distribution": complexity_dist,
+        }</code></pre>
+      </div>
+      <div class="bg-dark-800/50 rounded-lg p-5 mb-8 border border-dark-600">
+        <h3 class="font-semibold text-teal-400 mb-2">Resumo do Módulo 5.2</h3>
+        <div class="space-y-2 text-sm text-neutral-300">
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Roteamento estático: simples e auditável, mas não escala além de 6 agentes</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>LLM classifier: roteamento semântico que escala automaticamente com novos agentes</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Load balancing distribui carga entre instâncias para evitar gargalos</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Roteamento por custo: modelos baratos para tarefas simples — reduz custo em até 90%</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>AgentRouter combina tudo: capacidade + disponibilidade + custo em uma decisão</span></div>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="modulo-5-1.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 5.1 Planejamento Inteligente</a>
+        <a href="modulo-5-3.html" class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-500 transition-colors">Próximo: 5.3 Controle de Estado →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

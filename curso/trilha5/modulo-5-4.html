@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5.4 Camada 4 — Supervisão e Replanejamento | Trilha 5 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    pre { overflow-x: auto; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10">Orquestrador</a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-teal-400">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-teal-400">Trilha 5</a>
+      <span>/</span>
+      <span class="text-teal-400">Módulo 5.4</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 5.4</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">👁️ Camada 4 — Supervisão e Replanejamento</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Agentes falham, travam, e custam mais do que o esperado. A Camada 4 é o sistema nervoso do orquestrador: detecta problemas antes que se tornem crises e age autonomamente — ou escala para humanos quando necessário.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Código</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">💓 Health Monitoring de Agentes</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Como saber se um agente está trabalhando normalmente vs. travado vs. crashado? Sem health monitoring, o orquestrador pode esperar por um agente morto indefinidamente enquanto o prazo passa.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-teal-900/20 rounded-xl border border-teal-500/30 p-4 text-center">
+          <div class="text-2xl mb-2">💚</div>
+          <p class="font-bold text-teal-400 text-sm mb-1">Saudável</p>
+          <p class="text-xs text-neutral-400">Heartbeat nos últimos 15s. Processando normalmente.</p>
+        </div>
+        <div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-4 text-center">
+          <div class="text-2xl mb-2">🟡</div>
+          <p class="font-bold text-amber-400 text-sm mb-1">Lento</p>
+          <p class="text-xs text-neutral-400">Heartbeat &gt;15s. Pode estar com tarefa densa. Monitorar.</p>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-4 text-center">
+          <div class="text-2xl mb-2">🔴</div>
+          <p class="font-bold text-red-400 text-sm mb-1">Morto</p>
+          <p class="text-xs text-neutral-400">Sem heartbeat &gt;60s. Marcar tarefa como FAILED e reagendar.</p>
+        </div>
+      </div>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-sm font-semibold text-teal-400 mb-3">Implementação: AgentHealthMonitor</h3>
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>import asyncio
+import time
+from enum import Enum
+
+class AgentHealth(Enum):
+    HEALTHY = "healthy"
+    SLOW    = "slow"
+    DEAD    = "dead"
+
+class AgentHealthMonitor:
+    """Monitora saúde de todos os agentes ativos na sessão."""
+
+    HEARTBEAT_INTERVAL = 10   # Agentes enviam heartbeat a cada 10s
+    SLOW_THRESHOLD     = 25   # >25s sem heartbeat = lento
+    DEAD_THRESHOLD     = 60   # >60s sem heartbeat = morto
+
+    def __init__(self, redis: RedisStateManager, session_id: str):
+        self.redis = redis
+        self.session_id = session_id
+        self.callbacks = {
+            AgentHealth.SLOW: [],
+            AgentHealth.DEAD: []
+        }
+
+    def on_slow(self, callback):
+        """Registra callback para agente lento."""
+        self.callbacks[AgentHealth.SLOW].append(callback)
+
+    def on_dead(self, callback):
+        """Registra callback para agente morto."""
+        self.callbacks[AgentHealth.DEAD].append(callback)
+
+    def check_agent(self, agent_id: str) -> AgentHealth:
+        """Verifica saúde de um agente específico."""
+        key = f"orch:{self.session_id}:heartbeat:{agent_id}"
+        last_seen = self.redis.r.get(key)
+
+        if not last_seen:
+            return AgentHealth.DEAD
+
+        elapsed = time.time() - float(last_seen)
+
+        if elapsed > self.DEAD_THRESHOLD:
+            return AgentHealth.DEAD
+        elif elapsed > self.SLOW_THRESHOLD:
+            return AgentHealth.SLOW
+        else:
+            return AgentHealth.HEALTHY
+
+    async def monitor_loop(self, active_agents: set[str], interval: float = 15.0):
+        """Loop assíncrono de monitoramento contínuo."""
+        while True:
+            for agent_id in list(active_agents):
+                health = self.check_agent(agent_id)
+
+                if health == AgentHealth.DEAD:
+                    print(f"[Monitor] ALERTA: {agent_id} está morto! Disparando callbacks.")
+                    for cb in self.callbacks[AgentHealth.DEAD]:
+                        await cb(agent_id)
+                    active_agents.discard(agent_id)
+
+                elif health == AgentHealth.SLOW:
+                    print(f"[Monitor] AVISO: {agent_id} está lento.")
+                    for cb in self.callbacks[AgentHealth.SLOW]:
+                        await cb(agent_id)
+
+            await asyncio.sleep(interval)</code></pre>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">⏱️ SLA Monitoring</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Cada tipo de tarefa tem um SLA de tempo esperado. O supervisor monitora em tempo real e aciona alertas (ou replanning) quando tarefas ultrapassam seus limites.
+      </p>
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-5 mb-6">
+        <h3 class="text-base font-semibold text-neutral-300 mb-4">SLAs por tipo de tarefa (exemplo)</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead><tr class="border-b border-dark-600">
+              <th class="text-left py-2 pr-4 text-neutral-400">Tipo</th>
+              <th class="text-left py-2 pr-4 text-neutral-400">SLA esperado</th>
+              <th class="text-left py-2 pr-4 text-neutral-400">Warning (150%)</th>
+              <th class="text-left py-2 text-neutral-400">Critical (300%)</th>
+            </tr></thead>
+            <tbody class="divide-y divide-dark-600">
+              <tr><td class="py-2 pr-4 text-neutral-300">Pesquisa web</td><td class="py-2 pr-4 text-teal-400">30s</td><td class="py-2 pr-4 text-amber-400">45s</td><td class="py-2 text-red-400">90s</td></tr>
+              <tr><td class="py-2 pr-4 text-neutral-300">Análise de dados</td><td class="py-2 pr-4 text-teal-400">60s</td><td class="py-2 pr-4 text-amber-400">90s</td><td class="py-2 text-red-400">180s</td></tr>
+              <tr><td class="py-2 pr-4 text-neutral-300">Redação de relatório</td><td class="py-2 pr-4 text-teal-400">120s</td><td class="py-2 pr-4 text-amber-400">180s</td><td class="py-2 text-red-400">360s</td></tr>
+              <tr><td class="py-2 pr-4 text-neutral-300">Análise jurídica</td><td class="py-2 pr-4 text-teal-400">90s</td><td class="py-2 pr-4 text-amber-400">135s</td><td class="py-2 text-red-400">270s</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>class SLAMonitor:
+    """Monitora cumprimento de SLAs por tipo de tarefa."""
+
+    DEFAULT_SLAS = {
+        "pesquisa":   {"expected": 30, "warn": 45,  "critical": 90},
+        "analise":    {"expected": 60, "warn": 90,  "critical": 180},
+        "redacao":    {"expected": 120,"warn": 180, "critical": 360},
+        "juridico":   {"expected": 90, "warn": 135, "critical": 270},
+        "formatacao": {"expected": 20, "warn": 30,  "critical": 60},
+    }
+
+    def __init__(self, custom_slas: dict = None):
+        self.slas = {**self.DEFAULT_SLAS, **(custom_slas or {})}
+        self.running_tasks: dict[str, float] = {}  # task_id → start_time
+        self.sla_breaches: list[dict] = []
+
+    def start_task(self, task_id: str, task_type: str):
+        self.running_tasks[task_id] = {
+            "start": time.time(),
+            "type": task_type
+        }
+
+    def check_all(self) -> list[dict]:
+        """Verifica todos os SLAs ativos. Retorna lista de violações."""
+        violations = []
+        now = time.time()
+
+        for task_id, info in list(self.running_tasks.items()):
+            elapsed = now - info["start"]
+            task_type = info["type"]
+            sla = self.slas.get(task_type, {"expected": 60, "warn": 90, "critical": 180})
+
+            if elapsed > sla["critical"]:
+                level = "critical"
+            elif elapsed > sla["warn"]:
+                level = "warning"
+            else:
+                continue
+
+            violation = {
+                "task_id": task_id,
+                "task_type": task_type,
+                "elapsed_sec": round(elapsed, 1),
+                "sla_expected_sec": sla["expected"],
+                "level": level,
+                "overshoot_pct": round((elapsed / sla["expected"] - 1) * 100, 0)
+            }
+            violations.append(violation)
+            self.sla_breaches.append({**violation, "detected_at": now})
+
+        return violations
+
+    def complete_task(self, task_id: str) -> float:
+        """Marca tarefa como completa. Retorna duração em segundos."""
+        if task_id in self.running_tasks:
+            duration = time.time() - self.running_tasks.pop(task_id)["start"]
+            return duration
+        return 0.0</code></pre>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🔁 Detecção de Stall</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Um agente em loop não está travado — está ativo, gerando tokens, consumindo custo. Mas não está progredindo. A detecção de stall identifica esse padrão antes que custe $100 de tokens.
+      </p>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-sm font-semibold text-teal-400 mb-3">Heurísticas de detecção de stall</h3>
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>from collections import Counter
+import hashlib
+
+class StallDetector:
+    """Detecta quando um agente está preso em loop sem progresso."""
+
+    def __init__(self,
+                 max_repeated_actions: int = 3,
+                 max_tokens_without_progress: int = 5000,
+                 progress_check_interval: int = 5):
+        self.max_repeated = max_repeated_actions
+        self.max_tokens_stall = max_tokens_without_progress
+        self.check_interval = progress_check_interval
+
+        # Por task_id
+        self.action_history: dict[str, list] = {}
+        self.token_counts: dict[str, int] = {}
+        self.last_progress_markers: dict[str, str] = {}
+
+    def record_action(self, task_id: str, action_type: str,
+                      action_input: str, tokens_used: int) -> bool:
+        """
+        Registra ação de agente. Retorna True se stall detectado.
+        """
+        if task_id not in self.action_history:
+            self.action_history[task_id] = []
+            self.token_counts[task_id] = 0
+
+        # Fingerprint da ação (para detectar repetição)
+        fingerprint = hashlib.md5(f"{action_type}:{action_input[:200]}".encode()).hexdigest()
+
+        self.action_history[task_id].append(fingerprint)
+        self.token_counts[task_id] += tokens_used
+
+        # Heurística 1: Ações idênticas repetidas
+        recent = self.action_history[task_id][-self.max_repeated:]
+        if len(recent) == self.max_repeated and len(set(recent)) == 1:
+            print(f"[StallDetector] STALL: {task_id} repetiu mesma ação {self.max_repeated}x")
+            return True
+
+        # Heurística 2: Muitos tokens sem mudança de estado (progress marker)
+        current_marker = fingerprint
+        last_marker = self.last_progress_markers.get(task_id, "")
+
+        if current_marker == last_marker:
+            if self.token_counts[task_id] > self.max_tokens_stall:
+                print(f"[StallDetector] STALL: {task_id} sem progresso após "
+                      f"{self.token_counts[task_id]} tokens")
+                return True
+        else:
+            # Progresso detectado: reset contador de tokens
+            self.last_progress_markers[task_id] = current_marker
+            self.token_counts[task_id] = 0
+
+        return False
+
+    def reset_task(self, task_id: str):
+        """Limpa histórico de uma tarefa (após retry)."""
+        self.action_history.pop(task_id, None)
+        self.token_counts.pop(task_id, None)
+        self.last_progress_markers.pop(task_id, None)</code></pre>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">🔃 Retry Inteligente</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Retry ingênuo: tente de novo exatamente da mesma forma. Taxa de sucesso: idêntica ao primeiro erro. Retry inteligente adapta a abordagem com base no contexto do erro.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-4">
+          <p class="font-bold text-teal-400 mb-2 text-sm">Retry com contexto</p>
+          <p class="text-xs text-neutral-300">Injeta o erro anterior como contexto adicional: "Na tentativa anterior falhou porque X. Na nova tentativa, evite Y e tente Z."</p>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-4">
+          <p class="font-bold text-teal-400 mb-2 text-sm">Retry com modelo diferente</p>
+          <p class="text-xs text-neutral-300">Tentativa 1 com Haiku falhou. Tentativa 2 com Sonnet — mais capaz para tarefas que exigem raciocínio mais profundo.</p>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-4">
+          <p class="font-bold text-teal-400 mb-2 text-sm">Retry com abordagem alternativa</p>
+          <p class="text-xs text-neutral-300">Se a abordagem original falhou 2x, pedir ao LLM planejador para gerar uma abordagem alternativa para a mesma tarefa.</p>
+        </div>
+      </div>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>class IntelligentRetryHandler:
+    """Retry que adapta a estratégia baseado no histórico de falhas."""
+
+    MODEL_ESCALATION = [
+        "claude-haiku-4-5",
+        "claude-sonnet-4-6",
+        "claude-opus-4-6",
+    ]
+
+    def __init__(self, max_retries: int = 3):
+        self.max_retries = max_retries
+        self.retry_history: dict[str, list] = {}
+
+    async def execute_with_retry(self, task: dict, execute_fn) -> dict:
+        """
+        Executa tarefa com retry inteligente.
+        execute_fn: async function(task, context) → result
+        """
+        task_id = task["id"]
+        self.retry_history[task_id] = []
+        last_error = None
+
+        for attempt in range(self.max_retries + 1):
+            # Montar contexto de retry
+            retry_context = self._build_retry_context(task_id, attempt, last_error)
+
+            # Escalada de modelo conforme tentativas
+            model = self.MODEL_ESCALATION[min(attempt, len(self.MODEL_ESCALATION) - 1)]
+            task_with_model = {**task, "model_override": model}
+
+            try:
+                result = await execute_fn(task_with_model, retry_context)
+                self.retry_history[task_id].append({
+                    "attempt": attempt,
+                    "success": True,
+                    "model": model
+                })
+                return result
+
+            except Exception as e:
+                last_error = str(e)
+                self.retry_history[task_id].append({
+                    "attempt": attempt,
+                    "success": False,
+                    "error": last_error,
+                    "model": model
+                })
+                print(f"[Retry] Task {task_id}: tentativa {attempt+1} falhou: {e}")
+
+                if attempt < self.max_retries:
+                    wait = 2 ** attempt  # backoff exponencial: 1s, 2s, 4s
+                    await asyncio.sleep(wait)
+
+        raise RuntimeError(
+            f"Task {task_id} falhou após {self.max_retries + 1} tentativas. "
+            f"Último erro: {last_error}"
+        )
+
+    def _build_retry_context(self, task_id: str, attempt: int, last_error: str) -> dict:
+        """Constrói contexto adicional para próxima tentativa."""
+        if attempt == 0 or not last_error:
+            return {}
+
+        history = self.retry_history.get(task_id, [])
+        errors = [h["error"] for h in history if not h["success"]]
+
+        return {
+            "retry_attempt": attempt,
+            "previous_errors": errors,
+            "instruction": (
+                f"Esta é a tentativa {attempt+1}. "
+                f"Tentativas anteriores falharam com: {'; '.join(errors)}. "
+                f"Tente uma abordagem diferente para evitar o mesmo problema."
+            )
+        }</code></pre>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🗺️ Replanning Automático</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Quando o retry exauriu as tentativas e a tarefa ainda falha, o orquestrador aciona o <strong class="text-teal-400">replanner</strong> — um LLM que analisa o estado atual e o histórico de falhas para gerar uma abordagem completamente diferente.
+      </p>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>class AutoReplanner:
+    """Gera novo plano quando subtarefa falha repetidamente."""
+
+    def __init__(self, max_replanning_depth: int = 2):
+        self.max_depth = max_replanning_depth
+        self.replanning_count: dict[str, int] = {}
+
+    async def replan_task(self,
+                          failed_task: dict,
+                          failure_history: list[dict],
+                          session_context: dict) -> list[dict]:
+        """
+        Gera subtarefas alternativas para substituir a tarefa que falhou.
+        Retorna lista de novas tarefas a inserir no DAG.
+        """
+        task_id = failed_task["id"]
+        depth = self.replanning_count.get(task_id, 0)
+
+        if depth >= self.max_depth:
+            raise RuntimeError(
+                f"Replanning máximo atingido para {task_id}. Escalar para humano."
+            )
+
+        self.replanning_count[task_id] = depth + 1
+
+        errors_summary = "\n".join([
+            f"- Tentativa {i+1}: {f.get('error', 'sem detalhe')}"
+            for i, f in enumerate(failure_history)
+        ])
+
+        response = client.messages.create(
+            model="claude-opus-4-6",
+            max_tokens=2048,
+            messages=[{
+                "role": "user",
+                "content": f"""A seguinte tarefa falhou {len(failure_history)} vezes e precisa ser replanejada.
+
+TAREFA ORIGINAL:
+{json.dumps(failed_task, ensure_ascii=False)}
+
+HISTÓRICO DE FALHAS:
+{errors_summary}
+
+CONTEXTO DA SESSÃO:
+Objetivo: {session_context.get('objective', 'N/A')}
+Tarefas já completas: {', '.join(session_context.get('completed_tasks', []))}
+
+Gere uma lista de subtarefas ALTERNATIVAS que atinjam o mesmo objetivo
+usando uma abordagem completamente diferente. Cada subtarefa no formato JSON:
+{{"id": "R{task_id}_01", "titulo": "...", "descricao": "...",
+  "agente_tipo": "...", "dependencias": [...], "duracao_estimada_seg": N}}"""
+            }]
+        )
+
+        new_tasks = json.loads(response.content[0].text)
+        print(f"[Replanner] Geradas {len(new_tasks)} subtarefas alternativas para {task_id}")
+        return new_tasks</code></pre>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">👤 Human Escalation Pipeline</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Alguns problemas não podem ser resolvidos autonomamente. O pipeline de escalação humana define quando chamar, como notificar, e o que fazer enquanto espera a resposta.
+      </p>
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-5 mb-6">
+        <h3 class="text-base font-semibold text-neutral-300 mb-4">Triggers de escalação humana</h3>
+        <div class="space-y-3 text-sm">
+          <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3">
+            <span class="text-amber-400 font-bold">T1</span>
+            <span class="text-neutral-300"><strong class="text-white">Custo acima de X:</strong> execução ultrapassou $10 (ou budget configurado). Humano decide se continua.</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3">
+            <span class="text-amber-400 font-bold">T2</span>
+            <span class="text-neutral-300"><strong class="text-white">Ação irreversível:</strong> agente quer enviar email, deletar dado, fazer deploy — requer aprovação explícita.</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3">
+            <span class="text-amber-400 font-bold">T3</span>
+            <span class="text-neutral-300"><strong class="text-white">Confiança baixa:</strong> LLM retornou confidence &lt;50% em decisão crítica — humano valida antes de continuar.</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800/50 rounded-lg p-3">
+            <span class="text-amber-400 font-bold">T4</span>
+            <span class="text-neutral-300"><strong class="text-white">Replanning exausto:</strong> sistema tentou tudo, ainda falha. Humano decide como prosseguir.</span>
+          </div>
+        </div>
+      </div>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>import aiohttp
+import asyncio
+
+class HumanEscalationPipeline:
+    """Pipeline completo de escalação para humanos."""
+
+    def __init__(self, slack_webhook: str, approval_timeout: int = 300):
+        self.slack_webhook = slack_webhook
+        self.approval_timeout = approval_timeout  # 5 minutos default
+        self.pending_approvals: dict[str, asyncio.Event] = {}
+        self.approval_results: dict[str, bool] = {}
+
+    async def escalate(self,
+                       session_id: str,
+                       trigger: str,
+                       context: dict,
+                       default_on_timeout: bool = False) -> bool:
+        """
+        Escala para humano e aguarda resposta.
+        Retorna True se aprovado, False se rejeitado/timeout.
+        """
+        approval_id = f"approval_{session_id}_{int(time.time())}"
+
+        # 1. Notificar via Slack
+        await self._send_slack_notification(approval_id, trigger, context)
+
+        # 2. Criar evento de espera
+        event = asyncio.Event()
+        self.pending_approvals[approval_id] = event
+
+        # 3. Aguardar aprovação com timeout
+        try:
+            await asyncio.wait_for(event.wait(), timeout=self.approval_timeout)
+            result = self.approval_results.get(approval_id, default_on_timeout)
+        except asyncio.TimeoutError:
+            print(f"[Escalation] Timeout: nenhuma resposta em {self.approval_timeout}s. "
+                  f"Usando default: {default_on_timeout}")
+            result = default_on_timeout
+        finally:
+            self.pending_approvals.pop(approval_id, None)
+
+        return result
+
+    def approve(self, approval_id: str):
+        """Chamado pela interface humana para aprovar."""
+        self.approval_results[approval_id] = True
+        if approval_id in self.pending_approvals:
+            self.pending_approvals[approval_id].set()
+
+    def reject(self, approval_id: str):
+        """Chamado pela interface humana para rejeitar."""
+        self.approval_results[approval_id] = False
+        if approval_id in self.pending_approvals:
+            self.pending_approvals[approval_id].set()
+
+    async def _send_slack_notification(self, approval_id: str,
+                                        trigger: str, context: dict):
+        blocks = {
+            "text": f":warning: Escalação de Agente — {trigger}",
+            "blocks": [
+                {"type": "section", "text": {"type": "mrkdwn",
+                    "text": f"*Sessão:* `{context.get('session_id', 'N/A')}`\n"
+                            f"*Trigger:* {trigger}\n"
+                            f"*Contexto:* {str(context)[:500]}"}},
+                {"type": "actions", "elements": [
+                    {"type": "button", "text": {"type": "plain_text", "text": "Aprovar"},
+                     "style": "primary", "value": f"approve:{approval_id}"},
+                    {"type": "button", "text": {"type": "plain_text", "text": "Rejeitar"},
+                     "style": "danger", "value": f"reject:{approval_id}"}
+                ]}
+            ]
+        }
+        async with aiohttp.ClientSession() as session:
+            await session.post(self.slack_webhook, json=blocks)</code></pre>
+      </div>
+      <div class="bg-dark-800/50 rounded-lg p-5 mb-8 border border-dark-600">
+        <h3 class="font-semibold text-teal-400 mb-2">Resumo do Módulo 5.4</h3>
+        <div class="space-y-2 text-sm text-neutral-300">
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Health monitoring com heartbeat distingue agente trabalhando vs. travado vs. morto</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>SLA monitoring converte "parece lento" em dados precisos: X% acima do SLA esperado</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Detecção de stall por fingerprint de ação: para loops antes de queimarem $100 em tokens</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Retry inteligente: contexto de erro + escalada de modelo + abordagem alternativa</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Replanning automático gera subtarefas alternativas quando retry esgota</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Pipeline de escalação humana com Slack, timeout e default behavior configurável</span></div>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="modulo-5-3.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← 5.3 Controle de Estado</a>
+        <a href="modulo-5-5.html" class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-500 transition-colors">Próximo: 5.5 Governança: Logs →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

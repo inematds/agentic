@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5.1 Camada 1 — Planejamento Inteligente | Trilha 5 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%); }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    pre { overflow-x: auto; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-teal-400 bg-teal-500/10">
+            <span class="sm:hidden">T5</span><span class="hidden sm:inline">Orquestrador</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-teal-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-teal-400 transition-colors">Trilha 5 — Orquestrador Completo</a>
+      <span>/</span>
+      <span class="text-teal-400">Módulo 5.1</span>
+    </div>
+  </nav>
+
+  <header class="bg-gradient-to-br from-teal-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-semibold rounded-full mb-4 tracking-wide">MÓDULO 5.1</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🎯 Camada 1 — Planejamento Inteligente</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">Transformar "analise a concorrência e prepare um relatório estratégico" em um plano executável com 12 tarefas, dependências explícitas e estimativa de custo. Essa é a responsabilidade da Camada 1.</p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-teal-400">Código</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🧩 O problema que a Camada 1 resolve</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Um usuário digita: <strong class="text-teal-400">"Analise a concorrência e prepare um relatório estratégico para Q2."</strong> Isso é completamente inviável de executar diretamente. Nenhum agente — por mais poderoso que seja — consegue executar esse objetivo de uma vez, em um único prompt.
+      </p>
+      <div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-xl border border-teal-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-teal-400 mb-4">Por que objetivos vagos quebram agentes</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-dark-600">
+            <p class="text-sm font-bold text-red-400 mb-2">Problema 1: Escopo infinito</p>
+            <p class="text-sm text-neutral-300">Sem limites claros, o agente pode tentar analisar 50 concorrentes em vez de 5, gerando custo 10x maior que o esperado.</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-dark-600">
+            <p class="text-sm font-bold text-red-400 mb-2">Problema 2: Sem critério de sucesso</p>
+            <p class="text-sm text-neutral-300">Como o agente sabe quando terminou? "Relatório estratégico" pode ser 1 página ou 50 páginas — sem definição, o loop nunca fecha.</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-dark-600">
+            <p class="text-sm font-bold text-red-400 mb-2">Problema 3: Sem paralelismo</p>
+            <p class="text-sm text-neutral-300">Sem decompor em subtarefas, tudo é executado sequencialmente. Um trabalho de 12 minutos paralelos vira 2 horas sequenciais.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-3">O que a Camada 1 entrega</h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3">
+            <span class="text-teal-400 mt-0.5 font-bold">→</span>
+            <span class="text-neutral-300 text-sm"><strong class="text-white">Objetivo analisado:</strong> dimensões executáveis extraídas — o quê, para quem, com que critérios, em que formato</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-teal-400 mt-0.5 font-bold">→</span>
+            <span class="text-neutral-300 text-sm"><strong class="text-white">Plano estruturado:</strong> lista de subtarefas atômicas, cada uma executável por um agente em uma chamada</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-teal-400 mt-0.5 font-bold">→</span>
+            <span class="text-neutral-300 text-sm"><strong class="text-white">DAG de dependências:</strong> grafo de quais tarefas bloqueiam outras e quais podem rodar em paralelo</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-teal-400 mt-0.5 font-bold">→</span>
+            <span class="text-neutral-300 text-sm"><strong class="text-white">Estimativa de custo:</strong> custo esperado em tokens e dólares antes de executar qualquer tarefa</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🔍 Objective Parsing</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Antes de decompor, é preciso entender. O <strong class="text-teal-400">objective parsing</strong> é o processo de extrair do objetivo em linguagem natural as dimensões que tornam a execução possível e verificável.
+      </p>
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-base font-semibold text-neutral-300 mb-4">As 4 dimensões do objetivo executável</h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="w-8 h-8 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <div>
+              <p class="font-semibold text-white mb-1">O que fazer?</p>
+              <p class="text-sm text-neutral-300">A ação concreta: "analisar concorrentes" → coletar dados de pricing, features, posicionamento, reviews de clientes de 5 empresas específicas do setor fintech.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="w-8 h-8 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <div>
+              <p class="font-semibold text-white mb-1">Para quem?</p>
+              <p class="text-sm text-neutral-300">O stakeholder implícito define o formato. Para o CEO: executive summary de 1 página. Para o time de produto: análise detalhada de features. Para investidores: benchmarks financeiros.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="w-8 h-8 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <div>
+              <p class="font-semibold text-white mb-1">Com que critérios de sucesso?</p>
+              <p class="text-sm text-neutral-300">O que define "relatório bom"? Cobertura de N empresas? Dados atualizados nos últimos 90 dias? Recomendações acionáveis? Sem isso, não há condição de parada.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="w-8 h-8 rounded-full bg-teal-500/20 text-teal-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <div>
+              <p class="font-semibold text-white mb-1">Qual o formato de entrega?</p>
+              <p class="text-sm text-neutral-300">PDF, Google Doc, Notion, Slack summary? A forma de entrega determina as tools necessárias e o agente de formatação adequado.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-sm font-semibold text-teal-400 mb-3">Código: objective_parser()</h3>
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>import anthropic
+import json
+
+client = anthropic.Anthropic()
+
+def parse_objective(raw_objective: str) -> dict:
+    """Extrai dimensões executáveis de um objetivo em linguagem natural."""
+
+    response = client.messages.create(
+        model="claude-opus-4-6",
+        max_tokens=1024,
+        messages=[{
+            "role": "user",
+            "content": f"""Analise este objetivo e extraia as dimensões executáveis no formato JSON:
+
+OBJETIVO: {raw_objective}
+
+Retorne APENAS um JSON com:
+{{
+  "acao_principal": "string - o que concretamente fazer",
+  "escopo": "string - limites claros do que incluir/excluir",
+  "stakeholder": "string - para quem é o resultado",
+  "criterios_sucesso": ["lista de critérios verificáveis"],
+  "formato_entrega": "string - como entregar o resultado",
+  "estimativa_subtarefas": "number - quantas subtarefas estimar"
+}}"""
+        }]
+    )
+
+    return json.loads(response.content[0].text)
+
+# Exemplo de uso:
+objetivo = "analise a concorrência do setor fintech e prepare relatório estratégico para Q2"
+parsed = parse_objective(objetivo)
+print(json.dumps(parsed, indent=2, ensure_ascii=False))</code></pre>
+      </div>
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-base font-semibold text-primary mb-2">Dica Prática</h3>
+        <p class="text-neutral-300 text-sm">Sempre faça o parsing com um modelo capaz de raciocinar (Claude Sonnet ou superior). O resultado do parsing guia todo o restante da execução — um parsing ruim gera um plano ruim que gera execução ruim. Não economize aqui.</p>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🧩 Task Decomposition Automática</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Com o objetivo parseado, o próximo passo é decompô-lo em subtarefas atômicas — cada uma pequena o suficiente para ser executada por um único agente em uma chamada de LLM, com critério de conclusão verificável.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-teal-900/20 rounded-xl border border-teal-500/30 p-5">
+          <h4 class="font-bold text-teal-400 mb-3">Critérios de uma boa subtarefa</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span><strong>Atômica:</strong> não pode ser dividida em partes menores sem perder sentido</span></li>
+            <li class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span><strong>Verificável:</strong> tem um critério claro de "concluída" (ex: "relatório de N páginas gerado")</span></li>
+            <li class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span><strong>Independente:</strong> define claramente quais subtarefas devem preceder</span></li>
+            <li class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span><strong>Executável:</strong> um agente com as tools corretas pode completar em &lt;2 minutos</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-5">
+          <h4 class="font-bold text-red-400 mb-3">Erros comuns na decomposição</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400 mt-0.5">✗</span><span><strong>Subtarefa vaga:</strong> "pesquisar concorrentes" — o quê exatamente, onde, quantos?</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400 mt-0.5">✗</span><span><strong>Sobreposição:</strong> duas subtarefas cobrindo o mesmo trabalho gera duplicação</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400 mt-0.5">✗</span><span><strong>Granularidade errada:</strong> subtarefa tão pequena que gera overhead de orquestração desnecessário</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400 mt-0.5">✗</span><span><strong>Lacuna:</strong> subtarefas que não cobrem todo o objetivo — entrega incompleta garantida</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-sm font-semibold text-teal-400 mb-3">Código: decompose_objective()</h3>
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>def decompose_objective(parsed_objective: dict) -> list[dict]:
+    """Decompõe objetivo parseado em subtarefas atômicas."""
+
+    prompt = f"""Com base neste objetivo estruturado, gere subtarefas atômicas:
+
+OBJETIVO: {json.dumps(parsed_objective, ensure_ascii=False)}
+
+Gere uma lista de subtarefas. Cada subtarefa deve ter:
+- id: string único (ex: "T01", "T02")
+- titulo: string descritivo curto
+- descricao: o que exatamente fazer
+- agente_tipo: qual tipo de agente pode executar (pesquisa/analise/redacao/formatacao)
+- dependencias: lista de IDs de subtarefas que devem completar antes
+- duracao_estimada_seg: estimativa em segundos
+- custo_estimado_usd: estimativa em dólares
+
+Retorne JSON array de subtarefas. Garanta completude (sem lacunas) e sem sobreposição."""
+
+    response = client.messages.create(
+        model="claude-opus-4-6",
+        max_tokens=2048,
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    tasks = json.loads(response.content[0].text)
+
+    # Validação básica
+    ids = {t["id"] for t in tasks}
+    for task in tasks:
+        for dep in task.get("dependencias", []):
+            assert dep in ids, f"Dependência {dep} inválida em {task['id']}"
+
+    return tasks</code></pre>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">🌐 Dependency Graph (DAG)</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Com as subtarefas definidas, o próximo passo é construir o <strong class="text-teal-400">Directed Acyclic Graph (DAG)</strong> — a estrutura que representa quais tarefas bloqueiam outras e quais podem ser executadas em paralelo.
+      </p>
+      <div class="bg-gradient-to-br from-teal-900/20 to-dark-800 rounded-xl border border-teal-500/30 p-6 mb-6">
+        <h3 class="text-base font-semibold text-teal-400 mb-4">Anatomia de um DAG de execução</h3>
+        <div class="space-y-3 text-sm">
+          <div class="flex items-center space-x-3 bg-dark-800/50 rounded-lg p-3">
+            <span class="w-8 h-8 rounded-full bg-teal-500/20 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">T01</span>
+            <span class="text-neutral-300">Coleta de dados empresa A — <span class="text-teal-400">sem dependências → pode iniciar imediatamente</span></span>
+          </div>
+          <div class="flex items-center space-x-3 bg-dark-800/50 rounded-lg p-3">
+            <span class="w-8 h-8 rounded-full bg-teal-500/20 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">T02</span>
+            <span class="text-neutral-300">Coleta de dados empresa B — <span class="text-teal-400">sem dependências → pode rodar paralelo com T01</span></span>
+          </div>
+          <div class="flex items-center space-x-3 bg-dark-800/50 rounded-lg p-3">
+            <span class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold flex items-center justify-center flex-shrink-0">T05</span>
+            <span class="text-neutral-300">Análise comparativa — <span class="text-amber-400">depende de T01, T02, T03, T04 → nó bloqueador</span></span>
+          </div>
+          <div class="flex items-center space-x-3 bg-dark-800/50 rounded-lg p-3">
+            <span class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 text-xs font-bold flex items-center justify-center flex-shrink-0">T08</span>
+            <span class="text-neutral-300">Relatório final — <span class="text-purple-400">depende de T05, T06, T07 → nó de saída (folha)</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-sm font-semibold text-teal-400 mb-3">Código: build_dag() e topological_sort()</h3>
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>from collections import defaultdict, deque
+
+class ExecutionDAG:
+    def __init__(self, tasks: list[dict]):
+        self.tasks = {t["id"]: t for t in tasks}
+        self.graph = defaultdict(list)    # id -> [dependentes]
+        self.in_degree = defaultdict(int) # id -> número de dependências
+        self._build()
+
+    def _build(self):
+        for task_id in self.tasks:
+            self.in_degree[task_id] = 0
+
+        for task in self.tasks.values():
+            for dep in task.get("dependencias", []):
+                self.graph[dep].append(task["id"])
+                self.in_degree[task["id"]] += 1
+
+    def get_ready_tasks(self, completed: set) -> list[str]:
+        """Retorna IDs das tarefas prontas para execução (dependências satisfeitas)."""
+        ready = []
+        for task_id, task in self.tasks.items():
+            if task_id in completed:
+                continue
+            deps = set(task.get("dependencias", []))
+            if deps.issubset(completed):
+                ready.append(task_id)
+        return ready
+
+    def topological_order(self) -> list[str]:
+        """Retorna ordem de execução respeitando dependências (Kahn's algorithm)."""
+        in_deg = dict(self.in_degree)
+        queue = deque([t for t in in_deg if in_deg[t] == 0])
+        order = []
+
+        while queue:
+            node = queue.popleft()
+            order.append(node)
+            for neighbor in self.graph[node]:
+                in_deg[neighbor] -= 1
+                if in_deg[neighbor] == 0:
+                    queue.append(neighbor)
+
+        if len(order) != len(self.tasks):
+            raise ValueError("DAG contém ciclo — plano inválido!")
+
+        return order
+
+    def estimate_total_time(self) -> float:
+        """Estima tempo total considerando paralelismo máximo."""
+        # Simplificado: baseado no caminho crítico
+        return max(
+            self.tasks[t]["duracao_estimada_seg"]
+            for t in self.tasks
+        ) * 1.5  # fator de overhead</code></pre>
+      </div>
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-5">
+        <h3 class="text-base font-semibold text-blue-400 mb-2">Por que DAG e não apenas lista ordenada?</h3>
+        <p class="text-neutral-300 text-sm">Uma lista ordenada executa sequencialmente — 12 tarefas de 30 segundos cada = 6 minutos. O DAG identifica quais tarefas são independentes e podem rodar em paralelo — essas mesmas 12 tarefas podem completar em 90 segundos com 4 agentes paralelos. O ganho de tempo é quadrático com o número de agentes disponíveis.</p>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">⚖️ Priorização Inteligente</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Quando múltiplas tarefas estão desbloqueadas e disponíveis para execução, qual o orquestrador deve executar primeiro? A resposta impacta diretamente o tempo total e a detecção precoce de bloqueios.
+      </p>
+      <div class="space-y-4 mb-6">
+        <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-white mb-3">Critério 1: Caminho crítico</h4>
+          <p class="text-sm text-neutral-300 mb-2">A tarefa que, se atrasada, atrasa o resultado final. Identificada pelo maior tempo acumulado de dependentes downstream. Execute tarefas do caminho crítico primeiro — sempre.</p>
+          <div class="bg-teal-900/20 rounded-lg p-3 text-sm">
+            <span class="text-teal-400 font-semibold">Exemplo:</span> <span class="text-neutral-300"> T05 (análise comparativa) tem 3 dependentes. T01 (coleta A) não tem. Execute T05 primeiro quando ambas estiverem prontas.</span>
+          </div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-white mb-3">Critério 2: Desbloqueio de downstream</h4>
+          <p class="text-sm text-neutral-300 mb-2">Quantas outras tarefas essa tarefa desbloqueará quando concluída? Tarefas que desbloqueiam muitas outras têm prioridade sobre tarefas que não bloqueiam nenhuma.</p>
+          <div class="bg-teal-900/20 rounded-lg p-3 text-sm">
+            <span class="text-teal-400 font-semibold">Score de prioridade:</span> <code class="text-neutral-300"> priority = num_dependentes * 0.5 + (1/duracao) * 0.3 + criticidade * 0.2</code>
+          </div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-white mb-3">Critério 3: Fail-fast</h4>
+          <p class="text-sm text-neutral-300">Execute primeiro tarefas com maior probabilidade de falha (acesso a APIs externas, dados incertos). Se vão falhar, melhor saber cedo — antes de gastar tokens em análises que dependem desses dados.</p>
+        </div>
+      </div>
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+        <h3 class="text-sm font-semibold text-teal-400 mb-3">Implementação: priority_queue</h3>
+        <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>import heapq
+
+class PriorityTaskScheduler:
+    def __init__(self, dag: ExecutionDAG):
+        self.dag = dag
+        self.heap = []  # min-heap (negativo para max-priority)
+        self.completed = set()
+        self.running = set()
+
+    def _calculate_priority(self, task_id: str) -> float:
+        task = self.dag.tasks[task_id]
+        downstream = len(self.dag.graph[task_id])
+        duration = task.get("duracao_estimada_seg", 60)
+
+        # Score composto: mais downstream = maior prioridade
+        score = downstream * 2.0 + (1.0 / duration) * 10
+        return score
+
+    def get_next_batch(self, max_parallel: int = 4) -> list[str]:
+        """Retorna próximo lote de tarefas para execução paralela."""
+        ready = self.dag.get_ready_tasks(self.completed | self.running)
+
+        # Ordena por prioridade (maior primeiro)
+        prioritized = sorted(ready,
+            key=self._calculate_priority,
+            reverse=True
+        )
+
+        # Retorna até max_parallel tarefas
+        batch = prioritized[:max_parallel]
+        self.running.update(batch)
+        return batch
+
+    def mark_done(self, task_id: str):
+        self.running.discard(task_id)
+        self.completed.add(task_id)
+
+    def is_complete(self) -> bool:
+        return len(self.completed) == len(self.dag.tasks)</code></pre>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500/20 text-teal-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">📋 Exemplo Real: Due Diligence de Empresa X</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Vamos percorrer o fluxo completo da Camada 1 com um caso de uso real: <strong class="text-teal-400">"Prepare due diligence completa da empresa Acme Corp para avaliação de aquisição."</strong>
+      </p>
+      <div class="space-y-4 mb-6">
+        <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-teal-400 mb-3">Passo 1: Parsing do objetivo</h4>
+          <pre class="bg-dark-900 rounded-lg p-4 text-sm text-neutral-300"><code>{
+  "acao_principal": "Análise de due diligence para aquisição",
+  "escopo": "Empresa Acme Corp — financeiro, jurídico, técnico, mercado",
+  "stakeholder": "Comitê de M&A e CFO",
+  "criterios_sucesso": [
+    "Cobertura de 4 dimensões: financeiro, jurídico, técnico, mercado",
+    "Dados dos últimos 3 anos financeiros",
+    "Identificação de red flags e riscos",
+    "Recomendação: avançar / não avançar / avançar com condições"
+  ],
+  "formato_entrega": "PDF executivo + planilha de dados detalhados",
+  "estimativa_subtarefas": 15
+}</code></pre>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-teal-400 mb-3">Passo 2: Subtarefas geradas (15 total)</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            <div class="space-y-2">
+              <div class="flex items-center space-x-2"><span class="text-teal-400 font-mono">T01</span><span class="text-neutral-300">Coleta dados financeiros públicos</span></div>
+              <div class="flex items-center space-x-2"><span class="text-teal-400 font-mono">T02</span><span class="text-neutral-300">Análise de registros jurídicos/processos</span></div>
+              <div class="flex items-center space-x-2"><span class="text-teal-400 font-mono">T03</span><span class="text-neutral-300">Auditoria de propriedade intelectual</span></div>
+              <div class="flex items-center space-x-2"><span class="text-teal-400 font-mono">T04</span><span class="text-neutral-300">Análise de tecnologia e stack técnico</span></div>
+              <div class="flex items-center space-x-2"><span class="text-teal-400 font-mono">T05</span><span class="text-neutral-300">Pesquisa de mercado e posicionamento</span></div>
+              <div class="flex items-center space-x-2"><span class="text-teal-400 font-mono">T06</span><span class="text-neutral-300">Análise de equipe e liderança</span></div>
+              <div class="flex items-center space-x-2"><span class="text-teal-400 font-mono">T07</span><span class="text-neutral-300">Levantamento de clientes e churn</span></div>
+              <div class="flex items-center space-x-2"><span class="text-teal-400 font-mono">T08</span><span class="text-neutral-300">Análise de contratos-chave</span></div>
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center space-x-2"><span class="text-amber-400 font-mono">T09</span><span class="text-neutral-300">Síntese financeira (dep: T01)</span></div>
+              <div class="flex items-center space-x-2"><span class="text-amber-400 font-mono">T10</span><span class="text-neutral-300">Análise de riscos jurídicos (dep: T02,T03,T08)</span></div>
+              <div class="flex items-center space-x-2"><span class="text-amber-400 font-mono">T11</span><span class="text-neutral-300">Avaliação técnica consolidada (dep: T04)</span></div>
+              <div class="flex items-center space-x-2"><span class="text-amber-400 font-mono">T12</span><span class="text-neutral-300">Análise de mercado consolidada (dep: T05,T07)</span></div>
+              <div class="flex items-center space-x-2"><span class="text-amber-400 font-mono">T13</span><span class="text-neutral-300">Análise de pessoas (dep: T06)</span></div>
+              <div class="flex items-center space-x-2"><span class="text-purple-400 font-mono">T14</span><span class="text-neutral-300">Red flags e recomendações (dep: T09-T13)</span></div>
+              <div class="flex items-center space-x-2"><span class="text-purple-400 font-mono">T15</span><span class="text-neutral-300">Relatório PDF final (dep: T14)</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-semibold text-teal-400 mb-3">Passo 3: Plano de execução em ondas</h4>
+          <div class="space-y-3 text-sm">
+            <div class="flex items-center space-x-3">
+              <span class="px-2 py-1 bg-teal-500/20 text-teal-400 rounded font-mono text-xs">ONDA 1</span>
+              <span class="text-neutral-300">T01, T02, T03, T04, T05, T06, T07, T08 — execução paralela (8 agentes) — ~90 seg</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="px-2 py-1 bg-amber-500/20 text-amber-400 rounded font-mono text-xs">ONDA 2</span>
+              <span class="text-neutral-300">T09, T10, T11, T12, T13 — execução paralela (5 agentes) — ~120 seg</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded font-mono text-xs">ONDA 3</span>
+              <span class="text-neutral-300">T14 (red flags) — 1 agente — ~60 seg</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="px-2 py-1 bg-rose-500/20 text-rose-400 rounded font-mono text-xs">ONDA 4</span>
+              <span class="text-neutral-300">T15 (relatório final) — 1 agente — ~120 seg</span>
+            </div>
+          </div>
+          <div class="mt-4 p-3 bg-teal-900/20 rounded-lg border border-teal-500/30">
+            <p class="text-sm text-neutral-300"><span class="text-teal-400 font-semibold">Resultado:</span> 15 tarefas completadas em ~6.5 minutos com paralelismo máximo. Sequencial levaria ~25 minutos. <span class="text-teal-400 font-semibold">Custo estimado: $2.40</span> (tokens totais ~800k, mix de modelos).</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-dark-800/50 rounded-lg p-5 mb-8 border border-dark-600">
+        <h3 class="font-semibold text-teal-400 mb-2">Resumo do Módulo 5.1</h3>
+        <div class="space-y-2 text-sm text-neutral-300">
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Objective parsing extrai dimensões executáveis antes de qualquer decomposição</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Task decomposition gera subtarefas atômicas, verificáveis e sem sobreposição</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>DAG identifica paralelismo: execução 4x mais rápida com agentes paralelos</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Priorização por caminho crítico minimiza o tempo total de execução</span></div>
+          <div class="flex items-start space-x-2"><span class="text-teal-400 mt-0.5">✓</span><span>Estimativa prévia de custo e tempo permite decisão informada antes de executar</span></div>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para Trilha 5</a>
+        <a href="modulo-5-2.html" class="flex-1 text-center px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-500 transition-colors">Próximo: 5.2 Roteamento Multi-Agente →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') { themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark'); }
+    else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>
