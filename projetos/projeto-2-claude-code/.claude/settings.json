@@ -1,0 +1,45 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "Bash(pytest:*)",
+      "Bash(pip install:*)",
+      "Bash(python:*)"
+    ],
+    "deny": [
+      "Bash(git push --force:*)",
+      "Bash(rm -rf:*)",
+      "Bash(sudo:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[Hook] Comando Bash sendo executado: verificando segurança...'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[Hook] Arquivo editado. Considere rodar os testes.'"
+          }
+        ]
+      }
+    ]
+  },
+  "env": {
+    "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}",
+    "ENVIRONMENT": "development"
+  }
+}

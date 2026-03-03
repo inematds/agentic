@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projeto 2: Agentic com Claude Code — INEMA.CLUB</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: {
+              900: '#111827',
+              800: '#1f2937',
+              700: '#374151',
+              600: '#4b5563'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Accordion animation */
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, opacity 0.3s ease;
+      opacity: 0;
+    }
+    .accordion-content.open {
+      max-height: 9999px;
+      opacity: 1;
+      transition: max-height 0.6s ease-in, opacity 0.4s ease;
+    }
+
+    /* Code block scrollbar */
+    pre::-webkit-scrollbar { height: 6px; }
+    pre::-webkit-scrollbar-track { background: #1f2937; border-radius: 3px; }
+    pre::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
+
+    /* Number circle */
+    .topic-number {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    /* Rotate chevron */
+    .chevron {
+      transition: transform 0.3s ease;
+    }
+    .chevron.rotated {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAV -->
+  <nav class="bg-dark-800 border-b border-dark-600 sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <!-- Breadcrumb + Logo -->
+      <div class="flex items-center gap-2 text-sm text-neutral-400">
+        <span>Projetos Práticos</span>
+        <span class="text-neutral-600">/</span>
+        <span class="text-sky-400 font-medium">Claude Code</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <span class="text-sky-400 font-bold tracking-wide text-sm">INEMA.CLUB</span>
+        <!-- Theme Toggle -->
+        <button
+          id="theme-toggle"
+          onclick="toggleTheme()"
+          class="w-8 h-8 rounded-lg bg-dark-700 border border-dark-600 flex items-center justify-center text-neutral-400 hover:text-neutral-100 transition-colors"
+          title="Alternar tema"
+        >
+          <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+          </svg>
+          <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="max-w-5xl mx-auto px-4 pt-12 pb-8">
+    <div class="flex items-start justify-start gap-3 mb-4">
+      <span class="inline-block bg-sky-500/20 text-sky-400 border border-sky-500/30 text-xs font-semibold px-3 py-1 rounded-full tracking-widest uppercase">
+        ANTHROPIC CLI
+      </span>
+    </div>
+    <h1 class="text-2xl font-bold text-neutral-100 mb-3">
+      Projeto 2: Agentic com Claude Code
+    </h1>
+    <p class="text-neutral-400 text-base max-w-2xl leading-relaxed">
+      Guia passo a passo para usar o Claude Code como agente de desenvolvimento autônomo. Aprenda a configurar <code class="text-sky-400 bg-dark-700 px-1 rounded">CLAUDE.md</code>, permissões, hooks, skills e integração com MCP.
+    </p>
+
+    <!-- Quick stats -->
+    <div class="flex flex-wrap gap-4 mt-6">
+      <div class="flex items-center gap-2 text-sm text-neutral-400">
+        <div class="w-2 h-2 rounded-full bg-sky-400"></div>
+        6 tópicos
+      </div>
+      <div class="flex items-center gap-2 text-sm text-neutral-400">
+        <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+        Exemplos de código reais
+      </div>
+      <div class="flex items-center gap-2 text-sm text-neutral-400">
+        <div class="w-2 h-2 rounded-full bg-violet-400"></div>
+        Projeto Python/FastAPI
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="max-w-5xl mx-auto px-4 pb-16">
+
+    <!-- ========== TÓPICO 1 ========== -->
+    <div class="mb-4 bg-dark-800 border border-dark-600 rounded-xl overflow-hidden">
+      <button
+        onclick="toggleAccordion('topic-1')"
+        class="w-full flex items-center justify-start gap-4 px-6 py-5 hover:bg-dark-700 transition-colors text-left"
+      >
+        <div class="topic-number bg-sky-500/20 text-sky-400 border border-sky-500/30">1</div>
+        <div class="flex-1">
+          <h2 class="text-base font-semibold text-neutral-100">Instalação e Primeiros Passos</h2>
+          <p class="text-sm text-neutral-500 mt-0.5">npm install, autenticação, estrutura básica do projeto</p>
+        </div>
+        <svg class="chevron w-5 h-5 text-neutral-500" id="chevron-topic-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div class="accordion-content" id="topic-1">
+        <div class="px-6 pb-6 space-y-6 border-t border-dark-600">
+
+          <!-- O que é -->
+          <div class="pt-6">
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">O que é</h3>
+            <p class="text-neutral-300 text-sm leading-relaxed">
+              O <strong class="text-neutral-100">Claude Code</strong> é uma CLI oficial da Anthropic que transforma o Claude em um agente de desenvolvimento que opera diretamente no seu terminal. Diferente de plugins de editor, ele tem acesso completo ao sistema de arquivos, pode executar comandos, criar branches, rodar testes e navegar pelo código como um desenvolvedor sênior — tudo a partir de instruções em linguagem natural.
+            </p>
+          </div>
+
+          <!-- Por que usar -->
+          <div>
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">Por que usar</h3>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Executa tarefas complexas de múltiplos arquivos sem supervisão constante</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Integra nativamente com git, GitHub CLI, pytest e qualquer ferramenta de terminal</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Contexto persistente via <code class="text-sky-400 bg-dark-700 px-1 rounded">CLAUDE.md</code> — o agente "conhece" as regras do projeto</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Permissões configuráveis por projeto, com listas allow/deny granulares</li>
+            </ul>
+          </div>
+
+          <!-- Como configurar -->
+          <div>
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">Como configurar</h3>
+            <p class="text-sm text-neutral-400 mb-3">Instale globalmente via npm e autentique com sua chave da Anthropic:</p>
+            <pre class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-neutral-300"><span class="text-neutral-500"># 1. Instalar o Claude Code globalmente</span>
+npm install -g @anthropic-ai/claude-code
+
+<span class="text-neutral-500"># 2. Verificar a instalação</span>
+claude --version
+
+<span class="text-neutral-500"># 3. Autenticar (abre o browser para OAuth)</span>
+claude auth login
+
+<span class="text-neutral-500"># 4. Ou usar chave de API diretamente</span>
+export ANTHROPIC_API_KEY="sk-ant-..."
+
+<span class="text-neutral-500"># 5. Entrar no diretório do projeto e iniciar</span>
+cd meu-projeto
+claude
+
+<span class="text-neutral-500"># 6. Modo não-interativo (headless)</span>
+claude -p "Adicione testes para o módulo de autenticação"</code></pre>
+
+            <p class="text-sm text-neutral-400 mt-4 mb-3">Estrutura básica recomendada para qualquer projeto:</p>
+            <pre class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-neutral-300">meu-projeto/
+├── CLAUDE.md                  <span class="text-neutral-500"># Memória e regras do agente</span>
+├── .claude/
+│   ├── settings.json          <span class="text-neutral-500"># Permissões e hooks</span>
+│   └── skills/
+│       ├── fix-issue/
+│       │   └── SKILL.md       <span class="text-neutral-500"># Skill customizada</span>
+│       └── deploy/
+│           └── SKILL.md
+└── src/                       <span class="text-neutral-500"># Código do projeto</span></code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== TÓPICO 2 ========== -->
+    <div class="mb-4 bg-dark-800 border border-dark-600 rounded-xl overflow-hidden">
+      <button
+        onclick="toggleAccordion('topic-2')"
+        class="w-full flex items-center justify-start gap-4 px-6 py-5 hover:bg-dark-700 transition-colors text-left"
+      >
+        <div class="topic-number bg-sky-500/20 text-sky-400 border border-sky-500/30">2</div>
+        <div class="flex-1">
+          <h2 class="text-base font-semibold text-neutral-100">CLAUDE.md — A Memória do Agente</h2>
+          <p class="text-sm text-neutral-500 mt-0.5">Como escrever, seções obrigatórias, exemplos práticos</p>
+        </div>
+        <svg class="chevron w-5 h-5 text-neutral-500" id="chevron-topic-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div class="accordion-content" id="topic-2">
+        <div class="px-6 pb-6 space-y-6 border-t border-dark-600">
+
+          <div class="pt-6">
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">O que é</h3>
+            <p class="text-neutral-300 text-sm leading-relaxed">
+              O <code class="text-sky-400 bg-dark-700 px-1 rounded">CLAUDE.md</code> é um arquivo Markdown na raiz do projeto que o Claude Code lê automaticamente no início de cada sessão. Ele funciona como a <strong class="text-neutral-100">memória persistente do agente</strong> — contém o contexto do projeto, convenções de código, comandos úteis, regras de comportamento e qualquer informação que o Claude precisa saber para trabalhar corretamente no repositório.
+            </p>
+            <p class="text-neutral-300 text-sm leading-relaxed mt-2">
+              A diferença em relação a um prompt comum é que o <code class="text-sky-400 bg-dark-700 px-1 rounded">CLAUDE.md</code> é específico do projeto, fica no repositório (podendo ser versionado), e é lido automaticamente — o desenvolvedor não precisa repetir o contexto a cada conversa.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">Por que usar</h3>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Elimina a necessidade de explicar o projeto do zero a cada sessão</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Garante que o Claude siga as convenções da equipe (snake_case, docstrings, etc.)</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Previne ações indesejadas com regras explícitas ("nunca commitar em main")</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Pode ser compartilhado entre a equipe via controle de versão</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">Como configurar</h3>
+            <p class="text-sm text-neutral-400 mb-3">Seções recomendadas para um CLAUDE.md completo:</p>
+            <pre class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-neutral-300"><span class="text-sky-400"># CLAUDE.md</span>
+
+<span class="text-emerald-400">## Contexto do Projeto</span>
+API REST com FastAPI + PostgreSQL para gestão de tarefas.
+Stack: Python 3.11, SQLAlchemy 2.0, Pydantic v2, pytest.
+
+<span class="text-emerald-400">## Comandos Principais</span>
+- Rodar: `uvicorn app.main:app --reload`
+- Testes: `pytest --cov=app`
+- Lint: `ruff check app/`
+
+<span class="text-emerald-400">## Convenções</span>
+- snake_case para funções e variáveis
+- Type hints obrigatórios em todas as funções
+- Docstrings no formato Google Style
+
+<span class="text-emerald-400">## Regras do Claude</span>
+- NUNCA commitar em main ou develop
+- Sempre criar branch: feat/, fix/, refactor/
+- Rodar pytest antes de qualquer commit
+- Nunca expor SECRET_KEY ou DATABASE_URL
+
+<span class="text-emerald-400">## Arquitetura</span>
+app/routers/   → endpoints por recurso
+app/models/    → SQLAlchemy models
+app/schemas/   → Pydantic schemas
+app/services/  → lógica de negócio</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== TÓPICO 3 ========== -->
+    <div class="mb-4 bg-dark-800 border border-dark-600 rounded-xl overflow-hidden">
+      <button
+        onclick="toggleAccordion('topic-3')"
+        class="w-full flex items-center justify-start gap-4 px-6 py-5 hover:bg-dark-700 transition-colors text-left"
+      >
+        <div class="topic-number bg-sky-500/20 text-sky-400 border border-sky-500/30">3</div>
+        <div class="flex-1">
+          <h2 class="text-base font-semibold text-neutral-100">Permissões e Segurança</h2>
+          <p class="text-sm text-neutral-500 mt-0.5">settings.json, listas allow/deny, modos de permissão</p>
+        </div>
+        <svg class="chevron w-5 h-5 text-neutral-500" id="chevron-topic-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div class="accordion-content" id="topic-3">
+        <div class="px-6 pb-6 space-y-6 border-t border-dark-600">
+
+          <div class="pt-6">
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">O que é</h3>
+            <p class="text-neutral-300 text-sm leading-relaxed">
+              O sistema de permissões do Claude Code controla exatamente quais comandos o agente pode executar de forma autônoma, quais requerem confirmação do usuário e quais são completamente bloqueados. As configurações ficam em <code class="text-sky-400 bg-dark-700 px-1 rounded">.claude/settings.json</code> e podem ser definidas por projeto.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">Por que usar</h3>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Previne ações destrutivas acidentais (<code class="text-sky-400 bg-dark-700 px-1 rounded">rm -rf</code>, <code class="text-sky-400 bg-dark-700 px-1 rounded">git push --force</code>)</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Libera fluxo para ações seguras e repetitivas sem confirmação manual</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Configurável por projeto — um projeto de produção pode ter regras mais rígidas</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Três modos: <em>default</em> (pergunta tudo), <em>auto-edit</em> (edições sem confirmar), <em>bypass-permissions</em> (CI/CD)</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">Como configurar</h3>
+            <pre class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-neutral-300"><span class="text-neutral-500">// .claude/settings.json</span>
+{
+  <span class="text-sky-400">"permissions"</span>: {
+    <span class="text-emerald-400">"allow"</span>: [
+      <span class="text-amber-300">"Bash(git add:*)"</span>,        <span class="text-neutral-500">// git add permitido</span>
+      <span class="text-amber-300">"Bash(git commit:*)"</span>,
+      <span class="text-amber-300">"Bash(pytest:*)"</span>,          <span class="text-neutral-500">// rodar testes sem confirmar</span>
+      <span class="text-amber-300">"Bash(pip install:*)"</span>,
+      <span class="text-amber-300">"Bash(python:*)"</span>
+    ],
+    <span class="text-red-400">"deny"</span>: [
+      <span class="text-amber-300">"Bash(git push --force:*)"</span>, <span class="text-neutral-500">// bloqueado permanentemente</span>
+      <span class="text-amber-300">"Bash(rm -rf:*)"</span>,
+      <span class="text-amber-300">"Bash(sudo:*)"</span>
+    ]
+  }
+}</code></pre>
+
+            <p class="text-sm text-neutral-400 mt-4 mb-2">Modos de execução via flag:</p>
+            <pre class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-neutral-300"><span class="text-neutral-500"># Modo padrão (pergunta antes de ações não configuradas)</span>
+claude
+
+<span class="text-neutral-500"># Modo auto-edit (edita arquivos sem confirmação)</span>
+claude --auto-edit
+
+<span class="text-neutral-500"># Modo headless para CI/CD (bypass total, use com cuidado)</span>
+claude --dangerously-skip-permissions -p "rodar suíte de testes"</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== TÓPICO 4 ========== -->
+    <div class="mb-4 bg-dark-800 border border-dark-600 rounded-xl overflow-hidden">
+      <button
+        onclick="toggleAccordion('topic-4')"
+        class="w-full flex items-center justify-start gap-4 px-6 py-5 hover:bg-dark-700 transition-colors text-left"
+      >
+        <div class="topic-number bg-sky-500/20 text-sky-400 border border-sky-500/30">4</div>
+        <div class="flex-1">
+          <h2 class="text-base font-semibold text-neutral-100">Hooks — Automatizando Eventos</h2>
+          <p class="text-sm text-neutral-500 mt-0.5">PreToolUse, PostToolUse, SessionStart, exemplos práticos</p>
+        </div>
+        <svg class="chevron w-5 h-5 text-neutral-500" id="chevron-topic-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div class="accordion-content" id="topic-4">
+        <div class="px-6 pb-6 space-y-6 border-t border-dark-600">
+
+          <div class="pt-6">
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">O que é</h3>
+            <p class="text-neutral-300 text-sm leading-relaxed">
+              Hooks são comandos shell que o Claude Code executa automaticamente em resposta a eventos do ciclo de vida da sessão. Permitem integrar o agente com sistemas externos, executar verificações de segurança, notificar equipes e automatizar tarefas recorrentes sem intervenção manual.
+            </p>
+            <div class="grid grid-cols-2 gap-3 mt-4">
+              <div class="bg-dark-700 rounded-lg p-3 border border-dark-600">
+                <p class="text-xs font-semibold text-sky-400 mb-1">PreToolUse</p>
+                <p class="text-xs text-neutral-400">Executa antes de qualquer ferramenta (Bash, Edit, etc.)</p>
+              </div>
+              <div class="bg-dark-700 rounded-lg p-3 border border-dark-600">
+                <p class="text-xs font-semibold text-sky-400 mb-1">PostToolUse</p>
+                <p class="text-xs text-neutral-400">Executa após uma ferramenta ser usada com sucesso</p>
+              </div>
+              <div class="bg-dark-700 rounded-lg p-3 border border-dark-600">
+                <p class="text-xs font-semibold text-sky-400 mb-1">SessionStart</p>
+                <p class="text-xs text-neutral-400">Executa uma vez ao iniciar uma nova sessão do Claude</p>
+              </div>
+              <div class="bg-dark-700 rounded-lg p-3 border border-dark-600">
+                <p class="text-xs font-semibold text-sky-400 mb-1">Notification</p>
+                <p class="text-xs text-neutral-400">Executa quando Claude gera uma notificação para o usuário</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">Por que usar</h3>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Rodar lint automaticamente após cada edição de arquivo Python</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Enviar notificações no Slack quando o agente concluir uma tarefa longa</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Registrar logs de auditoria de todos os comandos executados</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Bloquear comandos perigosos com verificação customizada antes de executar</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">Como configurar</h3>
+            <pre class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-neutral-300"><span class="text-neutral-500">// .claude/settings.json — seção hooks</span>
+{
+  <span class="text-sky-400">"hooks"</span>: {
+    <span class="text-emerald-400">"PreToolUse"</span>: [
+      {
+        <span class="text-sky-400">"matcher"</span>: <span class="text-amber-300">"Bash"</span>,        <span class="text-neutral-500">// aplica a todos os Bash</span>
+        <span class="text-sky-400">"hooks"</span>: [{
+          <span class="text-sky-400">"type"</span>: <span class="text-amber-300">"command"</span>,
+          <span class="text-sky-400">"command"</span>: <span class="text-amber-300">"echo '[Audit] Bash: $CLAUDE_TOOL_INPUT'"</span>
+        }]
+      }
+    ],
+    <span class="text-emerald-400">"PostToolUse"</span>: [
+      {
+        <span class="text-sky-400">"matcher"</span>: <span class="text-amber-300">"Edit"</span>,         <span class="text-neutral-500">// após editar arquivo</span>
+        <span class="text-sky-400">"hooks"</span>: [{
+          <span class="text-sky-400">"type"</span>: <span class="text-amber-300">"command"</span>,
+          <span class="text-sky-400">"command"</span>: <span class="text-amber-300">"ruff check app/ --quiet"</span>
+        }]
+      }
+    ],
+    <span class="text-emerald-400">"Notification"</span>: [
+      {
+        <span class="text-sky-400">"matcher"</span>: <span class="text-amber-300">"*"</span>,
+        <span class="text-sky-400">"hooks"</span>: [{
+          <span class="text-sky-400">"type"</span>: <span class="text-amber-300">"command"</span>,
+          <span class="text-sky-400">"command"</span>: <span class="text-amber-300">"notify-send 'Claude Code' '$CLAUDE_NOTIFICATION'"</span>
+        }]
+      }
+    ]
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== TÓPICO 5 ========== -->
+    <div class="mb-4 bg-dark-800 border border-dark-600 rounded-xl overflow-hidden">
+      <button
+        onclick="toggleAccordion('topic-5')"
+        class="w-full flex items-center justify-start gap-4 px-6 py-5 hover:bg-dark-700 transition-colors text-left"
+      >
+        <div class="topic-number bg-sky-500/20 text-sky-400 border border-sky-500/30">5</div>
+        <div class="flex-1">
+          <h2 class="text-base font-semibold text-neutral-100">Skills — Comandos Customizados</h2>
+          <p class="text-sm text-neutral-500 mt-0.5">O que são, como criar SKILL.md, exemplos: /fix-issue, /commit, /review-pr</p>
+        </div>
+        <svg class="chevron w-5 h-5 text-neutral-500" id="chevron-topic-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div class="accordion-content" id="topic-5">
+        <div class="px-6 pb-6 space-y-6 border-t border-dark-600">
+
+          <div class="pt-6">
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">O que é</h3>
+            <p class="text-neutral-300 text-sm leading-relaxed">
+              Skills são <strong class="text-neutral-100">macros de agente</strong> ativadas por comandos no formato <code class="text-sky-400 bg-dark-700 px-1 rounded">/nome-da-skill</code>. Cada skill é definida por um arquivo <code class="text-sky-400 bg-dark-700 px-1 rounded">SKILL.md</code> dentro de <code class="text-sky-400 bg-dark-700 px-1 rounded">.claude/skills/nome/</code> e descreve em linguagem natural os passos que o Claude deve seguir — como uma receita de execução.
+            </p>
+            <p class="text-neutral-300 text-sm leading-relaxed mt-2">
+              A diferença para um prompt simples é que skills são reutilizáveis, versionáveis, compartilháveis entre a equipe e podem encapsular fluxos complexos de múltiplos passos.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">Por que usar</h3>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> <code class="text-sky-400 bg-dark-700 px-1 rounded">/fix-issue 123</code> — corrige automaticamente uma issue do GitHub</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> <code class="text-sky-400 bg-dark-700 px-1 rounded">/commit</code> — cria commit com mensagem gerada a partir do diff</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> <code class="text-sky-400 bg-dark-700 px-1 rounded">/review-pr 45</code> — revisa um PR e sugere melhorias</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> <code class="text-sky-400 bg-dark-700 px-1 rounded">/deploy staging</code> — executa pipeline de deploy para staging</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">Como configurar</h3>
+            <p class="text-sm text-neutral-400 mb-3">Estrutura de um SKILL.md para a skill <code class="text-sky-400 bg-dark-700 px-1 rounded">/fix-issue</code>:</p>
+            <pre class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-neutral-300"><span class="text-sky-400"># Skill: fix-issue</span>
+
+<span class="text-emerald-400">## Uso</span>
+/fix-issue &lt;numero-da-issue&gt;
+
+<span class="text-emerald-400">## Passos</span>
+1. Ler issue: `gh issue view &lt;numero&gt; --json title,body`
+2. Identificar arquivos relacionados com Grep/Glob
+3. Criar branch: `git checkout -b fix/issue-&lt;numero&gt;`
+4. Implementar correção com Edit/Write
+5. Rodar testes: `pytest`
+6. Commitar: `git commit -m "Fix: resolve #&lt;numero&gt;"`
+
+<span class="text-emerald-400">## Regras</span>
+- Nunca modificar main diretamente
+- Se testes falharem, corrigir antes de commitar
+- Mencionar o número da issue na mensagem de commit
+
+<span class="text-emerald-400">## Ferramentas</span>
+Bash, Read, Edit, Write, Grep, Glob</code></pre>
+
+            <p class="text-sm text-neutral-400 mt-4 mb-2">Localização no projeto:</p>
+            <pre class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-neutral-300">.claude/skills/
+├── fix-issue/
+│   └── SKILL.md      <span class="text-neutral-500">→ ativada com /fix-issue</span>
+├── commit/
+│   └── SKILL.md      <span class="text-neutral-500">→ ativada com /commit</span>
+└── review-pr/
+    └── SKILL.md      <span class="text-neutral-500">→ ativada com /review-pr</span></code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== TÓPICO 6 ========== -->
+    <div class="mb-4 bg-dark-800 border border-dark-600 rounded-xl overflow-hidden">
+      <button
+        onclick="toggleAccordion('topic-6')"
+        class="w-full flex items-center justify-start gap-4 px-6 py-5 hover:bg-dark-700 transition-colors text-left"
+      >
+        <div class="topic-number bg-sky-500/20 text-sky-400 border border-sky-500/30">6</div>
+        <div class="flex-1">
+          <h2 class="text-base font-semibold text-neutral-100">MCP e Subagentes</h2>
+          <p class="text-sm text-neutral-500 mt-0.5">Servidores MCP, Task tool, modo headless, worktrees</p>
+        </div>
+        <svg class="chevron w-5 h-5 text-neutral-500" id="chevron-topic-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div class="accordion-content" id="topic-6">
+        <div class="px-6 pb-6 space-y-6 border-t border-dark-600">
+
+          <div class="pt-6">
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">O que é</h3>
+            <p class="text-neutral-300 text-sm leading-relaxed">
+              <strong class="text-neutral-100">MCP (Model Context Protocol)</strong> é um protocolo aberto que permite ao Claude se conectar a fontes de dados e ferramentas externas de forma padronizada. Já os <strong class="text-neutral-100">subagentes</strong> são instâncias filhas do Claude invocadas pela ferramenta <code class="text-sky-400 bg-dark-700 px-1 rounded">Task</code> — permitem paralelizar trabalho, como fazer o agente principal orquestrar múltiplos subagentes trabalhando em partes diferentes do código simultaneamente.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">Por que usar</h3>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> MCP conecta Claude a bancos de dados, APIs, Slack, Jira, sem código customizado</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Subagentes permitem trabalho paralelo — 4 módulos sendo implementados ao mesmo tempo</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Worktrees isolam cada subagente em seu próprio diretório — sem conflitos de arquivos</li>
+              <li class="flex items-start gap-2"><span class="text-sky-400 mt-0.5">+</span> Modo headless (<code class="text-sky-400 bg-dark-700 px-1 rounded">claude -p "..."</code>) permite automação total via scripts e CI/CD</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold text-sky-400 uppercase tracking-wider mb-3">Como configurar</h3>
+            <p class="text-sm text-neutral-400 mb-3">Conectar um servidor MCP ao Claude Code:</p>
+            <pre class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-neutral-300"><span class="text-neutral-500"># Adicionar servidor MCP ao Claude</span>
+claude mcp add postgres-server \
+  --command "npx @anthropic/mcp-server-postgres" \
+  --env DATABASE_URL="$DATABASE_URL"
+
+<span class="text-neutral-500"># Listar MCPs configurados</span>
+claude mcp list
+
+<span class="text-neutral-500"># Usar em sessão interativa (Claude agora tem acesso ao banco)</span>
+claude
+<span class="text-neutral-500"># "Liste as 10 tarefas mais recentes do banco de dados"</span></code></pre>
+
+            <p class="text-sm text-neutral-400 mt-4 mb-3">Usar a ferramenta Task para criar subagentes paralelos:</p>
+            <pre class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-neutral-300"><span class="text-neutral-500"># Prompt para o agente principal orquestrar subagentes</span>
+claude -p "
+Implemente as seguintes features em paralelo usando subagentes:
+
+1. Subagente A: Criar endpoint POST /api/v1/tasks com validação
+2. Subagente B: Adicionar testes para o endpoint de autenticação
+3. Subagente C: Atualizar documentação do README
+
+Use a ferramenta Task para cada subagente.
+Aguarde todos completarem antes de fazer o commit final.
+"</code></pre>
+
+            <p class="text-sm text-neutral-400 mt-4 mb-3">Trabalhar com worktrees para isolamento:</p>
+            <pre class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-neutral-300"><span class="text-neutral-500"># Criar worktree para trabalhar em feature isolada</span>
+git worktree add .claude/worktrees/feat-auth feat/auth-refresh
+
+<span class="text-neutral-500"># Claude Code cria worktrees automaticamente com /worktree</span>
+<span class="text-sky-400">/worktree feat-notifications</span>
+
+<span class="text-neutral-500"># Listar worktrees ativos</span>
+git worktree list</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== BLOCO CLAUDE.MD EXEMPLO ========== -->
+    <div class="mt-10 mb-8">
+      <h2 class="text-lg font-bold text-neutral-100 mb-1">Exemplo Completo: CLAUDE.md</h2>
+      <p class="text-sm text-neutral-500 mb-4">Conteúdo do arquivo <code class="text-sky-400 bg-dark-700 px-1 rounded">CLAUDE.md</code> criado para este projeto de demonstração.</p>
+      <div class="bg-dark-900 border border-dark-600 rounded-xl overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-2 border-b border-dark-600 bg-dark-800">
+          <span class="text-xs text-neutral-500 font-mono">CLAUDE.md</span>
+          <span class="text-xs text-emerald-400">markdown</span>
+        </div>
+        <pre class="p-5 text-sm overflow-x-auto text-neutral-300 leading-relaxed"><code><span class="text-sky-400"># CLAUDE.md — API REST de Gerenciamento de Tarefas</span>
+
+<span class="text-emerald-400">## Contexto do Projeto</span>
+API REST com FastAPI + PostgreSQL para gestão de tarefas.
+Stack: Python 3.11, SQLAlchemy 2.0, Pydantic v2, pytest.
+Repositório: github.com/nmaldaner/task-api
+
+<span class="text-emerald-400">## Comandos de Desenvolvimento</span>
+- Instalar: `pip install -r requirements.txt`
+- Rodar: `uvicorn app.main:app --reload --port 8000`
+- Testes: `pytest --cov=app --cov-report=html`
+- Migrations: `alembic upgrade head`
+- Lint: `ruff check app/`
+
+<span class="text-emerald-400">## Convenções de Código</span>
+- snake_case para variáveis e funções
+- PascalCase para classes e schemas Pydantic
+- Type hints obrigatórios em todas as funções públicas
+- Docstrings no formato Google Style
+- Imports: stdlib > third-party > local (separados por linha em branco)
+
+<span class="text-emerald-400">## Regras do Claude Code</span>
+- NUNCA commitar diretamente em main ou develop
+- Sempre criar branch: feat/, fix/, refactor/, docs/
+- Rodar pytest antes de qualquer commit
+- Nunca expor SECRET_KEY ou DATABASE_URL em código
+- Nunca usar git push --force sem confirmação explícita
+
+<span class="text-emerald-400">## Arquitetura</span>
+app/routers/   → endpoints organizados por recurso
+app/models/    → SQLAlchemy models (tabelas do banco)
+app/schemas/   → Pydantic schemas (request/response)
+app/services/  → lógica de negócio
+tests/         → testes com pytest + fixtures
+
+<span class="text-emerald-400">## Variáveis de Ambiente Importantes</span>
+DATABASE_URL, SECRET_KEY, ALGORITHM, ENVIRONMENT, DEBUG
+
+<span class="text-emerald-400">## URLs Principais</span>
+- Swagger: http://localhost:8000/docs
+- Health: http://localhost:8000/health
+- API: http://localhost:8000/api/v1/</code></pre>
+      </div>
+    </div>
+
+    <!-- ========== BLOCO SETTINGS.JSON EXEMPLO ========== -->
+    <div class="mb-10">
+      <h2 class="text-lg font-bold text-neutral-100 mb-1">Exemplo Completo: settings.json</h2>
+      <p class="text-sm text-neutral-500 mb-4">Arquivo de configuração em <code class="text-sky-400 bg-dark-700 px-1 rounded">.claude/settings.json</code> com permissões e hooks configurados.</p>
+      <div class="bg-dark-900 border border-dark-600 rounded-xl overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-2 border-b border-dark-600 bg-dark-800">
+          <span class="text-xs text-neutral-500 font-mono">.claude/settings.json</span>
+          <span class="text-xs text-amber-400">json</span>
+        </div>
+        <pre class="p-5 text-sm overflow-x-auto text-neutral-300 leading-relaxed"><code>{
+  <span class="text-sky-400">"permissions"</span>: {
+    <span class="text-neutral-500">// Comandos permitidos sem confirmação</span>
+    <span class="text-emerald-400">"allow"</span>: [
+      <span class="text-amber-300">"Bash(git add:*)"</span>,
+      <span class="text-amber-300">"Bash(git commit:*)"</span>,
+      <span class="text-amber-300">"Bash(git checkout:*)"</span>,
+      <span class="text-amber-300">"Bash(pytest:*)"</span>,
+      <span class="text-amber-300">"Bash(pip install:*)"</span>,
+      <span class="text-amber-300">"Bash(python:*)"</span>
+    ],
+    <span class="text-neutral-500">// Comandos sempre bloqueados</span>
+    <span class="text-red-400">"deny"</span>: [
+      <span class="text-amber-300">"Bash(git push --force:*)"</span>,
+      <span class="text-amber-300">"Bash(rm -rf:*)"</span>,
+      <span class="text-amber-300">"Bash(sudo:*)"</span>
+    ]
+  },
+  <span class="text-sky-400">"hooks"</span>: {
+    <span class="text-neutral-500">// Executar antes de qualquer comando Bash</span>
+    <span class="text-emerald-400">"PreToolUse"</span>: [{
+      <span class="text-sky-400">"matcher"</span>: <span class="text-amber-300">"Bash"</span>,
+      <span class="text-sky-400">"hooks"</span>: [{
+        <span class="text-sky-400">"type"</span>: <span class="text-amber-300">"command"</span>,
+        <span class="text-sky-400">"command"</span>: <span class="text-amber-300">"echo '[Hook] Verificando segurança...'"</span>
+      }]
+    }],
+    <span class="text-neutral-500">// Executar após editar um arquivo</span>
+    <span class="text-emerald-400">"PostToolUse"</span>: [{
+      <span class="text-sky-400">"matcher"</span>: <span class="text-amber-300">"Edit"</span>,
+      <span class="text-sky-400">"hooks"</span>: [{
+        <span class="text-sky-400">"type"</span>: <span class="text-amber-300">"command"</span>,
+        <span class="text-sky-400">"command"</span>: <span class="text-amber-300">"echo '[Hook] Arquivo editado. Considere rodar os testes.'"</span>
+      }]
+    }]
+  },
+  <span class="text-sky-400">"env"</span>: {
+    <span class="text-sky-400">"ANTHROPIC_API_KEY"</span>: <span class="text-amber-300">"${ANTHROPIC_API_KEY}"</span>,
+    <span class="text-sky-400">"ENVIRONMENT"</span>: <span class="text-amber-300">"development"</span>
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- ========== PROXIMOS PASSOS ========== -->
+    <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-8">
+      <h2 class="text-lg font-bold text-neutral-100 mb-1">Proximos Passos</h2>
+      <p class="text-sm text-neutral-500 mb-5">Continue explorando os outros projetos da serie Agentic.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <a href="../projeto-1-agente-zero/index.html" class="group flex items-start gap-3 bg-dark-700 hover:bg-dark-600 border border-dark-600 rounded-lg p-4 transition-colors">
+          <div class="w-8 h-8 rounded-full bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-violet-400 font-bold text-sm flex-shrink-0">1</div>
+          <div>
+            <p class="text-sm font-medium text-neutral-200 group-hover:text-violet-400 transition-colors">Projeto 1</p>
+            <p class="text-xs text-neutral-500">Agente Zero — fundamentos de agentes</p>
+          </div>
+        </a>
+        <a href="../projeto-3-antigravity/index.html" class="group flex items-start gap-3 bg-dark-700 hover:bg-dark-600 border border-dark-600 rounded-lg p-4 transition-colors">
+          <div class="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm flex-shrink-0">3</div>
+          <div>
+            <p class="text-sm font-medium text-neutral-200 group-hover:text-emerald-400 transition-colors">Projeto 3</p>
+            <p class="text-xs text-neutral-500">AntiGravity — agentes autonomos</p>
+          </div>
+        </a>
+        <a href="../projeto-4-codex/index.html" class="group flex items-start gap-3 bg-dark-700 hover:bg-dark-600 border border-dark-600 rounded-lg p-4 transition-colors">
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm flex-shrink-0">4</div>
+          <div>
+            <p class="text-sm font-medium text-neutral-200 group-hover:text-amber-400 transition-colors">Projeto 4</p>
+            <p class="text-xs text-neutral-500">Codex — agente de codigo OpenAI</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 bg-dark-800">
+    <div class="max-w-5xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <p class="text-sky-400 font-bold tracking-wide">INEMA.CLUB</p>
+        <p class="text-xs text-neutral-500 mt-1">Projetos Praticos de IA e Agentes Autonomos</p>
+      </div>
+      <div class="text-xs text-neutral-600 text-center sm:text-right">
+        <p>Projeto 2: Agentic com Claude Code</p>
+        <p class="mt-1">Construido com Claude Code + FastAPI + Python</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Accordion toggle
+    function toggleAccordion(id) {
+      const content = document.getElementById(id);
+      const chevron = document.getElementById('chevron-' + id);
+
+      const isOpen = content.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('.accordion-content').forEach(el => {
+        el.classList.remove('open');
+      });
+      document.querySelectorAll('.chevron').forEach(el => {
+        el.classList.remove('rotated');
+      });
+
+      // Open clicked if it was closed
+      if (!isOpen) {
+        content.classList.add('open');
+        chevron.classList.add('rotated');
+      }
+    }
+
+    // Theme toggle
+    function toggleTheme() {
+      const html = document.documentElement;
+      const sunIcon = document.getElementById('icon-sun');
+      const moonIcon = document.getElementById('icon-moon');
+
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Restore theme from localStorage
+    (function() {
+      const saved = localStorage.getItem('theme');
+      const sunIcon = document.getElementById('icon-sun');
+      const moonIcon = document.getElementById('icon-moon');
+      if (saved === 'light') {
+        document.documentElement.classList.remove('dark');
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+      }
+    })();
+
+    // Open first topic by default
+    window.addEventListener('DOMContentLoaded', function() {
+      toggleAccordion('topic-1');
+    });
+  </script>
+
+</body>
+</html>

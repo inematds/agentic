@@ -1,0 +1,54 @@
+# Codex CLI — Configuração do Projeto
+# Documentação: https://github.com/openai/codex
+
+[model]
+provider = "openai"
+name = "o4-mini"
+# Alternativas: "gpt-4o", "o3", "o4-mini"
+temperature = 0.2
+
+[approval]
+# Modos: "suggest" | "auto-edit" | "full-auto"
+mode = "auto-edit"
+# Arquivos que sempre precisam de aprovação manual
+require_approval = [
+  "*.env",
+  ".env.*",
+  "package.json",
+  "package-lock.json",
+  "Dockerfile",
+  "docker-compose*.yml"
+]
+
+[sandbox]
+# Modos: "read-only" | "workspace-write" | "danger-full-access"
+network = "workspace-write"
+# Comandos shell permitidos sem aprovação
+allow_shell = [
+  "npm test",
+  "npm run lint",
+  "npm run build",
+  "git status",
+  "git diff",
+  "git log --oneline -10"
+]
+# Comandos sempre bloqueados
+deny_shell = [
+  "npm publish",
+  "git push --force",
+  "rm -rf",
+  "sudo"
+]
+
+[context]
+# Arquivo de contexto persistente (lido em toda sessão)
+agents_file = "AGENTS.md"
+# Arquivos adicionais de contexto
+extra_context = [
+  "README.md",
+  "ARCHITECTURE.md"
+]
+max_context_files = 10
+
+[telemetry]
+enabled = false

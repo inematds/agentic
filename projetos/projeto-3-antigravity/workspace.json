@@ -1,0 +1,40 @@
+{
+  "name": "meu-projeto-agentic",
+  "version": "1.0.0",
+  "agent": {
+    "model": "gemini-2.0-flash-exp",
+    "temperature": 0.2,
+    "context_files": ["CONTEXT.md", "ARCHITECTURE.md"],
+    "auto_approve": false,
+    "max_iterations": 20
+  },
+  "tools": {
+    "mcp_servers": [
+      {
+        "name": "filesystem",
+        "command": "npx @modelcontextprotocol/server-filesystem",
+        "args": ["--root", "."]
+      },
+      {
+        "name": "github",
+        "command": "npx @modelcontextprotocol/server-github",
+        "env": { "GITHUB_TOKEN": "${GITHUB_TOKEN}" }
+      }
+    ],
+    "browser": { "enabled": true, "headless": false },
+    "terminal": { "enabled": true, "sandbox": true }
+  },
+  "workflows": {
+    "feature": {
+      "steps": ["plan", "implement", "test", "review"]
+    },
+    "bugfix": {
+      "steps": ["analyze", "fix", "verify"]
+    }
+  },
+  "permissions": {
+    "file_write": "ask",
+    "network": "ask",
+    "shell_execute": "ask"
+  }
+}

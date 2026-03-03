@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projeto 3: Agentic com Antigravity — INEMA.CLUB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: {
+              900: '#111827',
+              800: '#1f2937',
+              700: '#374151',
+              600: '#4b5563'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Dark mode body background */
+    .dark body {
+      background: linear-gradient(135deg, #0f172a 0%, #111827 50%, #0f172a 100%);
+    }
+
+    /* Accordion animation */
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
+      opacity: 0;
+    }
+    .accordion-content.open {
+      max-height: 4000px;
+      opacity: 1;
+      transition: max-height 0.6s ease-in, opacity 0.3s ease-in;
+    }
+
+    /* Code block scrollbar */
+    .code-block::-webkit-scrollbar { height: 6px; }
+    .code-block::-webkit-scrollbar-track { background: #1f2937; border-radius: 3px; }
+    .code-block::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
+
+    /* Rotate chevron */
+    .chevron { transition: transform 0.3s ease; }
+    .chevron.rotated { transform: rotate(180deg); }
+
+    /* Topic number circle */
+    .topic-number {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    /* Subtle hover for accordion header */
+    .accordion-header:hover { opacity: 0.85; }
+
+    /* Tab underline */
+    .tab-btn.active {
+      border-bottom: 2px solid #8b5cf6;
+      color: #a78bfa;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-neutral-100">
+
+  <!-- NAVIGATION -->
+  <nav class="bg-dark-900 border-b border-dark-600 sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <!-- Breadcrumb + Brand -->
+      <div class="flex items-center gap-2 text-sm">
+        <a href="../" class="text-neutral-400 hover:text-neutral-200 transition-colors">Projetos Práticos</a>
+        <span class="text-neutral-600">/</span>
+        <span class="text-violet-400 font-medium">Antigravity</span>
+      </div>
+      <!-- Right side: INEMA.CLUB + theme toggle -->
+      <div class="flex items-center gap-4">
+        <span class="text-sky-400 font-bold tracking-wide text-sm">INEMA.CLUB</span>
+        <button
+          id="theme-toggle"
+          class="p-2 rounded-lg bg-dark-700 border border-dark-600 text-neutral-400 hover:text-neutral-200 transition-colors"
+          title="Alternar tema"
+          aria-label="Alternar entre modo escuro e claro"
+        >
+          <!-- Sun icon (shown in dark mode) -->
+          <svg id="icon-sun" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
+          </svg>
+          <!-- Moon icon (shown in light mode) -->
+          <svg id="icon-moon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="max-w-5xl mx-auto px-4 pt-12 pb-8">
+    <div class="flex items-start justify-start gap-3 mb-3">
+      <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-violet-500/20 text-violet-400 border border-violet-500/30">
+        Google Agent-First IDE
+      </span>
+      <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-dark-700 text-neutral-400 border border-dark-600">
+        Projeto 3
+      </span>
+    </div>
+    <h1 class="text-2xl font-bold text-neutral-100 mb-3 leading-tight">
+      Projeto 3: Agentic com Antigravity
+    </h1>
+    <p class="text-neutral-400 text-base max-w-2xl leading-relaxed mb-6">
+      Aprenda a usar o Antigravity — o IDE agent-first do Google — para desenvolver aplicações com
+      o agente de IA como operador principal. Diferente de editores tradicionais, o Antigravity foi
+      projetado para que o humano supervisione enquanto o agente executa.
+    </p>
+    <!-- Quick stats -->
+    <div class="flex flex-wrap gap-4">
+      <div class="flex items-center gap-2 bg-dark-800 border border-dark-600 rounded-lg px-4 py-2">
+        <span class="w-2 h-2 rounded-full bg-violet-400 inline-block"></span>
+        <span class="text-sm text-neutral-300">Modelo: Gemini 2.0 Flash</span>
+      </div>
+      <div class="flex items-center gap-2 bg-dark-800 border border-dark-600 rounded-lg px-4 py-2">
+        <span class="w-2 h-2 rounded-full bg-green-400 inline-block"></span>
+        <span class="text-sm text-neutral-300">MCP nativo</span>
+      </div>
+      <div class="flex items-center gap-2 bg-dark-800 border border-dark-600 rounded-lg px-4 py-2">
+        <span class="w-2 h-2 rounded-full bg-sky-400 inline-block"></span>
+        <span class="text-sm text-neutral-300">Google Cloud integrado</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="max-w-5xl mx-auto px-4 pb-16">
+
+    <!-- TOPICS SECTION HEADER -->
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold text-neutral-100 mb-1">Guia Passo a Passo</h2>
+      <p class="text-sm text-neutral-500">Clique em cada tópico para expandir e ver os detalhes.</p>
+    </div>
+
+    <!-- ACCORDION TOPICS -->
+    <div class="flex flex-col gap-3" id="accordion-container">
+
+      <!-- TÓPICO 1: O que é o Antigravity -->
+      <div class="bg-dark-800 border border-dark-600 rounded-xl overflow-hidden">
+        <button
+          class="accordion-header w-full flex items-center gap-4 px-6 py-5 text-left cursor-pointer transition-opacity"
+          data-target="topic-1"
+        >
+          <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30">1</div>
+          <div class="flex-1">
+            <h3 class="text-base font-semibold text-neutral-100">O que é o Antigravity</h3>
+            <p class="text-sm text-neutral-500 mt-0.5">IDE agent-first do Google, diferença de Cursor/VSCode, o agente como operador principal</p>
+          </div>
+          <svg class="chevron w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div class="accordion-content" id="topic-1">
+          <div class="px-6 pb-6">
+            <!-- Tabs -->
+            <div class="flex gap-6 border-b border-dark-600 mb-6">
+              <button class="tab-btn active py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="1" data-tab="what">O que é</button>
+              <button class="tab-btn py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="1" data-tab="why">Por que usar</button>
+              <button class="tab-btn py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="1" data-tab="how">Como configurar</button>
+            </div>
+
+            <!-- Tab: O que é -->
+            <div class="tab-content" id="tab-1-what">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-4">
+                O <strong class="text-violet-400">Antigravity</strong> é um ambiente de desenvolvimento integrado (IDE) criado pelo Google com uma premissa radicalmente diferente dos editores tradicionais:
+                o agente de IA é o <em>operador principal</em>, e o desenvolvedor humano é o <em>supervisor</em>.
+              </p>
+              <p class="text-neutral-300 text-sm leading-relaxed mb-4">
+                Enquanto ferramentas como Cursor e GitHub Copilot adicionam IA como um <em>assistente</em> ao fluxo humano tradicional,
+                o Antigravity inverte essa lógica. O agente planeja, executa, testa e verifica — o humano aprova ou redireciona.
+              </p>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-xs font-bold text-neutral-500 uppercase tracking-wide mb-2">Cursor / VSCode + Copilot</div>
+                  <ul class="text-sm text-neutral-400 space-y-1">
+                    <li>• Humano como operador</li>
+                    <li>• IA como autocompletar</li>
+                    <li>• Sugestões linha por linha</li>
+                    <li>• Contexto limitado</li>
+                  </ul>
+                </div>
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-xs font-bold text-neutral-500 uppercase tracking-wide mb-2">Claude Code / Codex CLI</div>
+                  <ul class="text-sm text-neutral-400 space-y-1">
+                    <li>• Agente no terminal</li>
+                    <li>• Contexto de repositório</li>
+                    <li>• Execução de comandos</li>
+                    <li>• Sem IDE integrado</li>
+                  </ul>
+                </div>
+                <div class="bg-violet-500/10 rounded-lg p-4 border border-violet-500/30">
+                  <div class="text-xs font-bold text-violet-400 uppercase tracking-wide mb-2">Antigravity</div>
+                  <ul class="text-sm text-neutral-300 space-y-1">
+                    <li>• Agente como operador</li>
+                    <li>• IDE + terminal + browser</li>
+                    <li>• Plano → Executar → Verificar</li>
+                    <li>• Google Cloud nativo</li>
+                  </ul>
+                </div>
+              </div>
+              <p class="text-neutral-400 text-sm leading-relaxed">
+                O Antigravity unifica editor, terminal, browser e ferramentas externas num único ambiente,
+                com o agente Gemini orquestrando todas as partes via MCP (Model Context Protocol).
+              </p>
+            </div>
+
+            <!-- Tab: Por que usar -->
+            <div class="tab-content hidden" id="tab-1-why">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-5">
+                O Antigravity representa uma mudança de paradigma no desenvolvimento de software. Ao invés de o desenvolvedor
+                escrever código e usar IA para autocompletar, o agente assume o papel de executor enquanto o humano define objetivos.
+              </p>
+              <div class="space-y-3 mb-5">
+                <div class="flex items-start gap-3 bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="topic-number bg-green-500/20 text-green-400 border border-green-500/30 text-xs mt-0.5">1</div>
+                  <div>
+                    <div class="text-sm font-semibold text-neutral-200 mb-1">Velocidade de desenvolvimento 10x</div>
+                    <div class="text-sm text-neutral-400">O agente implementa features completas — do backend ao frontend — enquanto você revisa em alto nível.</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3 bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="topic-number bg-green-500/20 text-green-400 border border-green-500/30 text-xs mt-0.5">2</div>
+                  <div>
+                    <div class="text-sm font-semibold text-neutral-200 mb-1">Integração nativa com Google Cloud</div>
+                    <div class="text-sm text-neutral-400">Firebase, Cloud Run, Vertex AI e Google Workspace integrados diretamente no ambiente, sem configuração extra.</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3 bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="topic-number bg-green-500/20 text-green-400 border border-green-500/30 text-xs mt-0.5">3</div>
+                  <div>
+                    <div class="text-sm font-semibold text-neutral-200 mb-1">MCP como padrão de extensibilidade</div>
+                    <div class="text-sm text-neutral-400">Qualquer ferramenta que suporte MCP pode ser integrada ao Antigravity, criando um ecossistema extensível.</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3 bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="topic-number bg-green-500/20 text-green-400 border border-green-500/30 text-xs mt-0.5">4</div>
+                  <div>
+                    <div class="text-sm font-semibold text-neutral-200 mb-1">Controle granular de permissões</div>
+                    <div class="text-sm text-neutral-400">Você define exatamente o que o agente pode fazer automaticamente e o que requer aprovação humana explícita.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab: Como configurar -->
+            <div class="tab-content hidden" id="tab-1-how">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-4">
+                O ponto de entrada para qualquer projeto no Antigravity é o arquivo <code class="text-violet-400 bg-dark-700 px-1.5 py-0.5 rounded text-xs">workspace.json</code>.
+                Ele define o modelo, as ferramentas disponíveis, os workflows e as permissões.
+              </p>
+              <div class="bg-gray-950 rounded-xl border border-dark-600 overflow-hidden mb-4">
+                <div class="flex items-center justify-between px-4 py-2 border-b border-dark-600 bg-dark-800">
+                  <span class="text-xs text-violet-400 font-mono font-semibold">Estrutura básica do workspace.json</span>
+                  <button class="copy-btn text-xs text-neutral-500 hover:text-neutral-300 transition-colors px-2 py-1 rounded bg-dark-700" data-copy="basic-workspace">Copiar</button>
+                </div>
+                <pre class="code-block overflow-x-auto p-4 text-xs leading-relaxed text-neutral-300 font-mono" id="code-basic-workspace"><code><span class="text-yellow-400">{</span>
+  <span class="text-blue-300">"name"</span>: <span class="text-green-300">"meu-projeto"</span>,
+  <span class="text-blue-300">"agent"</span>: <span class="text-yellow-400">{</span>
+    <span class="text-blue-300">"model"</span>: <span class="text-green-300">"gemini-2.0-flash-exp"</span>,
+    <span class="text-blue-300">"context_files"</span>: [<span class="text-green-300">"CONTEXT.md"</span>],
+    <span class="text-blue-300">"auto_approve"</span>: <span class="text-orange-300">false</span>
+  <span class="text-yellow-400">}</span>,
+  <span class="text-blue-300">"permissions"</span>: <span class="text-yellow-400">{</span>
+    <span class="text-blue-300">"file_write"</span>: <span class="text-green-300">"ask"</span>,
+    <span class="text-blue-300">"shell_execute"</span>: <span class="text-green-300">"ask"</span>
+  <span class="text-yellow-400">}</span>
+<span class="text-yellow-400">}</span></code></pre>
+              </div>
+              <p class="text-neutral-400 text-sm">
+                Veja o tópico 2 para a configuração completa e detalhada de instalação.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TÓPICO 2: Instalação e Configuração -->
+      <div class="bg-dark-800 border border-dark-600 rounded-xl overflow-hidden">
+        <button
+          class="accordion-header w-full flex items-center gap-4 px-6 py-5 text-left cursor-pointer transition-opacity"
+          data-target="topic-2"
+        >
+          <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30">2</div>
+          <div class="flex-1">
+            <h3 class="text-base font-semibold text-neutral-100">Instalação e Configuração</h3>
+            <p class="text-sm text-neutral-500 mt-0.5">Download, setup inicial, conectar com Google Account, workspace.json</p>
+          </div>
+          <svg class="chevron w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div class="accordion-content" id="topic-2">
+          <div class="px-6 pb-6">
+            <div class="flex gap-6 border-b border-dark-600 mb-6">
+              <button class="tab-btn active py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="2" data-tab="what">O que é</button>
+              <button class="tab-btn py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="2" data-tab="why">Por que usar</button>
+              <button class="tab-btn py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="2" data-tab="how">Como configurar</button>
+            </div>
+
+            <div class="tab-content" id="tab-2-what">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-4">
+                O Antigravity é instalado como uma aplicação nativa para macOS, Windows e Linux.
+                Diferente de plugins de editor, ele é um ambiente completo e autocontido que vem com
+                servidor MCP integrado, runtime para ferramentas e sandbox de terminal.
+              </p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-xs font-bold text-neutral-500 uppercase tracking-wide mb-3">Requisitos de sistema</div>
+                  <ul class="text-sm text-neutral-400 space-y-2">
+                    <li class="flex items-center gap-2"><span class="text-green-400">•</span> macOS 13+, Windows 11, Ubuntu 22.04+</li>
+                    <li class="flex items-center gap-2"><span class="text-green-400">•</span> Node.js 20 LTS (gerenciado pelo instalador)</li>
+                    <li class="flex items-center gap-2"><span class="text-green-400">•</span> 8GB RAM mínimo (16GB recomendado)</li>
+                    <li class="flex items-center gap-2"><span class="text-green-400">•</span> Conta Google (obrigatória para autenticação)</li>
+                    <li class="flex items-center gap-2"><span class="text-green-400">•</span> Conexão com internet (modelo em nuvem)</li>
+                  </ul>
+                </div>
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-xs font-bold text-neutral-500 uppercase tracking-wide mb-3">O que vem incluído</div>
+                  <ul class="text-sm text-neutral-400 space-y-2">
+                    <li class="flex items-center gap-2"><span class="text-violet-400">•</span> Editor de código com syntax highlighting</li>
+                    <li class="flex items-center gap-2"><span class="text-violet-400">•</span> Terminal integrado com sandbox</li>
+                    <li class="flex items-center gap-2"><span class="text-violet-400">•</span> Browser embutido (Chromium)</li>
+                    <li class="flex items-center gap-2"><span class="text-violet-400">•</span> Servidor MCP local</li>
+                    <li class="flex items-center gap-2"><span class="text-violet-400">•</span> Painel de aprovação de ações</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content hidden" id="tab-2-why">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-5">
+                A instalação nativa garante que o Antigravity tenha acesso completo ao filesystem, processos do sistema
+                e dispositivos de rede com controle granular de permissões — algo que extensões de editor não conseguem oferecer.
+              </p>
+              <div class="bg-violet-500/10 border border-violet-500/30 rounded-lg p-4 mb-4">
+                <div class="text-sm font-semibold text-violet-300 mb-2">Vantagem principal: ambiente unificado</div>
+                <p class="text-sm text-neutral-400 leading-relaxed">
+                  Ao ter editor, terminal, browser e MCP no mesmo processo, o agente pode observar o resultado das suas
+                  ações em tempo real — escreve código, compila, abre no browser e verifica o resultado visual, tudo sem sair do contexto.
+                </p>
+              </div>
+              <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                <div class="text-sm font-semibold text-neutral-200 mb-2">Google Account como identidade</div>
+                <p class="text-sm text-neutral-400 leading-relaxed">
+                  A autenticação via Google Account permite que o Antigravity acesse diretamente seus recursos do GCP,
+                  Firebase e Google Workspace sem precisar configurar credenciais manualmente.
+                </p>
+              </div>
+            </div>
+
+            <div class="tab-content hidden" id="tab-2-how">
+              <div class="space-y-4">
+                <div class="flex items-start gap-4">
+                  <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30 text-xs mt-0.5 flex-shrink-0">1</div>
+                  <div class="flex-1">
+                    <div class="text-sm font-semibold text-neutral-200 mb-2">Baixar e instalar</div>
+                    <div class="bg-gray-950 rounded-lg border border-dark-600 overflow-hidden">
+                      <div class="px-4 py-2 border-b border-dark-600 bg-dark-800">
+                        <span class="text-xs text-neutral-500 font-mono">Terminal</span>
+                      </div>
+                      <pre class="p-4 text-xs text-neutral-300 font-mono overflow-x-auto"><code><span class="text-neutral-500"># macOS via Homebrew</span>
+brew install --cask antigravity
+
+<span class="text-neutral-500"># Linux (Debian/Ubuntu)</span>
+curl -fsSL https://antigravity.dev/install.sh | sh
+
+<span class="text-neutral-500"># Verificar instalação</span>
+antigravity --version</code></pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30 text-xs mt-0.5 flex-shrink-0">2</div>
+                  <div class="flex-1">
+                    <div class="text-sm font-semibold text-neutral-200 mb-2">Autenticar com Google Account</div>
+                    <div class="bg-gray-950 rounded-lg border border-dark-600 overflow-hidden">
+                      <pre class="p-4 text-xs text-neutral-300 font-mono overflow-x-auto"><code><span class="text-neutral-500"># Autenticação interativa</span>
+antigravity auth login
+
+<span class="text-neutral-500"># Verificar autenticação</span>
+antigravity auth status</code></pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30 text-xs mt-0.5 flex-shrink-0">3</div>
+                  <div class="flex-1">
+                    <div class="text-sm font-semibold text-neutral-200 mb-2">Inicializar projeto</div>
+                    <div class="bg-gray-950 rounded-lg border border-dark-600 overflow-hidden">
+                      <pre class="p-4 text-xs text-neutral-300 font-mono overflow-x-auto"><code><span class="text-neutral-500"># Criar workspace.json no projeto</span>
+cd meu-projeto
+antigravity init
+
+<span class="text-neutral-500"># Abrir no Antigravity</span>
+antigravity open .</code></pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TÓPICO 3: CONTEXT.md -->
+      <div class="bg-dark-800 border border-dark-600 rounded-xl overflow-hidden">
+        <button
+          class="accordion-header w-full flex items-center gap-4 px-6 py-5 text-left cursor-pointer transition-opacity"
+          data-target="topic-3"
+        >
+          <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30">3</div>
+          <div class="flex-1">
+            <h3 class="text-base font-semibold text-neutral-100">CONTEXT.md — Memória Persistente</h3>
+            <p class="text-sm text-neutral-500 mt-0.5">Como escrever o arquivo de contexto para Gemini, boas práticas, exemplos</p>
+          </div>
+          <svg class="chevron w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div class="accordion-content" id="topic-3">
+          <div class="px-6 pb-6">
+            <div class="flex gap-6 border-b border-dark-600 mb-6">
+              <button class="tab-btn active py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="3" data-tab="what">O que é</button>
+              <button class="tab-btn py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="3" data-tab="why">Por que usar</button>
+              <button class="tab-btn py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="3" data-tab="how">Como configurar</button>
+            </div>
+
+            <div class="tab-content" id="tab-3-what">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-4">
+                O <code class="text-violet-400 bg-dark-700 px-1.5 py-0.5 rounded text-xs">CONTEXT.md</code> é o arquivo de memória persistente do agente Gemini no Antigravity.
+                Equivalente ao <code class="text-sky-400 bg-dark-700 px-1.5 py-0.5 rounded text-xs">CLAUDE.md</code> do Claude Code,
+                ele é carregado automaticamente no início de cada sessão e fornece ao agente o contexto necessário para tomar decisões corretas.
+              </p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-xs font-bold text-sky-400 uppercase tracking-wide mb-3">CLAUDE.md (Claude Code)</div>
+                  <ul class="text-sm text-neutral-400 space-y-1.5">
+                    <li>• Carregado pelo Claude automaticamente</li>
+                    <li>• Foco em comandos e convenções</li>
+                    <li>• Markdown simples</li>
+                    <li>• Sem suporte a seção de workflows</li>
+                  </ul>
+                </div>
+                <div class="bg-violet-500/10 rounded-lg p-4 border border-violet-500/30">
+                  <div class="text-xs font-bold text-violet-400 uppercase tracking-wide mb-3">CONTEXT.md (Antigravity)</div>
+                  <ul class="text-sm text-neutral-300 space-y-1.5">
+                    <li>• Suporte a seção de Workflows</li>
+                    <li>• Referenciado no workspace.json</li>
+                    <li>• Múltiplos arquivos de contexto</li>
+                    <li>• Seção de domínio e glossário</li>
+                  </ul>
+                </div>
+              </div>
+              <p class="text-neutral-400 text-sm leading-relaxed">
+                Você pode ter múltiplos arquivos de contexto (ex: <code class="text-violet-400 bg-dark-700 px-1 py-0.5 rounded text-xs">CONTEXT.md</code> e <code class="text-violet-400 bg-dark-700 px-1 py-0.5 rounded text-xs">ARCHITECTURE.md</code>),
+                todos listados em <code class="text-violet-400 bg-dark-700 px-1 py-0.5 rounded text-xs">context_files</code> no workspace.json.
+              </p>
+            </div>
+
+            <div class="tab-content hidden" id="tab-3-why">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-5">
+                Sem o CONTEXT.md, o agente começa cada sessão sem conhecimento do projeto — precisa explorar o código para entender
+                a stack, as convenções e as regras de negócio. Com o CONTEXT.md, ele inicia já informado e toma decisões corretas desde o primeiro prompt.
+              </p>
+              <div class="space-y-3">
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-sm font-semibold text-neutral-200 mb-2">Reduz erros de convenção</div>
+                  <p class="text-sm text-neutral-400">O agente sabe que você usa camelCase, que prefere Fastify ao invés de Express, e que commits devem seguir Conventional Commits — sem precisar aprender isso na primeira falha.</p>
+                </div>
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-sm font-semibold text-neutral-200 mb-2">Define limites de segurança</div>
+                  <p class="text-sm text-neutral-400">A seção de restrições garante que o agente nunca comite direto para main, nunca armazena credenciais e sempre pede aprovação antes de deploys.</p>
+                </div>
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-sm font-semibold text-neutral-200 mb-2">Fornece contexto de domínio</div>
+                  <p class="text-sm text-neutral-400">O glossário de negócio e as regras de domínio evitam que o agente implemente lógica incorreta por não entender o contexto da aplicação.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content hidden" id="tab-3-how">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-4">
+                O CONTEXT.md deve ter seções bem definidas. As mais importantes são:
+              </p>
+              <div class="space-y-3 mb-5">
+                <div class="flex items-start gap-3">
+                  <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30 text-xs mt-0.5 flex-shrink-0">1</div>
+                  <div>
+                    <div class="text-sm font-semibold text-neutral-200 mb-1">Stack tecnológica completa</div>
+                    <div class="text-sm text-neutral-400">Liste todas as tecnologias, versões e o racional de cada escolha. O agente usará isso para tomar decisões de implementação.</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30 text-xs mt-0.5 flex-shrink-0">2</div>
+                  <div>
+                    <div class="text-sm font-semibold text-neutral-200 mb-1">Convenções de código</div>
+                    <div class="text-sm text-neutral-400">Nomenclatura, estilo de commits, regras de tipagem, padrões de testes — quanto mais detalhado, menos revisões você precisará fazer.</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30 text-xs mt-0.5 flex-shrink-0">3</div>
+                  <div>
+                    <div class="text-sm font-semibold text-neutral-200 mb-1">Restrições obrigatórias</div>
+                    <div class="text-sm text-neutral-400">O que o agente NUNCA deve fazer (commitar em main, logar credenciais, fazer deploy sem aprovação). Esta é a seção mais crítica de segurança.</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30 text-xs mt-0.5 flex-shrink-0">4</div>
+                  <div>
+                    <div class="text-sm font-semibold text-neutral-200 mb-1">Glossário de domínio</div>
+                    <div class="text-sm text-neutral-400">Defina os termos específicos do negócio para evitar ambiguidades. Ex: o que é um "Sprint", o que significa "archived" numa Task.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-violet-500/10 border border-violet-500/30 rounded-lg p-4">
+                <div class="text-sm font-semibold text-violet-300 mb-2">Dica: atualize o CONTEXT.md junto com o código</div>
+                <p class="text-sm text-neutral-400">Sempre que mudar a stack, adicionar uma regra ou descobrir um comportamento problemático do agente, atualize o CONTEXT.md. Trate-o como documentação viva.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TÓPICO 4: MCP no Antigravity -->
+      <div class="bg-dark-800 border border-dark-600 rounded-xl overflow-hidden">
+        <button
+          class="accordion-header w-full flex items-center gap-4 px-6 py-5 text-left cursor-pointer transition-opacity"
+          data-target="topic-4"
+        >
+          <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30">4</div>
+          <div class="flex-1">
+            <h3 class="text-base font-semibold text-neutral-100">MCP no Antigravity</h3>
+            <p class="text-sm text-neutral-500 mt-0.5">Configurar servidores MCP, integrar filesystem, GitHub, Google Workspace</p>
+          </div>
+          <svg class="chevron w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div class="accordion-content" id="topic-4">
+          <div class="px-6 pb-6">
+            <div class="flex gap-6 border-b border-dark-600 mb-6">
+              <button class="tab-btn active py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="4" data-tab="what">O que é</button>
+              <button class="tab-btn py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="4" data-tab="why">Por que usar</button>
+              <button class="tab-btn py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="4" data-tab="how">Como configurar</button>
+            </div>
+
+            <div class="tab-content" id="tab-4-what">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-4">
+                O <strong class="text-violet-400">Model Context Protocol (MCP)</strong> é o padrão aberto que permite ao agente
+                se comunicar com ferramentas externas de forma padronizada. No Antigravity, o MCP é o mecanismo
+                principal de extensibilidade — tudo que o agente pode fazer além de editar texto é feito via servidores MCP.
+              </p>
+              <div class="bg-dark-700 rounded-lg p-4 border border-dark-600 mb-4">
+                <div class="text-xs font-bold text-neutral-500 uppercase tracking-wide mb-3">Servidores MCP disponíveis</div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div class="flex items-center gap-3 bg-dark-800 rounded p-3">
+                    <span class="text-green-400 text-lg">📁</span>
+                    <div>
+                      <div class="text-sm font-medium text-neutral-200">filesystem</div>
+                      <div class="text-xs text-neutral-500">Leitura e escrita de arquivos</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 bg-dark-800 rounded p-3">
+                    <span class="text-neutral-200 text-lg">⬡</span>
+                    <div>
+                      <div class="text-sm font-medium text-neutral-200">github</div>
+                      <div class="text-xs text-neutral-500">PRs, issues, branches</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 bg-dark-800 rounded p-3">
+                    <span class="text-blue-400 text-lg">🔵</span>
+                    <div>
+                      <div class="text-sm font-medium text-neutral-200">google-workspace</div>
+                      <div class="text-xs text-neutral-500">Drive, Calendar, Gmail</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 bg-dark-800 rounded p-3">
+                    <span class="text-yellow-400 text-lg">🔥</span>
+                    <div>
+                      <div class="text-sm font-medium text-neutral-200">firebase</div>
+                      <div class="text-xs text-neutral-500">Firestore, Auth, Hosting</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 bg-dark-800 rounded p-3">
+                    <span class="text-red-400 text-lg">⬛</span>
+                    <div>
+                      <div class="text-sm font-medium text-neutral-200">postgres</div>
+                      <div class="text-xs text-neutral-500">Queries e migrações</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 bg-dark-800 rounded p-3">
+                    <span class="text-purple-400 text-lg">🌐</span>
+                    <div>
+                      <div class="text-sm font-medium text-neutral-200">browser</div>
+                      <div class="text-xs text-neutral-500">Automação web (Playwright)</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content hidden" id="tab-4-why">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-5">
+                O MCP resolve o problema fundamental de agentes de IA: como dar acesso seguro e controlado a recursos externos.
+                Ao invés de dar ao agente acesso irrestrito ao sistema, cada servidor MCP expõe apenas as operações necessárias.
+              </p>
+              <div class="space-y-3 mb-5">
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-sm font-semibold text-neutral-200 mb-1">Princípio do menor privilégio</div>
+                  <p class="text-sm text-neutral-400">O servidor MCP de filesystem pode ser configurado com <code class="text-violet-400 text-xs">--root .</code> para limitar o acesso apenas ao diretório do projeto, nunca ao filesystem inteiro.</p>
+                </div>
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-sm font-semibold text-neutral-200 mb-1">Interface padronizada</div>
+                  <p class="text-sm text-neutral-400">O agente usa a mesma API para interagir com qualquer ferramenta. Adicionar um novo servidor MCP não requer mudanças no agente.</p>
+                </div>
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-sm font-semibold text-neutral-200 mb-1">Auditoria completa</div>
+                  <p class="text-sm text-neutral-400">Cada chamada MCP é registrada, permitindo auditar exatamente o que o agente fez, quando e em qual arquivo ou recurso.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content hidden" id="tab-4-how">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-4">
+                Servidores MCP são configurados na seção <code class="text-violet-400 bg-dark-700 px-1.5 py-0.5 rounded text-xs">tools.mcp_servers</code> do workspace.json:
+              </p>
+              <div class="bg-gray-950 rounded-xl border border-dark-600 overflow-hidden mb-5">
+                <div class="flex items-center justify-between px-4 py-2 border-b border-dark-600 bg-dark-800">
+                  <span class="text-xs text-violet-400 font-mono font-semibold">workspace.json — seção mcp_servers</span>
+                </div>
+                <pre class="code-block overflow-x-auto p-4 text-xs leading-relaxed text-neutral-300 font-mono"><code><span class="text-blue-300">"mcp_servers"</span>: [
+  <span class="text-yellow-400">{</span>
+    <span class="text-blue-300">"name"</span>: <span class="text-green-300">"filesystem"</span>,
+    <span class="text-blue-300">"command"</span>: <span class="text-green-300">"npx @modelcontextprotocol/server-filesystem"</span>,
+    <span class="text-blue-300">"args"</span>: [<span class="text-green-300">"--root"</span>, <span class="text-green-300">"."</span>]
+  <span class="text-yellow-400">}</span>,
+  <span class="text-yellow-400">{</span>
+    <span class="text-blue-300">"name"</span>: <span class="text-green-300">"github"</span>,
+    <span class="text-blue-300">"command"</span>: <span class="text-green-300">"npx @modelcontextprotocol/server-github"</span>,
+    <span class="text-blue-300">"env"</span>: <span class="text-yellow-400">{</span>
+      <span class="text-blue-300">"GITHUB_TOKEN"</span>: <span class="text-green-300">"${GITHUB_TOKEN}"</span>
+    <span class="text-yellow-400">}</span>
+  <span class="text-yellow-400">}</span>,
+  <span class="text-yellow-400">{</span>
+    <span class="text-blue-300">"name"</span>: <span class="text-green-300">"google-workspace"</span>,
+    <span class="text-blue-300">"command"</span>: <span class="text-green-300">"npx @google/mcp-server-workspace"</span>,
+    <span class="text-blue-300">"auth"</span>: <span class="text-green-300">"google-oauth"</span>
+  <span class="text-yellow-400">}</span>
+]</code></pre>
+              </div>
+              <div class="bg-violet-500/10 border border-violet-500/30 rounded-lg p-4">
+                <div class="text-sm font-semibold text-violet-300 mb-2">Variáveis de ambiente nos servidores MCP</div>
+                <p class="text-sm text-neutral-400 leading-relaxed">
+                  Use a sintaxe <code class="text-violet-400 text-xs">"${NOME_DA_VAR}"</code> para referenciar variáveis de ambiente do sistema no workspace.json.
+                  Nunca hardcode tokens ou secrets diretamente no arquivo.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TÓPICO 5: Workflows Automatizados -->
+      <div class="bg-dark-800 border border-dark-600 rounded-xl overflow-hidden">
+        <button
+          class="accordion-header w-full flex items-center gap-4 px-6 py-5 text-left cursor-pointer transition-opacity"
+          data-target="topic-5"
+        >
+          <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30">5</div>
+          <div class="flex-1">
+            <h3 class="text-base font-semibold text-neutral-100">Workflows Automatizados</h3>
+            <p class="text-sm text-neutral-500 mt-0.5">Plan→Execute→Verify loop, feature workflow, bugfix workflow, aprovações</p>
+          </div>
+          <svg class="chevron w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div class="accordion-content" id="topic-5">
+          <div class="px-6 pb-6">
+            <div class="flex gap-6 border-b border-dark-600 mb-6">
+              <button class="tab-btn active py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="5" data-tab="what">O que é</button>
+              <button class="tab-btn py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="5" data-tab="why">Por que usar</button>
+              <button class="tab-btn py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="5" data-tab="how">Como configurar</button>
+            </div>
+
+            <div class="tab-content" id="tab-5-what">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-5">
+                Os <strong class="text-violet-400">Workflows</strong> são sequências de passos pré-definidos que o agente executa ao receber um determinado tipo de tarefa.
+                O Antigravity implementa o padrão <strong class="text-violet-400">Plan → Execute → Verify</strong> como loop fundamental de desenvolvimento.
+              </p>
+
+              <!-- Loop visualization -->
+              <div class="bg-dark-700 rounded-xl p-5 border border-dark-600 mb-5">
+                <div class="text-xs font-bold text-neutral-500 uppercase tracking-wide mb-4 text-center">Loop fundamental do Antigravity</div>
+                <div class="flex items-center justify-center gap-2 flex-wrap">
+                  <div class="bg-violet-500/20 border border-violet-500/30 rounded-lg px-4 py-3 text-center min-w-24">
+                    <div class="text-violet-400 font-bold text-sm mb-1">PLAN</div>
+                    <div class="text-xs text-neutral-500">Analisa e descreve</div>
+                  </div>
+                  <div class="text-violet-400 font-bold text-xl">→</div>
+                  <div class="bg-blue-500/20 border border-blue-500/30 rounded-lg px-4 py-3 text-center min-w-24">
+                    <div class="text-blue-400 font-bold text-sm mb-1">EXECUTE</div>
+                    <div class="text-xs text-neutral-500">Implementa</div>
+                  </div>
+                  <div class="text-violet-400 font-bold text-xl">→</div>
+                  <div class="bg-green-500/20 border border-green-500/30 rounded-lg px-4 py-3 text-center min-w-24">
+                    <div class="text-green-400 font-bold text-sm mb-1">VERIFY</div>
+                    <div class="text-xs text-neutral-500">Testa e confirma</div>
+                  </div>
+                  <div class="text-violet-400 font-bold text-xl">→</div>
+                  <div class="bg-yellow-500/20 border border-yellow-500/30 rounded-lg px-4 py-3 text-center min-w-24">
+                    <div class="text-yellow-400 font-bold text-sm mb-1">APPROVE</div>
+                    <div class="text-xs text-neutral-500">Humano revisa</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-xs font-bold text-violet-400 uppercase tracking-wide mb-3">Workflow: feature</div>
+                  <div class="space-y-2">
+                    <div class="flex items-center gap-2"><span class="text-xs bg-violet-500/20 text-violet-400 rounded px-2 py-0.5">1</span><span class="text-sm text-neutral-400">plan — mapear mudanças</span></div>
+                    <div class="flex items-center gap-2"><span class="text-xs bg-violet-500/20 text-violet-400 rounded px-2 py-0.5">2</span><span class="text-sm text-neutral-400">implement — escrever código</span></div>
+                    <div class="flex items-center gap-2"><span class="text-xs bg-violet-500/20 text-violet-400 rounded px-2 py-0.5">3</span><span class="text-sm text-neutral-400">test — criar e rodar testes</span></div>
+                    <div class="flex items-center gap-2"><span class="text-xs bg-violet-500/20 text-violet-400 rounded px-2 py-0.5">4</span><span class="text-sm text-neutral-400">review — aguardar aprovação</span></div>
+                  </div>
+                </div>
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-xs font-bold text-orange-400 uppercase tracking-wide mb-3">Workflow: bugfix</div>
+                  <div class="space-y-2">
+                    <div class="flex items-center gap-2"><span class="text-xs bg-orange-500/20 text-orange-400 rounded px-2 py-0.5">1</span><span class="text-sm text-neutral-400">analyze — reproduzir bug</span></div>
+                    <div class="flex items-center gap-2"><span class="text-xs bg-orange-500/20 text-orange-400 rounded px-2 py-0.5">2</span><span class="text-sm text-neutral-400">fix — implementar correção</span></div>
+                    <div class="flex items-center gap-2"><span class="text-xs bg-orange-500/20 text-orange-400 rounded px-2 py-0.5">3</span><span class="text-sm text-neutral-400">verify — confirmar solução</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content hidden" id="tab-5-why">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-5">
+                Workflows estruturados previnem um problema comum em agentes: a execução impulsiva. Sem uma fase de planejamento,
+                o agente pode começar a implementar pela abordagem errada e só perceber o problema depois de muitas mudanças.
+              </p>
+              <div class="space-y-3 mb-5">
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-sm font-semibold text-neutral-200 mb-1">A fase Plan como checkpoint</div>
+                  <p class="text-sm text-neutral-400">Antes de escrever código, o agente descreve o que pretende fazer. Você pode interromper aqui se a abordagem estiver errada, economizando tempo.</p>
+                </div>
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-sm font-semibold text-neutral-200 mb-1">A fase Verify como garantia de qualidade</div>
+                  <p class="text-sm text-neutral-400">O agente não considera uma tarefa concluída até rodar os testes. Isso força a criação de testes junto com o código, não depois.</p>
+                </div>
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-sm font-semibold text-neutral-200 mb-1">A fase Approve como controle humano</div>
+                  <p class="text-sm text-neutral-400">Mesmo com <code class="text-violet-400 text-xs">auto_approve: false</code>, você mantém visibilidade e controle de cada mudança antes de ela ser commitada.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content hidden" id="tab-5-how">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-4">
+                Workflows são definidos no workspace.json e ativados por comandos no chat do agente:
+              </p>
+              <div class="bg-gray-950 rounded-xl border border-dark-600 overflow-hidden mb-4">
+                <div class="px-4 py-2 border-b border-dark-600 bg-dark-800">
+                  <span class="text-xs text-violet-400 font-mono font-semibold">workspace.json — seção workflows</span>
+                </div>
+                <pre class="code-block overflow-x-auto p-4 text-xs leading-relaxed text-neutral-300 font-mono"><code><span class="text-blue-300">"workflows"</span>: <span class="text-yellow-400">{</span>
+  <span class="text-blue-300">"feature"</span>: <span class="text-yellow-400">{</span>
+    <span class="text-blue-300">"steps"</span>: [<span class="text-green-300">"plan"</span>, <span class="text-green-300">"implement"</span>, <span class="text-green-300">"test"</span>, <span class="text-green-300">"review"</span>]
+  <span class="text-yellow-400">}</span>,
+  <span class="text-blue-300">"bugfix"</span>: <span class="text-yellow-400">{</span>
+    <span class="text-blue-300">"steps"</span>: [<span class="text-green-300">"analyze"</span>, <span class="text-green-300">"fix"</span>, <span class="text-green-300">"verify"</span>]
+  <span class="text-yellow-400">}</span>
+<span class="text-yellow-400">}</span></code></pre>
+              </div>
+              <div class="bg-gray-950 rounded-xl border border-dark-600 overflow-hidden mb-4">
+                <div class="px-4 py-2 border-b border-dark-600 bg-dark-800">
+                  <span class="text-xs text-green-400 font-mono font-semibold">Chat com o agente — exemplos de trigger</span>
+                </div>
+                <pre class="code-block overflow-x-auto p-4 text-xs leading-relaxed font-mono"><code><span class="text-neutral-500"># Ativar workflow de feature</span>
+<span class="text-green-300">@agent implement feature: autenticação com Google OAuth</span>
+
+<span class="text-neutral-500"># Ativar workflow de bugfix</span>
+<span class="text-green-300">@agent fix bug: usuários não conseguem fazer logout no Safari</span>
+
+<span class="text-neutral-500"># Ativar workflow de deploy</span>
+<span class="text-green-300">@agent deploy to staging</span></code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TÓPICO 6: Integração com Google Cloud -->
+      <div class="bg-dark-800 border border-dark-600 rounded-xl overflow-hidden">
+        <button
+          class="accordion-header w-full flex items-center gap-4 px-6 py-5 text-left cursor-pointer transition-opacity"
+          data-target="topic-6"
+        >
+          <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30">6</div>
+          <div class="flex-1">
+            <h3 class="text-base font-semibold text-neutral-100">Integração com Google Cloud</h3>
+            <p class="text-sm text-neutral-500 mt-0.5">Firebase, Vertex AI, Cloud Run, deployment direto do IDE</p>
+          </div>
+          <svg class="chevron w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div class="accordion-content" id="topic-6">
+          <div class="px-6 pb-6">
+            <div class="flex gap-6 border-b border-dark-600 mb-6">
+              <button class="tab-btn active py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="6" data-tab="what">O que é</button>
+              <button class="tab-btn py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="6" data-tab="why">Por que usar</button>
+              <button class="tab-btn py-2 text-sm font-medium text-neutral-400 transition-colors" data-topic="6" data-tab="how">Como configurar</button>
+            </div>
+
+            <div class="tab-content" id="tab-6-what">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-5">
+                Por ser um produto do Google, o Antigravity tem integração nativa com todo o ecossistema Google Cloud.
+                O agente pode interagir com serviços GCP usando as credenciais da sua Google Account sem configuração adicional.
+              </p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-yellow-400 font-bold text-sm mb-3">Firebase</div>
+                  <ul class="text-sm text-neutral-400 space-y-1.5">
+                    <li>• Firestore: queries e escritas via MCP</li>
+                    <li>• Authentication: gerenciar usuários</li>
+                    <li>• Hosting: deploy automático do frontend</li>
+                    <li>• Functions: deploy de cloud functions</li>
+                    <li>• Storage: upload e download de arquivos</li>
+                  </ul>
+                </div>
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-blue-400 font-bold text-sm mb-3">Google Cloud Platform</div>
+                  <ul class="text-sm text-neutral-400 space-y-1.5">
+                    <li>• Cloud Run: deploy de containers</li>
+                    <li>• Vertex AI: modelos de ML e embeddings</li>
+                    <li>• Cloud SQL: banco de dados gerenciado</li>
+                    <li>• Secret Manager: gerenciar credenciais</li>
+                    <li>• Cloud Build: CI/CD pipelines</li>
+                  </ul>
+                </div>
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-purple-400 font-bold text-sm mb-3">Vertex AI</div>
+                  <ul class="text-sm text-neutral-400 space-y-1.5">
+                    <li>• Acesso a Gemini 1.5 Pro e Flash</li>
+                    <li>• Embeddings para search semântica</li>
+                    <li>• Fine-tuning de modelos customizados</li>
+                    <li>• AI Pipelines para batch processing</li>
+                  </ul>
+                </div>
+                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                  <div class="text-green-400 font-bold text-sm mb-3">Google Workspace</div>
+                  <ul class="text-sm text-neutral-400 space-y-1.5">
+                    <li>• Sheets: ler e escrever planilhas</li>
+                    <li>• Docs: gerar documentação</li>
+                    <li>• Drive: gerenciar arquivos</li>
+                    <li>• Calendar: sincronizar eventos</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content hidden" id="tab-6-why">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-5">
+                A integração nativa elimina a fricção entre desenvolvimento e deploy. Ao invés de sair do IDE para
+                acessar o console do Firebase ou o Cloud Run, o agente faz isso diretamente do Antigravity enquanto você observa.
+              </p>
+              <div class="bg-violet-500/10 border border-violet-500/30 rounded-lg p-4 mb-4">
+                <div class="text-sm font-semibold text-violet-300 mb-2">Cenário real: feature completa em um único prompt</div>
+                <div class="bg-gray-950 rounded-lg p-3 mt-2">
+                  <pre class="text-xs text-green-300 font-mono overflow-x-auto"><code>@agent implement feature: sistema de notificações por email
+quando uma task é atribuída a um usuário</code></pre>
+                </div>
+                <p class="text-sm text-neutral-400 mt-3">O agente vai:</p>
+                <ol class="text-sm text-neutral-400 space-y-1 mt-2 list-decimal list-inside">
+                  <li>Criar a Cloud Function de envio de email</li>
+                  <li>Configurar o trigger no Firestore</li>
+                  <li>Integrar com Gmail API via Workspace MCP</li>
+                  <li>Escrever testes unitários</li>
+                  <li>Fazer deploy no Firebase Functions</li>
+                  <li>Verificar os logs de execução</li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="tab-content hidden" id="tab-6-how">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-4">
+                A integração com GCP requer apenas estar autenticado com uma Google Account que tenha as permissões corretas:
+              </p>
+              <div class="space-y-4">
+                <div class="flex items-start gap-4">
+                  <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30 text-xs mt-0.5 flex-shrink-0">1</div>
+                  <div class="flex-1">
+                    <div class="text-sm font-semibold text-neutral-200 mb-2">Autenticar no GCP via Antigravity</div>
+                    <div class="bg-gray-950 rounded-lg border border-dark-600 overflow-hidden">
+                      <pre class="p-4 text-xs text-neutral-300 font-mono overflow-x-auto"><code><span class="text-neutral-500"># No painel lateral do Antigravity</span>
+Google Cloud > Sign in with Google
+
+<span class="text-neutral-500"># Ou via configuração de projeto</span>
+Settings > Integrations > Google Cloud > Connect</code></pre>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-4">
+                  <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30 text-xs mt-0.5 flex-shrink-0">2</div>
+                  <div class="flex-1">
+                    <div class="text-sm font-semibold text-neutral-200 mb-2">Selecionar projeto GCP</div>
+                    <div class="bg-gray-950 rounded-lg border border-dark-600 overflow-hidden">
+                      <pre class="p-4 text-xs text-neutral-300 font-mono overflow-x-auto"><code><span class="text-neutral-500"># workspace.json — adicionar config do GCP</span>
+<span class="text-blue-300">"gcp"</span>: <span class="text-yellow-400">{</span>
+  <span class="text-blue-300">"project_id"</span>: <span class="text-green-300">"meu-projeto-123456"</span>,
+  <span class="text-blue-300">"region"</span>: <span class="text-green-300">"us-central1"</span>
+<span class="text-yellow-400">}</span></code></pre>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-4">
+                  <div class="topic-number bg-violet-500/20 text-violet-400 border border-violet-500/30 text-xs mt-0.5 flex-shrink-0">3</div>
+                  <div class="flex-1">
+                    <div class="text-sm font-semibold text-neutral-200 mb-2">Habilitar APIs necessárias</div>
+                    <div class="bg-gray-950 rounded-lg border border-dark-600 overflow-hidden">
+                      <pre class="p-4 text-xs text-neutral-300 font-mono overflow-x-auto"><code><span class="text-neutral-500"># O agente pode habilitar as APIs automaticamente</span>
+@agent enable required GCP APIs for this project
+
+<span class="text-neutral-500"># Ou manualmente via gcloud (no terminal integrado)</span>
+gcloud services enable run.googleapis.com
+gcloud services enable firebase.googleapis.com
+gcloud services enable aiplatform.googleapis.com</code></pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WORKSPACE.JSON COMENTADO -->
+    <div class="mt-12 mb-8">
+      <h2 class="text-lg font-semibold text-neutral-100 mb-2">workspace.json — Referência completa</h2>
+      <p class="text-sm text-neutral-500 mb-5">Arquivo de configuração do Antigravity com comentários explicando cada campo.</p>
+      <div class="bg-gray-950 rounded-xl border border-dark-600 overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-dark-600 bg-dark-800">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-red-500/70"></span>
+            <span class="w-3 h-3 rounded-full bg-yellow-500/70"></span>
+            <span class="w-3 h-3 rounded-full bg-green-500/70"></span>
+            <span class="text-xs text-neutral-500 font-mono ml-2">workspace.json</span>
+          </div>
+          <span class="text-xs text-violet-400 font-semibold">Antigravity Config</span>
+        </div>
+        <pre class="code-block overflow-x-auto p-5 text-xs leading-relaxed text-neutral-300 font-mono"><code><span class="text-yellow-400">{</span>
+  <span class="text-neutral-600">// Nome do projeto — aparece no painel do Antigravity</span>
+  <span class="text-blue-300">"name"</span>: <span class="text-green-300">"meu-projeto-agentic"</span>,
+  <span class="text-blue-300">"version"</span>: <span class="text-green-300">"1.0.0"</span>,
+
+  <span class="text-neutral-600">// Configurações do agente Gemini</span>
+  <span class="text-blue-300">"agent"</span>: <span class="text-yellow-400">{</span>
+    <span class="text-neutral-600">// Modelo a ser usado — gemini-2.0-flash-exp é mais rápido e barato</span>
+    <span class="text-blue-300">"model"</span>: <span class="text-green-300">"gemini-2.0-flash-exp"</span>,
+
+    <span class="text-neutral-600">// temperature 0.2 = respostas mais determinísticas para código</span>
+    <span class="text-blue-300">"temperature"</span>: <span class="text-orange-300">0.2</span>,
+
+    <span class="text-neutral-600">// Arquivos carregados como contexto no início de cada sessão</span>
+    <span class="text-blue-300">"context_files"</span>: [<span class="text-green-300">"CONTEXT.md"</span>, <span class="text-green-300">"ARCHITECTURE.md"</span>],
+
+    <span class="text-neutral-600">// false = agente sempre pede aprovação antes de agir</span>
+    <span class="text-blue-300">"auto_approve"</span>: <span class="text-orange-300">false</span>,
+
+    <span class="text-neutral-600">// Número máximo de passos por tarefa antes de parar e pedir orientação</span>
+    <span class="text-blue-300">"max_iterations"</span>: <span class="text-orange-300">20</span>
+  <span class="text-yellow-400">}</span>,
+
+  <span class="text-neutral-600">// Ferramentas disponíveis para o agente</span>
+  <span class="text-blue-300">"tools"</span>: <span class="text-yellow-400">{</span>
+    <span class="text-blue-300">"mcp_servers"</span>: [
+      <span class="text-yellow-400">{</span>
+        <span class="text-blue-300">"name"</span>: <span class="text-green-300">"filesystem"</span>,
+        <span class="text-neutral-600">// npx baixa e executa o servidor MCP automaticamente</span>
+        <span class="text-blue-300">"command"</span>: <span class="text-green-300">"npx @modelcontextprotocol/server-filesystem"</span>,
+        <span class="text-neutral-600">// --root . limita acesso apenas ao diretório do projeto</span>
+        <span class="text-blue-300">"args"</span>: [<span class="text-green-300">"--root"</span>, <span class="text-green-300">"."</span>]
+      <span class="text-yellow-400">}</span>,
+      <span class="text-yellow-400">{</span>
+        <span class="text-blue-300">"name"</span>: <span class="text-green-300">"github"</span>,
+        <span class="text-blue-300">"command"</span>: <span class="text-green-300">"npx @modelcontextprotocol/server-github"</span>,
+        <span class="text-neutral-600">// ${GITHUB_TOKEN} lê da variável de ambiente do sistema</span>
+        <span class="text-blue-300">"env"</span>: <span class="text-yellow-400">{</span> <span class="text-blue-300">"GITHUB_TOKEN"</span>: <span class="text-green-300">"${GITHUB_TOKEN}"</span> <span class="text-yellow-400">}</span>
+      <span class="text-yellow-400">}</span>
+    ],
+    <span class="text-neutral-600">// Browser embutido (Chromium) para verificar resultado visual</span>
+    <span class="text-blue-300">"browser"</span>: <span class="text-yellow-400">{</span> <span class="text-blue-300">"enabled"</span>: <span class="text-orange-300">true</span>, <span class="text-blue-300">"headless"</span>: <span class="text-orange-300">false</span> <span class="text-yellow-400">}</span>,
+    <span class="text-neutral-600">// Terminal com sandbox = isolado do sistema host</span>
+    <span class="text-blue-300">"terminal"</span>: <span class="text-yellow-400">{</span> <span class="text-blue-300">"enabled"</span>: <span class="text-orange-300">true</span>, <span class="text-blue-300">"sandbox"</span>: <span class="text-orange-300">true</span> <span class="text-yellow-400">}</span>
+  <span class="text-yellow-400">}</span>,
+
+  <span class="text-neutral-600">// Workflows pré-definidos com seus passos</span>
+  <span class="text-blue-300">"workflows"</span>: <span class="text-yellow-400">{</span>
+    <span class="text-blue-300">"feature"</span>: <span class="text-yellow-400">{</span>
+      <span class="text-blue-300">"steps"</span>: [<span class="text-green-300">"plan"</span>, <span class="text-green-300">"implement"</span>, <span class="text-green-300">"test"</span>, <span class="text-green-300">"review"</span>]
+    <span class="text-yellow-400">}</span>,
+    <span class="text-blue-300">"bugfix"</span>: <span class="text-yellow-400">{</span>
+      <span class="text-blue-300">"steps"</span>: [<span class="text-green-300">"analyze"</span>, <span class="text-green-300">"fix"</span>, <span class="text-green-300">"verify"</span>]
+    <span class="text-yellow-400">}</span>
+  <span class="text-yellow-400">}</span>,
+
+  <span class="text-neutral-600">// Permissões: "ask" = pede aprovação, "allow" = automático, "deny" = bloqueado</span>
+  <span class="text-blue-300">"permissions"</span>: <span class="text-yellow-400">{</span>
+    <span class="text-blue-300">"file_write"</span>: <span class="text-green-300">"ask"</span>,
+    <span class="text-blue-300">"network"</span>: <span class="text-green-300">"ask"</span>,
+    <span class="text-blue-300">"shell_execute"</span>: <span class="text-green-300">"ask"</span>
+  <span class="text-yellow-400">}</span>
+<span class="text-yellow-400">}</span></code></pre>
+      </div>
+    </div>
+
+    <!-- CONTEXT.md DE EXEMPLO -->
+    <div class="mb-12">
+      <h2 class="text-lg font-semibold text-neutral-100 mb-2">CONTEXT.md — Estrutura de exemplo</h2>
+      <p class="text-sm text-neutral-500 mb-5">Seções essenciais que todo CONTEXT.md deve ter para um agente eficiente.</p>
+      <div class="bg-gray-950 rounded-xl border border-dark-600 overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-dark-600 bg-dark-800">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-red-500/70"></span>
+            <span class="w-3 h-3 rounded-full bg-yellow-500/70"></span>
+            <span class="w-3 h-3 rounded-full bg-green-500/70"></span>
+            <span class="text-xs text-neutral-500 font-mono ml-2">CONTEXT.md</span>
+          </div>
+          <span class="text-xs text-green-400 font-semibold">Markdown</span>
+        </div>
+        <pre class="code-block overflow-x-auto p-5 text-xs leading-relaxed font-mono"><code><span class="text-violet-400"># CONTEXT.md — Antigravity / Gemini Agent Context</span>
+
+<span class="text-neutral-500">&gt; Este arquivo é carregado automaticamente pelo Antigravity como contexto persistente.</span>
+
+<span class="text-blue-300">---</span>
+
+<span class="text-violet-400">## Stack Tecnológica</span>
+
+<span class="text-neutral-300">- **Frontend:** React 18 + TypeScript + Tailwind CSS</span>
+<span class="text-neutral-300">- **Backend:** Node.js 20 + Fastify + Prisma</span>
+<span class="text-neutral-300">- **Cloud:** Google Cloud (Cloud Run + Firebase + Cloud SQL)</span>
+
+<span class="text-violet-400">## Convenções de Código</span>
+
+<span class="text-neutral-300">- Arquivos de componentes: PascalCase (UserProfile.tsx)</span>
+<span class="text-neutral-300">- Commits: Conventional Commits em inglês</span>
+<span class="text-neutral-300">- Nunca usar \`any\` no TypeScript — usar \`unknown\`</span>
+
+<span class="text-violet-400">## Restrições Obrigatórias</span>
+
+<span class="text-neutral-300">### O agente NUNCA deve:</span>
+<span class="text-neutral-300">- Commitar diretamente para \`main\`</span>
+<span class="text-neutral-300">- Armazenar ou logar credenciais</span>
+<span class="text-neutral-300">- Fazer deploy sem aprovação explícita</span>
+
+<span class="text-violet-400">## Glossário de Domínio</span>
+
+<span class="text-neutral-300">- **Task:** Unidade de trabalho dentro de um Sprint</span>
+<span class="text-neutral-300">- **Sprint:** Período de 2 semanas de desenvolvimento</span>
+<span class="text-neutral-300">- **Archived:** Task concluída e removida da listagem ativa</span></code></pre>
+      </div>
+    </div>
+
+    <!-- PRÓXIMOS PASSOS -->
+    <div class="mb-8">
+      <h2 class="text-lg font-semibold text-neutral-100 mb-2">Próximos Passos</h2>
+      <p class="text-sm text-neutral-500 mb-5">Continue sua jornada nos outros projetos práticos da série.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <a href="../projeto-1-agente-zero/" class="group bg-dark-800 border border-dark-600 hover:border-sky-500/50 rounded-xl p-5 transition-colors block">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xs bg-sky-500/20 text-sky-400 border border-sky-500/30 px-2 py-0.5 rounded font-bold">Projeto 1</span>
+          </div>
+          <div class="text-sm font-semibold text-neutral-200 group-hover:text-sky-400 transition-colors mb-1">Agente Zero</div>
+          <div class="text-xs text-neutral-500">Framework de agentes com memória e capacidades de raciocínio</div>
+        </a>
+        <a href="../projeto-2-claude-code/" class="group bg-dark-800 border border-dark-600 hover:border-sky-500/50 rounded-xl p-5 transition-colors block">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xs bg-sky-500/20 text-sky-400 border border-sky-500/30 px-2 py-0.5 rounded font-bold">Projeto 2</span>
+          </div>
+          <div class="text-sm font-semibold text-neutral-200 group-hover:text-sky-400 transition-colors mb-1">Claude Code</div>
+          <div class="text-xs text-neutral-500">CLI agentic da Anthropic para desenvolvimento com IA no terminal</div>
+        </a>
+        <a href="../projeto-4-codex/" class="group bg-dark-800 border border-dark-600 hover:border-sky-500/50 rounded-xl p-5 transition-colors block">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xs bg-sky-500/20 text-sky-400 border border-sky-500/30 px-2 py-0.5 rounded font-bold">Projeto 4</span>
+          </div>
+          <div class="text-sm font-semibold text-neutral-200 group-hover:text-sky-400 transition-colors mb-1">Codex CLI</div>
+          <div class="text-xs text-neutral-500">Agente de codificação da OpenAI integrado ao ChatGPT</div>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 bg-dark-900">
+    <div class="max-w-5xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="text-sky-400 font-bold tracking-wide">INEMA.CLUB</span>
+        <span class="text-neutral-600 text-sm">•</span>
+        <span class="text-neutral-500 text-sm">Projetos Práticos de IA Agentic</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <span class="text-xs text-neutral-600">Projeto 3 de 4</span>
+        <span class="text-xs text-neutral-600">•</span>
+        <span class="text-xs text-neutral-600">Antigravity — Google Agent-First IDE</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ============================================================
+    // THEME TOGGLE
+    // ============================================================
+    const html = document.documentElement;
+    const themeToggle = document.getElementById('theme-toggle');
+    const iconSun = document.getElementById('icon-sun');
+    const iconMoon = document.getElementById('icon-moon');
+
+    function updateThemeIcons() {
+      const isDark = html.classList.contains('dark');
+      iconSun.classList.toggle('hidden', !isDark);
+      iconMoon.classList.toggle('hidden', isDark);
+    }
+
+    themeToggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+      updateThemeIcons();
+    });
+
+    // Apply saved theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      html.classList.remove('dark');
+    }
+    updateThemeIcons();
+
+    // ============================================================
+    // ACCORDION
+    // ============================================================
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+    accordionHeaders.forEach(header => {
+      header.addEventListener('click', () => {
+        const targetId = header.getAttribute('data-target');
+        const content = document.getElementById(targetId);
+        const chevron = header.querySelector('.chevron');
+
+        const isOpen = content.classList.contains('open');
+
+        // Close all
+        document.querySelectorAll('.accordion-content.open').forEach(el => {
+          el.classList.remove('open');
+        });
+        document.querySelectorAll('.chevron.rotated').forEach(el => {
+          el.classList.remove('rotated');
+        });
+
+        // Open clicked (if was closed)
+        if (!isOpen) {
+          content.classList.add('open');
+          chevron.classList.add('rotated');
+        }
+      });
+    });
+
+    // ============================================================
+    // TABS
+    // ============================================================
+    const tabButtons = document.querySelectorAll('.tab-btn');
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const topic = btn.getAttribute('data-topic');
+        const tab = btn.getAttribute('data-tab');
+
+        // Deactivate all tabs in this topic
+        document.querySelectorAll(`.tab-btn[data-topic="${topic}"]`).forEach(b => {
+          b.classList.remove('active');
+        });
+
+        // Hide all tab contents in this topic
+        document.querySelectorAll(`#tab-${topic}-what, #tab-${topic}-why, #tab-${topic}-how`).forEach(el => {
+          el.classList.add('hidden');
+        });
+
+        // Activate clicked tab
+        btn.classList.add('active');
+        const targetTab = document.getElementById(`tab-${topic}-${tab}`);
+        if (targetTab) {
+          targetTab.classList.remove('hidden');
+        }
+      });
+    });
+
+    // ============================================================
+    // COPY BUTTONS
+    // ============================================================
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const codeId = btn.getAttribute('data-copy');
+        const codeEl = document.getElementById(`code-${codeId}`);
+        if (!codeEl) return;
+
+        const text = codeEl.innerText || codeEl.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          const original = btn.textContent;
+          btn.textContent = 'Copiado!';
+          btn.classList.add('text-green-400');
+          setTimeout(() => {
+            btn.textContent = original;
+            btn.classList.remove('text-green-400');
+          }, 2000);
+        }).catch(() => {
+          btn.textContent = 'Erro';
+        });
+      });
+    });
+
+    // ============================================================
+    // AUTO-OPEN FIRST TOPIC
+    // ============================================================
+    const firstHeader = document.querySelector('.accordion-header');
+    if (firstHeader) {
+      firstHeader.click();
+    }
+  </script>
+</body>
+</html>
