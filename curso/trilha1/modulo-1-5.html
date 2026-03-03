@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1.5 Ecossistema Agentic em 2026 | Trilha 1 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block">
+            <span>Frameworks</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-emerald-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-emerald-400 transition-colors">Trilha 1 — Mentalidade Agentic</a>
+      <span>/</span>
+      <span class="text-emerald-400">Módulo 1.5</span>
+    </div>
+  </nav>
+
+  <!-- HEADER DO MODULO -->
+  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4 tracking-wide">
+        MÓDULO 1.5
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🌐 O Ecossistema Agentic em 2026: Mapa Completo</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Em 2026, o ecossistema agentic tem centenas de ferramentas. Saber navegar esse mapa — e escolher a ferramenta certa para o seu perfil — é mais valioso do que dominar qualquer ferramenta específica.
+      </p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">6</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">40</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Básico</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Referência</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- ======== TÓPICO 1 ======== -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🗺️ O mapa: 4 camadas de ferramentas</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O ecossistema agentic em 2026 pode ser organizado em <strong class="text-emerald-400">4 camadas hierárquicas</strong>. Cada camada depende da de baixo e viabiliza a de cima. Entender essa estrutura evita confusão sobre o que cada ferramenta faz.
+      </p>
+
+      <div class="space-y-4 mb-6">
+        <div class="bg-gradient-to-r from-emerald-900/40 to-dark-800 rounded-xl border border-emerald-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">🧠</span>
+            <div>
+              <h4 class="font-bold text-emerald-400">Camada 1: Modelos (Foundation)</h4>
+              <p class="text-xs text-neutral-500">A base de tudo — os LLMs que raciocinam</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">Claude (Anthropic)</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">GPT-4o (OpenAI)</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">Gemini (Google)</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">Llama (Meta, open)</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">Mistral (open)</span>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">🔗</span>
+            <div>
+              <h4 class="font-bold text-blue-400">Camada 2: Frameworks (Orquestração)</h4>
+              <p class="text-xs text-neutral-500">Abstrações para construir agentes sobre os modelos</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">LangChain / LangGraph</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">CrewAI</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">AutoGen (Microsoft)</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">Anthropic SDK</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">Pydantic AI</span>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">💻</span>
+            <div>
+              <h4 class="font-bold text-purple-400">Camada 3: IDEs Agentic (Developer Experience)</h4>
+              <p class="text-xs text-neutral-500">Ambientes onde o agente trabalha junto com o dev</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">Claude Code</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">Cursor</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">Devin (Cognition)</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">GitHub Copilot Workspace</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">Windsurf</span>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">⚙️</span>
+            <div>
+              <h4 class="font-bold text-amber-400">Camada 4: Plataformas de Automação (No/Low-code)</h4>
+              <p class="text-xs text-neutral-500">Para quem precisa de agentes sem código profundo</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">n8n</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">Make (Integromat)</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">Zapier AI</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">Activepieces</span>
+            <span class="px-2 py-1 bg-dark-700 rounded text-xs text-neutral-300">Relevance AI</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">💡</span> Como as camadas se conectam
+        </h3>
+        <p class="text-neutral-300">Uma plataforma como n8n usa a API do GPT-4o ou Claude (Camada 1) para executar os nós de IA. Um framework como LangGraph orquestra múltiplos agentes que usam Claude como LLM. Um IDE como Claude Code usa o próprio Claude como engine e expõe tools como editores de arquivo. As camadas não são isoladas — elas se compõem.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 2 ======== -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">👨‍💻 IDEs Agentic: Claude Code, Cursor, Devin</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Os IDEs agentic são a fronteira onde o desenvolvedor trabalha com um agente como <strong class="text-emerald-400">par de programação autônomo</strong>. Cada um tem posicionamento diferente — escolher o certo depende do seu caso de uso.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-emerald-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="text-3xl">🤖</span>
+            <div>
+              <h4 class="font-bold text-emerald-400">Claude Code</h4>
+              <span class="text-xs text-neutral-500">Anthropic · Terminal-first</span>
+            </div>
+          </div>
+          <ul class="space-y-2 text-sm text-neutral-300 mb-4">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">+</span><span>Agent mode nativo — executa tarefas completas sem interrupção</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">+</span><span>MCP integrado — conecta qualquer ferramenta externa</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">+</span><span>Transparência total — você vê cada ação sendo tomada</span></li>
+            <li class="flex items-start space-x-2"><span class="text-neutral-500">-</span><span>Curva de aprendizado maior (terminal)</span></li>
+          </ul>
+          <div class="bg-dark-700/50 rounded-lg p-2 text-center">
+            <p class="text-xs text-emerald-400 font-semibold">Melhor para: devs que querem controle total e máxima autonomia</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-blue-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="text-3xl">⚡</span>
+            <div>
+              <h4 class="font-bold text-blue-400">Cursor</h4>
+              <span class="text-xs text-neutral-500">Anysphere · IDE completa</span>
+            </div>
+          </div>
+          <ul class="space-y-2 text-sm text-neutral-300 mb-4">
+            <li class="flex items-start space-x-2"><span class="text-blue-400">+</span><span>UX familiar (fork do VS Code)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">+</span><span>Agent mode com edições inline no código</span></li>
+            <li class="flex items-start space-x-2"><span class="text-blue-400">+</span><span>Suporte a múltiplos modelos (Claude, GPT, etc.)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-neutral-500">-</span><span>Menos autônomo que Claude Code em tasks longas</span></li>
+          </ul>
+          <div class="bg-dark-700/50 rounded-lg p-2 text-center">
+            <p class="text-xs text-blue-400 font-semibold">Melhor para: devs migrando de VS Code que querem IA no fluxo</p>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="text-3xl">🧠</span>
+            <div>
+              <h4 class="font-bold text-purple-400">Devin</h4>
+              <span class="text-xs text-neutral-500">Cognition · SWE autônomo</span>
+            </div>
+          </div>
+          <ul class="space-y-2 text-sm text-neutral-300 mb-4">
+            <li class="flex items-start space-x-2"><span class="text-purple-400">+</span><span>Agente de software engineer completo</span></li>
+            <li class="flex items-start space-x-2"><span class="text-purple-400">+</span><span>Planeja, implementa, testa e cria PRs</span></li>
+            <li class="flex items-start space-x-2"><span class="text-purple-400">+</span><span>Memória de projeto persistente</span></li>
+            <li class="flex items-start space-x-2"><span class="text-neutral-500">-</span><span>Custo alto; menos customizável</span></li>
+          </ul>
+          <div class="bg-dark-700/50 rounded-lg p-2 text-center">
+            <p class="text-xs text-purple-400 font-semibold">Melhor para: times que querem delegar features inteiras</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center">
+          <span class="mr-2">📊</span> A decisão prática
+        </h3>
+        <p class="text-neutral-300">Para este curso, trabalhamos com <strong class="text-blue-400">Claude Code</strong> — ele é o que melhor representa a filosofia agentic (você define o objetivo, o agente executa autonomamente) e tem MCP nativo para integração de ferramentas. Cursor é ótimo como complemento para edição rápida.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 3 ======== -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🔗 Frameworks: LangGraph, CrewAI, AutoGen</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Frameworks são <strong class="text-emerald-400">abstrações sobre os modelos</strong> que facilitam construir sistemas multi-agente, gerenciar estado e orquestrar fluxos complexos. A decisão "construir do zero vs. usar framework" é uma das mais frequentes em Agentic Engineering.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-5">🔗 Os 3 frameworks mais usados</h3>
+        <div class="space-y-4">
+          <div class="bg-dark-800/60 rounded-lg p-5 border border-dark-600">
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="font-bold text-white">LangGraph (LangChain)</h4>
+              <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">Mais adotado em produção</span>
+            </div>
+            <p class="text-sm text-neutral-400 mb-3">Orquestração de agentes como grafos de estados. Cada nó é um agente ou tool; as arestas são as transições baseadas em condições. Ideal para fluxos complexos com bifurcações e loops.</p>
+            <div class="flex items-center space-x-4 text-xs text-neutral-500">
+              <span>Python + TypeScript</span>
+              <span>•</span>
+              <span>Streaming nativo</span>
+              <span>•</span>
+              <span>Checkpointing de estado</span>
+            </div>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-5 border border-dark-600">
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="font-bold text-white">CrewAI</h4>
+              <span class="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded">Melhor DX para iniciantes</span>
+            </div>
+            <p class="text-sm text-neutral-400 mb-3">Sistema de agentes colaborativos com papéis definidos (crew = equipe). Você define agentes como "Pesquisador", "Escritor", "Revisor" e o framework os orquestra automaticamente.</p>
+            <div class="flex items-center space-x-4 text-xs text-neutral-500">
+              <span>Python</span>
+              <span>•</span>
+              <span>YAML config</span>
+              <span>•</span>
+              <span>Role-based agents</span>
+            </div>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-5 border border-dark-600">
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="font-bold text-white">AutoGen (Microsoft)</h4>
+              <span class="text-xs bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded">Melhor para pesquisa e R&D</span>
+            </div>
+            <p class="text-sm text-neutral-400 mb-3">Framework de conversação multi-agente. Agentes conversam entre si para resolver problemas. Forte em debugging de raciocínio e experimentos com diferentes estratégias de agentes.</p>
+            <div class="flex items-center space-x-4 text-xs text-neutral-500">
+              <span>Python</span>
+              <span>•</span>
+              <span>Conversational agents</span>
+              <span>•</span>
+              <span>Studio GUI disponível</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-5">
+          <h4 class="font-bold text-emerald-400 mb-3">✓ Use um framework quando...</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Sistema tem 3+ agentes interagindo</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Precisa de streaming e checkpointing</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Time colabora no mesmo codebase</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Fluxos com muitas bifurcações</span></li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <h4 class="font-bold text-neutral-400 mb-3">○ Construa do zero quando...</h4>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-neutral-500">•</span><span>Agente simples de 1-2 tools</span></li>
+            <li class="flex items-start space-x-2"><span class="text-neutral-500">•</span><span>Precisa de performance máxima</span></li>
+            <li class="flex items-start space-x-2"><span class="text-neutral-500">•</span><span>Dependências externas são risco</span></li>
+            <li class="flex items-start space-x-2"><span class="text-neutral-500">•</span><span>Aprendendo — entender o loop direto</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 4 ======== -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">⚙️ Plataformas: n8n, Make, Zapier AI</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        As plataformas de automação low-code democratizaram o Agentic Engineering para não-devs. Em 2026, elas têm nós de IA nativos que permitem criar fluxos agenticos <strong class="text-emerald-400">sem escrever uma linha de Python</strong>.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-center space-x-2 mb-3">
+            <span class="text-2xl">🔴</span>
+            <div>
+              <h4 class="font-semibold text-white">n8n</h4>
+              <p class="text-xs text-neutral-500">Open-source · Self-hosted</p>
+            </div>
+          </div>
+          <ul class="space-y-1 text-xs text-neutral-400">
+            <li>• Self-hosted: seus dados ficam com você</li>
+            <li>• 400+ integrações nativas</li>
+            <li>• AI nodes com Claude e GPT</li>
+            <li>• Código customizado quando necessário</li>
+            <li>• Gratuito (self-hosted) ou $20/mês cloud</li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-center space-x-2 mb-3">
+            <span class="text-2xl">🟣</span>
+            <div>
+              <h4 class="font-semibold text-white">Make (Integromat)</h4>
+              <p class="text-xs text-neutral-500">Proprietary · Cloud</p>
+            </div>
+          </div>
+          <ul class="space-y-1 text-xs text-neutral-400">
+            <li>• UX mais visual e intuitivo</li>
+            <li>• 1000+ módulos prontos</li>
+            <li>• OpenAI + Claude integrados</li>
+            <li>• Iteradores nativos para loops</li>
+            <li>• A partir de $9/mês</li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-center space-x-2 mb-3">
+            <span class="text-2xl">🟠</span>
+            <div>
+              <h4 class="font-semibold text-white">Zapier AI</h4>
+              <p class="text-xs text-neutral-500">Proprietary · Cloud</p>
+            </div>
+          </div>
+          <ul class="space-y-1 text-xs text-neutral-400">
+            <li>• Maior marketplace de apps (7000+)</li>
+            <li>• AI Builder para criar Zaps por prompt</li>
+            <li>• Agents beta em 2025</li>
+            <li>• Ideal para integrações SaaS rápidas</li>
+            <li>• A partir de $19/mês</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">🎯 Quando plataforma supera framework de código</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <p class="text-sm font-semibold text-emerald-400 mb-2">Plataforma ganha quando:</p>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">•</span><span>Você conecta 5+ SaaS (CRM, email, Slack, Sheets...)</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">•</span><span>Time não tem devs Python disponíveis</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">•</span><span>Você precisa de visualização do fluxo para aprovação</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">•</span><span>MVP em horas, não semanas</span></li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-red-400 mb-2">Framework ganha quando:</p>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Lógica complexa que plataforma não suporta</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Precisa de controle fino sobre o loop agentic</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Dado sensível que não pode ir para cloud terceiro</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">•</span><span>Escala que exige otimização de custo</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 5 ======== -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🔌 MCP: o protocolo que conecta tudo</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O <strong class="text-emerald-400">Model Context Protocol (MCP)</strong> é o padrão aberto criado pela Anthropic em novembro de 2024 para padronizar como agentes se conectam a ferramentas e dados externos. Em 2025, a OpenAI adotou o protocolo — tornando-o o padrão universal do ecossistema.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🔌</span> O que é o MCP na prática
+        </h3>
+        <p class="text-neutral-300 mb-4">Antes do MCP, cada ferramenta precisava de integração customizada para cada agente. Com MCP, qualquer ferramenta que implementa o protocolo funciona com qualquer agente compatível — como USB-C para agentes de IA.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-sm font-semibold text-emerald-400 mb-2">MCP Server (a ferramenta)</p>
+            <p class="text-xs text-neutral-400 mb-2">Um programa que expõe capabilities via MCP. Exemplos:</p>
+            <ul class="text-xs text-neutral-300 space-y-1">
+              <li>• Servidor de banco de dados PostgreSQL</li>
+              <li>• Servidor do GitHub (PRs, issues, código)</li>
+              <li>• Servidor do Slack (mensagens, canais)</li>
+              <li>• Servidor do sistema de arquivos local</li>
+            </ul>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4">
+            <p class="text-sm font-semibold text-blue-400 mb-2">MCP Client (o agente)</p>
+            <p class="text-xs text-neutral-400 mb-2">Um agente que sabe consumir servers MCP. Exemplos:</p>
+            <ul class="text-xs text-neutral-300 space-y-1">
+              <li>• Claude Code (nativo)</li>
+              <li>• Claude.ai Desktop (nativo)</li>
+              <li>• Cursor (via plugin)</li>
+              <li>• Qualquer app que implementou o protocolo</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📊</span> Por que o MCP importa tanto
+        </h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3">
+            <span class="w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <p class="text-sm text-neutral-300"><strong class="text-white">Portabilidade:</strong> Defina uma tool uma vez como MCP server e use em Claude Code, Cursor e qualquer outro cliente compatível.</p>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <p class="text-sm text-neutral-300"><strong class="text-white">Marketplace:</strong> Em 2026, há centenas de MCP servers prontos (Anthropic, GitHub, Cloudflare). Você não precisa implementar integrações do zero.</p>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <p class="text-sm text-neutral-300"><strong class="text-white">Segurança:</strong> O protocolo define permissões explícitas. O usuário aprova quais servers o agente pode usar, evitando escalada de privilégios.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 6 ======== -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🧭 Escolhendo sua primeira ferramenta</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Com centenas de ferramentas disponíveis, a paralisia por análise é real. A melhor estratégia: <strong class="text-emerald-400">escolha uma ferramenta por perfil e use até sentir a dor</strong>. A dor te diz quando evoluir.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-emerald-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="text-2xl">👨‍💻</span>
+            <div>
+              <h4 class="font-bold text-emerald-400">Perfil: Developer</h4>
+              <p class="text-xs text-neutral-500">Você escreve código, quer controle total</p>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between bg-dark-700/50 rounded p-2">
+              <span class="text-sm text-white font-medium">Primeiro passo</span>
+              <span class="text-sm text-emerald-400">Claude Code</span>
+            </div>
+            <div class="flex items-center justify-between bg-dark-700/50 rounded p-2">
+              <span class="text-sm text-white font-medium">Quando sentir dor</span>
+              <span class="text-sm text-blue-400">LangGraph</span>
+            </div>
+            <div class="flex items-center justify-between bg-dark-700/50 rounded p-2">
+              <span class="text-sm text-white font-medium">Para integrações</span>
+              <span class="text-sm text-purple-400">MCP servers</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-blue-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="text-2xl">🏗️</span>
+            <div>
+              <h4 class="font-bold text-blue-400">Perfil: Builder / Founder</h4>
+              <p class="text-xs text-neutral-500">Você tem produto, quer velocidade</p>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between bg-dark-700/50 rounded p-2">
+              <span class="text-sm text-white font-medium">Primeiro passo</span>
+              <span class="text-sm text-blue-400">Cursor + Bolt</span>
+            </div>
+            <div class="flex items-center justify-between bg-dark-700/50 rounded p-2">
+              <span class="text-sm text-white font-medium">Quando escalar</span>
+              <span class="text-sm text-emerald-400">Claude Code</span>
+            </div>
+            <div class="flex items-center justify-between bg-dark-700/50 rounded p-2">
+              <span class="text-sm text-white font-medium">Para automações</span>
+              <span class="text-sm text-amber-400">n8n ou Make</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-amber-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="text-2xl">⚙️</span>
+            <div>
+              <h4 class="font-bold text-amber-400">Perfil: Automador / Ops</h4>
+              <p class="text-xs text-neutral-500">Você conecta sistemas, sem código profundo</p>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between bg-dark-700/50 rounded p-2">
+              <span class="text-sm text-white font-medium">Primeiro passo</span>
+              <span class="text-sm text-amber-400">n8n self-hosted</span>
+            </div>
+            <div class="flex items-center justify-between bg-dark-700/50 rounded p-2">
+              <span class="text-sm text-white font-medium">Para SaaS integração</span>
+              <span class="text-sm text-orange-400">Zapier AI</span>
+            </div>
+            <div class="flex items-center justify-between bg-dark-700/50 rounded p-2">
+              <span class="text-sm text-white font-medium">Quando precisar de código</span>
+              <span class="text-sm text-emerald-400">Claude Code</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="text-2xl">👔</span>
+            <div>
+              <h4 class="font-bold text-purple-400">Perfil: Executivo / Gestor</h4>
+              <p class="text-xs text-neutral-500">Você aprova investimento, quer entender antes</p>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between bg-dark-700/50 rounded p-2">
+              <span class="text-sm text-white font-medium">Primeiro passo</span>
+              <span class="text-sm text-purple-400">Claude.ai + projects</span>
+            </div>
+            <div class="flex items-center justify-between bg-dark-700/50 rounded p-2">
+              <span class="text-sm text-white font-medium">Para relatórios auto</span>
+              <span class="text-sm text-amber-400">Make / Zapier</span>
+            </div>
+            <div class="flex items-center justify-between bg-dark-700/50 rounded p-2">
+              <span class="text-sm text-white font-medium">Para delegar ao time</span>
+              <span class="text-sm text-emerald-400">Este curso completo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">💡</span> A filosofia "use até sentir dor"
+        </h3>
+        <p class="text-neutral-300">Não troque de ferramenta antes de atingir os limites da atual. Cada troca tem custo de aprendizado. A dor do limite te diz exatamente o que a nova ferramenta precisa resolver — o que torna a escolha óbvia, não especulativa. Comece simples. Evolua quando a dor for clara.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO FINAL -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">✅</span> Resumo do Módulo 1.5
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">4 camadas do ecossistema</strong>
+              <span class="text-neutral-400"> — Modelos → Frameworks → IDEs → Plataformas; entender a hierarquia evita confusão</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">IDEs comparados</strong>
+              <span class="text-neutral-400"> — Claude Code (controle total), Cursor (UX familiar), Devin (autonomia máxima)</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">Frameworks posicionados</strong>
+              <span class="text-neutral-400"> — LangGraph (produção), CrewAI (DX), AutoGen (R&D); construir do zero quando simples</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">Plataformas low-code</strong>
+              <span class="text-neutral-400"> — n8n (self-hosted), Make (visual), Zapier (SaaS); superam frameworks em integração rápida</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">MCP como padrão universal</strong>
+              <span class="text-neutral-400"> — protocolo da Anthropic adotado pela OpenAI; define como agentes se conectam a tools</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">Guia por perfil</strong>
+              <span class="text-neutral-400"> — dev, builder, automador, executivo; cada um tem uma porta de entrada diferente</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-emerald-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">1.6 — Seu Primeiro Agente: Do Zero ao Funcionando. Você vai construir um agente real em ~50 linhas de Python, entender cada linha, quebrar de propósito e consertar. Mão na massa.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-1-4.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Anterior: 1.4 Vibe Coding vs. Agentic
+          </a>
+          <a href="modulo-1-6.html" class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors">
+            Próximo: 1.6 Primeiro Agente →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

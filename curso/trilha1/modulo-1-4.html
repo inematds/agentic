@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1.4 Vibe Coding vs. Agentic Engineering | Trilha 1 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block">
+            <span>Frameworks</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-emerald-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-emerald-400 transition-colors">Trilha 1 — Mentalidade Agentic</a>
+      <span>/</span>
+      <span class="text-emerald-400">Módulo 1.4</span>
+    </div>
+  </nav>
+
+  <!-- HEADER DO MODULO -->
+  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4 tracking-wide">
+        MÓDULO 1.4
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">⚡ Vibe Coding vs. Agentic Engineering: A Evolução</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Vibe Coding e Agentic Engineering não são opostos — são estágios de evolução. Entender onde cada um serve (e onde falha) é o julgamento mais valioso que um engenheiro moderno pode ter.
+      </p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">6</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">35</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Básico</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Conceitual</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- ======== TÓPICO 1 ======== -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🌊 O que é Vibe Coding</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O termo foi cunhado por <strong class="text-emerald-400">Andrej Karpathy</strong> em fevereiro de 2025 para descrever um modo de desenvolvimento onde você descreve o que quer em linguagem natural e aceita o código gerado pela IA quase sem editar. A "vibe" é de confiança total no modelo.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🌊</span> O Vibe Coding em uma frase
+        </h3>
+        <blockquote class="border-l-4 border-emerald-500 pl-4 italic text-neutral-300 text-lg mb-4">
+          "Esqueça que o código existe. Só diga o que quer. Aceite o que vem. Clique em 'aplicar'."
+        </blockquote>
+        <p class="text-neutral-400 text-sm">— A mentalidade central do Vibe Coding, popularizada com Cursor, Bolt e Lovable em 2024-2025</p>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">🛠️ Ferramentas que popularizaram o Vibe Coding</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-dark-700/50 rounded-lg p-4 text-center">
+            <span class="text-2xl block mb-2">⚡</span>
+            <p class="font-semibold text-white mb-1">Cursor</p>
+            <p class="text-xs text-neutral-500">IDE com IA integrada. Chat, edição e geração no mesmo lugar. Para devs que querem velocidade máxima.</p>
+          </div>
+          <div class="bg-dark-700/50 rounded-lg p-4 text-center">
+            <span class="text-2xl block mb-2">⚡</span>
+            <p class="font-semibold text-white mb-1">Bolt.new</p>
+            <p class="text-xs text-neutral-500">Gera apps completos no browser a partir de um prompt. Zero configuração. Deploy em 1 clique.</p>
+          </div>
+          <div class="bg-dark-700/50 rounded-lg p-4 text-center">
+            <span class="text-2xl block mb-2">💜</span>
+            <p class="font-semibold text-white mb-1">Lovable</p>
+            <p class="text-xs text-neutral-500">Foco em apps de produto. Prompt → UI completa com backend. Popular entre non-devs builders.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">💡</span> O que o Vibe Coding realmente é
+        </h3>
+        <p class="text-neutral-300">Vibe Coding é <strong class="text-primary">geração assistida por IA sem loop autônomo</strong>. O humano ainda está no meio: aprova cada mudança, testa manualmente, decide o que fazer com os erros. É produtividade individual acelerada — não autonomia de sistema. E isso é exatamente sua força e sua limitação.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 2 ======== -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🧱 Os limites do Vibe Coding</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Vibe Coding é extraordinário para prototipagem rápida. Mas quando você tenta escalar, manter ou automatizar, os <strong class="text-emerald-400">limites aparecem com força</strong>. Conhecê-los é o que te evita de ficar preso no modo errado no momento errado.
+      </p>
+
+      <div class="space-y-4 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+            <span class="text-red-400 font-bold text-sm">L1</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-red-400 mb-2">Dependência permanente do humano</h4>
+            <p class="text-sm text-neutral-400">Cada execução requer um humano na frente. Escalar significa contratar mais humanos, não melhorar o sistema. Isso quebra a proposta de escala que a IA deveria trazer.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+            <span class="text-red-400 font-bold text-sm">L2</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-red-400 mb-2">Sem persistência entre sessões</h4>
+            <p class="text-sm text-neutral-400">O Cursor não lembra o contexto do projeto da sessão anterior. Cada nova sessão é quase um recomeço. Para projetos longos, isso gera inconsistências acumuladas.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+            <span class="text-red-400 font-bold text-sm">L3</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-red-400 mb-2">Fragilidade em produção</h4>
+            <p class="text-sm text-neutral-400">Código gerado por Vibe sem revisão arquitetural tende a acumular debt técnico. Funciona na demo, falha no edge case real. Em produção com alto volume, os edge cases são a regra.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+            <span class="text-red-400 font-bold text-sm">L4</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-red-400 mb-2">Sem loop de avaliação autônoma</h4>
+            <p class="text-sm text-neutral-400">Para tarefas multi-step repetitivas (processar 1000 leads, revisar 500 contratos), o Vibe Coding força um humano a supervisionar cada iteração. O agente faria isso sem supervisão.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center">
+          <span class="mr-2">⚠️</span> O anti-padrão mais comum
+        </h3>
+        <p class="text-neutral-300">Usar Vibe Coding para construir sistemas que deveriam ser agenticos. Resultado: o sistema funciona quando há humano presente, falha ou fica parado quando não há. Esse é o sinal mais claro de que chegou a hora de evoluir para Agentic Engineering.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 3 ======== -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">⬆️ O upgrade natural: quando virar Agentic</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A transição para Agentic Engineering não é automática — você precisa <strong class="text-emerald-400">reconhecer os sinais</strong>. Fazer o upgrade cedo demais desperdiça complexidade. Fazer tarde demais desperdiça oportunidade.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-5">🔔 Os 4 sinais de que chegou a hora</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800/60 rounded-xl p-5 border border-emerald-500/20">
+            <div class="flex items-center space-x-3 mb-3">
+              <span class="text-2xl">🔁</span>
+              <h4 class="font-semibold text-white">Sinal 1: Tarefa repetitiva</h4>
+            </div>
+            <p class="text-sm text-neutral-400">Você está executando o mesmo processo mais de 5 vezes por semana. Se você pode descrever os passos para um funcionário, pode descrever para um agente.</p>
+            <p class="text-xs text-emerald-400 mt-2 font-semibold">Exemplos: processar leads, gerar relatórios, revisar PRs</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-xl p-5 border border-emerald-500/20">
+            <div class="flex items-center space-x-3 mb-3">
+              <span class="text-2xl">🧩</span>
+              <h4 class="font-semibold text-white">Sinal 2: Múltiplas etapas</h4>
+            </div>
+            <p class="text-sm text-neutral-400">O processo requer mais de 3 passos em sequência, cada um dependendo do resultado do anterior. Vibe Coding exige supervisão humana em cada transição.</p>
+            <p class="text-xs text-emerald-400 mt-2 font-semibold">Exemplos: pesquisa → análise → redação → publicação</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-xl p-5 border border-emerald-500/20">
+            <div class="flex items-center space-x-3 mb-3">
+              <span class="text-2xl">💥</span>
+              <h4 class="font-semibold text-white">Sinal 3: Custo de erro alto</h4>
+            </div>
+            <p class="text-sm text-neutral-400">Um erro humano de distração nessa task tem impacto financeiro, reputacional ou operacional significativo. Um agente bem governado erra menos por fadiga.</p>
+            <p class="text-xs text-emerald-400 mt-2 font-semibold">Exemplos: compliance, finanças, comunicações críticas</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-xl p-5 border border-emerald-500/20">
+            <div class="flex items-center space-x-3 mb-3">
+              <span class="text-2xl">📈</span>
+              <h4 class="font-semibold text-white">Sinal 4: Volume que cresce</h4>
+            </div>
+            <p class="text-sm text-neutral-400">O volume da task dobra a cada trimestre e sua equipe não escala na mesma velocidade. Vibe precisa de mais humanos; Agentic precisa de mais contexto.</p>
+            <p class="text-xs text-emerald-400 mt-2 font-semibold">Exemplos: atendimento, moderação, onboarding</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 4 ======== -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">📊 Tabela comparativa: 8 dimensões</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A comparação direta em 8 dimensões que importam na hora de escolher. <strong class="text-emerald-400">Salve essa tabela</strong> — ela resolve 90% das dúvidas sobre quando usar cada abordagem.
+      </p>
+
+      <div class="overflow-x-auto mb-6">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-dark-600">
+              <th class="text-left py-3 px-4 text-neutral-400 font-semibold w-1/4">Dimensão</th>
+              <th class="text-left py-3 px-4 text-neutral-400 font-semibold w-3/8">🌊 Vibe Coding</th>
+              <th class="text-left py-3 px-4 text-emerald-400 font-semibold w-3/8">⚡ Agentic Engineering</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-dark-700">
+            <tr class="hover:bg-dark-800/30">
+              <td class="py-3 px-4 font-semibold text-neutral-300">Autonomia</td>
+              <td class="py-3 px-4 text-neutral-500">Nenhuma — humano aprova tudo</td>
+              <td class="py-3 px-4 text-emerald-400">Controlada — executa missões sem supervisão constante</td>
+            </tr>
+            <tr class="hover:bg-dark-800/30">
+              <td class="py-3 px-4 font-semibold text-neutral-300">Memória</td>
+              <td class="py-3 px-4 text-neutral-500">Sessão atual apenas</td>
+              <td class="py-3 px-4 text-emerald-400">Curta + longa (RAG, banco vetorial)</td>
+            </tr>
+            <tr class="hover:bg-dark-800/30">
+              <td class="py-3 px-4 font-semibold text-neutral-300">Loop</td>
+              <td class="py-3 px-4 text-neutral-500">Não — interação única com humano no meio</td>
+              <td class="py-3 px-4 text-emerald-400">Sim — Pensar→Agir→Observar→Avaliar→Repetir</td>
+            </tr>
+            <tr class="hover:bg-dark-800/30">
+              <td class="py-3 px-4 font-semibold text-neutral-300">Ferramentas</td>
+              <td class="py-3 px-4 text-neutral-500">IDE integrada (escrita de código)</td>
+              <td class="py-3 px-4 text-emerald-400">Qualquer API, banco, sistema externo</td>
+            </tr>
+            <tr class="hover:bg-dark-800/30">
+              <td class="py-3 px-4 font-semibold text-neutral-300">Governança</td>
+              <td class="py-3 px-4 text-neutral-500">O humano É a governança</td>
+              <td class="py-3 px-4 text-emerald-400">Sistemática: audit log, budget cap, HITL</td>
+            </tr>
+            <tr class="hover:bg-dark-800/30">
+              <td class="py-3 px-4 font-semibold text-neutral-300">Custo</td>
+              <td class="py-3 px-4 text-neutral-500">Baixo por interação, alto por hora de dev</td>
+              <td class="py-3 px-4 text-emerald-400">Maior por execução, escala sem custo humano</td>
+            </tr>
+            <tr class="hover:bg-dark-800/30">
+              <td class="py-3 px-4 font-semibold text-neutral-300">Escala</td>
+              <td class="py-3 px-4 text-neutral-500">Linear com humanos disponíveis</td>
+              <td class="py-3 px-4 text-emerald-400">Exponencial — múltiplos agentes em paralelo</td>
+            </tr>
+            <tr class="hover:bg-dark-800/30">
+              <td class="py-3 px-4 font-semibold text-neutral-300">Complexidade</td>
+              <td class="py-3 px-4 text-neutral-500">Baixa — começa em minutos</td>
+              <td class="py-3 px-4 text-emerald-400">Média-alta — requer arquitetura e governança</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center">
+          <span class="mr-2">📊</span> A regra de ouro da escolha
+        </h3>
+        <p class="text-neutral-300">Se você precisa estar presente para o processo funcionar, use Vibe Coding — é mais rápido. Se o processo precisa funcionar quando você não está presente, ou em volume que você não suporta, use Agentic Engineering. Simples assim.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 5 ======== -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🤝 Como usar os dois juntos</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A pergunta não é "qual dos dois usar" — é <strong class="text-emerald-400">"em que momento do ciclo de vida usar cada um"</strong>. Os melhores engenheiros de 2026 usam Vibe para explorar e Agentic para escalar.
+      </p>
+
+      <div class="space-y-6 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+            <span class="text-emerald-400 font-bold">1</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Fase 1 — Prototipagem rápida (Vibe Coding)</h4>
+            <p class="text-sm text-neutral-400">Use Cursor, Bolt ou Claude para explorar a ideia. Valide o conceito em horas, não semanas. Meça se o output tem valor real. Não se preocupe com arquitetura nessa fase.</p>
+            <p class="text-xs text-emerald-400 mt-2">Duração típica: 1-3 dias</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+            <span class="text-blue-400 font-bold">2</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Fase 2 — Identificar o que é repetível (Análise)</h4>
+            <p class="text-sm text-neutral-400">Depois de validar, mapeie quais partes do processo você repete. Esses são os candidatos a se tornarem ferramentas de um agente. O resto permanece como Vibe.</p>
+            <p class="text-xs text-blue-400 mt-2">Duração típica: 1 dia de análise</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+            <span class="text-emerald-400 font-bold">3</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-emerald-500/20">
+            <h4 class="font-semibold text-emerald-400 mb-2">Fase 3 — Arquitetar o agente (Agentic Engineering)</h4>
+            <p class="text-sm text-neutral-400">Defina tools, loop, memória e governança. Use Claude Code como ponte — ele é simultaneamente uma ferramenta de Vibe Coding E um agente que pode construir outros agentes. O ideal para essa transição.</p>
+            <p class="text-xs text-emerald-400 mt-2">Duração típica: 1-2 semanas para MVP agentic</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">💡</span> Claude Code como ponte entre os dois mundos
+        </h3>
+        <p class="text-neutral-300">Claude Code é único: você usa em modo Vibe (prompt → código no terminal) enquanto ele executa em modo Agentic (lê arquivos, executa testes, corrige erros autonomamente). É a ferramenta perfeita para aprender a transição porque você experimenta os dois paradigmas simultaneamente.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 6 ======== -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🎯 Exercício: classificar 10 cenários reais</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O julgamento vem da prática. Para cada cenário abaixo, decida: <strong class="text-emerald-400">Vibe Coding (V), Agentic Engineering (A), ou Híbrido (H)?</strong> Reflita antes de ver a resposta.
+      </p>
+
+      <div class="space-y-4 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-start justify-between">
+            <div class="flex items-start space-x-3">
+              <span class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+              <div>
+                <p class="font-semibold text-white">Criar landing page para teste A/B</p>
+                <p class="text-sm text-neutral-400">Você precisa de uma página em 2 horas para um experimento de marketing</p>
+              </div>
+            </div>
+            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-lg flex-shrink-0">V — Vibe</span>
+          </div>
+          <p class="text-xs text-neutral-500 mt-3 ml-11">Rápido, único, baixo custo de erro. Vibe é perfeito aqui.</p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-start justify-between">
+            <div class="flex items-start space-x-3">
+              <span class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+              <div>
+                <p class="font-semibold text-white">Processar 500 contratos de clientes semanalmente</p>
+                <p class="text-sm text-neutral-400">Revisar, extrair cláusulas-chave, classificar risco, gerar relatório por contrato</p>
+              </div>
+            </div>
+            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded-lg flex-shrink-0">A — Agentic</span>
+          </div>
+          <p class="text-xs text-neutral-500 mt-3 ml-11">Volume, repetição, múltiplas etapas, custo de erro alto. Agentic obrigatório.</p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-start justify-between">
+            <div class="flex items-start space-x-3">
+              <span class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+              <div>
+                <p class="font-semibold text-white">Debugar um bug pontual no seu app</p>
+                <p class="text-sm text-neutral-400">Erro específico em produção que precisa de correção imediata</p>
+              </div>
+            </div>
+            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-lg flex-shrink-0">V — Vibe</span>
+          </div>
+          <p class="text-xs text-neutral-500 mt-3 ml-11">Task única, urgente, você já tem contexto. Cursor / Claude Code em modo Vibe.</p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-start justify-between">
+            <div class="flex items-start space-x-3">
+              <span class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+              <div>
+                <p class="font-semibold text-white">Monitorar menções da sua marca em redes sociais</p>
+                <p class="text-sm text-neutral-400">Coletar, classificar sentimento, gerar relatório diário, alertar crises</p>
+              </div>
+            </div>
+            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded-lg flex-shrink-0">A — Agentic</span>
+          </div>
+          <p class="text-xs text-neutral-500 mt-3 ml-11">Loop contínuo 24/7, decisão autônoma de criticidade, sem humano disponível sempre.</p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-start justify-between">
+            <div class="flex items-start space-x-3">
+              <span class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+              <div>
+                <p class="font-semibold text-white">Construir um novo módulo de funcionalidade no seu SaaS</p>
+                <p class="text-sm text-neutral-400">Feature de médio porte, 2-3 semanas de desenvolvimento estimado</p>
+              </div>
+            </div>
+            <span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-bold rounded-lg flex-shrink-0">H — Híbrido</span>
+          </div>
+          <p class="text-xs text-neutral-500 mt-3 ml-11">Prototipagem em Vibe, arquitetura e testes em Agentic (Claude Code no modo autônomo).</p>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-3">🎯 O padrão que emerge</h3>
+        <p class="text-neutral-300 mb-3">Analisando os cenários, a regra que emerge:</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="bg-dark-800/50 rounded-lg p-4 text-center">
+            <p class="text-lg font-bold text-blue-400">Vibe</p>
+            <p class="text-xs text-neutral-400 mt-1">1x, urgente, você presente, baixo volume</p>
+          </div>
+          <div class="bg-dark-800/50 rounded-lg p-4 text-center">
+            <p class="text-lg font-bold text-emerald-400">Agentic</p>
+            <p class="text-xs text-neutral-400 mt-1">Recorrente, escala, você ausente, custo de erro</p>
+          </div>
+          <div class="bg-dark-800/50 rounded-lg p-4 text-center">
+            <p class="text-lg font-bold text-purple-400">Híbrido</p>
+            <p class="text-xs text-neutral-400 mt-1">Quando você não sabe ainda — comece Vibe, evolua</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO FINAL -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">✅</span> Resumo do Módulo 1.4
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">Vibe Coding definido</strong>
+              <span class="text-neutral-400"> — geração assistida sem loop autônomo; o humano é o loop</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">4 limites do Vibe</strong>
+              <span class="text-neutral-400"> — dependência humana, sem persistência, frágil em produção, sem escala</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">4 sinais do upgrade</strong>
+              <span class="text-neutral-400"> — repetição, múltiplas etapas, custo de erro alto, volume crescente</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">8 dimensões comparativas</strong>
+              <span class="text-neutral-400"> — a tabela que resolve 90% das dúvidas de escolha</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">Uso híbrido inteligente</strong>
+              <span class="text-neutral-400"> — Vibe para explorar, Agentic para escalar; Claude Code como ponte</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-emerald-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">1.5 — O Ecossistema Agentic em 2026: mapa completo de modelos, frameworks, IDEs e plataformas. Você vai entender como as peças do ecossistema se conectam e qual ferramenta usar por perfil.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-1-3.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Anterior: 1.3 Componentes do Agente
+          </a>
+          <a href="modulo-1-5.html" class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors">
+            Próximo: 1.5 Ecossistema em 2026 →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

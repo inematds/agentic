@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1.2 O Loop Agentic | Trilha 1 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block">
+            <span>Frameworks</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-emerald-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-emerald-400 transition-colors">Trilha 1 — Mentalidade Agentic</a>
+      <span>/</span>
+      <span class="text-emerald-400">Módulo 1.2</span>
+    </div>
+  </nav>
+
+  <!-- HEADER DO MODULO -->
+  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4 tracking-wide">
+        MÓDULO 1.2
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔁 O Loop Agentic: Pensar → Agir → Observar → Avaliar → Ajustar</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Todo agente real executa um ciclo contínuo. Entender cada fase desse loop — e onde ele pode falhar — é o que separa quem constrói agentes de quem apenas usa ferramentas de IA.
+      </p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">6</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">40</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Básico</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Teoria+Prática</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- ======== TÓPICO 1 ======== -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🧠 Pensar: a fase de raciocínio</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Antes de qualquer ação, o agente <strong class="text-emerald-400">pensa</strong>. Esta fase é onde o LLM analisa o objetivo, examina o contexto disponível e decide qual será a próxima ação. É aqui que a qualidade do modelo e do prompt fazem a maior diferença.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🧠</span> O que acontece durante o raciocínio
+        </h3>
+        <p class="text-neutral-300 mb-4">O LLM recebe o contexto completo — objetivo, histórico de ações anteriores, resultados das tools já executadas — e gera um raciocínio antes de decidir a próxima ação. Esse raciocínio interno é o coração do loop.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-dark-600">
+            <p class="text-sm font-semibold text-emerald-400 mb-2">Chain-of-Thought (CoT)</p>
+            <ul class="space-y-1 text-sm text-neutral-300">
+              <li>• O modelo "pensa em voz alta" antes de responder</li>
+              <li>• Raciocínio passo a passo melhora precisão em até 40%</li>
+              <li>• Visível no scratchpad / thinking tokens</li>
+              <li>• Custo extra em tokens, mas vale para tasks complexas</li>
+            </ul>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-dark-600">
+            <p class="text-sm font-semibold text-emerald-400 mb-2">ReAct (Reason + Act)</p>
+            <ul class="space-y-1 text-sm text-neutral-300">
+              <li>• Padrão: Thought → Action → Observation</li>
+              <li>• Raciocínio e ação intercalados no mesmo loop</li>
+              <li>• Cada observação alimenta o próximo pensamento</li>
+              <li>• Base da maioria dos frameworks modernos</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">📋 O que está no contexto durante o Pensar</h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3 bg-dark-700/50 rounded-lg p-3">
+            <span class="text-emerald-400 font-bold flex-shrink-0">1.</span>
+            <div>
+              <span class="text-white font-medium">System prompt:</span>
+              <span class="text-neutral-400 text-sm ml-2">Persona, restrições, ferramentas disponíveis e seu objetivo como engenheiro</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-700/50 rounded-lg p-3">
+            <span class="text-emerald-400 font-bold flex-shrink-0">2.</span>
+            <div>
+              <span class="text-white font-medium">Histórico de mensagens:</span>
+              <span class="text-neutral-400 text-sm ml-2">Tudo que aconteceu nas iterações anteriores do loop</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-700/50 rounded-lg p-3">
+            <span class="text-emerald-400 font-bold flex-shrink-0">3.</span>
+            <div>
+              <span class="text-white font-medium">Tool results:</span>
+              <span class="text-neutral-400 text-sm ml-2">Resultados das ferramentas chamadas anteriormente</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-700/50 rounded-lg p-3">
+            <span class="text-emerald-400 font-bold flex-shrink-0">4.</span>
+            <div>
+              <span class="text-white font-medium">Objetivo atual:</span>
+              <span class="text-neutral-400 text-sm ml-2">A missão definida pelo humano ou pelo planejador pai</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">💡</span> Dica Prática
+        </h3>
+        <p class="text-neutral-300">Use modelos com <strong class="text-primary">extended thinking</strong> (Claude claude-sonnet-4-6 thinking, o1) para tasks que exigem múltiplos passos lógicos. Para tasks simples, evite o custo extra. A regra: se um humano precisaria de mais de 30 segundos para pensar, use thinking habilitado.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 2 ======== -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">⚡ Agir: execução com ferramentas</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Após raciocinar, o agente <strong class="text-emerald-400">age</strong>. Isso significa emitir uma chamada de ferramenta — uma instrução estruturada para executar uma ação no mundo real. É aqui que IA deixa de ser texto e vira consequência.
+      </p>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📊</span> Anatomia de uma Tool Call
+        </h3>
+        <p class="text-neutral-300 mb-4">Uma tool call é uma estrutura JSON que o modelo retorna no lugar de texto. O seu código intercepta isso e executa a ação correspondente.</p>
+        <div class="bg-dark-900/60 rounded-lg p-4 font-mono text-sm">
+          <p class="text-neutral-500 mb-1">// O modelo retorna isso:</p>
+          <p class="text-emerald-400">{</p>
+          <p class="text-neutral-300 ml-4">"type": "tool_use",</p>
+          <p class="text-neutral-300 ml-4">"name": "search_web",</p>
+          <p class="text-blue-400 ml-4">"input": {</p>
+          <p class="text-neutral-300 ml-8">"query": "preço Bitcoin hoje",</p>
+          <p class="text-neutral-300 ml-8">"max_results": 5</p>
+          <p class="text-blue-400 ml-4">}</p>
+          <p class="text-emerald-400">}</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">✓ Boas práticas em Ação</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400">✓</span>
+              <span>Validar inputs da tool antes de executar</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400">✓</span>
+              <span>Definir timeout por tool call</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400">✓</span>
+              <span>Logar cada ação com timestamp e custo</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400">✓</span>
+              <span>Usar sandboxing para ações destrutivas</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400">✓</span>
+              <span>Requerer confirmação humana para ações irreversíveis</span>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Erros comuns na fase de Ação</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>Dar permissões de escrita sem precisar</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>Executar SQL sem validação de query</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>Tools sem retry logic para falhas transientes</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>Ignorar erros de permissão de sistemas externos</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>Chamar APIs com rate limit sem backoff</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center">
+          <span class="mr-2">⚠️</span> Ações têm consequências reais
+        </h3>
+        <p class="text-neutral-300">Diferente de um chatbot que apenas gera texto, um agente em ação pode: deletar arquivos, enviar emails, gastar dinheiro via API, modificar bancos de dados em produção. Trate cada tool como se fosse um junior developer com acesso de admin — defina permissões mínimas e auditoria total.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 3 ======== -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">👁️ Observar: lendo o resultado</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Após agir, o agente <strong class="text-emerald-400">observa</strong> o resultado da ação. O output da tool é injetado de volta no contexto como uma mensagem especial do tipo <code class="bg-dark-700 px-1 rounded text-emerald-400 text-sm">tool_result</code>, e o próximo ciclo de raciocínio começa com essa informação.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">👁️</span> O que entra no contexto após a observação
+        </h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+              <span class="text-emerald-400 font-bold text-sm">OK</span>
+            </div>
+            <div class="flex-1 bg-dark-800 rounded-lg p-4 border border-dark-600">
+              <h4 class="font-semibold text-emerald-400 mb-1">Resultado de sucesso</h4>
+              <p class="text-sm text-neutral-400">O output da tool é serializado e adicionado como <code class="text-emerald-400">tool_result</code>. O agente sabe o que aconteceu e pode continuar.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
+              <span class="text-red-400 font-bold text-sm">ERR</span>
+            </div>
+            <div class="flex-1 bg-dark-800 rounded-lg p-4 border border-dark-600">
+              <h4 class="font-semibold text-red-400 mb-1">Resultado de erro</h4>
+              <p class="text-sm text-neutral-400">O erro também é injetado no contexto. Agentes bem projetados conseguem ler o erro e tentar uma abordagem alternativa em vez de travar.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+              <span class="text-amber-400 font-bold text-sm">BIG</span>
+            </div>
+            <div class="flex-1 bg-dark-800 rounded-lg p-4 border border-dark-600">
+              <h4 class="font-semibold text-amber-400 mb-1">Output muito grande</h4>
+              <p class="text-sm text-neutral-400">Um search retornou 50 páginas? Um arquivo tem 10.000 linhas? Você precisa de estratégia de truncagem — o contexto tem limite e overflow causa falhas silenciosas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">💡</span> Dica de Parsing de Observação
+        </h3>
+        <p class="text-neutral-300 mb-3">Nunca injete raw output de tools sem processamento. Antes de adicionar ao contexto:</p>
+        <ul class="space-y-2 text-neutral-300">
+          <li class="flex items-start space-x-2">
+            <span class="text-primary">•</span>
+            <span>Limite o tamanho máximo (ex: primeiros 2000 caracteres de um arquivo)</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-primary">•</span>
+            <span>Serialize objetos complexos como JSON formatado, não Python repr</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-primary">•</span>
+            <span>Adicione metadados úteis: timestamp, tool usada, status HTTP</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 4 ======== -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">⚖️ Avaliar: o que separa agente de script</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A fase de <strong class="text-emerald-400">avaliação</strong> é onde um agente verdadeiro se diferencia de uma automação linear. Após observar o resultado, o agente decide: o objetivo foi atingido? O resultado é suficiente? Precisa tentar de outra forma?
+      </p>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-5">🔍 As 4 perguntas da fase de Avaliação</h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-sm flex-shrink-0">1</span>
+            <div>
+              <p class="font-semibold text-white">O objetivo foi atingido?</p>
+              <p class="text-sm text-neutral-400 mt-1">Critério de sucesso precisa ser definido no sistema de raciocínio. Sem critério claro, o agente nunca sabe quando parar.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-sm flex-shrink-0">2</span>
+            <div>
+              <p class="font-semibold text-white">O resultado foi um erro recuperável?</p>
+              <p class="text-sm text-neutral-400 mt-1">Erro de rede é diferente de erro de permissão. O agente deve classificar erros e decidir se pode tentar de novo ou precisa escalar.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-sm flex-shrink-0">3</span>
+            <div>
+              <p class="font-semibold text-white">O plano atual ainda é válido?</p>
+              <p class="text-sm text-neutral-400 mt-1">Se uma pesquisa revelou que a abordagem original estava errada, o agente pode (e deve) replanificar antes de continuar.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-sm flex-shrink-0">4</span>
+            <div>
+              <p class="font-semibold text-white">É hora de parar e pedir ajuda?</p>
+              <p class="text-sm text-neutral-400 mt-1">Human-in-the-loop não é fraqueza — é arquitetura. Definir quando escalar para humano é tão importante quanto definir quando agir sozinho.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📊</span> Replanning: quando o agente muda de estratégia
+        </h3>
+        <p class="text-neutral-300 mb-3">Replanning acontece quando a avaliação detecta que o plano atual não vai funcionar. Um bom agente não insiste em uma estratégia falha:</p>
+        <ul class="space-y-2 text-neutral-300">
+          <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>API externa retornou 429? Tentativa com dados em cache.</span></li>
+          <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Formato de dados diferente do esperado? Parse adaptativo.</span></li>
+          <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Sub-tarefa impossível? Remove do plano, reporta limitação.</span></li>
+          <li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Objetivo ambíguo? Para e pede clarificação ao humano.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 5 ======== -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🔄 O loop na prática: walkthrough completo</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Vamos ver o loop completo em ação. Objetivo: <strong class="text-emerald-400">"Pesquise o preço do Bitcoin nos últimos 7 dias e gere um resumo de tendência."</strong> — 4 iterações reais com custo por iteração.
+      </p>
+
+      <div class="space-y-6 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-14 h-14 rounded-full bg-emerald-500/20 flex items-center justify-center">
+            <span class="text-emerald-400 font-bold">I.1</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="font-semibold text-white">Iteração 1 — Planejar e buscar dados</h4>
+              <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~800 tokens · ~$0.002</span>
+            </div>
+            <p class="text-sm text-neutral-400 mb-2"><strong class="text-emerald-400">Pensar:</strong> "Preciso de dados de preço. Vou usar a tool de busca web para encontrar o preço atual e histórico de 7 dias."</p>
+            <p class="text-sm text-neutral-400 mb-2"><strong class="text-blue-400">Agir:</strong> <code class="bg-dark-700 px-1 rounded text-xs">search_web("Bitcoin price last 7 days 2026")</code></p>
+            <p class="text-sm text-neutral-400"><strong class="text-amber-400">Observar:</strong> Retornou 5 resultados com preços de sites financeiros</p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-14 h-14 rounded-full bg-emerald-500/20 flex items-center justify-center">
+            <span class="text-emerald-400 font-bold">I.2</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="font-semibold text-white">Iteração 2 — Extrair dados estruturados</h4>
+              <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~1200 tokens · ~$0.003</span>
+            </div>
+            <p class="text-sm text-neutral-400 mb-2"><strong class="text-emerald-400">Avaliar:</strong> "Os resultados da busca têm texto mesclado com preços. Preciso de dados estruturados. Vou extrair os preços de uma API direta."</p>
+            <p class="text-sm text-neutral-400 mb-2"><strong class="text-blue-400">Agir (replanning):</strong> <code class="bg-dark-700 px-1 rounded text-xs">call_api("coinbase.com/v2/prices/BTC-USD/historic")</code></p>
+            <p class="text-sm text-neutral-400"><strong class="text-amber-400">Observar:</strong> JSON com preços dos últimos 7 dias retornado com sucesso</p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-14 h-14 rounded-full bg-emerald-500/20 flex items-center justify-center">
+            <span class="text-emerald-400 font-bold">I.3</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="font-semibold text-white">Iteração 3 — Calcular tendência</h4>
+              <span class="text-xs text-neutral-500 bg-dark-700 px-2 py-1 rounded">~900 tokens · ~$0.002</span>
+            </div>
+            <p class="text-sm text-neutral-400 mb-2"><strong class="text-emerald-400">Pensar:</strong> "Tenho os dados. Vou calcular variação percentual, preço máximo e mínimo do período."</p>
+            <p class="text-sm text-neutral-400 mb-2"><strong class="text-blue-400">Agir:</strong> <code class="bg-dark-700 px-1 rounded text-xs">run_python("calcular_tendencia(precos)")</code></p>
+            <p class="text-sm text-neutral-400"><strong class="text-amber-400">Observar:</strong> +12.3% no período, máximo $98.400, mínimo $87.200</p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-14 h-14 rounded-full bg-emerald-500/20 flex items-center justify-center">
+            <span class="text-emerald-400 font-bold">I.4</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-emerald-500/20">
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="font-semibold text-emerald-400">Iteração 4 — Gerar resumo (DONE)</h4>
+              <span class="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">~600 tokens · ~$0.001 · TOTAL: ~$0.008</span>
+            </div>
+            <p class="text-sm text-neutral-400 mb-2"><strong class="text-emerald-400">Avaliar:</strong> "Objetivo atingido. Tenho dados e análise. Posso gerar o resumo final."</p>
+            <p class="text-sm text-neutral-400"><strong class="text-emerald-400">Resultado:</strong> Resumo formatado com tendência alta de +12.3%, contexto de mercado e recomendação de monitoramento</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 6 ======== -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">⚠️ Quando o loop vira problema</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O loop agentic é poderoso — e por isso mesmo é perigoso quando sai do controle. Sem os guardrails corretos, um agente pode entrar em <strong class="text-emerald-400">espiral infinita</strong>, gerar alucinações em cascata e acumular custo de forma explosiva.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-5">
+          <h4 class="font-bold text-red-400 mb-3">🔁 Loop Infinito</h4>
+          <p class="text-sm text-neutral-400 mb-2">O agente avalia que o objetivo não foi atingido, tenta novamente, falha do mesmo jeito, tenta de novo... indefinidamente.</p>
+          <p class="text-sm text-emerald-400 font-semibold">Solução: <span class="text-neutral-300 font-normal">max_iterations com fallback explícito</span></p>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-5">
+          <h4 class="font-bold text-red-400 mb-3">🌀 Alucinação em Cascata</h4>
+          <p class="text-sm text-neutral-400 mb-2">O agente alucina um resultado de tool, usa esse resultado falso para gerar outro resultado, e o erro se amplifica a cada iteração.</p>
+          <p class="text-sm text-emerald-400 font-semibold">Solução: <span class="text-neutral-300 font-normal">Validação de output de tools antes de injetar no contexto</span></p>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-5">
+          <h4 class="font-bold text-red-400 mb-3">💸 Custo Explosivo</h4>
+          <p class="text-sm text-neutral-400 mb-2">Sem limite de iterações ou budget cap, um agente mal configurado pode gastar centenas de dólares em uma única execução perdida.</p>
+          <p class="text-sm text-emerald-400 font-semibold">Solução: <span class="text-neutral-300 font-normal">Budget cap por execução + alerta em percentual do limite</span></p>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-5">
+          <h4 class="font-bold text-red-400 mb-3">🛑 Contexto Saturado</h4>
+          <p class="text-sm text-neutral-400 mb-2">Após muitas iterações, o contexto fica cheio de histórico. O modelo começa a perder track do objetivo original e gera respostas inconsistentes.</p>
+          <p class="text-sm text-emerald-400 font-semibold">Solução: <span class="text-neutral-300 font-normal">Sliding window + summarização automática do histórico</span></p>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4">🛡️ Os 3 guardrails obrigatórios</h3>
+        <div class="space-y-3">
+          <div class="flex items-center space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="text-2xl">1️⃣</span>
+            <div>
+              <p class="font-semibold text-white">max_iterations = 20</p>
+              <p class="text-sm text-neutral-400">Nunca deixe um loop aberto. Defina um máximo realista para sua task e adicione um fallback explicativo quando atingido.</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="text-2xl">2️⃣</span>
+            <div>
+              <p class="font-semibold text-white">budget_cap = $5.00</p>
+              <p class="text-sm text-neutral-400">Defina um teto de custo por execução. Monitore tokens gastos em tempo real e interrompa com relatório quando próximo do limite.</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4 bg-dark-800/50 rounded-lg p-4">
+            <span class="text-2xl">3️⃣</span>
+            <div>
+              <p class="font-semibold text-white">circuit_breaker para erros repetidos</p>
+              <p class="text-sm text-neutral-400">Se o mesmo erro ocorre 3 vezes seguidas, pare e escale para o humano. Não deixe o agente insistir em uma estratégia que claramente falhou.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO FINAL -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">✅</span> Resumo do Módulo 1.2
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">Pensar com Chain-of-Thought</strong>
+              <span class="text-neutral-400"> — o raciocínio antes da ação melhora precisão em até 40% em tasks complexas</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">Agir com responsabilidade</strong>
+              <span class="text-neutral-400"> — tool calls têm consequências reais; permissão mínima e auditoria são obrigatórias</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">Observar com processamento</strong>
+              <span class="text-neutral-400"> — nunca injete raw output; valide, truncue e estruture antes de adicionar ao contexto</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">Avaliar com critérios explícitos</strong>
+              <span class="text-neutral-400"> — defina sucesso antes de começar; replanning é sinal de inteligência, não de fraqueza</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">3 guardrails obrigatórios</strong>
+              <span class="text-neutral-400"> — max_iterations + budget_cap + circuit_breaker. Sem eles, você tem uma bomba-relógio.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-emerald-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">1.3 — Componentes do Agente: As 5 Peças Essenciais. Você vai ver cada componente que compõe um agente — LLM, memória curta, memória longa, tools e planejamento — e como eles se encaixam.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-1-1.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Anterior: 1.1 O que mudou
+          </a>
+          <a href="modulo-1-3.html" class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors">
+            Próximo: 1.3 Componentes do Agente →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1.6 Primeiro Agente | Trilha 1 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block">
+            <span>Frameworks</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-emerald-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-emerald-400 transition-colors">Trilha 1 — Mentalidade Agentic</a>
+      <span>/</span>
+      <span class="text-emerald-400">Módulo 1.6</span>
+    </div>
+  </nav>
+
+  <!-- HEADER DO MODULO -->
+  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4 tracking-wide">
+        MÓDULO 1.6
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🤖 Seu Primeiro Agente: Do Zero ao Funcionando</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Chega de teoria. Neste módulo você constrói um agente real em ~50 linhas de Python, entende cada decisão de design, quebra de propósito para aprender com os erros e descobre o que vem a seguir.
+      </p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">6</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">45</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Básico</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Hands-on</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- ======== TÓPICO 1 ======== -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🔩 O agente mínimo viável</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Antes de qualquer código, defina o <strong class="text-emerald-400">mínimo necessário para chamar algo de agente</strong>. Se faltar qualquer um desses 5 componentes, você tem uma função, um chatbot ou um script — mas não um agente.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-5">🔩 Os 5 elementos obrigatórios</h3>
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+          <div class="bg-dark-800/60 rounded-lg p-4 text-center">
+            <span class="text-2xl block mb-2">🧠</span>
+            <p class="text-sm font-bold text-emerald-400 mb-1">LLM</p>
+            <p class="text-xs text-neutral-500">O modelo que raciocina e decide as ações</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 text-center">
+            <span class="text-2xl block mb-2">🔧</span>
+            <p class="text-sm font-bold text-emerald-400 mb-1">Tools</p>
+            <p class="text-xs text-neutral-500">Pelo menos uma ação real no mundo externo</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 text-center">
+            <span class="text-2xl block mb-2">🔁</span>
+            <p class="text-sm font-bold text-emerald-400 mb-1">Loop</p>
+            <p class="text-xs text-neutral-500">Execução repetida até condição de parada</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 text-center">
+            <span class="text-2xl block mb-2">👁️</span>
+            <p class="text-sm font-bold text-emerald-400 mb-1">Observação</p>
+            <p class="text-xs text-neutral-500">Resultado da tool injetado de volta no contexto</p>
+          </div>
+          <div class="bg-dark-800/60 rounded-lg p-4 text-center">
+            <span class="text-2xl block mb-2">🛑</span>
+            <p class="text-sm font-bold text-emerald-400 mb-1">Stop Condition</p>
+            <p class="text-xs text-neutral-500">Critério claro para saber quando parou</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">📋 O que NÃO é obrigatório no MVP</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <p class="text-sm font-semibold text-red-400 mb-2">Pode adicionar depois:</p>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">○</span><span>Memória longa (RAG) — ótimo, mas não obrigatório</span></li>
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">○</span><span>Planejamento sofisticado — comece linear</span></li>
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">○</span><span>Framework (LangChain etc.) — desnecessário no início</span></li>
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">○</span><span>Interface gráfica — terminal é suficiente para validar</span></li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-emerald-400 mb-2">Já inclua no MVP:</p>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>max_iterations — evita loop infinito</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Print de cada ação — visibilidade do loop</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Try/except nos tool calls — falha graciosa</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Contagem de tokens — consciência de custo</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 2 ======== -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">🛠️ Definindo tools em Python</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Uma tool é uma função Python com um <strong class="text-emerald-400">JSON schema bem descrito</strong>. O schema é o contrato entre o LLM e o código — ele diz ao modelo o que a função faz, quais parâmetros aceita e como chamá-la.
+      </p>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">📋 Exemplo: 3 tools para um agente de pesquisa</h3>
+        <div class="bg-dark-900/80 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <p class="text-neutral-500 mb-2"># As tools como JSON schema (o que o modelo vê)</p>
+          <p class="text-emerald-400">tools = [</p>
+          <p class="text-neutral-300 ml-4">{</p>
+          <p class="text-blue-400 ml-8">"name": "search_web",</p>
+          <p class="text-neutral-300 ml-8">"description": "Busca informações na web. Use quando precisar de dados atuais ou específicos que não estão no seu conhecimento base. Retorna título, URL e snippet dos resultados.",</p>
+          <p class="text-purple-400 ml-8">"input_schema": {</p>
+          <p class="text-neutral-300 ml-12">"type": "object",</p>
+          <p class="text-neutral-300 ml-12">"properties": {</p>
+          <p class="text-neutral-300 ml-16">"query": {"type": "string", "description": "Termo de busca"},</p>
+          <p class="text-neutral-300 ml-16">"num_results": {"type": "integer", "default": 5}</p>
+          <p class="text-neutral-300 ml-12">},</p>
+          <p class="text-neutral-300 ml-12">"required": ["query"]</p>
+          <p class="text-purple-400 ml-8">}</p>
+          <p class="text-neutral-300 ml-4">},</p>
+          <p class="text-neutral-300 ml-4">{</p>
+          <p class="text-blue-400 ml-8">"name": "save_result",</p>
+          <p class="text-neutral-300 ml-8">"description": "Salva um resultado de pesquisa em arquivo markdown. Use APENAS quando tiver informação suficiente para gerar o relatório final.",</p>
+          <p class="text-purple-400 ml-8">"input_schema": {</p>
+          <p class="text-neutral-300 ml-12">"type": "object",</p>
+          <p class="text-neutral-300 ml-12">"properties": {</p>
+          <p class="text-neutral-300 ml-16">"filename": {"type": "string"},</p>
+          <p class="text-neutral-300 ml-16">"content": {"type": "string"}</p>
+          <p class="text-neutral-300 ml-12">},</p>
+          <p class="text-neutral-300 ml-12">"required": ["filename", "content"]</p>
+          <p class="text-purple-400 ml-8">}</p>
+          <p class="text-neutral-300 ml-4">}</p>
+          <p class="text-emerald-400">]</p>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">💡</span> As 3 regras de ouro para descriptions
+        </h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3">
+            <span class="w-6 h-6 rounded-full bg-primary/20 text-primary text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <p class="text-sm text-neutral-300">Descreva o <strong class="text-white">quando usar</strong> — "Use quando precisar de dados atuais" orienta melhor que "Busca na web"</p>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="w-6 h-6 rounded-full bg-primary/20 text-primary text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <p class="text-sm text-neutral-300">Descreva o <strong class="text-white">quando NÃO usar</strong> — evita que o modelo abuse de tools de alto custo</p>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="w-6 h-6 rounded-full bg-primary/20 text-primary text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <p class="text-sm text-neutral-300">Descreva o <strong class="text-white">que retorna</strong> — "Retorna título, URL e snippet" ajuda o modelo a saber o que esperar</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 3 ======== -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🔁 O loop de execução em código</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O loop é o coração do agente. Em Python com o SDK da Anthropic, o padrão é direto: enquanto o modelo retornar tool_use, execute a tool e adicione o resultado ao contexto. Quando retornar end_turn, você terminou.
+      </p>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">🔁 O loop completo comentado</h3>
+        <div class="bg-dark-900/80 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <p class="text-neutral-500 mb-1">import anthropic</p>
+          <p class="text-neutral-300 mb-3">client = anthropic.Anthropic()</p>
+
+          <p class="text-neutral-500 mb-1"># Estado inicial</p>
+          <p class="text-neutral-300">messages = [{"role": "user", "content": objetivo}]</p>
+          <p class="text-neutral-300 mb-3">iteration = 0</p>
+
+          <p class="text-emerald-400 mb-1">while iteration &lt; MAX_ITERATIONS:</p>
+          <p class="text-neutral-300 ml-4">iteration += 1</p>
+          <p class="text-neutral-300 ml-4 mb-2">print(f"--- Iteração {iteration} ---")</p>
+
+          <p class="text-neutral-500 ml-4 mb-1"># 1. PENSAR: chamar o modelo com o contexto atual</p>
+          <p class="text-blue-400 ml-4">response = client.messages.create(</p>
+          <p class="text-neutral-300 ml-8">model="claude-sonnet-4-6",</p>
+          <p class="text-neutral-300 ml-8">max_tokens=4096,</p>
+          <p class="text-neutral-300 ml-8">tools=tools,</p>
+          <p class="text-neutral-300 ml-8">messages=messages</p>
+          <p class="text-blue-400 ml-4">)</p>
+
+          <p class="text-neutral-500 ml-4 mt-2 mb-1"># 2. AVALIAR: verificar condição de parada</p>
+          <p class="text-emerald-400 ml-4">if response.stop_reason == "end_turn":</p>
+          <p class="text-neutral-300 ml-8">print("Agente concluiu a tarefa!")</p>
+          <p class="text-neutral-300 ml-8 mb-2">break</p>
+
+          <p class="text-neutral-500 ml-4 mb-1"># 3. AGIR: executar tools retornadas</p>
+          <p class="text-neutral-300 ml-4">tool_results = []</p>
+          <p class="text-emerald-400 ml-4">for block in response.content:</p>
+          <p class="text-emerald-400 ml-8">if block.type == "tool_use":</p>
+          <p class="text-neutral-300 ml-12">print(f"Chamando tool: {block.name}")</p>
+          <p class="text-blue-400 ml-12">result = dispatch_tool(block.name, block.input)</p>
+          <p class="text-neutral-300 ml-12">tool_results.append({</p>
+          <p class="text-neutral-300 ml-16">"type": "tool_result",</p>
+          <p class="text-neutral-300 ml-16">"tool_use_id": block.id,</p>
+          <p class="text-neutral-300 ml-16">"content": str(result)</p>
+          <p class="text-neutral-300 ml-12">})</p>
+
+          <p class="text-neutral-500 ml-4 mt-2 mb-1"># 4. OBSERVAR: adicionar resultados ao contexto</p>
+          <p class="text-neutral-300 ml-4">messages.append({"role": "assistant", "content": response.content})</p>
+          <p class="text-neutral-300 ml-4">messages.append({"role": "user", "content": tool_results})</p>
+
+          <p class="text-red-400 mt-2">else:</p>
+          <p class="text-neutral-300 ml-4">print(f"Limite de {MAX_ITERATIONS} iterações atingido")</p>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📊</span> A função dispatch_tool: roteador de actions
+        </h3>
+        <div class="bg-dark-900/60 rounded-lg p-4 font-mono text-sm mb-3">
+          <p class="text-emerald-400">def dispatch_tool(name: str, inputs: dict) -&gt; str:</p>
+          <p class="text-neutral-300 ml-4">"""Executa a tool correta baseado no nome"""</p>
+          <p class="text-blue-400 ml-4">try:</p>
+          <p class="text-emerald-400 ml-8">if name == "search_web":</p>
+          <p class="text-neutral-300 ml-12">return search_web(**inputs)</p>
+          <p class="text-emerald-400 ml-8">elif name == "save_result":</p>
+          <p class="text-neutral-300 ml-12">return save_result(**inputs)</p>
+          <p class="text-red-400 ml-8">else:</p>
+          <p class="text-neutral-300 ml-12">return f"Erro: tool '{name}' não encontrada"</p>
+          <p class="text-red-400 ml-4">except Exception as e:</p>
+          <p class="text-neutral-300 ml-8">return f"Erro ao executar {name}: {str(e)}"</p>
+        </div>
+        <p class="text-sm text-neutral-300">O dispatch sempre retorna string — nunca propaga exceção. O agente recebe o erro e pode decidir o que fazer com ele.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 4 ======== -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">🧪 Exercício: agente de pesquisa em ~50 linhas</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Chegou a hora. Você vai construir um agente de pesquisa completo. Ele recebe um tema, busca na web, sintetiza os resultados e salva um relatório markdown. <strong class="text-emerald-400">Custo total estimado: menos de $0.05.</strong>
+      </p>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-neutral-300">📋 agent_pesquisa.py — versão completa</h3>
+          <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded">~52 linhas</span>
+        </div>
+        <div class="bg-dark-900/80 rounded-lg p-4 font-mono text-xs overflow-x-auto leading-relaxed">
+          <p class="text-blue-400">import anthropic, json, requests</p>
+          <p class="text-neutral-300 mb-3">from pathlib import Path</p>
+
+          <p class="text-neutral-500">### CONFIGURAÇÃO ###</p>
+          <p class="text-neutral-300">client = anthropic.Anthropic()</p>
+          <p class="text-neutral-300 mb-3">MAX_ITERATIONS = 10</p>
+
+          <p class="text-neutral-500">### IMPLEMENTAÇÃO DAS TOOLS ###</p>
+          <p class="text-emerald-400">def search_web(query: str, num_results: int = 5) -&gt; str:</p>
+          <p class="text-neutral-300 ml-4">"""Simula busca web — troque por API real (Serper, Brave, etc)"""</p>
+          <p class="text-neutral-300 ml-4">return json.dumps([{</p>
+          <p class="text-neutral-300 ml-8">"title": f"Resultado {i+1} para: {query}",</p>
+          <p class="text-neutral-300 ml-8">"snippet": f"Conteúdo relevante sobre {query} — resultado {i+1}",</p>
+          <p class="text-neutral-300 ml-8">"url": f"https://example.com/{i+1}"</p>
+          <p class="text-neutral-300 ml-4">} for i in range(num_results)])</p>
+          <p class="text-neutral-300 mb-2"></p>
+
+          <p class="text-emerald-400">def save_result(filename: str, content: str) -&gt; str:</p>
+          <p class="text-neutral-300 ml-4">Path(filename).write_text(content, encoding="utf-8")</p>
+          <p class="text-neutral-300 ml-4 mb-2">return f"Arquivo '{filename}' salvo com sucesso ({len(content)} chars)"</p>
+
+          <p class="text-neutral-500">### SCHEMA DAS TOOLS ###</p>
+          <p class="text-neutral-300">tools = [</p>
+          <p class="text-neutral-300 ml-4">{"name": "search_web", "description": "Busca info na web. Use para coletar dados sobre o tema.", "input_schema": {"type": "object", "properties": {"query": {"type": "string"}, "num_results": {"type": "integer", "default": 5}}, "required": ["query"]}},</p>
+          <p class="text-neutral-300 ml-4">{"name": "save_result", "description": "Salva relatório em arquivo .md. Use APENAS quando tiver informação suficiente para o relatório final.", "input_schema": {"type": "object", "properties": {"filename": {"type": "string"}, "content": {"type": "string"}}, "required": ["filename", "content"]}}</p>
+          <p class="text-neutral-300 mb-2">]</p>
+
+          <p class="text-neutral-500">### LOOP AGENTIC ###</p>
+          <p class="text-emerald-400">def run_agent(objetivo: str):</p>
+          <p class="text-neutral-300 ml-4">messages = [{"role": "user", "content": objetivo}]</p>
+          <p class="text-neutral-300 ml-4">total_tokens = 0</p>
+          <p class="text-blue-400 ml-4">for iteration in range(1, MAX_ITERATIONS + 1):</p>
+          <p class="text-neutral-300 ml-8">print(f"\n--- Iteração {iteration} ---")</p>
+          <p class="text-neutral-300 ml-8">response = client.messages.create(model="claude-haiku-20240307", max_tokens=2048, tools=tools, messages=messages)</p>
+          <p class="text-neutral-300 ml-8">total_tokens += response.usage.input_tokens + response.usage.output_tokens</p>
+          <p class="text-blue-400 ml-8">if response.stop_reason == "end_turn": print(f"Concluído! Total: {total_tokens} tokens"); break</p>
+          <p class="text-neutral-300 ml-8">tool_results = []</p>
+          <p class="text-blue-400 ml-8">for block in response.content:</p>
+          <p class="text-blue-400 ml-12">if block.type == "tool_use":</p>
+          <p class="text-neutral-300 ml-16">print(f"Tool: {block.name}({block.input})")</p>
+          <p class="text-neutral-300 ml-16">result = search_web(**block.input) if block.name == "search_web" else save_result(**block.input)</p>
+          <p class="text-neutral-300 ml-16">tool_results.append({"type": "tool_result", "tool_use_id": block.id, "content": result})</p>
+          <p class="text-neutral-300 ml-8">messages += [{"role": "assistant", "content": response.content}, {"role": "user", "content": tool_results}]</p>
+          <p class="text-neutral-300 ml-4 mb-2">return total_tokens</p>
+
+          <p class="text-blue-400">if __name__ == "__main__":</p>
+          <p class="text-neutral-300 ml-4">run_agent("Pesquise os principais frameworks de agentes de IA em 2026 e salve um relatório em relatorio_frameworks.md")</p>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3">💡 Para executar</h3>
+        <div class="space-y-2 text-sm text-neutral-300">
+          <div class="flex items-start space-x-2"><span class="text-primary font-mono">pip install anthropic</span></div>
+          <div class="flex items-start space-x-2"><span class="text-primary font-mono">export ANTHROPIC_API_KEY="sk-ant-..."</span></div>
+          <div class="flex items-start space-x-2"><span class="text-primary font-mono">python agent_pesquisa.py</span></div>
+        </div>
+        <p class="text-xs text-neutral-500 mt-3">Troque a função search_web por uma chamada real à Serper API, Brave Search ou DuckDuckGo para resultados reais.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 5 ======== -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">💥 Quebre o agente de propósito</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A forma mais rápida de entender profundamente um sistema é <strong class="text-emerald-400">quebrá-lo com intenção</strong>. Cada experimento abaixo vai revelar um comportamento específico que você precisa conhecer antes de ir para produção.
+      </p>
+
+      <div class="space-y-6 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+            <span class="text-red-400 font-bold">E1</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-red-500/30">
+            <h4 class="font-semibold text-red-400 mb-2">Experimento 1: Sem max_iterations</h4>
+            <p class="text-sm text-neutral-400 mb-3">Remova o limite de iterações. Dê um objetivo impossível de atingir ("Pesquise TODOS os artigos sobre IA de 2024"). Observe o que acontece.</p>
+            <div class="bg-dark-700/50 rounded-lg p-3">
+              <p class="text-xs text-emerald-400 font-semibold">O que você vai aprender:</p>
+              <p class="text-xs text-neutral-400 mt-1">O agente entra em loop, gasta tokens indefinidamente, custo sobe sem parar. Isso torna max_iterations inegociável, não opcional.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+            <span class="text-red-400 font-bold">E2</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-red-500/30">
+            <h4 class="font-semibold text-red-400 mb-2">Experimento 2: Schema errado na tool</h4>
+            <p class="text-sm text-neutral-400 mb-3">Mude o type de "query" de "string" para "integer" no schema. Observe o que o modelo faz ao tentar chamar a tool.</p>
+            <div class="bg-dark-700/50 rounded-lg p-3">
+              <p class="text-xs text-emerald-400 font-semibold">O que você vai aprender:</p>
+              <p class="text-xs text-neutral-400 mt-1">O modelo pode tentar chamar com o tipo errado. A tool falha. Com um bom error handler, o agente tenta novamente ou adapta. Com handler ruim, o agente entra em estado inconsistente.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+            <span class="text-red-400 font-bold">E3</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-red-500/30">
+            <h4 class="font-semibold text-red-400 mb-2">Experimento 3: Tool que sempre falha</h4>
+            <p class="text-sm text-neutral-400 mb-3">Faça a search_web lançar uma exceção sempre. Veja quantas vezes o agente tenta antes de desistir.</p>
+            <div class="bg-dark-700/50 rounded-lg p-3">
+              <p class="text-xs text-emerald-400 font-semibold">O que você vai aprender:</p>
+              <p class="text-xs text-neutral-400 mt-1">Sem circuit breaker, o agente tenta repetidamente. Com erro estruturado no retorno, o agente consegue replanejar. A diferença entre "throw exception" e "return error string" é crítica.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+            <span class="text-red-400 font-bold">E4</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-red-500/30">
+            <h4 class="font-semibold text-red-400 mb-2">Experimento 4: Objetivo ambíguo</h4>
+            <p class="text-sm text-neutral-400 mb-3">Mude o objetivo para "Faça o melhor possível". Observe: o agente para, pede clarificação ou inventa um objetivo?</p>
+            <div class="bg-dark-700/50 rounded-lg p-3">
+              <p class="text-xs text-emerald-400 font-semibold">O que você vai aprender:</p>
+              <p class="text-xs text-neutral-400 mt-1">Objetivos ambíguos fazem o agente inventar critérios de sucesso. Às vezes isso é OK (agente proativo), às vezes é perigoso (agente decide o que "melhor" significa sem seu input).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-3">🎓 Por que quebrar de propósito é o melhor treinamento</h3>
+        <p class="text-neutral-300">Cada quebra te dá uma intuição visceral do risco — não teórica, mas vivida. Depois desses 4 experimentos, você nunca mais vai implantar um agente sem max_iterations, error handling e objetivo claro. O medo informado é o melhor guia de arquitetura.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 6 ======== -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🚀 O que vem na Trilha 2</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Você completou a Trilha 1 — Mentalidade Agentic. Agora você tem o modelo mental correto, entende o loop, conhece os componentes e construiu seu primeiro agente. A <strong class="text-emerald-400">Trilha 2 — Construção</strong> é onde a coisa fica séria.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">💾</span>
+            <h4 class="font-semibold text-blue-400">Módulo 2.1 — Memória Avançada</h4>
+          </div>
+          <p class="text-sm text-neutral-400">FAISS, Chroma, embeddings, RAG pipeline completo. Seu agente vai lembrar de tudo entre sessões e buscar conhecimento de bases enormes.</p>
+        </div>
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">🔗</span>
+            <h4 class="font-semibold text-blue-400">Módulo 2.2 — LangChain na Prática</h4>
+          </div>
+          <p class="text-sm text-neutral-400">Chains, agents, prompts e memory no LangChain. Quando usar o framework vs. SDK puro. Padrões de produção que funcionam.</p>
+        </div>
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">🌐</span>
+            <h4 class="font-semibold text-blue-400">Módulo 2.3 — Multi-Agent Systems</h4>
+          </div>
+          <p class="text-sm text-neutral-400">Orquestrador + sub-agentes, comunicação entre agentes, delegação de tasks, sistemas com 5+ agentes em paralelo.</p>
+        </div>
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-5">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">🚀</span>
+            <h4 class="font-semibold text-blue-400">Módulo 2.4 — Deploy em Produção</h4>
+          </div>
+          <p class="text-sm text-neutral-400">Observabilidade, monitoramento de custo, Circuit breaker avançado, escalabilidade e arquitetura cloud-native para agentes.</p>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4">🎯 O que você pode fazer AGORA</h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <p class="text-sm text-neutral-300">Execute o agente de pesquisa do Tópico 4 com uma API de busca real (Serper ou Brave Search)</p>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <p class="text-sm text-neutral-300">Adapte o código para um caso do seu trabalho atual — o agente de pesquisa é um template universal</p>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <p class="text-sm text-neutral-300">Faça os 4 experimentos de "quebrar de propósito" — cada um ensina algo que você não vai esquecer</p>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <p class="text-sm text-neutral-300">Continue para a Trilha 2 quando sentir que dominou o loop básico</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO FINAL -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">✅</span> Resumo do Módulo 1.6 e da Trilha 1
+        </h2>
+
+        <div class="mb-6">
+          <p class="text-emerald-400 font-semibold mb-4">Neste módulo você aprendeu:</p>
+          <div class="space-y-3">
+            <div class="flex items-start space-x-3">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div>
+                <strong class="text-white">O agente mínimo viável</strong>
+                <span class="text-neutral-400"> — LLM + tools + loop + observação + stop condition: sem um desses, não é agente</span>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div>
+                <strong class="text-white">Tools bem descritas</strong>
+                <span class="text-neutral-400"> — quando usar, quando não usar, o que retorna: as 3 regras da description</span>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div>
+                <strong class="text-white">Loop em código real</strong>
+                <span class="text-neutral-400"> — while loop, tool_use check, dispatch_tool, messages.append: o padrão que você vai usar sempre</span>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div>
+                <strong class="text-white">Agente de pesquisa em 52 linhas</strong>
+                <span class="text-neutral-400"> — funcionando, com custo rastreado, adaptável para qualquer caso de uso</span>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div>
+                <strong class="text-white">4 experimentos de quebra</strong>
+                <span class="text-neutral-400"> — max_iterations, schema errado, tool falha, objetivo ambíguo: os riscos reais vivenciados</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-emerald-900/30 rounded-lg p-5 mb-6 border border-emerald-500/20">
+          <h3 class="font-semibold text-emerald-400 mb-2">🎓 Você completou a Trilha 1 — Mentalidade Agentic!</h3>
+          <p class="text-neutral-300 text-sm">Em 6 módulos, você saiu de "o que é um agente?" para "construir e quebrar um agente real". Esse é o modelo mental que vai guiar tudo que você aprende na Trilha 2. Parabéns.</p>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-blue-400 mb-2">Próxima Trilha:</h3>
+          <p class="text-neutral-300">Trilha 2 — Construção: memória avançada com RAG, LangChain na prática, sistemas multi-agente, e deploy em produção. O nível técnico sobe significativamente — você está pronto.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-1-5.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Anterior: 1.5 Ecossistema em 2026
+          </a>
+          <a href="../trilha2/index.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">
+            Próxima Trilha: Construção →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>
