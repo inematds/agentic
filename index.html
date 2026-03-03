@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic Engineering Masterclass | INEMA.CLUB</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    .trilha-card:hover { transform: translateY(-2px); }
+    .trilha-card { transition: transform 0.2s ease; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="curso/trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="curso/trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="curso/trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block">
+            <span class="hidden sm:inline">Frameworks</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="relative overflow-hidden bg-gradient-to-br from-yellow-900/20 via-dark-900 to-dark-900 border-b border-dark-600">
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute top-10 left-10 text-9xl">🤖</div>
+      <div class="absolute top-20 right-20 text-7xl">⚙️</div>
+      <div class="absolute bottom-10 left-1/3 text-8xl">🔗</div>
+    </div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div class="max-w-3xl">
+        <span class="inline-block px-3 py-1 bg-yellow-500/20 text-yellow-400 text-xs font-semibold rounded-full mb-6 tracking-wide">
+          O MELHOR CURSO DO MUNDO EM AGENTIC ENGINEERING
+        </span>
+        <h1 class="text-4xl sm:text-6xl font-bold mb-6 leading-tight">
+          Domine a Era dos<br>
+          <span class="text-yellow-400">Agentes de IA</span>
+        </h1>
+        <p class="text-xl text-neutral-400 mb-8 leading-relaxed">
+          De fundamentos à orquestração enterprise. 6 trilhas progressivas que transformam qualquer pessoa em engenheiro agentic — do primeiro agente ao sistema multi-agente em produção.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="curso/trilha1/index.html" class="px-8 py-4 bg-yellow-400 text-dark-900 rounded-xl font-bold text-lg hover:bg-yellow-300 transition-colors text-center">
+            Começar Agora — Trilha 1 →
+          </a>
+          <a href="#trilhas" class="px-8 py-4 bg-dark-700 text-neutral-300 rounded-xl font-semibold text-lg hover:bg-dark-600 transition-colors text-center">
+            Ver todas as trilhas
+          </a>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-16 max-w-2xl">
+        <div class="bg-dark-800/60 rounded-xl p-4 border border-dark-600 text-center">
+          <div class="text-3xl font-bold text-yellow-400">42</div>
+          <div class="text-sm text-neutral-400 mt-1">Módulos</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 border border-dark-600 text-center">
+          <div class="text-3xl font-bold text-yellow-400">252+</div>
+          <div class="text-sm text-neutral-400 mt-1">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 border border-dark-600 text-center">
+          <div class="text-3xl font-bold text-yellow-400">21</div>
+          <div class="text-sm text-neutral-400 mt-1">Semanas</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 border border-dark-600 text-center">
+          <div class="text-3xl font-bold text-yellow-400">6</div>
+          <div class="text-sm text-neutral-400 mt-1">Trilhas</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+    <!-- TRILHAS -->
+    <section id="trilhas" class="mb-20">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4">As 6 Trilhas</h2>
+        <p class="text-neutral-400 max-w-2xl mx-auto">Do primeiro contato com agentes até orquestração enterprise-grade. Cada trilha é independente — entre no nível certo para você.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- T1 Emerald -->
+        <a href="curso/trilha1/index.html" class="trilha-card block bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/50 p-6 group">
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded-full">TRILHA 1</span>
+            <span class="text-2xl">🧠</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">Mentalidade Agentic</h3>
+          <p class="text-neutral-400 text-sm mb-4">Transforme como você pensa sobre IA. Entenda o que é um agente de verdade antes de escrever qualquer código.</p>
+          <div class="flex items-center justify-between text-xs text-neutral-500">
+            <span>6 módulos · ~2 semanas</span>
+            <span class="text-emerald-400 font-semibold">Iniciante</span>
+          </div>
+          <div class="mt-4 h-1 bg-dark-700 rounded-full overflow-hidden">
+            <div class="h-full bg-emerald-500 rounded-full" style="width: 100%"></div>
+          </div>
+        </a>
+
+        <!-- T2 Blue -->
+        <a href="curso/trilha2/index.html" class="trilha-card block bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/50 p-6 group">
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-full">TRILHA 2</span>
+            <span class="text-2xl">🔧</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">Construção de Agentes</h3>
+          <p class="text-neutral-400 text-sm mb-4">Construa agentes reais com LLMs, memória, tools e padrões de raciocínio. Do zero ao assistente funcional.</p>
+          <div class="flex items-center justify-between text-xs text-neutral-500">
+            <span>8 módulos · ~3 semanas</span>
+            <span class="text-blue-400 font-semibold">Inic.-Interm.</span>
+          </div>
+          <div class="mt-4 h-1 bg-dark-700 rounded-full overflow-hidden">
+            <div class="h-full bg-blue-500 rounded-full" style="width: 0%"></div>
+          </div>
+        </a>
+
+        <!-- T3 Purple -->
+        <a href="curso/trilha3/index.html" class="trilha-card block bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/50 p-6 group">
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-bold rounded-full">TRILHA 3</span>
+            <span class="text-2xl">⚡</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2 group-hover:text-purple-400 transition-colors">Frameworks e Ecossistema</h3>
+          <p class="text-neutral-400 text-sm mb-4">LangGraph, CrewAI, AutoGen, MCP. Domine os frameworks e saiba quando usar cada um com tabela de decisão.</p>
+          <div class="flex items-center justify-between text-xs text-neutral-500">
+            <span>8 módulos · ~3 semanas</span>
+            <span class="text-purple-400 font-semibold">Intermediário</span>
+          </div>
+          <div class="mt-4 h-1 bg-dark-700 rounded-full overflow-hidden">
+            <div class="h-full bg-purple-500 rounded-full" style="width: 0%"></div>
+          </div>
+        </a>
+
+        <!-- T4 Amber -->
+        <a href="curso/trilha4/index.html" class="trilha-card block bg-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/50 p-6 group">
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-bold rounded-full">TRILHA 4</span>
+            <span class="text-2xl">🔀</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2 group-hover:text-amber-400 transition-colors">Multi-Agentes e Orquestração</h3>
+          <p class="text-neutral-400 text-sm mb-4">Arquitete sistemas onde múltiplos agentes especializados colaboram. BMad, handoffs, execução paralela.</p>
+          <div class="flex items-center justify-between text-xs text-neutral-500">
+            <span>10 módulos · ~4 semanas</span>
+            <span class="text-amber-400 font-semibold">Interm.-Avançado</span>
+          </div>
+          <div class="mt-4 h-1 bg-dark-700 rounded-full overflow-hidden">
+            <div class="h-full bg-amber-500 rounded-full" style="width: 0%"></div>
+          </div>
+        </a>
+
+        <!-- T5 Teal -->
+        <a href="curso/trilha5/index.html" class="trilha-card block bg-dark-800 rounded-xl border border-dark-600 hover:border-teal-500/50 p-6 group">
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 bg-teal-500/20 text-teal-400 text-xs font-bold rounded-full">TRILHA 5</span>
+            <span class="text-2xl">🏗️</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2 group-hover:text-teal-400 transition-colors">Orquestrador Completo</h3>
+          <p class="text-neutral-400 text-sm mb-4">As 6 camadas do orquestrador enterprise: planejamento, roteamento, estado, supervisão, governança e observabilidade.</p>
+          <div class="flex items-center justify-between text-xs text-neutral-500">
+            <span>11 módulos · ~5 semanas</span>
+            <span class="text-teal-400 font-semibold">Avançado</span>
+          </div>
+          <div class="mt-4 h-1 bg-dark-700 rounded-full overflow-hidden">
+            <div class="h-full bg-teal-500 rounded-full" style="width: 0%"></div>
+          </div>
+        </a>
+
+        <!-- T6 Rose -->
+        <a href="curso/trilha6/index.html" class="trilha-card block bg-dark-800 rounded-xl border border-dark-600 hover:border-rose-500/50 p-6 group">
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-bold rounded-full">TRILHA 6</span>
+            <span class="text-2xl">🏢</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2 group-hover:text-rose-400 transition-colors">Enterprise e Produto</h3>
+          <p class="text-neutral-400 text-sm mb-4">Segurança agentic, SaaS multi-tenant, integração enterprise e governança organizacional. Do técnico ao estratégico.</p>
+          <div class="flex items-center justify-between text-xs text-neutral-500">
+            <span>9 módulos · ~4 semanas</span>
+            <span class="text-rose-400 font-semibold">Avançado</span>
+          </div>
+          <div class="mt-4 h-1 bg-dark-700 rounded-full overflow-hidden">
+            <div class="h-full bg-rose-500 rounded-full" style="width: 0%"></div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- DIFERENCIAIS -->
+    <section class="mb-20">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4">Por que este é o melhor curso do mundo</h2>
+        <p class="text-neutral-400 max-w-2xl mx-auto">Baseado em análise de 40+ fontes internacionais, cobrindo as lacunas que Andrew Ng, Udacity, IBM e Johns Hopkins não cobrem.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="text-3xl mb-4">🎯</div>
+          <h3 class="font-bold text-lg mb-2">Mostre antes, explique depois</h3>
+          <p class="text-neutral-400 text-sm">Todo módulo começa com o resultado funcionando. Depois desmonta e explica cada peça. Você aprende fazendo, não só lendo.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="text-3xl mb-4">💥</div>
+          <h3 class="font-bold text-lg mb-2">Quebre para aprender</h3>
+          <p class="text-neutral-400 text-sm">Exercícios que intencionalmente quebram o sistema. Aprender a consertar é mais valioso que ver só o caminho feliz.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="text-3xl mb-4">💰</div>
+          <h3 class="font-bold text-lg mb-2">Custo sempre visível</h3>
+          <p class="text-neutral-400 text-sm">Todo exercício mostra tokens e custo gastos. Forma engenheiros economicamente conscientes desde o início.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="text-3xl mb-4">🏗️</div>
+          <h3 class="font-bold text-lg mb-2">Orquestrador completo (6 camadas)</h3>
+          <p class="text-neutral-400 text-sm">Único curso que ensina sistematicamente as 6 camadas de um orquestrador enterprise. Inexistente no mercado mundial.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="text-3xl mb-4">🔐</div>
+          <h3 class="font-bold text-lg mb-2">Segurança adversarial</h3>
+          <p class="text-neutral-400 text-sm">Prompt injection, agent manipulation, sandboxing. Segurança como disciplina, não apêndice. 99% dos cursos ignoram isso.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="text-3xl mb-4">⚖️</div>
+          <h3 class="font-bold text-lg mb-2">Comparação de frameworks</h3>
+          <p class="text-neutral-400 text-sm">LangGraph vs CrewAI vs AutoGen: tabela de decisão clara. Nunca um framework como verdade absoluta — sempre com alternativas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PARA QUEM E? -->
+    <section class="mb-20">
+      <h2 class="text-3xl font-bold mb-8 text-center">Para quem é este curso</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="flex items-start space-x-4">
+            <div class="text-3xl">👨‍💻</div>
+            <div>
+              <h3 class="font-bold text-lg mb-2">Dev iniciante com Python</h3>
+              <p class="text-neutral-400 text-sm mb-3">Quer entrar no mercado agentic, construir portfolio e se destacar.</p>
+              <p class="text-emerald-400 text-sm font-semibold">→ Trilhas 1 → 2 → 3</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="flex items-start space-x-4">
+            <div class="text-3xl">🧑‍🔬</div>
+            <div>
+              <h3 class="font-bold text-lg mb-2">Dev experiente</h3>
+              <p class="text-neutral-400 text-sm mb-3">Quer dominar arquitetura multi-agente e sistemas em produção.</p>
+              <p class="text-blue-400 text-sm font-semibold">→ Trilhas 2 → 3 → 4 → 5</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="flex items-start space-x-4">
+            <div class="text-3xl">🏗️</div>
+            <div>
+              <h3 class="font-bold text-lg mb-2">Tech Lead / Arquiteto</h3>
+              <p class="text-neutral-400 text-sm mb-3">Quer liderar adoção agentic na empresa com estrutura e governança.</p>
+              <p class="text-amber-400 text-sm font-semibold">→ Trilhas 4 → 5 → 6</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <div class="flex items-start space-x-4">
+            <div class="text-3xl">🚀</div>
+            <div>
+              <h3 class="font-bold text-lg mb-2">Founder / Empreendedor</h3>
+              <p class="text-neutral-400 text-sm mb-3">Quer construir produto SaaS agentic do zero ao deploy.</p>
+              <p class="text-rose-400 text-sm font-semibold">→ Trilhas 1 → 2 → 6</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MERCADO -->
+    <section class="mb-20">
+      <div class="bg-gradient-to-br from-yellow-900/20 via-dark-800 to-dark-800 rounded-2xl border border-yellow-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 text-center">O mercado que você está entrando</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div>
+            <div class="text-3xl font-bold text-yellow-400">$52B</div>
+            <div class="text-sm text-neutral-400 mt-1">Mercado até 2030</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-yellow-400">94%</div>
+            <div class="text-sm text-neutral-400 mt-1">Líderes com gap de skills</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-yellow-400">1.445%</div>
+            <div class="text-sm text-neutral-400 mt-1">Crescimento de consultas multi-agente</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-yellow-400">40%</div>
+            <div class="text-sm text-neutral-400 mt-1">Apps enterprise com agentes até 2026</div>
+          </div>
+        </div>
+        <p class="text-center text-neutral-400 text-sm mt-6">Fontes: Gartner 2025 · LangChain State of Agent Engineering · GlobeNewswire 2025</p>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="text-center">
+      <div class="bg-dark-800 rounded-2xl border border-dark-600 p-12">
+        <h2 class="text-3xl font-bold mb-4">Pronto para começar?</h2>
+        <p class="text-neutral-400 mb-8 max-w-xl mx-auto">A Trilha 1 transforma como você pensa sobre IA. Sem pré-requisitos técnicos — apenas curiosidade e disposição para construir.</p>
+        <a href="curso/trilha1/index.html" class="inline-block px-10 py-4 bg-yellow-400 text-dark-900 rounded-xl font-bold text-xl hover:bg-yellow-300 transition-colors">
+          Começar pela Trilha 1 — Grátis →
+        </a>
+        <p class="text-neutral-500 text-sm mt-4">6 módulos · ~2 semanas · Iniciante</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

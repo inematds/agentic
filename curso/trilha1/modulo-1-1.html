@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1.1 O que mudou | Trilha 1 | Agentic Engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">Agentic Engineering</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Mentalidade</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Construção</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden sm:block">
+            <span>Frameworks</span>
+          </a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b border-dark-600">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-emerald-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-emerald-400 transition-colors">Trilha 1 — Mentalidade Agentic</a>
+      <span>/</span>
+      <span class="text-emerald-400">Módulo 1.1</span>
+    </div>
+  </nav>
+
+  <!-- HEADER DO MODULO -->
+  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4 tracking-wide">
+        MÓDULO 1.1
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔄 O que mudou</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Da IA que responde para a IA que executa missões. Antes de qualquer framework ou código, você precisa entender o salto qualitativo que define a era agentic — e por que ele muda tudo.
+      </p>
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">6</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">35</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Básico</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Teoria</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- ======== TÓPICO 1 ======== -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">1</span>
+        <h2 class="text-2xl font-bold">🌊 A grande virada: de respondente para executor</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Durante anos, IAs funcionaram como <strong class="text-emerald-400">oráculos sofisticados</strong> — você perguntava, elas respondiam. ChatGPT, Bard, primeiras versões do Claude: você digitava, recebia texto, aplicava manualmente. A IA era uma ferramenta de consulta, não de execução.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🔄</span> O salto qualitativo
+        </h3>
+        <p class="text-neutral-300 mb-4">Agentic Engineering é a mudança de paradigma: em vez de uma ferramenta que <em>responde</em>, você constrói um sistema que <em>executa uma missão</em>. A diferença não é incremental — é arquitetural.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div class="bg-dark-800/60 rounded-lg p-4 border border-dark-600">
+            <p class="text-sm text-neutral-500 font-semibold mb-2">Modelo Tradicional</p>
+            <ul class="space-y-1 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">→</span><span>IA responde uma pergunta</span></li>
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">→</span><span>Interação pontual e única</span></li>
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">→</span><span>Sem memória entre sessões</span></li>
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">→</span><span>Sem autonomia para agir</span></li>
+              <li class="flex items-start space-x-2"><span class="text-neutral-500">→</span><span>Humano aplica o resultado</span></li>
+            </ul>
+          </div>
+          <div class="bg-emerald-900/20 rounded-lg p-4 border border-emerald-500/20">
+            <p class="text-sm text-emerald-400 font-semibold mb-2">Agentic Engineering</p>
+            <ul class="space-y-1 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">→</span><span>IA executa uma <strong>missão</strong></span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">→</span><span>Processo contínuo com loop</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">→</span><span>Memória persistente entre sessões</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">→</span><span>Autonomia controlada para agir</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">→</span><span>Agente entrega o resultado final</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">💡</span> Dica Mental
+        </h3>
+        <p class="text-neutral-300">Sempre que ouvir "agente de IA", mentalmente substitua por: <strong class="text-primary">"sistema que recebe um objetivo e o executa em múltiplos passos"</strong>. Se não houver múltiplos passos e loop de avaliação, não é um agente — é um prompt sofisticado.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 2 ======== -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">2</span>
+        <h2 class="text-2xl font-bold">📊 Exemplo concreto: o mesmo pedido, dois mundos</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A melhor forma de entender a diferença é ver o mesmo pedido sendo processado pelos dois paradigmas. Vamos usar um exemplo real que qualquer desenvolvedor reconhece.
+      </p>
+
+      <div class="space-y-6 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-neutral-700/50 flex items-center justify-center">
+            <span class="text-neutral-400 font-bold text-sm">SEM</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <p class="text-xs text-neutral-500 font-semibold mb-1">Pedido: "Crie um site simples de vendas"</p>
+            <h4 class="font-semibold text-white mb-2">Modelo Tradicional</h4>
+            <p class="text-sm text-neutral-300">A IA gera o código HTML/CSS/JS de uma página. Você recebe o texto. Cria os arquivos manualmente. Configura o servidor você mesmo. Testa você mesmo. Corrige você mesmo. Faz deploy você mesmo.</p>
+            <p class="text-xs text-neutral-500 mt-2">Resultado: texto gerado → humano faz todo o trabalho operacional</p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+            <span class="text-emerald-400 font-bold text-sm">COM</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-emerald-500/20">
+            <p class="text-xs text-neutral-500 font-semibold mb-1">Pedido: "Crie e publique um site de vendas"</p>
+            <h4 class="font-semibold text-emerald-400 mb-3">Agentic Engineering</h4>
+            <div class="space-y-2">
+              <div class="flex items-center space-x-3 text-sm">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+                <span class="text-neutral-300">Planeja estrutura: landing page + catálogo + checkout</span>
+              </div>
+              <div class="flex items-center space-x-3 text-sm">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+                <span class="text-neutral-300">Gera código HTML/CSS/JS completo</span>
+              </div>
+              <div class="flex items-center space-x-3 text-sm">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+                <span class="text-neutral-300">Cria os arquivos no sistema de arquivos</span>
+              </div>
+              <div class="flex items-center space-x-3 text-sm">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+                <span class="text-neutral-300">Executa testes automáticos de funcionamento</span>
+              </div>
+              <div class="flex items-center space-x-3 text-sm">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">5</span>
+                <span class="text-neutral-300">Detecta erro no checkout, corrige automaticamente</span>
+              </div>
+              <div class="flex items-center space-x-3 text-sm">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">6</span>
+                <span class="text-neutral-300">Faz deploy na Vercel via API</span>
+              </div>
+              <div class="flex items-center space-x-3 text-sm">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">7</span>
+                <span class="text-neutral-300">Entrega a URL do site publicado</span>
+              </div>
+            </div>
+            <p class="text-xs text-emerald-400 mt-3 font-semibold">Resultado: site no ar sem intervenção humana</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📊</span> Dados que confirmam a mudança
+        </h3>
+        <ul class="space-y-3 text-neutral-300">
+          <li class="flex items-start space-x-3">
+            <span class="text-blue-400 font-bold mt-0.5">•</span>
+            <span><strong>94%</strong> dos líderes de engenharia reportam gaps críticos de skills agentic em 2025 (GlobeNewswire)</span>
+          </li>
+          <li class="flex items-start space-x-3">
+            <span class="text-blue-400 font-bold mt-0.5">•</span>
+            <span><strong>1.445%</strong> de aumento em consultas sobre sistemas multi-agente entre Q1 2024 e Q2 2025 (Gartner)</span>
+          </li>
+          <li class="flex items-start space-x-3">
+            <span class="text-blue-400 font-bold mt-0.5">•</span>
+            <span><strong>40%</strong> das aplicações enterprise terão agentes embutidos até o final de 2026 (Gartner)</span>
+          </li>
+          <li class="flex items-start space-x-3">
+            <span class="text-blue-400 font-bold mt-0.5">•</span>
+            <span>Mercado crescendo de <strong>$7.8B para $52B</strong> até 2030 — CAGR de 46%</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 3 ======== -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">3</span>
+        <h2 class="text-2xl font-bold">🎯 O que É e o que NÃO É um agente</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O mercado usa "agente de IA" para vender qualquer coisa com LLM. Você precisa do <strong class="text-emerald-400">critério técnico</strong> para separar o real do marketing. Um agente verdadeiro tem características específicas — e a ausência de qualquer uma delas o desqualifica.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4 flex items-center"><span class="mr-2">✓</span> É um agente quando...</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <span>Tem <strong>loop de execução</strong> — pensa, age, observa, avalia</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <span>Usa <strong>ferramentas externas</strong> reais (API, banco, código)</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <span><strong>Avalia seus resultados</strong> e pode mudar de estratégia</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <span>Persiste em direção a um <strong>objetivo</strong> ao longo de múltiplos passos</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <span>Tem capacidade de <strong>replanejar</strong> quando o plano falha</span>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4 flex items-center"><span class="mr-2">✗</span> NÃO é um agente quando...</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400 mt-0.5">✗</span>
+              <span>É um chatbot com <strong>personalidade</strong> mas sem ação real</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400 mt-0.5">✗</span>
+              <span>É um <strong>script Python</strong> que chama a API do LLM uma vez</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400 mt-0.5">✗</span>
+              <span>É um <strong>prompt elaborado</strong> que gera texto formatado</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400 mt-0.5">✗</span>
+              <span>É uma <strong>automação linear</strong> sem avaliação de resultado</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400 mt-0.5">✗</span>
+              <span>Não tem <strong>critério de parada</strong> baseado em objetivo atingido</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-dark-700/50 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">🔍 Teste rápido: é um agente?</h3>
+        <p class="text-neutral-400 text-sm mb-4">Para qualquer sistema que você encontrar chamado de "agente", faça estas 3 perguntas:</p>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-primary font-bold flex-shrink-0">1.</span>
+            <span class="text-neutral-300 text-sm">Ele tem um <strong>loop</strong>? (executa múltiplas vezes até atingir um objetivo?)</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-primary font-bold flex-shrink-0">2.</span>
+            <span class="text-neutral-300 text-sm">Ele usa <strong>ferramentas</strong> reais? (chama APIs, executa código, acessa dados externos?)</span>
+          </div>
+          <div class="flex items-start space-x-3 bg-dark-800 rounded-lg p-3">
+            <span class="text-primary font-bold flex-shrink-0">3.</span>
+            <span class="text-neutral-300 text-sm">Ele <strong>avalia</strong> seus próprios resultados? (pode mudar de estratégia se o resultado foi insatisfatório?)</span>
+          </div>
+        </div>
+        <p class="text-sm text-emerald-400 mt-4 font-semibold">3 "sim" = agente real. Menos que 3 = prompt sofisticado com outro nome.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 4 ======== -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">4</span>
+        <h2 class="text-2xl font-bold">👔 Analogia: o funcionário de missão</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A analogia que mais facilita o entendimento — e a que você vai carregar para sempre. Um agente de IA é como um <strong class="text-emerald-400">funcionário competente que você contratou para uma missão específica</strong>, não um Google para tirar dúvidas.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4">🎯 Você vs. seu funcionário</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <p class="text-sm font-semibold text-neutral-400 mb-3">Quando você usa IA como Google:</p>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li>• "Como fazer login com Google OAuth?"</li>
+              <li>• Recebe resposta em texto</li>
+              <li>• Você implementa manualmente</li>
+              <li>• Você testa, você corrige, você faz deploy</li>
+              <li>• Próxima pergunta: você começa do zero</li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-emerald-400 mb-3">Quando você usa IA como funcionário:</p>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li>• "Implemente login com Google OAuth no nosso app"</li>
+              <li>• Ele planeja, implementa, testa e corrige</li>
+              <li>• Você revisa o resultado final</li>
+              <li>• Ele lembra do contexto do projeto</li>
+              <li>• Próxima missão: ele sabe o que já foi feito</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-4">🗺️ O contrato implícito do funcionário</h3>
+        <p class="text-neutral-300 text-sm mb-4">Todo bom funcionário opera dentro de um contrato claro. Um agente de IA também:</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bg-emerald-900/20 rounded-lg p-4 border border-emerald-500/20">
+            <p class="text-emerald-400 font-semibold text-sm mb-2">O que ele PODE fazer</p>
+            <p class="text-xs text-neutral-400">Ferramentas autorizadas, ações dentro do escopo, decisões dentro dos limites definidos</p>
+          </div>
+          <div class="bg-primary/10 rounded-lg p-4 border border-primary/20">
+            <p class="text-primary font-semibold text-sm mb-2">O que ele DEVE reportar</p>
+            <p class="text-xs text-neutral-400">Logs de execução, custo gasto, decisões críticas, resultados de cada etapa</p>
+          </div>
+          <div class="bg-red-900/20 rounded-lg p-4 border border-red-500/20">
+            <p class="text-red-400 font-semibold text-sm mb-2">O que ele NÃO pode fazer</p>
+            <p class="text-xs text-neutral-400">Ações irreversíveis sem aprovação, acesso a sistemas fora do escopo, gastar além do orçamento</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">💡</span> Por que essa analogia funciona
+        </h3>
+        <p class="text-neutral-300 text-sm">Quando você pensa "funcionário de missão", você naturalmente entende: precisa de objetivo claro, precisa de ferramentas adequadas, precisa de limites definidos, precisa reportar progresso, e você fica responsável pelo resultado. Governança deixa de ser um conceito técnico e vira senso comum.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 5 ======== -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">5</span>
+        <h2 class="text-2xl font-bold">🏢 Casos reais: onde agentes estão sendo usados hoje</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Agentic Engineering não é teoria futura — são sistemas em produção em 2026. Você provavelmente já interagiu com alguns sem saber. Conhecê-los ancora o aprendizado no mundo real.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">👨‍💻</span>
+            <div>
+              <h4 class="font-semibold">Claude Code / Cursor / Devin</h4>
+              <p class="text-xs text-emerald-400">Agente Desenvolvedor</p>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-400">Recebe requisito em linguagem natural, planeja implementação, escreve código, executa testes, corrige erros e entrega PR revisado. Custo: poucos dólares por feature completa.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">📈</span>
+            <div>
+              <h4 class="font-semibold">Agentes de SDR em Vendas</h4>
+              <p class="text-xs text-blue-400">Agente Comercial</p>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-400">Pesquisa leads, qualifica por critérios, personaliza emails, faz follow-up automático, atualiza CRM e escala para humano quando lead demonstra interesse. Funciona 24/7.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">⚖️</span>
+            <div>
+              <h4 class="font-semibold">Revisão de Contratos</h4>
+              <p class="text-xs text-purple-400">Agente Jurídico</p>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-400">Lê contratos, identifica cláusulas de risco, compara com base de precedentes, gera relatório de risco com sugestões de alteração. Reduz de 8h para 20min por contrato.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="text-2xl">📊</span>
+            <div>
+              <h4 class="font-semibold">Relatórios Financeiros</h4>
+              <p class="text-xs text-amber-400">Agente Financeiro</p>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-400">Coleta dados de múltiplos sistemas, normaliza, analisa tendências, identifica anomalias e gera relatório executivo com insights. Processo que levava 2 dias acontece em 30 minutos.</p>
+        </div>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center">
+          <span class="mr-2">⚠️</span> O custo de não entender Agentic Engineering
+        </h3>
+        <p class="text-neutral-300 text-sm">Empresas que não adotam sistemas agentic nos próximos 24 meses enfrentarão um gap de produtividade crescente. Mas empresas que adotam sem arquitetura adequada enfrentarão custos explosivos, falhas em produção e riscos de segurança. O meio-termo não existe — você precisa entender bem para fazer bem.</p>
+      </div>
+    </section>
+
+    <!-- ======== TÓPICO 6 ======== -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">6</span>
+        <h2 class="text-2xl font-bold">🧭 Construindo o modelo mental correto</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Antes de escrever a primeira linha de código, você precisa de um modelo mental sólido. Os próximos módulos vão explodir em detalhes, mas estes <strong class="text-emerald-400">princípios fundamentais</strong> vão guiar cada decisão que você tomar.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-5">Os 5 princípios do engenheiro agentic</h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/30 text-emerald-400 font-bold text-sm flex-shrink-0">1</span>
+            <div>
+              <p class="font-semibold text-white">Objetivo antes de ferramenta</p>
+              <p class="text-sm text-neutral-400 mt-1">Nunca escolha um framework antes de definir claramente o objetivo do sistema. A ferramenta serve ao objetivo, não o contrário.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/30 text-emerald-400 font-bold text-sm flex-shrink-0">2</span>
+            <div>
+              <p class="font-semibold text-white">Governança não é opcional</p>
+              <p class="text-sm text-neutral-400 mt-1">Logs, limites de custo e permissões não são "para depois". Um agente sem governança em produção é uma bomba-relógio.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/30 text-emerald-400 font-bold text-sm flex-shrink-0">3</span>
+            <div>
+              <p class="font-semibold text-white">Custo é parte da arquitetura</p>
+              <p class="text-sm text-neutral-400 mt-1">Cada iteração do loop tem custo. Projetar um sistema sem considerar custo é projetar um sistema que vai surpreender no final do mês.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/30 text-emerald-400 font-bold text-sm flex-shrink-0">4</span>
+            <div>
+              <p class="font-semibold text-white">Falha é inevitável — resiliência é obrigatória</p>
+              <p class="text-sm text-neutral-400 mt-1">Todo agente em produção vai falhar. O critério de qualidade é quão graciosamente ele falha e quão rapidamente se recupera.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/30 text-emerald-400 font-bold text-sm flex-shrink-0">5</span>
+            <div>
+              <p class="font-semibold text-white">Humano dirige, agente executa</p>
+              <p class="text-sm text-neutral-400 mt-1">Agentic Engineering não substitui o engenheiro — potencializa. Você define objetivos, arquitetura e limites. O agente executa com velocidade e escala que você não teria.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🚀</span> O que vem a seguir
+        </h3>
+        <p class="text-neutral-300 text-sm">Agora que você tem o modelo mental correto, o Módulo 1.2 vai mergulhar no <strong class="text-primary">Loop Agentic</strong> em detalhes — o ciclo Pensar → Agir → Observar → Avaliar → Ajustar que está no coração de todo agente de verdade. Você vai ver cada fase com exemplos de código e entender onde cada uma pode falhar.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO FINAL -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">✅</span> Resumo do Módulo 1.1
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">A virada paradigmática</strong>
+              <span class="text-neutral-400"> — de IA que responde para IA que executa missões completas</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">O critério técnico</strong>
+              <span class="text-neutral-400"> — loop + ferramentas + avaliação = agente real (sem isso, é prompt com nome de agente)</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">A analogia do funcionário</strong>
+              <span class="text-neutral-400"> — objetivo claro, ferramentas adequadas, limites definidos, relatório de progresso</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">Casos reais em produção</strong>
+              <span class="text-neutral-400"> — desenvolvimento, vendas, jurídico, financeiro — todos rodando hoje</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-0.5">✓</span>
+            <div>
+              <strong class="text-white">5 princípios do engenheiro agentic</strong>
+              <span class="text-neutral-400"> — o modelo mental que vai guiar cada decisão arquitetural</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-dark-600">
+          <h3 class="font-semibold text-emerald-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300">1.2 — O Loop Agentic: Pensar → Agir → Observar → Avaliar → Ajustar. Você vai ver cada fase em detalhe, com exemplos de código e os pontos exatos onde o loop pode falhar.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Voltar para Trilha 1
+          </a>
+          <a href="modulo-1-2.html" class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors">
+            Próximo: 1.2 O Loop Agentic →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>🤖 Agentic Engineering Masterclass · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>
